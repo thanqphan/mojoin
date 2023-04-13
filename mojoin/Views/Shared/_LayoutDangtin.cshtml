@@ -1,0 +1,360 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+	<link href="~/css/dangtin.css" rel="stylesheet" />
+	<link href="c:\users\vulea\.nuget\packages\bootstrap\5.2.3\contentfiles\any\any\wwwroot\css\bootstrap.min.css" rel="stylesheet" />
+	<link href="c:\users\vulea\.nuget\packages\bootstrap\5.2.3\contentfiles\any\any\wwwroot\css\bootstrap.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
+</head>
+<body style="" block-ui="main">
+    <div ng-app="mogiApp" ng-strict-di="false" class="ng-scope">
+        <div class="mogi-goback">
+            <div class="container">
+                <a href="/Home/Index" target="_blank" style="">Quay lại Trang chủ</a>
+            </div>
+        </div>
+        <div id="mogi-navbar" class="navbar navbar-inverse navbar-fixed-top mogi-navbar ng-scope" ng-controller="topMenuController">
+            <div class="container">
+                <div class="navbar-header">
+                    <button id="slide-nav" type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse1">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="logo" href="/Home/Index"><img src="~/images/logo.png" alt="" style="width:120px;"></a>
+                    <a href="" class="btn btn-continue btn-posting btn-sm">
+                        Đăng tin
+                    </a>
+                </div>
+                <div class="navbar-collapse collapse for-desktop">
+                    <form class="navbar-form navbar-right ng-pristine ng-valid" style="padding-left:30px">
+                        <a href="/Property/Posting/0" class="btn btn-continue btn-sm">Đăng tin mới</a>
+                    </form>
+                    <ul class="nav navbar-nav navbar-right mogi-menu">
+                        <li><a href="/" ng-class="GetActiveClass('/')">Trang chủ</a></li>
+                        <li style="position:relative"><a href="/Report" ng-class="GetActiveClass('/Report')">Báo cáo</a><span style="color:red;right: 2px;top:0;position: absolute;font-size: 9px;font-weight: bold;">Beta</span></li>
+                        <li><a href="/quan-ly-tin" ng-class="GetActiveClass('/PropertyList')">Quản lý tin</a></li>
+                        <li><a href="/don-hang" ng-class="GetActiveClass('/InvoiceList')">Đơn hàng</a></li>
+                        <li><a href="/phi-thanh-vien" ng-class="GetActiveClass('/RegisZone')">Phí thành viên</a></li>
+                        <li><a href="/nap-tien" ng-class="GetActiveClass('/DepositMBPay')">Nạp tiền</a></li>
+                        <li><a href="/Coupon/CouponList" ng-class="GetActiveClass('/CouponList')">Mã thưởng</a></li>
+                        <li>
+                            <a href="/inbox" ng-class="GetActiveClass('/Inbox')">
+                                Tin nhắn
+                            </a>
+                        </li>
+                        <li><a class="split"></a></li>
+                        <li class="message-icon visible-lg visible-md">
+                            <a id="user-message" class="user-message dropdown-toggle" data-toggle="dropdown" role="button" href="#" gtm-event="link" gtm-cat="menu" gtm-act="user-message"><i class="fa fa-bell"></i></a>
+                            <span class="badge badge-notify">&nbsp;</span>
+                            <ul class="inbox dropdown-menu">
+                                <li>
+                                    <a class="m-link m-no-message" href="javascript:void(0)">
+                                        <span class="m-content">Không có thông báo mới</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <script type="text/javascript">
+                                MOGI.Messages = [];
+                                MOGI.Auth = true;
+                            </script>
+                        </li>
+                        @*<li>
+                            <span class="first-name dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">THI</span>
+                            <a href="#" class="avatar dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                <img src="/Content/Images/no-avatar-small.png">
+                            </a>
+                            <ul class="dropdown-menu profile-menu">
+                                <li><a href="/alert-search" rel="nofollow"><i class="fa fa-bell"></i>Thông báo &amp; Tìm kiếm</a></li>
+                                <li><a href="/favorite" rel="nofollow"><i class="fa fa-heart"></i>Bất động sản yêu thích</a></li>
+                                <li><a href="/profile" rel="nofollow"><i class="fa fa-user"></i>Thông tin cá nhân</a></li>
+                                <li><a href="/nap-tien" rel="nofollow"><i class="fa fa-vcard-o"></i>Nạp tiền</a></li>
+                                <li><a href="/Coupon/CouponList" ng-class="GetActiveClass('/CouponList')"><i class="fa fa-gift"></i>Mã thưởng</a></li>
+                                <li><a href="/change-password" rel="nofollow"><i class="fa fa-lock"></i>Thay đổi mật khẩu</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/Account/LogOff"><i class="fa fa-sign-out"></i>Thoát</a></li>
+                            </ul>
+                        </li>*@
+                    </ul>
+                </div>
+               @* <div class="for-mobile">
+                    <div id="slidemenu" class="navbar-collapse collapse width">
+                        <ul class="nav navbar-nav navbar-right mogi-menu">
+                            <li>
+                                <div class="menu-profile-userinfo">
+                                    <div class="profile-userpic">
+                                        <img src="/Content/Images/no-avatar-small.png">
+                                    </div>
+                                    <div class="profile-usertitle">
+                                        <div class="usertitle-name">
+                                            VU THI
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li><a class="link-action" href="/" ng-class="GetActiveClass('/')"><i class="fa fa-home"></i>Trang chủ</a></li>
+                            <li><a class="link-action" href="/quan-ly-tin" ng-class="GetActiveClass('/PropertyList')"><i class="fa fa-list-alt"></i>Quản lý tin</a></li>
+                            <li><a class="link-action" href="/don-hang" ng-class="GetActiveClass('/InvoiceList')"><i class="fa fa-shopping-cart"></i>Đơn hàng</a></li>
+                            <li><a class="link-action" href="/phi-thanh-vien" ng-class="GetActiveClass('/RegisZone')"><i class="fa fa-ticket"></i>Phí thành viên</a></li>
+                            <li><a class="link-action" href="/nap-tien" ng-class="GetActiveClass('/DepositMBPay')"><i class="fa fa-dollar"></i>Nạp tiền</a></li>
+                            <li><a class="link-action" href="/Coupon/CouponList" ng-class="GetActiveClass('/CouponList')"><i class="fa fa-inbox"></i> Mã thưởng</a></li>
+                            <li>
+                                <a class="link-action" href="/inbox" ng-class="GetActiveClass('/Inbox')">
+                                    <i class="fa fa-comment"></i>Tin nhắn
+                                </a>
+                            </li>
+                            <li class="split"></li>
+                            <li><a href="/alert-search" rel="nofollow" ng-class="GetActiveClass('/Mogi_AlertSearch')"><i class="fa fa-bell"></i>Thông báo &amp; Tìm kiếm</a></li>
+                            <li><a href="/favorite" rel="nofollow" ng-class="GetActiveClass('/Mogi_Favorite')"><i class="fa fa-heart"></i>Bất động sản yêu thích</a></li>
+                            <li><a target="_self" href="/profile" ng-class="GetActiveClass('/Profile')"><i class="fa fa-user"></i>Thông tin cá nhân</a></li>
+                            <li><a target="_self" href="/change-password" ng-class="GetActiveClass('/ChangePassword')" )"="" rel="nofollow"><i class="fa fa-lock"></i>Thay đổi mật khẩu</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/Account/LogOff"><i class="fa fa-sign-out"></i>Thoát</a></li>
+                        </ul>
+                    </div>
+                </div>*@
+            </div>
+        </div>
+        @*<div class="body-content">
+            <div ng-controller="propertyPostv2Controller" class="ng-scope">
+                <div id="page-header">
+                    <!-- ngIf: IsEdit === false --><h1 ng-if="IsEdit === false" class="page-title ng-scope">Đăng tin bất động sản</h1><!-- end ngIf: IsEdit === false -->
+                    <!-- ngIf: IsEdit === true -->
+                </div>
+                <div class="mg-960-container clearfix">
+                    <div id="main" class="property-post">
+                        <div class="post-header">
+                            <!-- ngIf: !Wizard.IsFirst() -->
+                            <div class="title ng-binding" ng-bind="Wizard.StepName()">Bạn muốn đăng</div>
+                        </div>
+                        <div class="post-progress-bar">
+                            <div ng-style="Wizard.GetProgress()" style="width: 0%;"></div>
+                        </div>
+                        <div class="post-content">
+                            <form class="post-step ng-pristine ng-invalid ng-invalid-required" name="step1">
+
+                                <!-- ngIf: Wizard.StepId() == 1 --><div ng-if="Wizard.StepId() == 1" class="ng-scope">
+                                    <div class="property-service-types clearfix">
+                                        <div class="property-service-type" ng-click="ServiceType.OnSelected(false)" ng-class="{'active': ServiceType.IsSelected(false)}">
+                                            <div class="media">
+                                                <img src="/Content/images/posting/sale.png">
+                                            </div>
+                                            <div class="title">Bán</div>
+                                        </div>
+                                        <div class="property-service-type" ng-click="ServiceType.OnSelected(true)" ng-class="{'active': ServiceType.IsSelected(true)}">
+                                            <div class="media">
+                                                <img src="/Content/images/posting/rent.png">
+                                            </div>
+                                            <div class="title">Thuê</div>
+                                        </div>
+                                    </div>
+                                    <div class="mg-form-group">
+                                        <div class="mg-form-group">
+                                            <input type="hidden" name="ForRent" ng-model="Model.ForRent" ng-required="true" class="ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" required="required">
+                                        </div>
+                                        <!-- ngIf: Wizard.IsShowValidation(1) -->
+                                    </div>
+                                </div><!-- end ngIf: Wizard.StepId() == 1 -->
+                                <!-- ngIf: Wizard.StepId() == 2 -->
+                                <!-- ngIf: Wizard.StepId() == 3 -->
+
+
+                                <div ng-show="Wizard.StepId() == 4" class="ng-hide">
+                                    <div mg-form-group="">
+                                        <div class="map-nearby-widget">
+                                            <div id="map-posting" data-latitude="10.675990661444875" data-longitude="106.69943332672119" data-region="vn" data-title="Địa chỉ bất động sản" class="map-posting"><div style="height: 100%; width: 100%;"></div></div>
+                                        </div>
+                                    </div>
+                                    <div class="mg-form-group-guide video">
+                                        Di chuyển vị trí bằng cách kéo pin đỏ
+                                    </div>
+                                </div>
+
+
+                                <!-- ngIf: Wizard.StepId() == 5 -->
+                                <!-- ngIf: Wizard.StepId() == 6 -->
+                                <!-- ngIf: Wizard.StepId() == 7 -->
+                                <!-- ngIf: Wizard.StepId() == 8 -->
+                                <!-- ngIf: Wizard.StepId() == 9 -->
+
+
+                                <div ng-show="Wizard.StepId() == 10" class="ng-hide">
+                                    <div class="preview">
+                                        <div class="preview-media">
+                                            <div id="gallery" class="clearfix">
+                                                <div id="top-media" class="top-media owl-carousel">
+                                                </div>
+                                                <div id="galery-counter"><span id="galery-counter-index" ng-bind="Preview.CurrentIndex" class="ng-binding">0</span>/<span id="galery-counter-total" ng-bind="Preview.TotalMedia" class="ng-binding">0</span></div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+                                        <div class="preview-header">
+                                            <div class="title"><span ng-bind="Model.Title" class="ng-binding"></span><i ng-click="Wizard.Jump(5)" class="prop-edit fa fa-pencil"></i></div>
+                                            <div class="address"><span ng-bind="Address.GetAdress(false)" class="ng-binding"></span> <i ng-click="Wizard.Jump(2)" class="prop-edit fa fa-pencil"></i></div>
+                                            <div class="price"><span ng-bind="Currency.PriceDisplay" class="ng-binding"></span><i ng-click="Wizard.Jump(4)" class="prop-edit fa fa-pencil"></i></div>
+                                        </div>
+                                        <div class="preview-info">
+                                            <div class="preview-info-title">Thông tin chính</div>
+                                            <div class="preview-info-content">
+                                                <ul class="property-info">
+                                                    <li><span class="info-label">Giá</span>: <span class="info-value ng-binding" ng-bind="Currency.PriceDisplay"></span><i ng-click="Wizard.Jump(4)" class="prop-edit fa fa-pencil"></i></li>
+                                                    <li><span class="info-label">Diện tích sử dụng</span>: <span class="info-value"><span ng-bind="Model.Area" class="ng-binding"></span> m<sup>2</sup></span><i ng-click="Wizard.Jump(4)" class="prop-edit fa fa-pencil"></i></li>
+                                                    <li><span class="info-label">Diện tích đất</span>: <span class="info-value"><span ng-bind="Model.LandArea" class="ng-binding"></span> m<sup>2</sup></span><i ng-click="Wizard.Jump(4)" class="prop-edit fa fa-pencil"></i> </li>
+                                                    <li><span class="info-label">Phòng ngủ</span>: <span class="info-value ng-binding" ng-bind="Model.BedRooms"></span><i ng-click="Wizard.Jump(6)" class="prop-edit fa fa-pencil"></i></li>
+                                                    <li><span class="info-label">Nhà tắm</span>: <span class="info-value ng-binding" ng-bind="Model.BathRooms"></span><i ng-click="Wizard.Jump(6)" class="prop-edit fa fa-pencil"></i></li>
+                                                    <li><span class="info-label">Pháp lý</span>: <span class="info-value ng-binding" ng-bind="Legal.GetLabel()"></span><i ng-click="Wizard.Jump(6)" class="prop-edit fa fa-pencil"></i></li>
+                                                    <li class="lastest"><span class="info-label">Hướng</span>: <span class="info-value ng-binding" ng-bind="Direction.GetLabel()"></span><i ng-click="Wizard.Jump(6)" class="prop-edit fa fa-pencil"></i></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="preview-info">
+                                            <div class="preview-info-title">Mô tả chi tiết <i ng-click="Wizard.Jump(5)" class="prop-edit fa fa-pencil"></i></div>
+                                            <div class="preview-info-content">
+                                                <div style="white-space:  pre-line;" ng-bind-html="trustedHtml(Model.Body)" class="ng-binding"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </form>
+                        </div>
+                        <div class="post-command">
+                            <!-- ngIf: !Wizard.IsLast() && Wizard.IsShowCommand() -->
+                            <!-- ngIf: Wizard.IsLast() -->
+                        </div>
+                    </div>
+
+                    <div id="city-popup" class="modal  noselect">
+                        <div class="modal-dialog" style="">
+                            <div class="modal-body" style="">
+                                <ul class="cat-items" style="overflow-y:scroll;height:100%">
+                                    <!-- ngIf: !City.HasCity() -->
+                                    <li class="cat-item back ng-scope" ng-if="!City.HasCity()">
+                                        <span ng-bind="Property.CityId.Label" class="ng-binding"></span>
+                                    </li><!-- end ngIf: !City.HasCity() -->
+                                    <!-- ngIf: City.HasCity() -->
+                                    <!-- ngRepeat: item in City.Options -->
+                                    <li class="cat-item ng-scope" ng-class="{'active': City.IsSelected(item.i)}" ng-repeat="item in City.Options" ng-click="City.OnSelected(item)">
+                                        <span ng-bind="item.n" class="ng-binding">TPHCM</span>
+                                        <!-- ngIf: item.c.length > 0 --><i ng-if="item.c.length > 0" class="fa fa-angle-right ng-scope"></i><!-- end ngIf: item.c.length > 0 -->
+                                    </li><!-- end ngRepeat: item in City.Options -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="ward-popup" class="modal  noselect">
+                        <div class="modal-dialog" style="">
+                            <div class="modal-body" style="">
+                                <ul class="cat-items">
+                                    <li class="cat-item back">
+                                        <span ng-bind="Property.WardId.Label" class="ng-binding"></span><i class="fa fa-times-thin" ng-click="Ward.Closed()"></i>
+                                    </li>
+                                    <li class="cat-item search-box">
+                                        <input type="text" ng-model="Ward.Keyword" ng-keyup="Ward.OnSearch($event)" class="ng-pristine ng-untouched ng-valid ng-empty">
+                                        <!-- ngIf: Ward.Keyword.length>0 -->
+                                    </li>
+                                    <li class="cat-item list-box">
+                                        <ul>
+                                            <!-- ngRepeat: item in Ward.Options -->
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="street-popup" class="modal  noselect">
+                        <div class="modal-dialog" style="">
+                            <div class="modal-body" style="">
+                                <ul class="cat-items">
+                                    <li class="cat-item back">
+                                        <span ng-bind="Property.StreetId.Label" class="ng-binding"></span><i class="fa fa-times-thin" ng-click="Street.Closed()"></i>
+                                    </li>
+                                    <li class="cat-item search-box">
+                                        <input type="text" ng-model="Street.Keyword" ng-keyup="Street.OnSearch($event)" class="ng-pristine ng-untouched ng-valid ng-empty">
+                                        <!-- ngIf: Street.Keyword.length>0 -->
+                                    </li>
+                                    <li class="cat-item list-box">
+                                        <ul>
+                                            <!-- ngRepeat: item in Street.Options -->
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="project-popup" class="modal  noselect">
+                        <div class="modal-dialog" style="">
+                            <div class="modal-body" style="">
+                                <ul class="cat-items">
+                                    <li class="cat-item back">
+                                        <span ng-bind="Property.ProjectId.Label" class="ng-binding"></span><i class="fa fa-times-thin" ng-click="Project.Closed()"></i>
+                                    </li>
+                                    <li class="cat-item search-box">
+                                        <input type="text" ng-model="Project.Keyword" ng-keyup="Project.OnSearch($event)" class="ng-pristine ng-untouched ng-valid ng-empty">
+                                        <!-- ngIf: Project.Keyword.length>0 -->
+                                    </li>
+                                    <li class="cat-item list-box">
+                                        <ul>
+                                            <!-- ngRepeat: item in Project.Options -->
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="price-warning" class="modal  noselect">
+                        <div class="modal-dialog" style="">
+                            <div class="modal-content" style="max-width: 600px;">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">×</button>
+                                    <h4 class="modal-title">Cảnh báo giá đăng tin</h4>
+                                </div>
+                                <div class="modal-body">
+                                    Giá bất động sản của bạn <span style="color:red; font-weight:bold" ng-bind="Model.TotalPrice | number" class="ng-binding">0</span> không nằm trong khoảng giá phổ biến
+                                    theo thống kê của chúng tôi: từ <span style="color:red; font-weight:bold" ng-bind="HousingPrice.Min | number" class="ng-binding">0</span> đến <span style="color:red; font-weight:bold" ng-bind="HousingPrice.Max | number" class="ng-binding">0</span>
+                                    <div>Bạn có muốn chỉnh sửa giá không?</div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Chỉnh sửa</button>
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="HousingPrice.Continue()">Tiếp tục đăng tin</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="ward-street-warning" class="modal  noselect">
+                        <div class="modal-dialog" style="">
+                            <div class="modal-content" style="max-width: 600px;">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">×</button>
+                                    <h4 class="modal-title">Cảnh báo</h4>
+                                </div>
+                                <div class="modal-body">
+                                    Đường <span style="font-weight:bold" ng-bind="Street.GetTitle()" class="ng-binding"></span> không thuộc <span style="font-weight:bold" ng-bind="Ward.GetTitle()" class="ng-binding"></span>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Chỉnh sửa</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div id="mogi-overlay"></div>
+        </div>*@
+    </div>
+    <div>
+        @RenderBody()
+    </div>
+</body>
+</html>
+<style>
+    a {
+        text-decoration: none !important;
+    }
+</style>
