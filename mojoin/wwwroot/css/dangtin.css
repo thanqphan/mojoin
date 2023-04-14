@@ -160,7 +160,9 @@ body {
 .navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form {
     border-color: #101010;
 }
-
+    .navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form a:hover {
+        color: white;
+    }
 @media (min-width: 768px) {
     .container-fluid > .navbar-collapse, .container-fluid > .navbar-header, .container > .navbar-collapse, .container > .navbar-header {
         margin-right: 0;
@@ -372,7 +374,6 @@ ol, ul {
     font-size: 13px;
     font-weight: 600;
     color: #878787;
-    padding: 10px;
     cursor: pointer;
 }
 .navbar-inverse .navbar-nav > li > a {
@@ -457,7 +458,7 @@ ol, ul {
 }
 
 .visible-lg, .visible-md, .visible-sm, .visible-xs {
-    display: none !important;
+    /*display: none !important;*/
 }
 .mogi-navbar .mogi-menu > li > a {
     height: 40px;
@@ -505,6 +506,22 @@ ol, ul {
 [role=button] {
     cursor: pointer;
 }
+.mogi-navbar .mogi-menu > li a.split {
+    display: block;
+    width: 1px;
+    height: 24px;
+    background-color: #d8d8d8;
+    padding: 0;
+    margin-top: 8px;
+}
+.mogi-navbar .mogi-menu > li > a {
+    /* height: 40px; */
+    font-size: 13px;
+    font-weight: 600;
+    color: #878787;
+    /* padding: 10px; */
+    cursor: pointer;
+}
 .user-message .fa-bell {
     color: #ec8926;
     margin-right: 0px;
@@ -512,18 +529,18 @@ ol, ul {
 }
 
 .fa-bell {
-    color: #ec8926;
+    /*color: #ec8926;
     margin-right: 5px;
-    font-size: 15px;
+    font-size: 15px;*/
 }
 
 .fa {
     display: inline-block;
     font: normal normal normal 14px/1 FontAwesome;
-    font-size: inherit;
+  /*  font-size: inherit;*/
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    /*-moz-osx-font-smoothing: grayscale;*/
 }
 .badge-notify {
     background: #ff5353;
@@ -540,17 +557,17 @@ ol, ul {
 }
 
 .badge {
-    display: inline-block;
-    min-width: 10px;
+    /*display: inline-block;*/
+    /*min-width: 10px;
     padding: 3px 7px;
-    font-size: 12px;
+    font-size: 12px;*/
     font-weight: 700;
-    line-height: 1;
+    /*line-height: 1;*/
     color: #fff;
     text-align: center;
     white-space: nowrap;
     vertical-align: middle;
-    background-color: #777;
+    /*background-color: #777;*/
     border-radius: 10px;
 }
 .navbar-nav > li > .dropdown-menu {
@@ -603,11 +620,12 @@ ol, ul {
         color: #333;
         white-space: nowrap;
     }
-
-.m-no-message {
-    text-align: center;
-}
-
+    .dropdown-menu > li:hover > a {
+        background-color: #3BACB6;
+    }
+    .dropdown-menu > li > a:hover {
+        color: white;
+    }
 .m-link {
     width: 100%;
 }
@@ -658,14 +676,14 @@ ol, ul {
 .navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus {
     color: #20a39a !important;
 }
-.mogi-navbar .mogi-menu > li > a {
+/*.mogi-navbar .mogi-menu > li > a {
     height: 40px;
     font-size: 13px;
     font-weight: 600;
     color: #878787;
     padding: 10px;
     cursor: pointer;
-}
+}*/
 .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:focus, .navbar-inverse .navbar-nav > .open > a:hover {
     color: #fff;
 }
