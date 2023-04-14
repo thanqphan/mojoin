@@ -600,9 +600,13 @@ a {
 #logo img {
     width: 100%;
 }
-
-
-.list-unstyled i {
-    width: 30px;
-    height: 30px;
+.logo-name  {
+    width: 200px;
+    padding-top: 10px;
+}
+.logo-fold {
+    width: 80%;
+    padding-top: 10px;
+    padding-left: 10px;
+    display: block;
 }
