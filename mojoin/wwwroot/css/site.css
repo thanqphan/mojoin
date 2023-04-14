@@ -9,12 +9,12 @@ html {
 
 body {
     margin: 0;
-    padding-top: 50px;
+    padding-top: 10px;
     padding-bottom: 0;
     font-size: 14px;
     color: #262637;
     display: block;
-    overflow-y: scroll;
+    overflow-y: hidden;
     opacity: 1;
 }
 /*nav bar*/
@@ -501,7 +501,7 @@ svg:not(:root) {
 }
 /*footer*/
 .footer {
-    background-color: #2F8F9D;
+    background-color: #3BACB6;
 }
 
     .footer .footer-socila-icon a {
@@ -526,7 +526,7 @@ svg:not(:root) {
     }
 
         .footer .footer-links li + li {
-            padding-top: 10px;
+            padding-top: 0px;
         }
 
         .footer .footer-links li a {
