@@ -293,24 +293,6 @@ body {
     border-radius: 4px;
 }
 
-a, a:focus, a:hover, a:active {
-    text-decoration: none !important;
-    cursor: pointer;
-}
-
-a {
-    color: #222;
-}
-
-a {
-    color: #337ab7;
-    text-decoration: none;
-}
-
-a {
-    background-color: transparent;
-}
-
 @media (min-width: 992px) {
     .navbar-collapse .navbar-nav.navbar-right:last-child {
         margin-right: -15px;
@@ -587,15 +569,15 @@ ol, ul {
         left: auto;
     }
 }
-.open > .dropdown-menu {
+.open:hover > .dropdown-menu {
     display: block;
 }
 .dropdown-menu {
     position: absolute;
     top: 100%;
-    left: 0;
+   /* left: 0;*/
     z-index: 1000;
-    display: none;
+   /* display: none;*/
     float: left;
     min-width: 160px;
     padding: 5px 0;
@@ -604,12 +586,12 @@ ol, ul {
     text-align: left;
     list-style: none;
     background-color: #fff;
-    -webkit-background-clip: padding-box;
+   /* -webkit-background-clip: padding-box;*/
     background-clip: padding-box;
-    border: 1px solid #ccc;
+    /*border: 1px solid #ccc;*/
     border: 1px solid rgba(0,0,0,.15);
     border-radius: 4px;
-    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    /*-webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);*/
     box-shadow: 0 6px 12px rgba(0,0,0,.175);
 }
     .dropdown-menu > li > a {
@@ -673,7 +655,9 @@ ol, ul {
     padding: 0px;
     border-radius: 50%;
 }
-
+.navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus {
+    color: #20a39a !important;
+}
 .mogi-navbar .mogi-menu > li > a {
     height: 40px;
     font-size: 13px;
@@ -684,7 +668,6 @@ ol, ul {
 }
 .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:focus, .navbar-inverse .navbar-nav > .open > a:hover {
     color: #fff;
-    background-color: #080808;
 }
 .navbar-inverse .navbar-nav > li > a {
     color: #9d9d9d;
@@ -792,17 +775,17 @@ img {
 
 .fa-bell {
     color: #ec8926;
-    margin-right: 5px;
+
     font-size: 15px;
 }
 
 .fa {
-    display: inline-block;
+
     font: normal normal normal 14px/1 FontAwesome;
-    font-size: inherit;
+
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+
 }
 .fa-heart {
     color: #eb3284;
@@ -823,6 +806,27 @@ img {
     color: #333;
     white-space: nowrap;
 }
+    .dropdown-menu > li:hover {
+        text-decoration: none !important;
+        background-color: transparent;
+        color: #2F8F9D;
+    }
+/*a {
+    background-color: transparent;
+}*/
+/*a, a:focus, a:hover, a:active {
+    text-decoration: none !important;
+    cursor: pointer;
+    color: #2F8F9D;
+}
+
+a {
+    color: #222;
+}
+
+a {
+    background-color: transparent;
+}*/
 .nav > li {
     position: relative;
     display: block;
