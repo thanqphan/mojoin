@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Authentication\**" />
+    <Content Remove="Views\Authentication\**" />
+    <EmbeddedResource Remove="Views\Authentication\**" />
+    <None Remove="Views\Authentication\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AspNetCoreHero.ToastNotification" Version="1.1.0" />
     <PackageReference Include="bootstrap" Version="5.2.3" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.13" />

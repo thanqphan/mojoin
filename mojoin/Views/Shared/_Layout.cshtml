@@ -7,12 +7,13 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/mojoin.styles.css" asp-append-version="true" />
+    <link rel="shortcut icon" href="~/Admin_assets/images/logo/favicon.png">
 </head>
-<body ng-app="mogiApp" class="ng-cloak1 ng-scope" style="overflow: auto;">
+<body ng-app="mogiApp" class="ng-cloak1 ng-scope" style="overflow: hidden;">
     <div class="mogi-navbar">
         <div class="mogi-navbar-container">
             <div class="mogi-navbar-logo">
-                <a href="/"><img src="~/images/logo.png" width="100" height="31" alt="Mogi.vn" title="Tìm kiếm bất động sản, nhà đất cần bán và cho thuê tại Việt Nam"></a>
+                <a href="/"><img src="~/Admin_assets/images/logo/logo.png" width="100" height="31" alt="Mogi.vn" title="Tìm kiếm bất động sản, nhà đất cần bán và cho thuê tại Việt Nam"></a>
             </div>
 
             <div class="navbar-menu">
@@ -250,10 +251,8 @@
         </div>
     </div>
 
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div class="container-log">
             @RenderBody()
-        </main>
     </div>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
     <footer class="footer">
@@ -264,8 +263,8 @@
                         @*<div class="mb-4">
                         <img src="static/img/logo-light.svg" title="" alt="">
                         </div>*@
-                        <div class="text-white-65 mb-4" id="logo">
-                            <img src="~/images/logo.png" />
+                        <div class=" mb-4" id="logo">
+                            <img src="~/Admin_assets/images/logo/logo-fold-white.png" />
                         </div>
                     </div>
                     <div class="col-sm-6 col-lg-2 my-4">
