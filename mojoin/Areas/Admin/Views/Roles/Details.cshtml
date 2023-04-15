@@ -1,0 +1,32 @@
+﻿@model mojoin.Models.Role
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <h3 class="card-title col-md-8">Thông tin quyền truy cập</h3>
+            <div class="col-md-4 text-right">
+                <a class="btn btn-info btn-tone m-r-5" asp-action="Index">Back to list</a>
+                <a class="btn btn-warning btn-tone m-r-5" asp-action="Edit" asp-route-id="@Model.RoleId">Edit</a>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="product-info-table m-t-20 table-bordered table-hover">
+                <tbody>
+                    <tr>
+                        <td>Mã Quyền:</td>
+                        <td class="text-dark font-weight-semibold">@Model.RoleId</td>
+                    </tr>
+                    <tr>
+                        <td>Tên Quyền:</td>
+                        <td>@Model.RoleName</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
