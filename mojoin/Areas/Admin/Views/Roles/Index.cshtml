@@ -1,0 +1,59 @@
+﻿@model IEnumerable<mojoin.Models.Role>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    <link href="~/admin_assets/css/table.css" rel="stylesheet" />
+}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+        <!-- Default box -->
+        <div class="card pt-2">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-md-8 ">
+                        <h1>QUYỀN TÀI KHOẢN</h1>
+                    </div>
+                    <div class="col-md-4 text-right">
+                        <a class="btn btn-success btn-tone m-r-5" asp-action="Create">Create</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive ">
+                    <table class="table table-hover table-bordered border-bottom">
+                        <thead>
+                            <tr>
+                                <th scope="col">TÊN QUYỀN</th>
+                                <th scope="col">CHỨC NĂNG</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.RoleName)
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-secondary btn-tone m-r-5" asp-action="Details" asp-route-id="@item.RoleId">View</a>
+                                        <a class="btn btn-warning btn-tone m-r-5" asp-action="Edit" asp-route-id="@item.RoleId">Edit</a>
+                                        <a class="btn btn-danger btn-tone m-r-5" asp-action="Delete" asp-route-id="@item.RoleId">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+
+    </section>
+    <!-- /.content -->
+
+</div>
+<!-- /.content-wrapper -->
