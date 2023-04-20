@@ -1,0 +1,376 @@
+﻿body {
+}
+.styles_listViewWrapper__gETtz .styles_base__9qKMf main {
+    float: left;
+    width: 100%;
+}
+
+main {
+    display: block;
+}
+.no-padding {
+    padding: 0 !important;
+}
+
+.col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
+    position: relative;
+    min-height: 1px;
+    /* padding-left: 15px; */
+    /* padding-right: 15px; */
+}
+@media (min-width: 992px){
+    .ct-col-8 {
+        max-width: 1170px;
+        /*        margin: 0 auto;*/
+    }
+} 
+
+@media (min-width: 992px){
+    .col-md-8 {
+        width: 50%;
+    }
+} 
+
+/*@media (min-width: 992px){
+    .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9 {
+        float: left;
+    }
+}*/
+.WrapperScroll_wrapperOverflow__3k3CU {
+    position: relative;
+}
+.TrendKeywords_wrapperTrendingKeywords__qYnDr {
+    overflow-x: auto;
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin-bottom: 8px;
+    margin-top: 50px;
+}
+    .TrendKeywords_wrapperTrendingKeywords__qYnDr .TrendKeywords_itemKeyword__dPXYt {
+        margin-right: 8px;
+        background-color: #fff;
+        text-transform: capitalize;
+        padding: 6px;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+    }
+.WrapperScroll_wrapperOverflow__3k3CU i.WrapperScroll_iconPrev__H2ypM {
+    display: block;
+    pointer-events: none;
+    background: url(https://static.chotot.com/storage/default/slide-prev.svg) 50% no-repeat;
+    background-size: 100%;
+    opacity: 0;
+    transition: opacity .5s;
+    transform: translateY(-50%);
+    left: -15px;
+}
+.TrendKeywords_wrapperTrendingKeywords__qYnDr .TrendKeywords_itemKeyword__dPXYt .TrendKeywords_text__Ey_be {
+    text-align: center;
+    font-size: 13px;
+    /* width: 100%; */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 16px;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+.WrapperScroll_wrapperOverflow__3k3CU i {
+    position: absolute;
+    top: 50%;
+    /* background: url(https://static.chotot.com/storage/chotot-icons/svg/next.svg) 50% no-repeat; */
+    /* background-size: 100%; */
+    width: 28px;
+    height: 28px;
+    z-index: 2;
+    cursor: pointer;
+    /* display: none; */
+    /* transition: all .2s ease-in-out; */
+    outline: none;
+    /* -webkit-user-select: none; */
+    -moz-user-select: none;
+    user-select: none;
+}
+    .WrapperScroll_wrapperOverflow__3k3CU i.WrapperScroll_iconNextActive__QZW9s {
+        pointer-events: all;
+        opacity: 1;
+    }
+
+    .WrapperScroll_wrapperOverflow__3k3CU i.WrapperScroll_iconNext__IiL_D {
+        display: block;
+        /* pointer-events: none; */
+        /* opacity: 0; */
+        right: -15px;
+        transform: translateY(-50%);
+        transition: opacity .5s;
+    }
+.WrapperScroll_wrapperOverflow__3k3CU i {
+    background-size: 100%;
+    
+}
+/*loc*/
+.OrderFilter_orderFilter__VEcKg {
+    width: 100%;
+    height: 40px;
+    display: inline-block;
+    background-color: #fff;
+    margin-bottom: -4px;
+}
+    .OrderFilter_orderFilter__VEcKg .OrderFilter_infoAds__kWxt5 {
+        display: inline-flex;
+        line-height: 40px;
+        width: 66.6%;
+        text-decoration: none;
+    }
+
+.pull-left {
+    float: left !important;
+}
+.OrderFilter_orderFilter__VEcKg .OrderFilter_infoAds__kWxt5 a {
+    width: 100%;
+    text-decoration: none;
+}
+    .OrderFilter_orderFilter__VEcKg .OrderFilter_infoAds__kWxt5 a:active, a:visited {
+        color: #2a5079;
+    }
+.OrderFilter_orderFilter__VEcKg .OrderFilter_infoAds__kWxt5 .OrderFilter_elementInfoActive__SDG7T {
+    color: #222;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.OrderFilter_orderFilter__VEcKg .OrderFilter_infoAds__kWxt5 .OrderFilter_elementInfo__tNarq {
+    padding: 0 12px;
+    font-size: 14px;
+    /* color: #9b9b9b; */
+    cursor: pointer;
+    /* text-decoration: none; */
+    position: relative;
+}
+.OrderFilter_orderFilter__VEcKg .OrderFilter_sortAds__Kbf8H {
+    height: 40px;
+    position: relative;
+    width: 33.4%;
+    min-width: 130px;
+    display: inline-flex;
+    justify-content: space-around;
+}
+.OrderFilter_orderFilter__VEcKg .OrderFilter_wrapperDropDown__fD9WI {
+    width: 90%;
+    height: 40px;
+    position: relative;
+    border-left: 1px solid #f4f4f4;
+}
+.OrderFilter_orderFilter__VEcKg .OrderFilter_filterBtn__IPPxZ:focus, .OrderFilter_orderFilter__VEcKg .OrderFilter_filterBtn__IPPxZ:hover {
+    background-color: #fff !important;
+    outline: none !important;
+}
+.OrderFilter_orderFilter__VEcKg .OrderFilter_filterBtn__IPPxZ {
+    position: relative;
+    border: none;
+    border-radius: 0;
+    text-align: left;
+    color: #333;
+    /* background-color: #fff; */
+    line-height: 40px;
+    width: 100%;
+    /* overflow: visible; */
+    overflow: initial;
+    /* outline: none!important; */
+    box-shadow: none;
+    font-size: 14px;
+    padding: 0 0 0 12px;
+}
+[type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
+    cursor: pointer;
+}
+[type=reset], [type=submit], button, html [type=button] {
+    -webkit-appearance: button;
+}
+.btn {
+    /* font-size: 14px; */
+    /* padding: 6px 12px; */
+    margin-bottom: 0;
+    display: inline-block;
+    /* text-decoration: none; */
+    /* text-align: center; */
+    white-space: nowrap;
+    vertical-align: middle;
+    touch-action: manipulation;
+    /* cursor: pointer; */
+    /* -webkit-user-select: none; */
+    -moz-user-select: none;
+    user-select: none;
+    background-image: none;
+    /* border: 1px solid transparent; */
+}
+element.style {
+}
+
+.OrderFilter_orderFilter__VEcKg .OrderFilter_filterBtn__IPPxZ:focus, .OrderFilter_orderFilter__VEcKg .OrderFilter_filterBtn__IPPxZ:hover {
+    background-color: #fff !important;
+    outline: none !important;
+}
+
+<style >
+.styles_listViewWrapper__gETtz button:focus, .styles_listViewWrapper__gETtz button:hover {
+    outline: none !important;
+    border-color: none !important;
+}
+
+.OrderFilter_orderFilter__VEcKg .OrderFilter_filterBtn__IPPxZ {
+    position: relative;
+    border: none;
+    border-radius: 0;
+    text-align: left;
+    color: #333;
+    /* background-color: #fff; */
+    line-height: 40px;
+    width: 100%;
+    /* overflow: visible; */
+    overflow: initial;
+    /* outline: none!important; */
+    box-shadow: none;
+    font-size: 14px;
+    padding: 0 0 0 12px;
+}
+
+[type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
+    cursor: pointer;
+}
+
+.btn-default:active, .btn-default:hover {
+    color: #333;
+    background-color: #e6e6e6;
+    border-color: #adadad;
+}
+
+.btn:focus, .btn:hover {
+    color: #333;
+    text-decoration: none;
+}
+
+<style >
+.styles_listViewWrapper__gETtz button {
+    font-size: 12px;
+    color: #222;
+    height: 35px;
+    border-radius: 0;
+}
+
+[type=reset], [type=submit], button, html [type=button] {
+    -webkit-appearance: button;
+}
+
+button, html [type=button] {
+    -webkit-appearance: button;
+}
+
+button, html [type=button] {
+    -webkit-appearance: button;
+}
+
+button, html [type=button] {
+    -webkit-appearance: button;
+}
+
+[type=button], [type=reset], [type=submit], button {
+    -webkit-appearance: button;
+    border-width: 0;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.btn-group-lg > .btn, .btn-lg {
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.33333;
+    border-radius: 6px;
+}
+
+.btn-default {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+
+.btn {
+    /* font-size: 14px; */
+    /* padding: 6px 12px; */
+    margin-bottom: 0;
+    display: inline-block;
+    /* text-decoration: none; */
+    /* text-align: center; */
+    white-space: nowrap;
+    vertical-align: middle;
+    touch-action: manipulation;
+    /* cursor: pointer; */
+    /* -webkit-user-select: none; */
+    -moz-user-select: none;
+    user-select: none;
+    background-image: none;
+    /* border: 1px solid transparent; */
+}
+
+button, select {
+    text-transform: none;
+}
+button, input, optgroup, select, textarea {
+    margin: 0;
+    font-family: inherit;
+    /* font-size: inherit; */
+    /* line-height: inherit; */
+}
+.Caret_caret__fdXPX {
+    display: inline-block;
+    width: 12px;
+    height: 16px;
+    background-image: url(https://static.chotot.com/storage/chotot-icons/svg/dynamic-dropdown.svg);
+    background-size: 12px 16px;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 12px;
+    right: 10px;
+}
+.ViewMode_viewMode__K_RUF {
+    border-left: 1px solid #f4f4f4;
+    display: inline-block;
+    padding: 0 12px;
+    text-align: center;
+    line-height: 40px;
+    height: 40px;
+}
+    .ViewMode_viewMode__K_RUF .ViewMode_gridMode__xpMPp:hover, .ViewMode_viewMode__K_RUF .ViewMode_listMode__3X_o8:hover {
+        opacity: .6;
+    }
+.styles_listViewWrapper__gETtz button:focus, .styles_listViewWrapper__gETtz button:hover {
+    outline: none !important;
+    border-color: none !important;
+}
+    .ViewMode_viewMode__K_RUF .ViewMode_listMode__3X_o8 {
+        background: url(https://static.chotot.com/storage/chotot-icons/svg/list.svg) 50% no-repeat;
+    }
+
+    .ViewMode_viewMode__K_RUF .ViewMode_gridMode__xpMPp, .ViewMode_viewMode__K_RUF .ViewMode_listMode__3X_o8 {
+        /* background-color: transparent; */
+        cursor: pointer;
+        border: none;
+        outline: none;
+        padding: 5px;
+        font-size: 20px;
+        height: 20px;
+        width: 20px;
+        background-size: cover !important;
+    }
+.styles_listViewWrapper__gETtz button {
+    /* font-size: 12px; */
+    color: #222;
+    /* height: 35px; */
+    border-radius: 0;
+}
+
+[type=reset], [type=submit], button, html [type=button] {
+    -webkit-appearance: button;
+}
