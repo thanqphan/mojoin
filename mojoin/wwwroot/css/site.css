@@ -14,8 +14,8 @@ body {
     font-size: 14px;
     color: #262637;
     display: block;
-    overflow-y: hidden;
-    opacity: 1;
+/*    overflow-y: auto;
+*/    opacity: 1;
 }
 /*nav bar*/
 .mogi-navbar {

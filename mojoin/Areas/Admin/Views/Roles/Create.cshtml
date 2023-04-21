@@ -6,6 +6,15 @@
 }
 @Html.AntiForgeryToken()
 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <a asp-area="Admin" asp-controller="Roles" asp-action="Index" class="breadcrumb-item">Danh sách quyền truy cập</a>
+            <span class="breadcrumb-item active">Thêm mới quyền truy cập</span>
+        </nav>
+    </div>
+</div>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Main content -->
@@ -15,7 +24,9 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-md-8  text-black">
-                        <strong>Thêm mới quyền</strong>
+                        <h3>
+                            Thêm mới quyền
+                        </h3>
                     </div>
                     <div class="col-md-4 text-black text-right">
                         <a class="btn btn-info btn-tone btn-sm" asp-action="Index">Back to List</a>

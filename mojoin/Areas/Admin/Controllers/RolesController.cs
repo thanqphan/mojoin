@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,18 +14,20 @@ namespace mojoin.Areas.Admin.Controllers
     public class RolesController : Controller
     {
         private readonly DbmojoinContext _context;
-
-        public RolesController(DbmojoinContext context)
+        public INotyfService _notyfService { get; }
+        public RolesController(DbmojoinContext context, INotyfService notyfService)
         {
             _context = context;
+            _notyfService = notyfService;
+
         }
 
         // GET: Admin/Roles
         public async Task<IActionResult> Index()
         {
-              return _context.Roles != null ? 
-                          View(await _context.Roles.ToListAsync()) :
-                          Problem("Entity set 'DbmojoinContext.Roles'  is null.");
+            return _context.Roles != null ?
+                        View(await _context.Roles.ToListAsync()) :
+                        Problem("Entity set 'DbmojoinContext.Roles'  is null.");
         }
 
         // GET: Admin/Roles/Details/5
@@ -62,6 +65,7 @@ namespace mojoin.Areas.Admin.Controllers
             {
                 _context.Add(role);
                 await _context.SaveChangesAsync();
+                _notyfService.Success("Thêm mới thành công!");
                 return RedirectToAction(nameof(Index));
             }
             return View(role);
@@ -101,11 +105,13 @@ namespace mojoin.Areas.Admin.Controllers
                 {
                     _context.Update(role);
                     await _context.SaveChangesAsync();
+                    _notyfService.Success("Cập nhật thành công!");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!RoleExists(role.RoleId))
                     {
+                        _notyfService.Error("Có lỗi xảy ra!");
                         return NotFound();
                     }
                     else
@@ -150,14 +156,14 @@ namespace mojoin.Areas.Admin.Controllers
             {
                 _context.Roles.Remove(role);
             }
-            
             await _context.SaveChangesAsync();
+            _notyfService.Success("Xóa thành công!");
             return RedirectToAction(nameof(Index));
         }
 
         private bool RoleExists(int id)
         {
-          return (_context.Roles?.Any(e => e.RoleId == id)).GetValueOrDefault();
+            return (_context.Roles?.Any(e => e.RoleId == id)).GetValueOrDefault();
         }
     }
 }
