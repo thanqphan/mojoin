@@ -13,9 +13,10 @@
     <link href="~/admin_assets/css/app.min.css" rel="stylesheet">
     <link href="~/css/site.css" rel="stylesheet" />
     <link href="~/admin_assets/css/admin.css" rel="stylesheet" />
+    @RenderSection("header",required: false)
 </head>
 
-<body>
+<body class="overflow-auto">
     <div class="app">
         <div class="layout">
             <!-- Header START -->
@@ -210,7 +211,9 @@
     <script src="~/admin_assets/vendors/datatables/datatables.bootstrap.min.js"></script>
     <script src="~/admin_assets/vendors/datatables/jquery.datatables.min.js"></script>
     <!-- Core JS -->
-    <script src="~/admin_assets/js/app.min.js"></script>   
+    <script src="~/admin_assets/js/app.min.js"></script>    
+    @RenderSection("footer", required: false)
+
     @await Component.InvokeAsync("Notyf")
     @await RenderSectionAsync("Scripts",required: false)
 </body>

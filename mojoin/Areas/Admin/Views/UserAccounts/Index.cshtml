@@ -4,7 +4,31 @@
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
+@section header{
+    <link href="~/css/jquery.datatables.min.css" rel="stylesheet" />
+}
+@section footer{
+    <script src="~/js/jquery.datatables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var table = $('#myTable').DataTable({
+                // ...
+                "columnDefs": [
+                    { "orderable": false, "targets": 4 }
+                ]
+            });
 
+            // Lấy dữ liệu cho dropdown từ ViewData
+            $('#idrole').on('change', function () {
+                var selectedValue = $(this).val(); // Lấy giá trị đã chọn từ dropdown
+                // Lọc bảng dữ liệu bằng giá trị đã chọn
+                table.column(4).search(selectedValue).draw();
+            });
+        });
+
+
+    </script>
+}
 <div class="page-header">
     <div class="header-sub-title">
         <nav class="breadcrumb breadcrumb-dash">
@@ -15,7 +39,7 @@
 </div>
 <div class="card">
     <div class="card-body">
-        <div class="row m-b-30">
+        @*<div class="row m-b-30">
             <div class="col-lg-8">
                 <div class="d-md-flex">
                     <div class="m-b-10 m-r-15">
@@ -30,7 +54,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>*@
         <div class="table-responsive">
             <table id="myTable" class="table table-hover e-commerce-table">
                 <thead>
@@ -39,7 +63,12 @@
                         <th>Mật khẩu</th>
                         <th>SĐT</th>
                         <th>Avatar</th>
-                        <th>Quyền</th>
+                        <th>
+                            Quyền
+                            <select class="border-0" id="idrole" style="max-width:13px" asp-items="ViewBag.QuyenAcc">
+                                <option value="0" disabled selected></option>
+                            </select>
+                        </th>
                         <th>Trạng thái</th>
                         <th>Chức năng</th>
                     </tr>

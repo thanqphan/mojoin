@@ -22,7 +22,7 @@ namespace mojoin.Areas.Admin.Controllers
         // GET: Admin/UserAccounts
         public async Task<IActionResult> Index()
         {
-            ViewData["QuyenAcc"] = new SelectList(_context.Roles, "RoleId", "RoleName");
+            ViewData["QuyenAcc"] = new SelectList(_context.Roles, "RoleName", "RoleName");
             List<SelectListItem> lsTrangThai = new List<SelectListItem>();
             lsTrangThai.Add(new SelectListItem() { Text = "Hoạt động", Value = "1" });
             lsTrangThai.Add(new SelectListItem() { Text = "Tạm ngưng", Value = "0" });
