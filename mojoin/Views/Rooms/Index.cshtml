@@ -4,6 +4,7 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     <link href="~/css/trangchu.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
 }
 <div class="container ct-listing">
@@ -74,11 +75,12 @@
                     </div>
                     <div class="OrderFilter_menu__7rEUX">
                         <a href="/thue-phong-tro-tp-ho-chi-minh?page=1&amp;sp=0">
-                            <span role="button" tabindex="0">Tin mới trước
-                                <img alt="check" src="https://static.chotot.com/storage/NHA_CDN_PRODUCTION/3c6e3ac29fa3fa71af06b4affff76fd2.svg"></span>
+                            <span role="button" tabindex="0">
+                                Tin mới trước
+                                <img alt="check" src="https://static.chotot.com/storage/NHA_CDN_PRODUCTION/3c6e3ac29fa3fa71af06b4affff76fd2.svg">
+                            </span>
                         </a>
                         <div class="devider">
-
                         </div>
                         <a href="/thue-phong-tro-tp-ho-chi-minh?page=1&amp;sp=1">
                             <span role="button" tabindex="0">Giá thấp trước</span>
@@ -91,21 +93,22 @@
                 </div>
             </div>
             @*listview*@
-            @foreach (var item in Model)
-            {
-                <div class="list-view">
-                    <div>
-                        <div style="display: flex; flex-flow: row wrap;">
+            <div class="list-view">
+                <div>
+                    <div style="display: flex; flex-flow: row wrap;">
+                        @foreach (var item in Model)
+                        {
                             <div class="AdItem_item__Ljfcd col-xs-6 col-sm-4">
-                                <a class="AdItem_wrapperLink__Q_RTw" href="/thue-phong-tro-quan-phu-nhuan-tp-ho-chi-minh/104907518.htm">
+                                <a class="AdItem_wrapperLink__Q_RTw" href="">
                                     <div class="AdThumbnail_thumbnailWrapper__zaKRz">
                                         <div class="AdThumbnail_thumbnailImg__smtQI " role="button" tabindex="0">
+
                                             <span style="box-sizing: border-box; display: block; overflow: hidden; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: absolute; inset: 0px;">
-                                                <img alt="PHÒNG TRỌ GIÁ RẺ QUẬN PHÚ NHUẬN" src="@item.Image1" decoding="async" data-nimg="fill" style="position: absolute; inset: 0px; box-sizing: border-box; padding: 0px; border: none; margin: auto; display: block; width: 0px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%;">
+                                                <img alt="" src="@item.Image1" decoding="async" data-nimg="fill" style="position: absolute; inset: 0px; box-sizing: border-box; padding: 0px; border: none; margin: auto; display: block; width: 100px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%;">
                                             </span>
                                             <div class="AdThumbnail_imageGroup__nOLEm">
                                                 <div class="AdThumbnail_imageNum__thXX6">
-                                                    <span class="AdThumbnail_text__XUXVY">6</span>
+                                                    <span class="AdThumbnail_text__XUXVY">4</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -116,10 +119,10 @@
                                         </div>
                                     </div>
                                     <div class="AdBody_caption__0FF4E">
-                                        <div class="commonStyle_adTitleGrid__ZQnBY" role="button" tabindex="0">PHÒNG TRỌ GIÁ RẺ QUẬN PHÚ NHUẬN</div>
-                                        <span class="AdBody_condition__FwozD"> 16 m² </span>
+                                        <div class="commonStyle_adTitleGrid__ZQnBY" role="button" tabindex="0">@item.Title</div>
+                                        <span class="AdBody_condition__FwozD"> @item.Area m² </span>
                                         <div>
-                                            <p class="AdBody_price__kHpmy">3,6 triệu/tháng</p>
+                                            <p class="AdBody_price__kHpmy">@String.Format("{0:#,##0.000}", item.Price) triệu/tháng</p>
                                             <div class="AdBody_labelWrapper__7gzLO"></div>
                                         </div>
                                     </div>
@@ -136,20 +139,17 @@
                                         </div>
                                         <div class="commonStyle_deviderWrapper__mnwnv"></div>
                                         <span class="AdBody_adItemPostedTime__70d9K AdBody_location___gCdn">
-                                            <span class="AdBody_text__FdAzW"> Quận Phú Nhuận </span>
+                                            <span class="AdBody_text__FdAzW"> @item.Address.District </span>
                                         </span>
                                     </div>
                                 </a>
                             </div>
-                        </div>
+                        }
                     </div>
                 </div>
-            }           
-            <div class="col-md-4 d-lg-block d-none ct-col-4 styles_stickyGoogleRight_R7gNB">
             </div>
+        </div>
+        <div class="col-md-4 d-lg-block d-none ct-col-4 styles_stickyGoogleRight_R7gNB">
+        </div>
     </main>
 </div>
-
-
-
-
