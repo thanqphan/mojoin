@@ -1,11 +1,12 @@
 ﻿body {
+    margin-bottom: 10px;
 }
 .ct-listing {
     margin-top: 50px;
     min-height: calc(100vh - 245px);
 }
 
-@media (min-width: 1400px){
+@media (min-width: 1200px){
     .container {
         width: 1170px;
     }
@@ -68,7 +69,7 @@ main {
     position: relative;
 }
 .TrendKeywords_wrapperTrendingKeywords__qYnDr {
-    overflow-x: auto;
+    overflow-x: hidden;
     display: flex;
     list-style: none;
     padding: 0;
@@ -86,10 +87,10 @@ main {
     }
 .WrapperScroll_wrapperOverflow__3k3CU i.WrapperScroll_iconPrev__H2ypM {
     display: block;
-    pointer-events: none;
+    /* pointer-events: none; */
     background: url(https://static.chotot.com/storage/default/slide-prev.svg) 50% no-repeat;
     background-size: 100%;
-    opacity: 0;
+    /* opacity: 0; */
     transition: opacity .5s;
     transform: translateY(-50%);
     left: -15px;
@@ -108,18 +109,21 @@ main {
 .WrapperScroll_wrapperOverflow__3k3CU i {
     position: absolute;
     top: 50%;
-    /* background: url(https://static.chotot.com/storage/chotot-icons/svg/next.svg) 50% no-repeat; */
-    /* background-size: 100%; */
+     background: url(https://static.chotot.com/storage/chotot-icons/svg/next.svg) 50% no-repeat; 
+     background-size: 100%; 
     width: 28px;
-    height: 28px;
+    height: 35px;
     z-index: 2;
     cursor: pointer;
-    /* display: none; */
-    /* transition: all .2s ease-in-out; */
+     display: none; 
+     transition: all .2s ease-in-out; 
     outline: none;
-    /* -webkit-user-select: none; */
+     -webkit-user-select: none; 
     -moz-user-select: none;
     user-select: none;
+}
+.WrapperScroll_wrapperOverflow__3k3CU i:hover {
+    width:35px;
 }
     .WrapperScroll_wrapperOverflow__3k3CU i.WrapperScroll_iconNextActive__QZW9s {
         pointer-events: all;
@@ -241,8 +245,6 @@ element.style {
     background-color: #fff !important;
     outline: none !important;
 }
-
-<style >
 .styles_listViewWrapper__gETtz button:focus, .styles_listViewWrapper__gETtz button:hover {
     outline: none !important;
     border-color: none !important;
@@ -280,7 +282,6 @@ element.style {
     text-decoration: none;
 }
 
-<style >
 .styles_listViewWrapper__gETtz button {
     font-size: 12px;
     color: #222;
@@ -492,7 +493,7 @@ button, input, optgroup, select, textarea {
     justify-content: center;
 }
     .AdThumbnail_thumbnailWrapper__zaKRz .AdThumbnail_thumbnailImg__smtQI {
-        position: relative;
+        /*position: relative;*/
         background: url(https://static.chotot.com/storage/default_images/c2c_ad_image.webp) 50% no-repeat;
         background-size: cover !important;
         height: 183px;
@@ -509,7 +510,7 @@ button, input, optgroup, select, textarea {
             object-fit: cover;
         }
 img {
-    vertical-align: middle;
+    /*vertical-align: middle;*/
     border-style: none;
 }
 .AdThumbnail_thumbnailWrapper__zaKRz .AdThumbnail_thumbnailImg__smtQI .AdThumbnail_imageGroup__nOLEm {
@@ -538,6 +539,14 @@ img {
     right: 8px;
     bottom: 0;
     z-index: 8;
+}
+AdItem_item__Ljfcd:hover {
+    box-shadow: 0 2px 10px #000000;
+}
+.SaveAd_saveAdWrapper___sBMh {
+    position: absolute;
+    right: 12px;
+    bottom: -3px;
 }
 .SaveAd_saveAdWrapper___sBMh .SaveAd_btnSavedAdFull__Krmga, .SaveAd_saveAdWrapper___sBMh .SaveAd_btnSavedAd__jwoYd {
     padding: 0;
@@ -605,7 +614,7 @@ img {
 .AdBody_footer__Xy9cP {
     color: #9b9b9b;
     position: absolute;
-    bottom: -6px;
+    bottom: 5px;
     width: 100%;
     left: 0;
     display: flex;
