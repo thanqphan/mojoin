@@ -14,7 +14,7 @@ body {
     font-size: 14px;
     color: #262637;
     display: block;
-    overflow-y: hidden;
+    overflow-y: auto;
     opacity: 1;
 }
 /*nav bar*/
