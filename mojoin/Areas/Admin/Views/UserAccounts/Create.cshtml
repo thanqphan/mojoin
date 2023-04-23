@@ -4,12 +4,104 @@
     ViewData["Title"] = "Create";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <a asp-area="Admin" asp-controller="UserAccounts" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Danh sách tài khoản</a>
+            <span class="breadcrumb-item active">Thêm mới tài khoản</span>
+        </nav>
+    </div>
+</div>
+<div class="container">
+    <div class="tab-content m-t-15">
+        <div class="tab-pane fade show active" id="tab-account">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="card">
+                    @*<div class="card-header">
+                    </div>*@
+                    <div class="card-body">
+                        
+                        <div class="media align-items-center">
+                            <div class="avatar avatar-image  m-h-10 m-r-15" style="height: 80px; width: 80px">
+                                <img src="assets/images/avatars/thumb-3.jpg" alt="">
+                            </div>
+                            <div class="m-l-20 m-r-20">
+                                <h5 class="m-b-5 font-size-18">Avatar</h5>
+                                <p class="opacity-07 font-size-13 m-b-0">
+                                    Recommended Dimensions: <br>
+                                    120x120 Max fil size: 5MB
+                                </p>
+                            </div>
+                            <div>
+                                <button class="btn btn-tone btn-primary">Upload</button>
+                            </div>
+                        </div>
+                        <hr class="m-v-25">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="font-weight-semibold" for="userName">User Name:</label>
+                                <input type="text" class="form-control" asp-for="Username" id="userName" placeholder="User Name">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="font-weight-semibold" for="phoneNumber">Số điện thoại:</label>
+                                <input type="text" class="form-control" asp-for="Phone" id="userPhone" placeholder="Phone Number">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label class="font-weight-semibold" for="idRole">Quyền tài khoản:</label>
+                                <select asp-for="RoleId" class="form-control" asp-items="ViewBag.RoleId"></select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="font-weight-semibold" for="userActive">Trạng thái:</label>
+                                <select asp-for="IsActive" class="form-control" asp-items="ViewBag.lstActive"></select>
+                            </div>
+                            <div class="form-group col-md-4">
+                            </div>
+                        </div>
+                        <hr class="m-v-25">
 
-<h1>Create</h1>
-
-<h4>UserAccount</h4>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Mật khẩu</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row">
+                            @*<div class="form-group col-md-3">
+                            <label class="font-weight-semibold" for="oldPassword">Old Password:</label>
+                            <input type="password" class="form-control" id="oldPassword" placeholder="Old Password">
+                            </div>*@
+                            <div class="form-group col-md-4">
+                                <label class="font-weight-semibold" for="newPassword">New Password:</label>
+                                <input type="password" class="form-control" asp-for="Password" id="newPassword" placeholder="New Password">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="font-weight-semibold" for="confirmPassword">Confirm Password:</label>
+                                <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password">
+                            </div>
+                            @*<div class="form-group col-md-3">
+                            <button class="btn btn-primary m-t-30">Change</button>
+                            </div>*@
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-footer">
+                        <div class="from-row">
+                            <input type="submit" value="Create" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <hr />
-<div class="row">
+@*<div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -40,7 +132,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="RoleId" class="control-label"></label>
-                <select asp-for="RoleId" class ="form-control" asp-items="ViewBag.RoleId"></select>
+                <select asp-for="RoleId" class="form-control" asp-items="ViewBag.RoleId"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -51,5 +143,5 @@
 
 <div>
     <a asp-action="Index">Back to List</a>
-</div>
+</div>*@
 

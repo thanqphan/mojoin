@@ -14,15 +14,25 @@
             var table = $('#myTable').DataTable({
                 // ...
                 "columnDefs": [
-                    { "orderable": false, "targets": 4 }
+                    { "orderable": false, "targets": "_all" }
                 ]
             });
+            $('#myTable tbody').on('mouseenter', 'td', function () {
+                var colIdx = table.cell(this).index().column;
 
+                $(table.cells().nodes()).removeClass('highlight');
+                $(table.column(colIdx).nodes()).addClass('highlight');
+            });
             // Lấy dữ liệu cho dropdown từ ViewData
             $('#idrole').on('change', function () {
                 var selectedValue = $(this).val(); // Lấy giá trị đã chọn từ dropdown
                 // Lọc bảng dữ liệu bằng giá trị đã chọn
                 table.column(4).search(selectedValue).draw();
+            });
+            $('#idstatus').on('change', function () {
+                var selectedValue = $(this).val(); // Lấy giá trị đã chọn từ dropdown
+                // Lọc bảng dữ liệu bằng giá trị đã chọn
+                table.column(5).search(selectedValue).draw();
             });
         });
 
@@ -38,6 +48,15 @@
     </div>
 </div>
 <div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-8 ">
+            </div>
+            <div class="col-md-4 text-right">
+                <a class="btn btn-success btn-tone m-r-5" asp-action="Create">Create</a>
+            </div>
+        </div>
+    </div>
     <div class="card-body">
         @*<div class="row m-b-30">
             <div class="col-lg-8">
@@ -69,7 +88,12 @@
                                 <option value="0" disabled selected></option>
                             </select>
                         </th>
-                        <th>Trạng thái</th>
+                        <th>
+                            Trạng thái
+                            <select class="border-0" id="idstatus" style="max-width:13px" asp-items="ViewBag.lsTrangThai">
+                                <option value="0" disabled selected></option>
+                            </select>
+                        </th>
                         <th>Chức năng</th>
                     </tr>
                 </thead>
@@ -91,7 +115,7 @@
                                 </td>
                                 <td>@item.Phone</td>
                                 <td><img class="avatar" src="" alt="Avatar" /></td>
-                                <td>@item.Role.RoleName</td>
+                                <td>@(item.Role != null ? item.Role.RoleName : "")</td>
                                 <td>
                                     @if (item.IsActive == true)
                                     {
@@ -107,17 +131,15 @@
                                             <div>Tạm ngưng</div>
                                         </div>
                                     }
-
                                 </td>
                                 <td>
-                                    <a class="btn btn-secondary btn-tone m-r-5" asp-action="Details" asp-route-id="@item.AccountId">View</a>
-                                    <a class="btn btn-warning btn-tone m-r-5" asp-action="Edit" asp-route-id="@item.AccountId">Edit</a>
-                                    <a class="btn btn-danger btn-tone m-r-5" asp-action="Delete" asp-route-id="@item.AccountId">Delete</a>
+                                    <a class="btn btn-secondary btn-tone m-r-5 fa fa-eye" title="Details" asp-action="Details" asp-route-id="@item.AccountId" ></a>
+                                    <a class="btn btn-warning btn-tone m-r-5 fa fa-edit" title="Edit" asp-action="Edit" asp-route-id="@item.AccountId"></a>
+                                    <a class="btn btn-danger btn-tone m-r-5 fa fa-trash" title="Delete" asp-action="Delete" asp-route-id="@item.AccountId"></a>
                                 </td>
                             </tr>
                         }
                     }
-
                 </tbody>
             </table>
         </div>
