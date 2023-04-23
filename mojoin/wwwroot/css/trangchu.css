@@ -189,6 +189,18 @@ main {
     display: inline-flex;
     justify-content: space-around;
 }
+.hienthi{
+    display: block;
+}
+    .OrderFilter_orderFilter__VEcKg .OrderFilter_sortAds__Kbf8H .OrderFilter_menu__7rEUX {
+        display: none;
+    }
+/*.OrderFilter_orderFilter__VEcKg .OrderFilter_sortAds__Kbf8H:hover .OrderFilter_menu__7rEUX {
+    display: block;
+}*/
+    /*.OrderFilter_orderFilter__VEcKg .OrderFilter_sortAds__Kbf8H .OrderFilter_wrapperDropDown__fD9WI:hover .OrderFilter_menu__7rEUX {
+        display: block;
+    }*/
 .OrderFilter_orderFilter__VEcKg .OrderFilter_wrapperDropDown__fD9WI {
     width: 90%;
     height: 40px;
@@ -454,7 +466,11 @@ button, input, optgroup, select, textarea {
     background: #fff;
     padding: 12px;
 }
-
+    .AdItem_item__Ljfcd:hover {
+        /*background-color:#3BACB6;
+        color: white;*/
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    }
 @media (min-width: 768px){
     .col-sm-4 {
         width: 33.33333333%;
@@ -494,7 +510,6 @@ button, input, optgroup, select, textarea {
 }
     .AdThumbnail_thumbnailWrapper__zaKRz .AdThumbnail_thumbnailImg__smtQI {
         /*position: relative;*/
-        background: url(https://static.chotot.com/storage/default_images/c2c_ad_image.webp) 50% no-repeat;
         background-size: cover !important;
         height: 183px;
         width: 183px;
@@ -540,9 +555,7 @@ img {
     bottom: 0;
     z-index: 8;
 }
-AdItem_item__Ljfcd:hover {
-    box-shadow: 0 2px 10px #000000;
-}
+
 .SaveAd_saveAdWrapper___sBMh {
     position: absolute;
     right: 12px;
@@ -687,4 +700,54 @@ AdItem_item__Ljfcd:hover {
 a {
     background-color: transparent;
     /*-webkit-text-decoration-skip: objects;*/
+}
+/*like btn*/
+.block {
+    position: absolute;
+    right: 12px;
+    bottom: -3px;
+}
+
+/*@media (max-width: 575.9px) {
+    .block {
+        width: 300px;
+    }
+}*/
+
+.block .heart-icon {
+    
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
+    border: none;
+    outline: none;
+}
+
+    /* initial state of the like heart button */
+    .block .heart-icon .fill-color-shape {
+        fill: transparent;
+    }
+
+    .block .heart-icon.isLiked {
+        filter: drop-shadow(0 3px 5px #c44133);
+    }
+
+        /* "liked" state of the like heart button */
+        .block .heart-icon.isLiked .fill-color-shape {
+            transition: fill 0.5s linear;
+            fill: #e74c3c;
+        }
+
+    /*.block .heart-icon:hover {
+        transform: translate(-20%, calc(-50% - 3px)) scale(1.03);
+    }*/
+
+.block .number-of-likes {
+    font-size: 100px;
+    user-select: none;
+    position: absolute;
+    left: 80%;
+    top: 53%;
+    transform: translate(-80%, -50%);
+    color: #292d34;
 }
