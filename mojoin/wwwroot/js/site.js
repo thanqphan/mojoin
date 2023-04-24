@@ -33,4 +33,19 @@
 //        img.setAttribute("src", "https://static.chotot.com/storage/icons/saveAd/save-ad.svg");
 //    }
 //});
+document.getElementById("toggle").addEventListener("click", function (event) {
+        event.preventDefault()
+    });
+function userclick() {
+
+    var tg = document.getElementById("toggleUser");
+
+
+    if (tg.style.display == "none") {
+        tg.style.display = "block";
+    } else {
+        tg.style.display = "none";
+    }
+}
+
 

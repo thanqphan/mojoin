@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/mojoin.styles.css" asp-append-version="true" />
-    <link rel="shortcut icon" href="~/Admin_assets/images/logo/favicon.png">
+	<link rel="shortcut icon" href="~/Admin_assets/images/logo/favicon.png">
+	<script src="~/js/site.js" defer></script>
 </head>
 <body ng-app="mojoinApp" class="ng-cloak1 ng-scope">
     <div class="mogi-navbar">
@@ -16,7 +17,7 @@
                 <a href="/"><img src="~/Admin_assets/images/logo/logo.png" width="100" height="31" alt="Mogi.vn" title="Tìm kiếm bất động sản, nhà đất cần bán và cho thuê tại Việt Nam"></a>
             </div>
 
-            <div class="navbar-menu">
+            <div class="navbar-menu" >
                 @*<a class="" href="/mua-nha-dat" gtm-event="link" gtm-cat="menu" gtm-act="top-menu">Tìm mua</a>*@
                 <a class="" href="/thue-nha-dat" gtm-event="link" gtm-cat="menu" gtm-act="top-menu">Tìm thuê</a>
                 @*<a class="" href="/gia-nha-dat" gtm-event="link" gtm-cat="menu" gtm-act="top-menu">Giá nhà đất</a>*@
@@ -24,26 +25,18 @@
                 @*<a class="" href="/tim-moi-gioi" gtm-event="link" gtm-cat="menu" gtm-act="top-menu">Môi giới</a>
                 <a class="" href="/du-an" gtm-event="link" gtm-cat="menu" gtm-act="top-menu">Dự án</a>*@
                 <a class="hidden-xs ng-scope" ng-if="!Profile.isAuth()" id="menu-signin" href="/dang-nhap" gtm-event="link" gtm-cat="menu" gtm-act="user-signin">Đăng nhập</a>
-            </div>
+            </div>           
 
-            <div class="navbar-searchbox ng-scope" ng-controller="searchBarController">
-
-                <div class="search-box-text clearfix" ng-click="showSearchBox()">
-                    <span ng-bind="Keyword || 'Từ khóa, Đường, Quận, Dự án hoặc địa danh ...'" class="ng-binding">Từ khóa, Đường, Quận, Dự án hoặc địa danh ...</span>
-                    <i class="fa fa-search"> </i>
-                </div>
-            </div>
-
-            <div class="navbar-user">
+            <div id="toggle" class="navbar-user" onclick="userclick()">
                 <!-- ngIf: Profile.isAuth() --><div ng-if="Profile.isAuth()" class="navbar-user-profile ng-scope">
-                    <a href="unsafe:javascript:void()" data-toggle="dropdown" role="button" aria-expanded="false" gtm-event="all" gtm-cat="menu" gtm-act="user-menu">
-                        <span class="avatar ng-binding" ng-bind-html="Profile.getAvatar()"><i class="fa fa-user-circle"></i></span>
+                    <a href=""  class="usericon" data-toggle="dropdown" role="button" aria-expanded="false" gtm-event="all" gtm-cat="menu" gtm-act="user-menu">
+                        <span  class="avatar ng-binding" ng-bind-html="Profile.getAvatar()"><i class="fa fa-user-circle"></i></span>
                         <!-- ngIf: Profile.Message.HasValue -->
                         <div class="last-name">
                             <div ng-bind="Profile.Data.LastName" class="ng-binding">vu</div>
                         </div>
                     </a>
-                    <div class="personel-menu">
+                    <div  id="toggleUser" class="personel-menu" style="display:none;">
                         <div>
                             <div class="personel">
                                 <div class="personal-avatar ng-binding" ng-bind-html="Profile.getAvatar()"><i class="fa fa-user-circle"></i></div>
@@ -56,9 +49,9 @@
                                             <svg width="18" height="18"><use xlink:href="/content/mogi.svg#check-circle-o"></use></svg>
                                         </span><!-- end ngIf: !Profile.isNormal() -->
                                     </div>
-                                    <!-- ngIf: !Profile.isNormal() --><div ng-if="!Profile.isNormal()" class="user-type ng-scope">
+@*                                    <!-- ngIf: !Profile.isNormal() --><div ng-if="!Profile.isNormal()" class="user-type ng-scope">
                                         <a href="/trang-ca-nhan/mogipro" ng-bind-html="Profile.getUserTypeLabel()" class="ng-binding">Thành viên Tiết kiệm</a>
-                                    </div><!-- end ngIf: !Profile.isNormal() -->
+                                    </div><!-- end ngIf: !Profile.isNormal() -->*@
                                 </div>
                             </div>
                             <!-- ngIf: !Profile.isNormal() && Profile.Data.SupportStaff !== null -->
@@ -68,32 +61,32 @@
 
                         <div ng-class="Profile.isNormal() === true || (Profile.isNormal() === false &amp;&amp; Profile.Data.SupportStaff === null) ? ['main-menu border-top'] : ['main-menu']" class="main-menu border-top">
                             <div>
-                                <a href="/trang-ca-nhan/quan-ly-tin" rel="nofollow" gtm-event="link" gtm-cat="menu" gtm-act="user-menu-managed-post">
+                                <a href="" rel="nofollow" gtm-event="link" gtm-cat="menu" gtm-act="user-menu-managed-post">
                                     <span class="main-menu-icon"><svg width="24" height="24"><use xlink:href="/content/mogi.svg#house-square"></use></svg></span>
-                                    <span>Quản lý tin bất động sản</span>
+                                    <span>Quản lý tin</span>
                                 </a>
                             </div>
                             <div>
-                                <a href="/trang-ca-nhan/thong-tin-ca-nhan" rel="nofollow" gtm-event="link" gtm-cat="menu" gtm-act="user-menu-profile">
+                                <a href="" rel="nofollow" gtm-event="link" gtm-cat="menu" gtm-act="user-menu-profile">
                                     <span class="main-menu-icon"><svg width="24" height="24"><use xlink:href="/content/mogi.svg#user"></use></svg></span>
                                     <span>Thông tin tài khoản</span>
                                 </a>
                             </div>
                             <div>
-                                <a href="/trang-ca-nhan/tim-kiem-da-luu#message" rel="nofollow" gtm-event="link" gtm-cat="menu" gtm-act="user-menu-alert">
+                                <a href="" rel="nofollow" gtm-event="link" gtm-cat="menu" gtm-act="user-menu-alert">
                                     <span class="main-menu-icon"><svg width="24" height="24"><use xlink:href="/content/mogi.svg#bell"></use></svg></span>
                                     <span>Thông báo</span>
                                     <!-- ngIf: Profile.Message.HasValue -->
                                 </a>
                             </div>
                             <div>
-                                <a href="/trang-ca-nhan/bat-dong-san-yeu-thich" rel="nofollow" gtm-event="link" gtm-cat="menu" gtm-act="user-menu-favorite">
+                                <a href="" rel="nofollow" gtm-event="link" gtm-cat="menu" gtm-act="user-menu-favorite">
                                     <span class="main-menu-icon"><svg width="24" height="24"><use xlink:href="/content/mogi.svg#heart"></use></svg></span>
-                                    <span>Bất động sản đã lưu</span>
+                                    <span>Tin đã lưu</span>
                                 </a>
                             </div>
                             <div>
-                                <a href="/trang-ca-nhan/tim-kiem-da-luu" rel="nofollow" gtm-event="link" gtm-cat="menu" gtm-act="user-menu-saved-search">
+                                <a href="" rel="nofollow" gtm-event="link" gtm-cat="menu" gtm-act="user-menu-saved-search">
                                     <span class="main-menu-icon"><svg width="24" height="24"><use xlink:href="/content/mogi.svg#bookmark"></use></svg></span>
                                     <span>Tìm kiếm đã lưu</span>
                                 </a>
@@ -101,12 +94,12 @@
                         </div>
                         <div class="action-menu border-top">
                             <div>
-                                <a href="/trang-ca-nhan/doi-mat-khau" rel="nofollow" gtm-event="link" gtm-cat="menu" gtm-act="user-menu-password">
+                                <a href="" rel="nofollow" gtm-event="link" gtm-cat="menu" gtm-act="user-menu-password">
                                     <span>Thay đổi mật khẩu</span>
                                 </a>
                             </div>
                             <div>
-                                <a href="/logoff" rel="nofollow" gtm-event="link" gtm-cat="menu" gtm-act="user-menu-signout">
+                                <a href="" rel="nofollow" gtm-event="link" gtm-cat="menu" gtm-act="user-menu-signout">
                                     <span>Thoát</span>
                                 </a>
                             </div>
@@ -117,7 +110,6 @@
             </div>
             <div class="navbar-hamburger">
                 <i class="fa fa-bars" ng-click="openSlideMenu()"></i>
-
 
                 <div class="hamburger-menu slideMenu" id="mogi-slide-menu">
                     <div class="close-icon" ng-click="closeSlideMenu()"><i class="fa fa-close" aria-hidden="true"></i></div>
@@ -134,12 +126,12 @@
                                     </div><!-- end ngIf: !Profile.isNormal() -->
                                 </div>
                                 <!-- ngIf: !Profile.isNormal() --><div ng-if="!Profile.isNormal()" class="name-user-type ng-scope">
-                                    <a href="/trang-ca-nhan/mogipro" ng-bind-html="Profile.getUserTypeLabel()" class="ng-binding">Thành viên Tiết kiệm</a>
+                                    <a href="" ng-bind-html="Profile.getUserTypeLabel()" class="ng-binding">Thành viên Tiết kiệm</a>
                                 </div><!-- end ngIf: !Profile.isNormal() -->
                             </div>
                         </div>
                         <div class="slideMenu-user-posting">
-                            <a href="/dang-tin" gtm-event="link" gtm-cat="posting" gtm-act="add-posting">Đăng tin</a>
+                            <a href="" gtm-event="link" gtm-cat="posting" gtm-act="add-posting">Đăng tin</a>
                         </div>
                         <!-- ngIf: !Profile.isNormal() && Profile.Data.SupportStaff !== null -->
                     </div><!-- end ngIf: Profile.isAuth() -->
@@ -247,6 +239,36 @@
                     <!-- ngIf: Profile.isAuth() --><div ng-if="Profile.isAuth()" class="slideMenu-cover ng-scope"></div><!-- end ngIf: Profile.isAuth() -->
                 </div>
                 <div id="mogi-slide-overlay" ng-click="closeSlideMenu()"></div>
+            </div>           
+        </div>
+        <div class="aw__s1nklpnj" color="#fff" style="--s1nklpnj-0:#fff; --s1nklpnj-1:86px;">
+            <div class="aw__l1cnvd95">
+                <div class="aw__s10g4rka">
+                    <div class="aw__s10ag3v8">
+                        <div class="aw__s1cvpvtg">
+                            <div>
+                                <div>
+                                    <div class="aw__s19pnt4e" style="--s19pnt4e-4:#f4f4f4;">
+                                        <div id="autoComplete">
+                                            <div class="aw__d1oi1yn1">
+                                                <div class="aw__s116vlok">
+                                                    <div autocomplete="off" placeholder="Cho thuê Phòng trọ" id="__inputItemProps" type="text" value="" class="aw__a1ywrhtc" style="--a1ywrhtc-2:#f4f4f4; --a1ywrhtc-6:35px;">
+                                                        <button aria-label="Search Button Desktop" class="aw__c1fgvuub" style="--c1fgvuub-0:#FF6D25;">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" data-type="monochrome" viewBox="0 0 16 16" width="1em" height="1em" fill="none">
+                                                                <path fill="currentColor" d="M6.4 0a6.369 6.369 0 00-4.525 1.873A6.425 6.425 0 00.502 3.906v.002A6.383 6.383 0 000 6.398a6.372 6.372 0 001.875 4.524 6.385 6.385 0 008.428.537l-.006.006 4.295 4.293a.827.827 0 001.166-1.166l-4.295-4.295a6.368 6.368 0 00-.537-8.424A6.372 6.372 0 006.4 0zm0 1.615a4.75 4.75 0 013.383 1.4c.44.44.785.95 1.028 1.522h-.002c.249.59.377 1.214.377 1.861 0 .648-.128 1.27-.377 1.862h.002a4.783 4.783 0 01-2.55 2.545c-.59.25-1.213.377-1.86.377a4.761 4.761 0 01-1.864-.377A4.749 4.749 0 013.016 9.78c-.44-.44-.783-.95-1.024-1.521a4.735 4.735 0 01-.377-1.862c0-.647.127-1.272.377-1.863a4.75 4.75 0 011.024-1.52 4.754 4.754 0 013.384-1.4z"></path>
+                                                            </svg>
+                                                        </button>
+                                                    </div>
+                                                    <input autocomplete="off" placeholder="Cho thuê Phòng trọ" id="__inputItemProps" type="text" class="aw__t1o0834r" value="" style="--t1o0834r-1:#f4f4f4; --t1o0834r-4:36px; --t1o0834r-6:35px;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -356,3 +378,20 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+@*<script>
+    document.getElementById("toggle").addEventListener("click", function (event) {
+        event.preventDefault()
+    });
+    function userclick() {
+        const tg = document.getElementById("toggleUser");
+        const style = getComputedStyle(tg);
+
+        tg.addEventListener('click', () => {
+            if (style.display === "none") {
+                tg.style.display = "block";
+            } else {
+                tg.style.display = "none";
+            }
+        });
+    }
+</script>*@

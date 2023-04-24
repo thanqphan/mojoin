@@ -94,13 +94,13 @@
                 </div>
             </div>
             @*listview*@
-            <div class="list-view">
+            <div id="viewlist" class="list-view">
                 <div>
                     <div style="display: flex; flex-flow: row wrap;">
                         @foreach (var item in Model)
                         {
-                            <div class="AdItem_item__Ljfcd col-sx-6 col-sm-4">
-                                <a class="AdItem_wrapperLink__Q_RTw" href="/Rooms/Details">
+                            <div class="AdItem_item__Ljfcd col-6 col-sm-4">
+                                <a class="AdItem_wrapperLink__Q_RTw"  href="">
                                     <div class="AdThumbnail_thumbnailWrapper__zaKRz">
                                         <div class="AdThumbnail_thumbnailImg__smtQI " role="button" tabindex="0">
                                             <span style="box-sizing: border-box; display: block; overflow: hidden; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: absolute; inset: 0px;">
@@ -112,12 +112,12 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @*<div class="SaveAd_saveAdWrapper___sBMh AdItem_saveAd__3prt2 ">
-                                            <button id="btn_save_ad" type="button" class="SaveAd_btnSavedAd__jwoYd ">
+                                        <div class="SaveAd_saveAdWrapper___sBMh AdItem_saveAd__3prt2 ">
+                                            <button id="btn_save_ad" onclick="yeuthich()" type="button" class="SaveAd_btnSavedAd__jwoYd ">
                                                 <img id="img_save_ad" height="20" width="20" src="https://static.chotot.com/storage/icons/saveAd/save-ad.svg" alt="like" loading="lazy" data-saved="false">
                                             </button>
-                                        </div>*@
-                                        <div class="block">
+                                        </div>
+                                        @*<div class="block">
                                             <!-- heart shape SVG -->
                                             <svg class="heart-icon"
                                              width="20"
@@ -125,7 +125,8 @@
                                              viewBox="0 0 106 97"
                                              fill="none"
                                              xmlns="http://www.w3.org/2000/svg"
-                                            onclick="yeuthich()">
+                                             id="yeuthichbtn"
+                                             onclick="yeuthich()">
 
                                                 <!-- I am working with <path>, not the whole <svg> -->
                                                 <path class="fill-color-shape"
@@ -137,8 +138,8 @@
                                             </svg>
 
                                             <!-- counter -->
-                                            @*<span class="number-of-likes">6</span>*@
-                                        </div>
+                                            <span class="number-of-likes">6</span>
+                                        </div>*@
                                     </div>
                                     <div class="AdBody_caption__0FF4E">
                                         <div class="commonStyle_adTitleGrid__ZQnBY" role="button" tabindex="0">@item.Title</div>
@@ -176,31 +177,31 @@
     </main>
 </div>
     <script>
-        // Variables
-        const likeBtn = document.querySelector('.heart-icon');
-        //const numberOfLikesElement = document.querySelector('.number-of-likes');
-        // get the value from the HTML element
-        //let numberOfLikes = Number.parseInt(numberOfLikesElement.textContent, 10);
-        let isLiked = false;
-        // Functions
-        const likeClick = () => {
-            // if the like button hasn't been clicked
-            if (!isLiked) {
-                likeBtn.classList.add('isLiked');
-                //numberOfLikes++;
-                //numberOfLikesElement.textContent = numberOfLikes;
-                isLiked = !isLiked;
-            }
-            // if the like button has been clicked
-            else {
-                likeBtn.classList.remove('isLiked');
-                //numberOfLikes--;
-                //numberOfLikesElement.textContent = numberOfLikes;
-                isLiked = !isLiked;
-            }
-        };
-        // Event Listeners
-        likeBtn.addEventListener('click', likeClick);       
+        document.getElementById("viewlist").addEventListener("click", function (event) {
+            event.preventDefault()
+        });
+        function yeuthich() {
+            
+            //const btn = document.getElementById("btn_save_ad");
+            //const img = document.getElementById("img_save_ad");
+        const btn = this.querySelector("#btn_save_ad");
+        const img = this.querySelector("#img_save_ad");
+            btn.addEventListener('click', () => {
+                if (img.getAttribute("src") === "https://static.chotot.com/storage/icons/saveAd/save-ad.svg") {
+                    img.setAttribute("src", "https://static.chotot.com/storage/icons/saveAd/save-ad-active.svg");
+                        alert("Đã thêm vào mục yêu thích!");
+                } 
+                else{
+                        alert("Đã bỏ yêu thích !");
+                    img.setAttribute("src", "https://static.chotot.com/storage/icons/saveAd/save-ad.svg");              
+                }
+            
+            });
+        }
+        const ads = document.querySelectorAll(".SaveAd_saveAdWrapper___sBMh");
+            ads.forEach(SaveAd_saveAdWrapper___sBMh => {
+            yeuthich.call(SaveAd_saveAdWrapper___sBMh);
+            });
             
     function hamDropdown() {
         document.querySelector(".OrderFilter_menu__7rEUX").classList.toggle("hienThi");
