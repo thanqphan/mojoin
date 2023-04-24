@@ -28,8 +28,8 @@ namespace mojoin.Areas.Admin.Controllers
         {
             ViewData["QuyenAcc"] = new SelectList(_context.Roles, "RoleName", "RoleName");
             List<SelectListItem> lsTrangThai = new List<SelectListItem>();
-            lsTrangThai.Add(new SelectListItem() { Text = "Hoạt động", Value = "1" });
-            lsTrangThai.Add(new SelectListItem() { Text = "Tạm ngưng", Value = "0" });
+            lsTrangThai.Add(new SelectListItem() { Text = "Đang hoạt động", Value = "Đang hoạt động" });
+            lsTrangThai.Add(new SelectListItem() { Text = "Tạm ngưng", Value = "Tạm ngưng" });
             ViewData["lsTrangThai"] = lsTrangThai;
             //
             var dbmojoinContext = _context.UserAccounts.Include(u => u.Role);
@@ -59,10 +59,12 @@ namespace mojoin.Areas.Admin.Controllers
         public IActionResult Create()
         {
             ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleName");
-            List<SelectListItem> lstActive = new List<SelectListItem>();
-            lstActive.Add(new SelectListItem() { Text = "Hoạt động", Value = "1" });
-            lstActive.Add(new SelectListItem() { Text = "Tạm ngưng", Value = "0" });
-            ViewData["lstActive"] = lstActive;
+            var accountList = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "False", Text = "Tạm ngưng" },
+                new SelectListItem { Value = "True", Text = "Đang hoạt động" }
+            };
+            ViewData["lstActive"] = accountList;
             return View();
         }
 
@@ -82,10 +84,12 @@ namespace mojoin.Areas.Admin.Controllers
             }
             _notyfService.Warning("Thêm mới không thành công!");
             ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleName");
-            List<SelectListItem> lstActive = new List<SelectListItem>();
-            lstActive.Add(new SelectListItem() { Text = "Hoạt động", Value = "1" });
-            lstActive.Add(new SelectListItem() { Text = "Tạm ngưng", Value = "0" });
-            ViewData["lstActive"] = lstActive;
+            var accountList = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "True", Text = "Hoạt động" },
+                new SelectListItem { Value = "False", Text = "Ngưng hoạt động" },
+            };
+            ViewData["lstActive"] = accountList;
             return View(userAccount);
         }
 
@@ -123,7 +127,7 @@ namespace mojoin.Areas.Admin.Controllers
                 try
                 {
                     _context.Update(userAccount);
-                    await _context.SaveChangesAsync(); 
+                    await _context.SaveChangesAsync();
                     _notyfService.Success("Chỉnh sửa thành công!");
                 }
                 catch (DbUpdateConcurrencyException)
@@ -184,7 +188,7 @@ namespace mojoin.Areas.Admin.Controllers
 
         private bool UserAccountExists(int id)
         {
-          return (_context.UserAccounts?.Any(e => e.AccountId == id)).GetValueOrDefault();
+            return (_context.UserAccounts?.Any(e => e.AccountId == id)).GetValueOrDefault();
         }
     }
 }

@@ -24,12 +24,12 @@
                 $(table.column(colIdx).nodes()).addClass('highlight');
             });
             // Lấy dữ liệu cho dropdown từ ViewData
-            $('#idrole').on('change', function () {
+            $('#idRole').on('change', function () {
                 var selectedValue = $(this).val(); // Lấy giá trị đã chọn từ dropdown
                 // Lọc bảng dữ liệu bằng giá trị đã chọn
                 table.column(4).search(selectedValue).draw();
             });
-            $('#idstatus').on('change', function () {
+            $('#idActive').on('change', function () {
                 var selectedValue = $(this).val(); // Lấy giá trị đã chọn từ dropdown
                 // Lọc bảng dữ liệu bằng giá trị đã chọn
                 table.column(5).search(selectedValue).draw();
@@ -84,14 +84,13 @@
                         <th>Avatar</th>
                         <th>
                             Quyền
-                            <select class="border-0" id="idrole" style="max-width:13px" asp-items="ViewBag.QuyenAcc">
-                                <option value="0" disabled selected></option>
+                            <select class="border-0" id="idRole" name="idRole" title="Chọn Quyền Tài khoản" style="max-width:13px" asp-items="ViewBag.QuyenAcc">
+                                
                             </select>
                         </th>
                         <th>
                             Trạng thái
-                            <select class="border-0" id="idstatus" style="max-width:13px" asp-items="ViewBag.lsTrangThai">
-                                <option value="0" disabled selected></option>
+                            <select class="border-0" id="idActive" name="idActive" title="Chọn Trạng thái" style="max-width:13px" asp-items="ViewBag.lsTrangThai">
                             </select>
                         </th>
                         <th>Chức năng</th>

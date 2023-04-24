@@ -16,13 +16,13 @@
 <div class="container">
     <div class="tab-content m-t-15">
         <div class="tab-pane fade show active" id="tab-account">
-            <form asp-action="Create">
+            <form asp-action="Create" onsubmit="return validatePassword()">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="card">
                     @*<div class="card-header">
                     </div>*@
                     <div class="card-body">
-                        
+
                         <div class="media align-items-center">
                             <div class="avatar avatar-image  m-h-10 m-r-15" style="height: 80px; width: 80px">
                                 <img src="assets/images/avatars/thumb-3.jpg" alt="">
@@ -42,11 +42,11 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label class="font-weight-semibold" for="userName">User Name:</label>
-                                <input type="text" class="form-control" asp-for="Username" id="userName" placeholder="User Name">
+                                <input asp-for="Username" type="text" class="form-control" id="userName" placeholder="User Name">
                             </div>
                             <div class="form-group col-md-6">
                                 <label class="font-weight-semibold" for="phoneNumber">Số điện thoại:</label>
-                                <input type="text" class="form-control" asp-for="Phone" id="userPhone" placeholder="Phone Number">
+                                <input asp-for="Phone" type="text" class="form-control" id="userPhone" placeholder="Phone Number">
                             </div>
                         </div>
                         <div class="form-row">
@@ -76,12 +76,14 @@
                             <input type="password" class="form-control" id="oldPassword" placeholder="Old Password">
                             </div>*@
                             <div class="form-group col-md-4">
-                                <label class="font-weight-semibold" for="newPassword">New Password:</label>
-                                <input type="password" class="form-control" asp-for="Password" id="newPassword" placeholder="New Password">
+                                <label class="font-weight-semibold" for="password">New Password:</label>
+                                <input asp-for="Password" name="Password" type="password" class="form-control is-valid" id="newPassword" placeholder="New Password">
+                                <span id="passwordError"></span>
                             </div>
                             <div class="form-group col-md-4">
                                 <label class="font-weight-semibold" for="confirmPassword">Confirm Password:</label>
-                                <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password">
+                                <input type="password" name="ConfirmPassword" class="form-control" id="confirmPassword" placeholder="Confirm Password">
+                                <span id="confirmPasswordError"></span>
                             </div>
                             @*<div class="form-group col-md-3">
                             <button class="btn btn-primary m-t-30">Change</button>
@@ -101,47 +103,49 @@
     </div>
 </div>
 <hr />
-@*<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Username" class="control-label"></label>
-                <input asp-for="Username" class="form-control" />
-                <span asp-validation-for="Username" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Phone" class="control-label"></label>
-                <input asp-for="Phone" class="form-control" />
-                <span asp-validation-for="Phone" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Avatar" class="control-label"></label>
-                <input asp-for="Avatar" class="form-control" />
-                <span asp-validation-for="Avatar" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IsActive" class="control-label"></label>
-                <input asp-for="IsActive" class="form-control" />
-                <span asp-validation-for="IsActive" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RoleId" class="control-label"></label>
-                <select asp-for="RoleId" class="form-control" asp-items="ViewBag.RoleId"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+<script>
+    // Lấy tham chiếu đến các trường nhập liệu
+    var newPassword = document.getElementById("newPassword");
+    var confirmPassword = document.getElementById("confirmPassword");
+    function validatePassword(password, confirm) {
+        // Kiểm tra mật khẩu và xác nhận mật khẩu có giống nhau không
+        if (password !== confirm) {
+            return false;
+        }
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>*@
+        // Kiểm tra độ dài của mật khẩu
+        if (password.length < 8) {
+            return false;
+        }
 
+        // Kiểm tra mật khẩu có chứa ít nhất một ký tự chữ và một ký tự số không
+        var hasLetter = /[a-zA-Z]/.test(password);
+        var hasNumber = /[0-9]/.test(password);
+        if (!hasLetter || !hasNumber) {
+            return "Password must contain at least one letter and one number";
+        }
+
+        // Nếu mật khẩu hợp lệ, trả về true
+        return null;
+    }
+    // Gắn sự kiện input cho trường confirmPassword
+    confirmPassword.addEventListener("input", function () {
+        var password = newPassword.value;
+        var confirm = confirmPassword.value;
+        var isValid = validatePassword(password, confirm); // Gọi hàm kiểm tra mật khẩu
+        var errorMessage = validatePassword(password, confirm); // Gọi hàm kiểm tra mật khẩu
+        if (errorMessage) {
+            document.getElementById("confirmPasswordError").innerHTML = errorMessage;
+        } else {
+            document.getElementById("confirmPasswordError").innerHTML = "";
+        }
+        // Hiển thị thông báo lỗi cho người dùng nếu mật khẩu không khớp
+        if (!isValid) {
+            document.getElementById("confirmPasswordError").innerHTML = "Passwords do not match";
+        } else {
+            document.getElementById("confirmPasswordError").innerHTML = "";
+        }
+        // Hiển thị thông báo lỗi cho người dùng nếu mật khẩu không hợp lệ
+        
+    });
+</script>
