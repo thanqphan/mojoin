@@ -6,31 +6,27 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using mojoin.Models;
+using System.Web;
+
 
 namespace mojoin.Controllers
 {
     public class RoomsController : Controller
     {
-        private readonly DbmojoinContext _context;
         
         DbmojoinContext db = new DbmojoinContext();
 
-        public RoomsController(DbmojoinContext context)
-        {
-            _context = context;
-        }
-
         // GET: Rooms
-        public async Task<IActionResult> Index()
+        public ActionResult Index()
         {
-            var dbmojoinContext = _context.Rooms.Include(r => r.Address).Include(r => r.RoomType).Include(r => r.Status).Include(r => r.User);
-            return View(await dbmojoinContext.ToListAsync());
+            var dbmojoinContext = db.Rooms.Include(r => r.Address).Include(r => r.RoomType).Include(r => r.Status).Include(r => r.User);
+            return View(dbmojoinContext.ToList());
         }
 
         // GET: Rooms/Details/5
         public ActionResult Details(int id)
         {
-            var D_sach = _context.Rooms.Where(m => m.RoomId == id).First();
+            var D_sach = db.Rooms.Where(m => m.RoomId == id).First();
             return View(D_sach);
         }
     }

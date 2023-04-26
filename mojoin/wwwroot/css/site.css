@@ -841,10 +841,12 @@ svg:not(:root) {
     font-size: 0.875rem;
 }
 
-@media (min-width: 768px) .aw__t1o0834r {
-    text-indent: 12px;
-    width: calc(100% - 80px);
-}
+@media (min-width: 768px){
+    .aw__t1o0834r {
+        text-indent: 12px;
+        width: calc(100% - 80px);
+    }
+} 
 
 .aw__t1o0834r {
     /* width: 100%; */
