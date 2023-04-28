@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     <link href="~/css/trangchu.css" rel="stylesheet" />
     <link href="~/css/site.css" rel="stylesheet" />
-    <script src="~/js/site.js"></script>
+    <script src="~/js/site.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
 }
 <div class="container ct-listing">
@@ -94,14 +94,14 @@
                 </div>
             </div>
             @*listview*@
-            <div id="viewlist" class="list-view">
+            <div class="list-view">
                 <div>
                     <div style="display: flex; flex-flow: row wrap;">
                         @foreach (var item in Model)
                         {
-                            <div class="AdItem_item__Ljfcd col-6 col-sm-4">
-                                <a class="AdItem_wrapperLink__Q_RTw" href="/Rooms/Details">
-                                    <div class="AdThumbnail_thumbnailWrapper__zaKRz">
+                            <div  class="AdItem_item__Ljfcd col-6 col-sm-4">
+                                <a class="AdItem_wrapperLink__Q_RTw" href="/Rooms/Details/@item.RoomId">
+                                    <div id="viewlist" class="AdThumbnail_thumbnailWrapper__zaKRz">
                                         <div class="AdThumbnail_thumbnailImg__smtQI " role="button" tabindex="0">
                                             <span style="box-sizing: border-box; display: block; overflow: hidden; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: absolute; inset: 0px;">
                                                 <img alt="" src="@item.Image1" decoding="async" data-nimg="fill" style="position: absolute; inset: 0px; box-sizing: border-box; padding: 0px; border: none; margin: auto; display: block; width: 100px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%;">
@@ -153,44 +153,5 @@
         </div>
     </main>
 </div>
-<script>
-    document.getElementById("viewlist").addEventListener("click", function (event) {
-        event.preventDefault()
-    });
-    function yeuthich() {
 
-        //const btn = document.getElementById("btn_save_ad");
-        //const img = document.getElementById("img_save_ad");
-        const btn = this.querySelector("#btn_save_ad");
-        const img = this.querySelector("#img_save_ad");
-        btn.addEventListener('click', () => {
-            if (img.getAttribute("src") === "https://static.chotot.com/storage/icons/saveAd/save-ad.svg") {
-                img.setAttribute("src", "https://static.chotot.com/storage/icons/saveAd/save-ad-active.svg");
-                alert("Đã thêm vào mục yêu thích!");
-            }
-            else {
-                alert("Đã bỏ yêu thích !");
-                img.setAttribute("src", "https://static.chotot.com/storage/icons/saveAd/save-ad.svg");
-            }
-
-        });
-    }
-    const ads = document.querySelectorAll(".SaveAd_saveAdWrapper___sBMh");
-    ads.forEach(SaveAd_saveAdWrapper___sBMh => {
-        yeuthich.call(SaveAd_saveAdWrapper___sBMh);
-    });
-
-    function hamDropdown() {
-        document.querySelector(".OrderFilter_menu__7rEUX").classList.toggle("hienThi");
-    }
-
-    window.onclick = function (e) {
-        if (!e.target.matches('.OrderFilter_filterBtn__IPPxZ')) {
-            var noiDungDropdown = document.querySelector(".OrderFilter_menu__7rEUX");
-            if (noiDungDropdown.classList.contains('hienThi')) {
-                noiDungDropdown.classList.remove('hienThi');
-            }
-        }
-    }
-</script>
 

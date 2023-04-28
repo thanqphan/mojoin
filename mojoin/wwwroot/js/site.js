@@ -1,8 +1,4 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
-//var myDiv = document.getElementById("open");
+﻿//var myDiv = document.getElementById("open");
 
 //myDiv.addEventListener("click", function () {
 //    if (myDiv.style.display === "none") {
@@ -47,5 +43,34 @@ function userclick() {
         tg.style.display = "none";
     }
 }
+//yeu thich
+document.getElementById("viewlist").addEventListener("click", function (event) {
+    event.preventDefault()
+});
+function yeuthich() {
+
+    //const btn = document.getElementById("btn_save_ad");
+    //const img = document.getElementById("img_save_ad");
+    const btn = this.querySelector("#btn_save_ad");
+    const img = this.querySelector("#img_save_ad");
+    btn.addEventListener('click', () => {
+        if (img.getAttribute("src") === "https://static.chotot.com/storage/icons/saveAd/save-ad.svg") {
+            img.setAttribute("src", "https://static.chotot.com/storage/icons/saveAd/save-ad-active.svg");
+            alert("Đã thêm vào mục yêu thích!");
+        }
+        else {
+            alert("Đã bỏ yêu thích !");
+            img.setAttribute("src", "https://static.chotot.com/storage/icons/saveAd/save-ad.svg");
+        }
+
+    });
+}
+const ads = document.querySelectorAll(".SaveAd_saveAdWrapper___sBMh");
+ads.forEach(SaveAd_saveAdWrapper___sBMh => {
+    yeuthich.call(SaveAd_saveAdWrapper___sBMh);
+});
+//slide img
+
+
 
 
