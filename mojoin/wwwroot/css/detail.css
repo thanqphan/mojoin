@@ -51,17 +51,6 @@ img {
     list-style: none;
     z-index: 10;
 }
-.slider-dots {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 25px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    list-style: none;
-    z-index: 10;
-}
     .slider-dots li.active {
         background-color: white;
     }
@@ -85,7 +74,6 @@ img {
     display: flex;
     position: relative;
     transition: transform 0.25s linear;
-    height: 100%;
 }
 .slider-item {
     height: 100%;

@@ -1,34 +1,4 @@
-﻿//var myDiv = document.getElementById("open");
-
-//myDiv.addEventListener("click", function () {
-//    if (myDiv.style.display === "none") {
-//        myDiv.style.display = "block";
-//    } else {
-//        myDiv.style.display = "none";
-//    }
-//});
-//button prev and next
-//var prevButton = document.getElementById("prevButton");
-//var nextButton = document.getElementById("nextButton");
-
-//prevButton.addEventListener("click", function () {
-//    history.back();
-//});
-
-//nextButton.addEventListener("click", function () {
-//    history.forward();
-//});
-//like and unlike
-//const btn = document.getElementById("btn_save_ad");
-//const img = document.getElementById("img_save_ad");
-
-//btn.addEventListener("click", () => {
-//    if (img.getAttribute("src") === "https://static.chotot.com/storage/icons/saveAd/save-ad.svg") {
-//        img.setAttribute("src", "https://static.chotot.com/storage/icons/saveAd/save-ad-active.svg");
-//    } else {
-//        img.setAttribute("src", "https://static.chotot.com/storage/icons/saveAd/save-ad.svg");
-//    }
-//});
+﻿
 document.getElementById("toggle").addEventListener("click", function (event) {
         event.preventDefault()
     });
@@ -48,9 +18,6 @@ document.getElementById("viewlist").addEventListener("click", function (event) {
     event.preventDefault()
 });
 function yeuthich() {
-
-    //const btn = document.getElementById("btn_save_ad");
-    //const img = document.getElementById("img_save_ad");
     const btn = this.querySelector("#btn_save_ad");
     const img = this.querySelector("#img_save_ad");
     btn.addEventListener('click', () => {

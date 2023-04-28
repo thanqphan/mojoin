@@ -23,20 +23,20 @@
     <div class="slider-wrapper">
         <div class="slider-main">
             <div class="slider-item">
-                <img src="https://images.unsplash.com/photo-1475809913362-28a064062ccd?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1350&amp;q=80" alt="">
+                <img src="@Model.Image1" alt="">
             </div>
             <div class="slider-item">
-                <img src="https://images.unsplash.com/photo-1463501810073-6e31c827a9bc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1350&amp;q=80" alt="">
+                <img src="@Model.Image2" alt="">
             </div>
             <div class="slider-item">
-                <img src="https://images.unsplash.com/photo-1497752531616-c3afd9760a11?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1350&amp;q=80" alt="">
+                <img src="@Model.Image3" alt="">
             </div>
             <div class="slider-item">
-                <img src="https://images.unsplash.com/photo-1425082661705-1834bfd09dca?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1355&amp;q=80" alt="">
+                <img src="@Model.Image4" alt="">
             </div>
-            <div class="slider-item">
+            @*<div class="slider-item">
                 <img src="https://images.unsplash.com/photo-1470093851219-69951fcbb533?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1350&amp;q=80" alt="">
-            </div>
+            </div>*@
         </div>
     </div>
     <i class="fa fa-angle-right slider-next" style="display: flex;"></i>
@@ -45,13 +45,14 @@
     window.addEventListener("load", function () {
         const slider = this.document.querySelector(".slider");
         const sliderMain = this.document.querySelector(".slider-main");
-        const sliderItem = this.document.querySelector(".slider-item");
+        const sliderItems = this.document.querySelectorAll(".slider-item");
         const nextBtn = this.document.querySelector(".slider-next");
         const prevBtn = this.document.querySelector(".slider-prev");
-        const dotItem = this.document.querySelector(".slider-dot-item");
-        const sliderItemWidth = sliderItem[0].offsetWidth;
-        const slidesLength = sliderItem.length;
-        let positionX = 0;
+        const dotItem = this.document.querySelectorAll(".slider-dot-item");
+        const sliderItemWidth = sliderItems[0].offsetWidth;
+        const slidesLength = sliderItems.length;
+        let postionX = 0;
+        let index = 0;
         nextBtn.addEventListener("click", function () {
             handleChangeSlide(1);
         })
@@ -60,10 +61,22 @@
         })
         function handleChangeSlide(direction) {
             if (direction == 1) {
+                index++;
+                if(index >= slidesLength){
+                    index = slidesLength;
+                    return;
+                }
                 postionX = postionX - sliderItemWidth;
-                console.log("handleChangeSlider ~ postionX", positionX);
-                sliderMain.style = 'transform: translateX(${postionX}px)';
+                sliderMain.style = `transform: translateX(${postionX}px)`;
+                console.log(index);
             } else if (direction == -1) {
+                index--;
+                if(index <= 0){
+                    index = 0;
+                    return;
+                }
+                postionX = postionX + sliderItemWidth;
+                sliderMain.style = `transform: translateX(${postionX}px)`;
                 console.log("prev slide");
             }
         }
