@@ -39,7 +39,7 @@ namespace mojoin.Areas.Admin.Controllers
             }
 
             var role = await _context.Roles
-                .FirstOrDefaultAsync(m => m.RoleId == id);
+                .FirstOrDefaultAsync(m => m.RolelD == id);
             if (role == null)
             {
                 return NotFound();
@@ -59,7 +59,7 @@ namespace mojoin.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RoleId,RoleName")] Role role)
+        public async Task<IActionResult> Create([Bind("RoleID,RoleName")] Role role)
         {
             if (ModelState.IsValid)
             {
@@ -92,9 +92,9 @@ namespace mojoin.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RoleId,RoleName")] Role role)
+        public async Task<IActionResult> Edit(int id, [Bind("RoleID,RoleName")] Role role)
         {
-            if (id != role.RoleId)
+            if (id != role.RolelD)
             {
                 return NotFound();
             }
@@ -109,7 +109,7 @@ namespace mojoin.Areas.Admin.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RoleExists(role.RoleId))
+                    if (!RoleExists(role.RolelD))
                     {
                         _notyfService.Error("Có lỗi xảy ra!");
                         return NotFound();
@@ -133,7 +133,7 @@ namespace mojoin.Areas.Admin.Controllers
             }
 
             var role = await _context.Roles
-                .FirstOrDefaultAsync(m => m.RoleId == id);
+                .FirstOrDefaultAsync(m => m.RolelD == id);
             if (role == null)
             {
                 return NotFound();
@@ -163,7 +163,7 @@ namespace mojoin.Areas.Admin.Controllers
 
         private bool RoleExists(int id)
         {
-            return (_context.Roles?.Any(e => e.RoleId == id)).GetValueOrDefault();
+            return (_context.Roles?.Any(e => e.RolelD == id)).GetValueOrDefault();
         }
     }
 }

@@ -7,6 +7,8 @@ public partial class Room
 {
     public int RoomId { get; set; }
 
+    public int RoomTypeId { get; set; }
+
     public string? Title { get; set; }
 
     public string? Description { get; set; }
@@ -17,39 +19,43 @@ public partial class Room
 
     public int? NumRooms { get; set; }
 
+    public int? NumBathrooms { get; set; }
+
     public DateTime? CreateDate { get; set; }
 
     public DateTime? LastUpdate { get; set; }
 
-    public string? Image1 { get; set; }
+    public bool? IsActive { get; set; }
 
-    public string? Image2 { get; set; }
+    public string? StreetNumber { get; set; }
 
-    public string? Image3 { get; set; }
+    public string? Street { get; set; }
 
-    public string? Image4 { get; set; }
+    public string? Ward { get; set; }
 
-    public int? RoomTypeId { get; set; }
+    public string? District { get; set; }
 
-    public int? UserId { get; set; }
+    public string? City { get; set; }
 
-    public int? AddressId { get; set; }
+    public bool? HasRefrigerator { get; set; }
 
-    public int? StatusId { get; set; }
+    public bool? HasAirConditioner { get; set; }
 
-    public virtual RoomAddress? Address { get; set; }
+    public bool? HasWasher { get; set; }
 
-    public virtual ICollection<RoomFurniture> RoomFurnitures { get; set; } = new List<RoomFurniture>();
+    public bool? HasElevator { get; set; }
+
+    public bool? HasParking { get; set; }
+
+    public int? ViewCount { get; set; }
+
+    public virtual ICollection<RoomFavorite> RoomFavorites { get; set; } = new List<RoomFavorite>();
+
+    public virtual ICollection<RoomImage> RoomImages { get; set; } = new List<RoomImage>();
 
     public virtual ICollection<RoomRating> RoomRatings { get; set; } = new List<RoomRating>();
 
     public virtual ICollection<RoomReport> RoomReports { get; set; } = new List<RoomReport>();
 
-    public virtual RoomType? RoomType { get; set; }
-
-    public virtual ICollection<RoomUtility> RoomUtilities { get; set; } = new List<RoomUtility>();
-
-    public virtual RoomStatus? Status { get; set; }
-
-    public virtual User? User { get; set; }
+    public virtual RoomType RoomType { get; set; } = null!;
 }

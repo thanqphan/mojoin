@@ -3,19 +3,13 @@ using System.Collections.Generic;
 
 namespace mojoin.Models;
 
-public partial class RoomReport
+public partial class RoomFavorite
 {
-    public int ReportId { get; set; }
+    public int FavoriteId { get; set; }
 
     public int RoomId { get; set; }
 
     public int UserId { get; set; }
-
-    public string? ReportContent { get; set; }
-
-    public int? IsResolved { get; set; }
-
-    public DateTime? CreateDate { get; set; }
 
     public virtual Room Room { get; set; } = null!;
 
