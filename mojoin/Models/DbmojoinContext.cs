@@ -33,23 +33,20 @@ public partial class DbmojoinContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=LAPTOP-P4D3L99G\\SQLEXPRESS; Database=DACS;Integrated Security=true; TrustServerCertificate=True;");
-    ///hereeeeeeeeee
+        => optionsBuilder.UseSqlServer("Server=MRTHAWNG; Database=dbmojoin;Trusted_Connection=SSPI;Encrypt=false;TrustServerCertificate=true");
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Role>(entity =>
         {
             entity.HasKey(e => e.RolelD);
 
-            entity.Property(e => e.RolelD).ValueGeneratedNever();
             entity.Property(e => e.RoleName).HasMaxLength(50);
         });
 
         modelBuilder.Entity<Room>(entity =>
         {
-            entity.Property(e => e.RoomId)
-                .ValueGeneratedNever()
-                .HasColumnName("RoomID");
+            entity.Property(e => e.RoomId).HasColumnName("RoomID");
             entity.Property(e => e.City).HasMaxLength(100);
             entity.Property(e => e.CreateDate).HasColumnType("datetime");
             entity.Property(e => e.District).HasMaxLength(100);
@@ -80,9 +77,7 @@ public partial class DbmojoinContext : DbContext
         {
             entity.HasKey(e => e.FavoriteId);
 
-            entity.Property(e => e.FavoriteId)
-                .ValueGeneratedNever()
-                .HasColumnName("FavoriteID");
+            entity.Property(e => e.FavoriteId).HasColumnName("FavoriteID");
             entity.Property(e => e.RoomId).HasColumnName("RoomID");
             entity.Property(e => e.UserId).HasColumnName("UserID");
 
@@ -101,9 +96,7 @@ public partial class DbmojoinContext : DbContext
         {
             entity.HasKey(e => e.RoomImageId).HasName("PK_Roomimages");
 
-            entity.Property(e => e.RoomImageId)
-                .ValueGeneratedNever()
-                .HasColumnName("RoomImageID");
+            entity.Property(e => e.RoomImageId).HasColumnName("RoomImageID");
             entity.Property(e => e.Image).IsUnicode(false);
             entity.Property(e => e.RoomId).HasColumnName("RoomID");
 
@@ -117,9 +110,7 @@ public partial class DbmojoinContext : DbContext
         {
             entity.HasKey(e => e.RatingId);
 
-            entity.Property(e => e.RatingId)
-                .ValueGeneratedNever()
-                .HasColumnName("RatingID");
+            entity.Property(e => e.RatingId).HasColumnName("RatingID");
             entity.Property(e => e.CreateDate).HasColumnType("datetime");
             entity.Property(e => e.RoomId).HasColumnName("RoomID");
             entity.Property(e => e.UserId).HasColumnName("UserID");
@@ -138,9 +129,7 @@ public partial class DbmojoinContext : DbContext
         {
             entity.HasKey(e => e.ReportId);
 
-            entity.Property(e => e.ReportId)
-                .ValueGeneratedNever()
-                .HasColumnName("ReportID");
+            entity.Property(e => e.ReportId).HasColumnName("ReportID");
             entity.Property(e => e.CreateDate).HasColumnType("datetime");
             entity.Property(e => e.IsResolved).HasColumnName("isResolved");
             entity.Property(e => e.RoomId).HasColumnName("RoomID");
@@ -159,17 +148,13 @@ public partial class DbmojoinContext : DbContext
 
         modelBuilder.Entity<RoomType>(entity =>
         {
-            entity.Property(e => e.RoomTypeId)
-                .ValueGeneratedNever()
-                .HasColumnName("RoomTypeID");
+            entity.Property(e => e.RoomTypeId).HasColumnName("RoomTypeID");
             entity.Property(e => e.TypeName).HasMaxLength(50);
         });
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.Property(e => e.UserId)
-                .ValueGeneratedNever()
-                .HasColumnName("UserID");
+            entity.Property(e => e.UserId).HasColumnName("UserID");
             entity.Property(e => e.Avatar).IsUnicode(false);
             entity.Property(e => e.CreateDate).HasColumnType("datetime");
             entity.Property(e => e.Dateofbirth).HasColumnType("date");
