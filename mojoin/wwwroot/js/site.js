@@ -36,7 +36,6 @@ const ads = document.querySelectorAll(".SaveAd_saveAdWrapper___sBMh");
 ads.forEach(SaveAd_saveAdWrapper___sBMh => {
     yeuthich.call(SaveAd_saveAdWrapper___sBMh);
 });
-//slide img
 
 
 
