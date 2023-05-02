@@ -5,6 +5,14 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
     <link href="~/admin_assets/css/table.css" rel="stylesheet" />
 }
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <span class="breadcrumb-item active">Danh sách quyền truy cập</span>
+        </nav>
+    </div>
+</div>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Main content -->
@@ -14,7 +22,6 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-md-8 ">
-                        <h1>QUYỀN TÀI KHOẢN</h1>
                     </div>
                     <div class="col-md-4 text-right">
                         <a class="btn btn-success btn-tone m-r-5" asp-action="Create">Create</a>
@@ -26,8 +33,8 @@
                     <table class="table table-hover table-bordered border-bottom">
                         <thead>
                             <tr>
-                                <th scope="col">TÊN QUYỀN</th>
-                                <th scope="col">CHỨC NĂNG</th>
+                                <th scope="col">Tên quyền</th>
+                                <th scope="col">Chức năng</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -38,9 +45,9 @@
                                         @Html.DisplayFor(modelItem => item.RoleName)
                                     </td>
                                     <td>
-                                        <a class="btn btn-secondary btn-tone m-r-5" asp-action="Details" asp-route-id="@item.RoleId">View</a>
-                                        <a class="btn btn-warning btn-tone m-r-5" asp-action="Edit" asp-route-id="@item.RoleId">Edit</a>
-                                        <a class="btn btn-danger btn-tone m-r-5" asp-action="Delete" asp-route-id="@item.RoleId">Delete</a>
+                                        <a class="btn btn-secondary btn-tone m-r-5" asp-action="Details" asp-route-id="@item.RolelD">View</a>
+                                        <a class="btn btn-warning btn-tone m-r-5" asp-action="Edit" asp-route-id="@item.RolelD">Edit</a>
+                                        <a class="btn btn-danger btn-tone m-r-5" asp-action="Delete" asp-route-id="@item.RolelD">Delete</a>
                                     </td>
                                 </tr>
                             }

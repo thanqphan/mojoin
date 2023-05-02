@@ -8,13 +8,17 @@
     <!-- Favicon -->
     <link rel="shortcut icon" href="~/Admin_assets/images/logo/favicon.png">
     <!-- page css -->
+    <link href="~/admin_assets/vendors/datatables/datatables.bootstrap.min.css" rel="stylesheet" />
     <!-- Core css -->
     <link href="~/admin_assets/css/app.min.css" rel="stylesheet">
     <link href="~/css/site.css" rel="stylesheet" />
     <link href="~/admin_assets/css/admin.css" rel="stylesheet" />
+    @RenderSection("header",required: false)
+    <script src="~/admin_assets/vendors/jquery/dist/jquery.js"></script>
+
 </head>
 
-<body>
+<body class="overflow-auto">
     <div class="app">
         <div class="layout">
             <!-- Header START -->
@@ -200,15 +204,27 @@
     </div>
 
 
-    <!-- Core Vendors JS -->
-    <script src="~/admin_assets/js/vendors.min.js"></script>
+
 
     <!-- page js -->
+    
+    <a href="~/admin_assets/vendors/jquery/dist/jquery.min.map">~/admin_assets/vendors/jquery/dist/jquery.min.map</a>
+    <a href="~/admin_assets/vendors/jquery/dist/jquery.slim.min.map">~/admin_assets/vendors/jquery/dist/jquery.slim.min.map</a>
+    
+    <script src="~/admin_assets/vendors/jquery/dist/jquery.min.js"></script>
+    <script src="~/admin_assets/vendors/jquery/dist/jquery.slim.min.js"></script>
+    <script src="~/admin_assets/vendors/jquery/dist/jquery.slim.js"></script>
+    <script src="~/admin_assets/vendors/jquery-validation/jquery.validate.min.js"></script>
     <script src="~/admin_assets/vendors/chartjs/Chart.min.js"></script>
     <script src="~/admin_assets/js/pages/dashboard-default.js"></script>
-
+    <script src="~/admin_assets/vendors/datatables/datatables.bootstrap.min.js"></script>
+    <script src="~/admin_assets/vendors/datatables/jquery.datatables.min.js"></script>
+    <!-- Core Vendors JS -->
+    <script src="~/admin_assets/js/vendors.min.js"></script>
     <!-- Core JS -->
-    <script src="~/admin_assets/js/app.min.js"></script>
+    <script src="~/admin_assets/js/app.min.js"></script>    
+    @RenderSection("footer", required: false)
+
     @await Component.InvokeAsync("Notyf")
     @await RenderSectionAsync("Scripts",required: false)
 </body>
