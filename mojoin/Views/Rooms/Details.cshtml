@@ -28,21 +28,12 @@
                     </ul>
                     <div class="slider-wrapper" style="display:block;">
                         <div class="slider-main">
-                            <div class="slider-item">
-                                <img src="@Model.Image1" alt="">
-                            </div>
-                            <div class="slider-item">
-                                <img src="@Model.Image2" alt="">
-                            </div>
-                            <div class="slider-item">
-                                <img src="@Model.Image3" alt="">
-                            </div>
-                            <div class="slider-item">
-                                <img src="@Model.Image4" alt="">
-                            </div>
-                            @*<div class="slider-item">
-                            <img src="https://images.unsplash.com/photo-1470093851219-69951fcbb533?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1350&amp;q=80" alt="">
-                            </div>*@
+                            @*@foreach (var item in Model){*@
+                                <div class="slider-item">
+                                    <img src="/Rooms/GetRoomImages/@Model.RoomId" alt="">
+                                </div>                               
+                           @* }*@
+                            
                         </div>
                     </div>
                     <i class="fa fa-angle-right slider-next" style="display: flex;"></i>

@@ -1,0 +1,10 @@
+﻿@model IEnumerable<mojoin.Models.RoomImage>
+
+@{
+    ViewData["Title"] = "GetRoomImages";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@foreach (var image in Model)
+{
+    <img src="@image.Image" alt="Room Image">
+}
