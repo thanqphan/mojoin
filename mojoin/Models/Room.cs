@@ -27,7 +27,7 @@ public partial class Room
 
     public DateTime? LastUpdate { get; set; }
 
-    public bool? IsActive { get; set; }
+    public int? IsActive { get; set; }
 
     public string? StreetNumber { get; set; }
 
