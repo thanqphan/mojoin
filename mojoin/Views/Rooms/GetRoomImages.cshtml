@@ -2,9 +2,84 @@
 
 @{
     ViewData["Title"] = "GetRoomImages";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link href="~/css/detail.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/js/site.js" defer></script>
 }
-@foreach (var image in Model)
-{
-    <img src="@image.Image" alt="Room Image">
-}
+=
+    <div class="slider">
+        <i class="fa fa-angle-left slider-prev" style="display: flex;"></i>
+        <ul class="slider-dots">
+            <li class="slider-dot-item active" data-index="0"></li>
+            <li class="slider-dot-item" data-index="1"></li>
+            <li class="slider-dot-item" data-index="2"></li>
+            <li class="slider-dot-item" data-index="3"></li>
+        </ul>
+        <div class="slider-wrapper" style="display:block;">
+            <div class="slider-main">
+                @foreach (var item in Model)
+                {
+                    <div class="slider-item">                        
+                        <img src="@item.Image" alt="">
+                    </div>
+                }
+            </div>
+        </div>
+        <i class="fa fa-angle-right slider-next" style="display: flex;"></i>
+    </div>
+    <script>
+        window.addEventListener("load", function () {
+            const slider = this.document.querySelector(".slider");
+            const sliderMain = this.document.querySelector(".slider-main");
+            const sliderItems = this.document.querySelectorAll(".slider-item");
+            const nextBtn = this.document.querySelector(".slider-next");
+            const prevBtn = this.document.querySelector(".slider-prev");
+            const dotItems = this.document.querySelectorAll(".slider-dot-item");
+            const sliderItemWidth = sliderItems[0].offsetWidth;
+            const slidesLength = sliderItems.length;
+            let postionX = 0;
+            let index = 0;
+            nextBtn.addEventListener("click", function () {
+                handleChangeSlide(1);
+            });
+            prevBtn.addEventListener("click", function () {
+                handleChangeSlide(-1);
+            });
+            [...dotItems].forEach(item => item.addEventListener("click", function (e) {
+                const slideIndex = parseInt(e.target.dataset.index);
+                [...dotItems].forEach(el => el.classList.remove("active"));
+                e.target.classList.add("active");
+                index = slideIndex;
+                postionX = -1 * index * sliderItemWidth;
+                sliderMain.style = `transform: translateX(${postionX}px)`;
+            }));
+            function handleChangeSlide(direction) {
+                if (direction == 1) {
+                    if (index >= slidesLength - 1) {
+                        index = slidesLength - 1;
+                        return;
+                    }
+                    postionX = postionX - sliderItemWidth;
+                    sliderMain.style = `transform: translateX(${postionX}px)`;
+                    console.log(index);
+                    index++;
+                } else if (direction == -1) {
+                    if (index <= 0) {
+                        index = 0;
+                        return;
+                    }
+                    postionX = postionX + sliderItemWidth;
+                    sliderMain.style = `transform: translateX(${postionX}px)`;
+                    console.log("prev slide");
+                    index--;
+                }
+                [...dotItems].forEach(el => el.classList.remove("active"));
+                dotItems[index].classList.add("active");
+            }
+        })
+    </script>
+
