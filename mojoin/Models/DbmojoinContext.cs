@@ -64,6 +64,7 @@ public partial class DbmojoinContext : DbContext
             entity.Property(e => e.StreetNumber)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.Title).HasMaxLength(100);
             entity.Property(e => e.ViewCount).HasColumnName("view_count");
             entity.Property(e => e.Ward).HasMaxLength(100);
 
