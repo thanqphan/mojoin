@@ -208,7 +208,10 @@ a {
     color: #657786;
     width: 100%;
 }
-@media (min-width: 992px){
+.agent-contact{
+    text-align:center;
+}
+@media (min-width: 992px) {
     .widget .agent-contact {
         margin-top: 24px;
         display: flex;

@@ -47,8 +47,35 @@ namespace mojoin.Controllers
         // GET: Rooms/Details/5
         public ActionResult Details(int id)
         {
-            var D_sach = db.Rooms.Where(m => m.RoomId == id).First();
-            return View(D_sach);
+            //var D_sach = db.Rooms.Where(m => m.RoomId == id).First();
+            //return View(D_sach);
+            var room = db.Rooms
+                 .Include(r => r.User)
+                 .FirstOrDefault(r => r.RoomId == id);
+
+            if (room == null)
+            {
+                return NotFound();
+            }
+            ViewBag.SDT = room.User.Phone;
+            ViewBag.NgayThamGia = room.User.CreateDate;
+            ViewBag.UserFullName = room.User.Fullname;
+            return View(room);
+        }
+        public ActionResult GetNameUser(int id)
+        {
+            var room = db.Rooms
+                 .Where(r => r.RoomId == id)
+                 .Select(r => new { r.RoomId, UserFullName = r.User.Fullname })
+                 .FirstOrDefault();
+
+            if (room == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.UserFullName = room.UserFullName;
+            return View(room);
         }
     }
 }
