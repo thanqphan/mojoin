@@ -50,7 +50,7 @@ namespace mojoin.Controllers
             //var D_sach = db.Rooms.Where(m => m.RoomId == id).First();
             //return View(D_sach);
             var room = db.Rooms
-                 .Include(r => r.User)
+                 .Include(r => r.User).Include(r => r.RoomImages).Where(ri => ri.RoomId == id).ToList()
                  .FirstOrDefault(r => r.RoomId == id);
 
             if (room == null)
