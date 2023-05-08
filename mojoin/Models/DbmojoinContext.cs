@@ -65,6 +65,7 @@ public partial class DbmojoinContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Title).HasMaxLength(100);
+            entity.Property(e => e.UserId).HasColumnName("UserID");
             entity.Property(e => e.ViewCount).HasColumnName("view_count");
             entity.Property(e => e.Ward).HasMaxLength(100);
 
@@ -72,6 +73,11 @@ public partial class DbmojoinContext : DbContext
                 .HasForeignKey(d => d.RoomTypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Rooms_RoomTypes");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Rooms)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Rooms_Users");
         });
 
         modelBuilder.Entity<RoomFavorite>(entity =>
@@ -163,6 +169,9 @@ public partial class DbmojoinContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Fullname).HasMaxLength(100);
+            entity.Property(e => e.GoogleId)
+                .IsUnicode(false)
+                .HasColumnName("GoogleID");
             entity.Property(e => e.InfoFacebook).IsUnicode(false);
             entity.Property(e => e.InfoZalo).IsUnicode(false);
             entity.Property(e => e.IsActive).HasColumnName("isActive");

@@ -31,6 +31,8 @@ public partial class User
 
     public string? InfoFacebook { get; set; }
 
+    public string? GoogleId { get; set; }
+
     public int? SupportUserId { get; set; }
 
     public DateTime? CreateDate { get; set; }
@@ -42,4 +44,6 @@ public partial class User
     public virtual ICollection<RoomRating> RoomRatings { get; set; } = new List<RoomRating>();
 
     public virtual ICollection<RoomReport> RoomReports { get; set; } = new List<RoomReport>();
+
+    public virtual ICollection<Room> Rooms { get; set; } = new List<Room>();
 }
