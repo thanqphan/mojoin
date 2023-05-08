@@ -3,22 +3,17 @@
 @{
     ViewData["Title"] = "GetRoomImages";
     <link href="~/css/detail.css" rel="stylesheet" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/js/site.js" defer></script>
+    
 }
 =
     <div class="slider">
         <i class="fa fa-angle-left slider-prev" style="display: flex;"></i>
-        <ul class="slider-dots">
+        @*<ul class="slider-dots">
             <li class="slider-dot-item active" data-index="0"></li>
             <li class="slider-dot-item" data-index="1"></li>
             <li class="slider-dot-item" data-index="2"></li>
             <li class="slider-dot-item" data-index="3"></li>
-        </ul>
+        </ul>*@
         <div class="slider-wrapper" style="display:block;">
             <div class="slider-main">
                 @foreach (var item in Model)
