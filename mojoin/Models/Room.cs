@@ -9,6 +9,8 @@ public partial class Room
 
     public int RoomTypeId { get; set; }
 
+    public int UserId { get; set; }
+
     public string? Title { get; set; }
 
     public string? Description { get; set; }
@@ -58,4 +60,6 @@ public partial class Room
     public virtual ICollection<RoomReport> RoomReports { get; set; } = new List<RoomReport>();
 
     public virtual RoomType RoomType { get; set; } = null!;
+
+    public virtual User User { get; set; } = null!;
 }
