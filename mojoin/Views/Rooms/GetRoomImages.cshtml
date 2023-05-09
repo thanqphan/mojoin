@@ -1,0 +1,73 @@
+﻿@model IEnumerable<mojoin.Models.RoomImage>
+
+@{
+    ViewData["Title"] = "GetRoomImages";
+    <link href="~/css/detail.css" rel="stylesheet" />
+    
+}
+    <div class="slider">
+        <i class="fa fa-angle-left slider-prev" style="display: flex;"></i>       
+        <div class="slider-wrapper" style="display:block;">
+            <div class="slider-main">
+                @foreach (var item in Model)
+                {
+                    <div class="slider-item">                        
+                        <img src="@item.Image" alt="">
+                    </div>
+                }
+            </div>
+        </div>
+        <i class="fa fa-angle-right slider-next" style="display: flex;"></i>
+    </div>
+    <script>
+        window.addEventListener("load", function () {
+            const slider = this.document.querySelector(".slider");
+            const sliderMain = this.document.querySelector(".slider-main");
+            const sliderItems = this.document.querySelectorAll(".slider-item");
+            const nextBtn = this.document.querySelector(".slider-next");
+            const prevBtn = this.document.querySelector(".slider-prev");
+            const dotItems = this.document.querySelectorAll(".slider-dot-item");
+            const sliderItemWidth = sliderItems[0].offsetWidth;
+            const slidesLength = sliderItems.length;
+            let postionX = 0;
+            let index = 0;
+            nextBtn.addEventListener("click", function () {
+                handleChangeSlide(1);
+            });
+            prevBtn.addEventListener("click", function () {
+                handleChangeSlide(-1);
+            });
+            [...dotItems].forEach(item => item.addEventListener("click", function (e) {
+                const slideIndex = parseInt(e.target.dataset.index);
+                [...dotItems].forEach(el => el.classList.remove("active"));
+                e.target.classList.add("active");
+                index = slideIndex;
+                postionX = -1 * index * sliderItemWidth;
+                sliderMain.style = `transform: translateX(${postionX}px)`;
+            }));
+            function handleChangeSlide(direction) {
+                if (direction == 1) {
+                    if (index >= slidesLength - 1) {
+                        index = slidesLength - 1;
+                        return;
+                    }
+                    postionX = postionX - sliderItemWidth;
+                    sliderMain.style = `transform: translateX(${postionX}px)`;
+                    console.log(index);
+                    index++;
+                } else if (direction == -1) {
+                    if (index <= 0) {
+                        index = 0;
+                        return;
+                    }
+                    postionX = postionX + sliderItemWidth;
+                    sliderMain.style = `transform: translateX(${postionX}px)`;
+                    console.log("prev slide");
+                    index--;
+                }
+                [...dotItems].forEach(el => el.classList.remove("active"));
+                dotItems[index].classList.add("active");
+            }
+        })
+    </script>
+

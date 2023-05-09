@@ -5,6 +5,7 @@ namespace mojoin.Models;
 
 public partial class RoomImage
 {
+
     public int RoomImageId { get; set; }
 
     public int RoomId { get; set; }
