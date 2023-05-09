@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using mojoin.ViewModel;
 
 namespace mojoin.Models;
 
@@ -196,4 +197,6 @@ public partial class DbmojoinContext : DbContext
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+    public DbSet<mojoin.ViewModel.RegisterViewModel>? RegisterViewModel { get; set; }
 }
