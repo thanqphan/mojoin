@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Microsoft.Build.Framework;
+using System;
 using System.Collections.Generic;
 
 namespace mojoin.Models;
 
 public partial class Room
 {
+    [Required]
     public int RoomId { get; set; }
 
     public int RoomTypeId { get; set; }

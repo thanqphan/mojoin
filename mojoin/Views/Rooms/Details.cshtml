@@ -1,0 +1,84 @@
+﻿@model mojoin.Models.Room
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link href="~/css/detail.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    //<script src="~/js/site.js" defer></script>
+}
+<div class="slider">
+    <i class="fa fa-angle-left slider-prev" style="display: flex;"></i>
+    <ul class="slider-dots">
+        <li class="slider-dot-item active" data-index="0"></li>
+        <li class="slider-dot-item" data-index="1"></li>
+        <li class="slider-dot-item" data-index="2"></li>
+        <li class="slider-dot-item" data-index="3"></li>
+        <li class="slider-dot-item" data-index="4"></li>
+    </ul>
+    <div class="slider-wrapper">
+        <div class="slider-main">
+            <div class="slider-item">
+                <img src="@Model.Image1" alt="">
+            </div>
+            <div class="slider-item">
+                <img src="@Model.Image2" alt="">
+            </div>
+            <div class="slider-item">
+                <img src="@Model.Image3" alt="">
+            </div>
+            <div class="slider-item">
+                <img src="@Model.Image4" alt="">
+            </div>
+            @*<div class="slider-item">
+                <img src="https://images.unsplash.com/photo-1470093851219-69951fcbb533?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1350&amp;q=80" alt="">
+            </div>*@
+        </div>
+    </div>
+    <i class="fa fa-angle-right slider-next" style="display: flex;"></i>
+</div>
+<script>
+    window.addEventListener("load", function () {
+        const slider = this.document.querySelector(".slider");
+        const sliderMain = this.document.querySelector(".slider-main");
+        const sliderItems = this.document.querySelectorAll(".slider-item");
+        const nextBtn = this.document.querySelector(".slider-next");
+        const prevBtn = this.document.querySelector(".slider-prev");
+        const dotItem = this.document.querySelectorAll(".slider-dot-item");
+        const sliderItemWidth = sliderItems[0].offsetWidth;
+        const slidesLength = sliderItems.length;
+        let postionX = 0;
+        let index = 0;
+        nextBtn.addEventListener("click", function () {
+            handleChangeSlide(1);
+        })
+        prevBtn.addEventListener("click", function () {
+            handleChangeSlide(-1);
+        })
+        function handleChangeSlide(direction) {
+            if (direction == 1) {
+                index++;
+                if(index >= slidesLength){
+                    index = slidesLength;
+                    return;
+                }
+                postionX = postionX - sliderItemWidth;
+                sliderMain.style = `transform: translateX(${postionX}px)`;
+                console.log(index);
+            } else if (direction == -1) {
+                index--;
+                if(index <= 0){
+                    index = 0;
+                    return;
+                }
+                postionX = postionX + sliderItemWidth;
+                sliderMain.style = `transform: translateX(${postionX}px)`;
+                console.log("prev slide");
+            }
+        }
+    })
+</script>

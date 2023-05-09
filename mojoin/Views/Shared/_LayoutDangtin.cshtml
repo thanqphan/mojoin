@@ -5,12 +5,15 @@
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
 	<link href="~/css/dangtin.css" rel="stylesheet" />
+    <script src="~/js/site.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="mojoinApp.js"></script>
 	<link href="c:\users\vulea\.nuget\packages\bootstrap\5.2.3\contentfiles\any\any\wwwroot\css\bootstrap.min.css" rel="stylesheet" />
 	<link href="c:\users\vulea\.nuget\packages\bootstrap\5.2.3\contentfiles\any\any\wwwroot\css\bootstrap.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
 </head>
 <body style="" block-ui="main">
-    <div ng-app="mogiApp" ng-strict-di="false" class="ng-scope">
+    <div ng-app="mojoinApp" ng-strict-di="false" class="ng-scope">
         <div class="mogi-goback">
             <div class="container">
                 <a href="/Home/Index" target="_blank" style="">Quay lại Trang chủ</a>
@@ -31,7 +34,7 @@
                 </div>
                 <div class="navbar-collapse collapse for-desktop">
                     <form class="navbar-form navbar-right ng-pristine ng-valid" style="padding-left:30px">
-                        <a href="/Property/Posting/0" class="btn btn-continue btn-sm">Đăng tin mới</a>
+                        <a href="/Dangtin/Index" class="btn btn-continue btn-sm">Đăng tin mới</a>
                     </form>
                     <ul class="nav navbar-nav navbar-right mogi-menu">
                         <li><a href="/" ng-class="GetActiveClass('/')">Trang chủ</a></li>
@@ -118,10 +121,10 @@
                 </div>*@
             </div>
         </div>
-        @*<div class="body-content">
+        <div class="body-content">
             <div ng-controller="propertyPostv2Controller" class="ng-scope">
                 <div id="page-header">
-                    <!-- ngIf: IsEdit === false --><h1 ng-if="IsEdit === false" class="page-title ng-scope">Đăng tin bất động sản</h1><!-- end ngIf: IsEdit === false -->
+                    <!-- ngIf: IsEdit === false --><h1 ng-if="IsEdit === false" class="page-title ng-scope">Đăng tin cho thuê phòng trọ</h1><!-- end ngIf: IsEdit === false -->
                     <!-- ngIf: IsEdit === true -->
                 </div>
                 <div class="mg-960-container clearfix">
@@ -138,15 +141,15 @@
 
                                 <!-- ngIf: Wizard.StepId() == 1 --><div ng-if="Wizard.StepId() == 1" class="ng-scope">
                                     <div class="property-service-types clearfix">
-                                        <div class="property-service-type" ng-click="ServiceType.OnSelected(false)" ng-class="{'active': ServiceType.IsSelected(false)}">
+@*                                        <div class="property-service-type" ng-click="ServiceType.OnSelected(false)" ng-class="{'active': ServiceType.IsSelected(false)}">
                                             <div class="media">
                                                 <img src="/Content/images/posting/sale.png">
                                             </div>
                                             <div class="title">Bán</div>
-                                        </div>
+                                        </div>*@
                                         <div class="property-service-type" ng-click="ServiceType.OnSelected(true)" ng-class="{'active': ServiceType.IsSelected(true)}">
-                                            <div class="media">
-                                                <img src="/Content/images/posting/rent.png">
+											<div class="media">
+                                                <img src="~/images/homeicon.png">
                                             </div>
                                             <div class="title">Thuê</div>
                                         </div>
@@ -162,7 +165,7 @@
                                 <!-- ngIf: Wizard.StepId() == 3 -->
 
 
-                                <div ng-show="Wizard.StepId() == 4" class="ng-hide">
+                     @*           <div ng-show="Wizard.StepId() == 4" class="ng-hide">
                                     <div mg-form-group="">
                                         <div class="map-nearby-widget">
                                             <div id="map-posting" data-latitude="10.675990661444875" data-longitude="106.69943332672119" data-region="vn" data-title="Địa chỉ bất động sản" class="map-posting"><div style="height: 100%; width: 100%;"></div></div>
@@ -172,7 +175,7 @@
                                         Di chuyển vị trí bằng cách kéo pin đỏ
                                     </div>
                                 </div>
-
+*@
 
                                 <!-- ngIf: Wizard.StepId() == 5 -->
                                 <!-- ngIf: Wizard.StepId() == 6 -->
@@ -187,7 +190,7 @@
                                             <div id="gallery" class="clearfix">
                                                 <div id="top-media" class="top-media owl-carousel">
                                                 </div>
-                                                <div id="galery-counter"><span id="galery-counter-index" ng-bind="Preview.CurrentIndex" class="ng-binding">0</span>/<span id="galery-counter-total" ng-bind="Preview.TotalMedia" class="ng-binding">0</span></div>
+                                                @*<div id="galery-counter"><span id="galery-counter-index" ng-bind="Preview.CurrentIndex" class="ng-binding">0</span>/<span id="galery-counter-total" ng-bind="Preview.TotalMedia" class="ng-binding">0</span></div>*@
                                                 <div class="clearfix"></div>
                                             </div>
                                         </div>
@@ -196,7 +199,7 @@
                                             <div class="address"><span ng-bind="Address.GetAdress(false)" class="ng-binding"></span> <i ng-click="Wizard.Jump(2)" class="prop-edit fa fa-pencil"></i></div>
                                             <div class="price"><span ng-bind="Currency.PriceDisplay" class="ng-binding"></span><i ng-click="Wizard.Jump(4)" class="prop-edit fa fa-pencil"></i></div>
                                         </div>
-                                        <div class="preview-info">
+@*                                        <div class="preview-info">
                                             <div class="preview-info-title">Thông tin chính</div>
                                             <div class="preview-info-content">
                                                 <ul class="property-info">
@@ -209,13 +212,13 @@
                                                     <li class="lastest"><span class="info-label">Hướng</span>: <span class="info-value ng-binding" ng-bind="Direction.GetLabel()"></span><i ng-click="Wizard.Jump(6)" class="prop-edit fa fa-pencil"></i></li>
                                                 </ul>
                                             </div>
-                                        </div>
-                                        <div class="preview-info">
+                                        </div>*@
+                          @*              <div class="preview-info">
                                             <div class="preview-info-title">Mô tả chi tiết <i ng-click="Wizard.Jump(5)" class="prop-edit fa fa-pencil"></i></div>
                                             <div class="preview-info-content">
                                                 <div style="white-space:  pre-line;" ng-bind-html="trustedHtml(Model.Body)" class="ng-binding"></div>
                                             </div>
-                                        </div>
+                                        </div>*@
                                     </div>
                                 </div>
 
@@ -346,7 +349,7 @@
                 </div>
             </div>
             <div id="mogi-overlay"></div>
-        </div>*@
+        </div>
     </div>
     <div>
         @RenderBody()

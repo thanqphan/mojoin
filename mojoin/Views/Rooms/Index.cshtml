@@ -1,0 +1,157 @@
+﻿@model IEnumerable<mojoin.Models.Room>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link href="~/css/trangchu.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+    <script src="~/js/site.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
+}
+<div class="container ct-listing">
+    <main style="padding-bottom: 10px;">
+        <div class="no-padding col-md-8 ct-col-8">
+            <div class="WrapperScroll_wrapperOverflow__3k3CU">
+                <div class="TrendKeywords_wrapperTrendingKeywords__qYnDr">
+                    <div class="TrendKeywords_itemKeyword__dPXYt">
+                        <a class="TrendKeywords_text__Ey_be" style="color:#fe9900;width:130px" href="/tags/phong-tro-sinh-vien-gia-re-tphcm">Phòng trọ sinh viên giá rẻ TPHCM</a>
+                    </div>
+                    <div class="TrendKeywords_itemKeyword__dPXYt">
+                        <a class="TrendKeywords_text__Ey_be" style="color:#38699f;width:130px" href="/thue-phong-tro-quan-tan-binh-tp-ho-chi-minh">Cho Thuê Phòng Trọ Quận Tân Bình</a>
+                    </div>
+                    <div class="TrendKeywords_itemKeyword__dPXYt">
+                        <a class="TrendKeywords_text__Ey_be" style="color:#589f39;width:130px" href="/thue-phong-tro-quan-go-vap-tp-ho-chi-minh">Cho Thuê Phòng Trọ Quận Gò Vấp</a>
+                    </div>
+                    <div class="TrendKeywords_itemKeyword__dPXYt">
+                        <a class="TrendKeywords_text__Ey_be" style="color:#0094a3;width:130px" href="/thue-phong-tro-quan-10-tp-ho-chi-minh">Cho Thuê Phòng Trọ Quận 10</a>
+                    </div>
+                    <div class="TrendKeywords_itemKeyword__dPXYt">
+                        <a class="TrendKeywords_text__Ey_be" style="color:#d0021b;width:94px" href="/thue-phong-tro-quan-7-tp-ho-chi-minh">Cho Thuê Phòng Trọ Quận 7</a>
+                    </div>
+                    <div class="TrendKeywords_itemKeyword__dPXYt">
+                        <a class="TrendKeywords_text__Ey_be" style="color:#fe9900;width:94px" href="/thue-phong-tro-quan-binh-thanh-tp-ho-chi-minh">Thuê phòng trọ Bình Thạnh</a>
+                    </div>
+                    <div class="TrendKeywords_itemKeyword__dPXYt">
+                        <a class="TrendKeywords_text__Ey_be" style="color:#38699f;width:130px" href="/tags/phong-tro-duoi-2-trieu-tphcm">Phòng trọ dưới 2 triệu TPHCM</a>
+                    </div>
+                    <div class="TrendKeywords_itemKeyword__dPXYt">
+                        <a class="TrendKeywords_text__Ey_be" style="color:#589f39;width:94px" href="/thue-phong-tro-quan-3-tp-ho-chi-minh">Cho Thuê Phòng Trọ Quận 3</a>
+                    </div>
+                    <div class="TrendKeywords_itemKeyword__dPXYt">
+                        <a class="TrendKeywords_text__Ey_be" style="color:#0094a3;width:130px" href="/thue-phong-tro-quan-phu-nhuan-tp-ho-chi-minh">Cho Thuê Phòng Trọ Quận Phú Nhuận</a>
+                    </div>
+                    <div class="TrendKeywords_itemKeyword__dPXYt">
+                        <a class="TrendKeywords_text__Ey_be" style="color:#d0021b;width:130px" href="/tags/tim-phong-tro-gia-re-duoi-1-trieu">Phòng trọ giá rẻ dưới 1 triệu</a>
+                    </div>
+                </div>
+                <i class="WrapperScroll_iconPrev__H2ypM WrapperScroll_iconPrevActive__R0fFy" id="prevButton" tabindex="0" role="button" aria-label="Prev"></i>
+                <i class="WrapperScroll_iconNext__IiL_D WrapperScroll_iconNextActive__QZW9s" id="nextButton" tabindex="0" role="button" aria-label="Next" style="overflow-x: auto;"></i>
+            </div>
+            <div class="OrderFilter_orderFilter__VEcKg">
+                <div class="OrderFilter_infoAds__kWxt5 pull-left">
+                    <a href="/thue-phong-tro-tp-ho-chi-minh" title="Tất cả">
+                        <div class="OrderFilter_elementInfo__tNarq OrderFilter_elementInfoActive__SDG7T OrderFilter_elementInfoPTY__O00vt" tabindex="0" role="button">
+                            <span>Tất cả</span>
+                        </div>
+                    </a>
+                    <a href="/thue-phong-tro-tp-ho-chi-minh?page=1&amp;f=p" title="Cá nhân" rel="nofollow">
+                        <div class="OrderFilter_elementInfo__tNarq  OrderFilter_elementInfoPTY__O00vt" tabindex="0" role="button">
+                            <span>Cá nhân</span>
+                        </div>
+                    </a>
+                    <a href="/thue-phong-tro-tp-ho-chi-minh?page=1&amp;f=c" title="Môi giới" rel="nofollow">
+                        <div class="OrderFilter_elementInfo__tNarq  OrderFilter_elementInfoPTY__O00vt" tabindex="0" role="button">
+                            <span>Môi giới</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="OrderFilter_sortAds__Kbf8H pull-right hidden-xs">
+                    <div class="OrderFilter_wrapperDropDown__fD9WI">
+                        <button onclick="hamDropdown()" type="button" class="btn btn-lg btn-default OrderFilter_filterBtn__IPPxZ" tabindex="0">
+                            <span>Tin mới trước</span>
+                            <span class="Caret_caret__fdXPX">
+
+                            </span>
+                        </button>
+                    </div>
+                    <div class="OrderFilter_menu__7rEUX">
+                        <a href="/thue-phong-tro-tp-ho-chi-minh?page=1&amp;sp=0">
+                            <span role="button" tabindex="0">
+                                Tin mới trước
+                                <img alt="check" src="https://static.chotot.com/storage/NHA_CDN_PRODUCTION/3c6e3ac29fa3fa71af06b4affff76fd2.svg">
+                            </span>
+                        </a>
+                        <div class="devider">
+                        </div>
+                        <a href="/thue-phong-tro-tp-ho-chi-minh?page=1&amp;sp=1">
+                            <span role="button" tabindex="0">Giá thấp trước</span>
+                        </a>
+                    </div>
+                    <div class="ViewMode_viewMode__K_RUF">
+                        <button type="button" aria-label="Dạng danh sách" class="ViewMode_listMode__3X_o8" title="Dạng danh sách">
+                        </button>
+                    </div>
+                </div>
+            </div>
+            @*listview*@
+            <div class="list-view">
+                <div>
+                    <div style="display: flex; flex-flow: row wrap;">
+                        @foreach (var item in Model)
+                        {
+                            <div  class="AdItem_item__Ljfcd col-6 col-sm-4">
+                                <a class="AdItem_wrapperLink__Q_RTw" href="/Rooms/Details/@item.RoomId">
+                                    <div id="viewlist" class="AdThumbnail_thumbnailWrapper__zaKRz">
+                                        <div class="AdThumbnail_thumbnailImg__smtQI " role="button" tabindex="0">
+                                            <span style="box-sizing: border-box; display: block; overflow: hidden; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: absolute; inset: 0px;">
+                                                <img alt="" src="@item.Image1" decoding="async" data-nimg="fill" style="position: absolute; inset: 0px; box-sizing: border-box; padding: 0px; border: none; margin: auto; display: block; width: 100px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%;">
+                                            </span>
+                                            <div class="AdThumbnail_imageGroup__nOLEm">
+                                                <div class="AdThumbnail_imageNum__thXX6">
+                                                    <span class="AdThumbnail_text__XUXVY">4</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="SaveAd_saveAdWrapper___sBMh AdItem_saveAd__3prt2 ">
+                                            <button id="btn_save_ad" onclick="yeuthich()" type="button" class="SaveAd_btnSavedAd__jwoYd ">
+                                                <img id="img_save_ad" height="20" width="20" src="https://static.chotot.com/storage/icons/saveAd/save-ad.svg" alt="like" loading="lazy" data-saved="false">
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="AdBody_caption__0FF4E">
+                                        <div class="commonStyle_adTitleGrid__ZQnBY" role="button" tabindex="0">@item.Title</div>
+                                        <span class="AdBody_condition__FwozD"> @item.Area m² </span>
+                                        <div>
+                                            <p class="AdBody_price__kHpmy">@String.Format("{0:#,##0}", item.Price) VNĐ/tháng</p>
+                                            <div class="AdBody_labelWrapper__7gzLO"></div>
+                                        </div>
+                                    </div>
+                                    <div class="AdBody_footer__Xy9cP">
+                                        <a rel="noopener noreferrer" target="_blank">
+                                            <img class="commonStyle_image__6q98n commonStyle_round__zezFa" src="https://static.chotot.com/storage/chotot-icons/svg/user.svg" alt="Thảo" height="16" width="16" srcset="https://static.chotot.com/storage/chotot-icons/svg/user.svg">
+                                        </a>
+                                        <div class="commonStyle_deviderWrapper__mnwnv"></div>
+                                        <div class="AdBody_adItemPostedTime__70d9K">
+                                            <div class="AdBody_sticky__eQ3Xd">
+                                                <span class="AdBody_stickyIcon__oUuQj"></span>
+                                                <span class="AdBody_stickyText__q0Ep7"> Tin ưu tiên </span>
+                                            </div>
+                                        </div>
+                                        <div class="commonStyle_deviderWrapper__mnwnv"></div>
+                                        <span class="AdBody_adItemPostedTime__70d9K AdBody_location___gCdn">
+                                            <span class="AdBody_text__FdAzW"> @item.Address.District </span>
+                                        </span>
+                                    </div>
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 d-lg-block d-none ct-col-4 styles_stickyGoogleRight_R7gNB">
+        </div>
+    </main>
+</div>
+
+
