@@ -158,11 +158,11 @@ namespace mojoin.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-					bool isEmail = Utilities.IsValidEmail(taikhoan.UserName);
+					bool isPhone = Utilities.IsInteger(taikhoan.UserName);
 /*                    bool isPhone = Utilities.IsInteger(taikhoan.UserName);
-*/                    if (!isEmail) return View(taikhoan);
+*/                    if (!isPhone) return View(taikhoan);
                     /*if (!isPhone) return View(taikhoan);*/
-                    var user = _context.Users.AsNoTracking().SingleOrDefault(x => x.Email.Trim() == taikhoan.UserName /*|| x.Phone.Trim()==taikhoan.UserName*/);
+                    var user = _context.Users.AsNoTracking().SingleOrDefault(x => x.Phone.Trim() == taikhoan.UserName /*|| x.Phone.Trim()==taikhoan.UserName*/);
 
 					if (user == null) return RedirectToAction("Register");
 					string pass = user.Password /*+ khachhang.Salt.Trim()).ToMD5()*/;

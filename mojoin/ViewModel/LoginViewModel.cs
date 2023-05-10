@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Runtime.InteropServices;
 
 namespace mojoin.ViewModel
 {
@@ -6,9 +7,9 @@ namespace mojoin.ViewModel
 	{
 		[Key]
 		[MaxLength(100)]
-		[Required(ErrorMessage = ("Vui lòng nhập Email hoặc SĐT"))]
-		[Display(Name = "Email or SDT")]
-		[EmailAddress(ErrorMessage = "Sai định dạng Email")]
+		[Required(ErrorMessage = ("Vui lòng nhập SĐT"))]
+        [Display(Name = "SDT")]
+		[Phone(ErrorMessage = "Sai định dạng ")]
 		public string UserName { get; set; }
 
 		[Display(Name = "Mật khẩu")]
