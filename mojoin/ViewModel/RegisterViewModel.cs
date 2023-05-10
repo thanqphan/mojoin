@@ -8,11 +8,14 @@ namespace mojoin.ViewModel
 		[Key]
 		public int CustomerId { get; set; }
 
-		[Display(Name = "Họ và Tên")]
+		[Display(Name = "Họ")]
 		[Required(ErrorMessage = "Vui lòng nhập Họ Tên")]
-		public string FullName { get; set; }
+		public string LastName { get; set; }
+        [Display(Name = "Tên")]
+        [Required(ErrorMessage = "Vui lòng nhập Họ Tên")]
+        public string FirstName { get; set; }
 
-		[MaxLength(11)]
+        [MaxLength(11)]
 		[Required(ErrorMessage = "Vui lòng nhập số điện thoại")]
 		[Display(Name = "Điện thoại")]
 		[DataType(DataType.PhoneNumber)]

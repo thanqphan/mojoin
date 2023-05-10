@@ -94,7 +94,8 @@ namespace mojoin.Controllers
 					User user = new User
 					{
 						RolesId = 3,
-						Fullname = taikhoan.FullName,
+                        LastName=taikhoan.LastName.Trim(),
+						FirstName=taikhoan.FirstName.Trim(),
                         Email = taikhoan.Email.Trim(),
                         Phone = taikhoan.Phone.Trim().ToLower(),
 						Password = taikhoan.Password,
@@ -114,7 +115,7 @@ namespace mojoin.Controllers
 						//Identity
 						var claims = new List<Claim>
 						{
-							new Claim(ClaimTypes.Name,user.Fullname),
+							new Claim(ClaimTypes.Name,user.FirstName),
 							new Claim("UserId", user.UserId.ToString())
 						};
 						ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "login");
@@ -158,11 +159,11 @@ namespace mojoin.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-					bool isEmail = Utilities.IsValidEmail(taikhoan.UserName);
+					bool isPhone = Utilities.IsInteger(taikhoan.UserName);
 /*                    bool isPhone = Utilities.IsInteger(taikhoan.UserName);
-*/                    if (!isEmail) return View(taikhoan);
+*/                    if (!isPhone) return View(taikhoan);
                     /*if (!isPhone) return View(taikhoan);*/
-                    var user = _context.Users.AsNoTracking().SingleOrDefault(x => x.Email.Trim() == taikhoan.UserName /*|| x.Phone.Trim()==taikhoan.UserName*/);
+                    var user = _context.Users.AsNoTracking().SingleOrDefault(x => x.Phone.Trim() == taikhoan.UserName /*|| x.Phone.Trim()==taikhoan.UserName*/);
 
 					if (user == null) return RedirectToAction("Register");
 					string pass = user.Password /*+ khachhang.Salt.Trim()).ToMD5()*/;
@@ -185,7 +186,7 @@ namespace mojoin.Controllers
 					//Identity
 					var claims = new List<Claim>
 					{
-						new Claim(ClaimTypes.Name, user.Fullname),
+						new Claim(ClaimTypes.Name, user.FirstName),
 						new Claim("UserId", user.UserId.ToString())
 					};
 					ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "login");

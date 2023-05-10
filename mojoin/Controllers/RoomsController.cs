@@ -59,23 +59,23 @@ namespace mojoin.Controllers
             }
             ViewBag.SDT = room.User.Phone;
             ViewBag.NgayThamGia = room.User.CreateDate;
-            ViewBag.UserFullName = room.User.Fullname;
+           /* ViewBag.UserFullName = room.User.Fullname;*/
             return View(room);
         }
         public ActionResult GetNameUser(int id)
         {
             var room = db.Rooms
                  .Where(r => r.RoomId == id)
-                 .Select(r => new { r.RoomId, UserFullName = r.User.Fullname })
-                 .FirstOrDefault();
+/*                 .Select(r => new { r.RoomId, UserFullName = r.User.Fullname })
+*/                 .FirstOrDefault();
 
             if (room == null)
             {
                 return NotFound();
             }
 
-            ViewBag.UserFullName = room.UserFullName;
-            return View(room);
+/*            ViewBag.UserFullName = room.UserFullName;
+*/            return View(room);
         }
     }
 }

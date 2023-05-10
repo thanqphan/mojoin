@@ -20,9 +20,18 @@
                                 <form asp-action="Register">
                                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                     <div class="form-group">
-                                        <label class="font-weight-semibold">Họ và Tên</label>
-                                        <input type="text" class="form-control" asp-for="FullName" placeholder="Họ và Tên">
-                                        <span asp-validation-for="FullName" class="text-danger"></span>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <label class="font-weight-semibold">Họ</label>
+                                                <input type="text" class="form-control" asp-for="LastName" placeholder="Họ">
+                                                <span asp-validation-for="LastName" class="text-danger"></span>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label class="font-weight-semibold">Tên</label>
+                                                <input type="text" class="form-control" asp-for="FirstName" placeholder="Tên">
+                                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Email</label>

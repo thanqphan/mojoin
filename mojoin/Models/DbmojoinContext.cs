@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using mojoin.ViewModel;
 
 namespace mojoin.Models;
 
@@ -169,13 +168,14 @@ public partial class DbmojoinContext : DbContext
             entity.Property(e => e.Email)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.Fullname).HasMaxLength(100);
+            entity.Property(e => e.FirstName).HasMaxLength(100);
             entity.Property(e => e.GoogleId)
                 .IsUnicode(false)
                 .HasColumnName("GoogleID");
             entity.Property(e => e.InfoFacebook).IsUnicode(false);
             entity.Property(e => e.InfoZalo).IsUnicode(false);
             entity.Property(e => e.IsActive).HasColumnName("isActive");
+            entity.Property(e => e.LastName).HasMaxLength(100);
             entity.Property(e => e.Password)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -197,8 +197,4 @@ public partial class DbmojoinContext : DbContext
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
-
-    public DbSet<mojoin.ViewModel.RegisterViewModel>? RegisterViewModel { get; set; }
-
-    public DbSet<mojoin.ViewModel.LoginViewModel>? LoginViewModel { get; set; }
 }
