@@ -29,7 +29,7 @@
                     <h1>@Model.Title</h1>
                 </div>
                 <div class="address"> @Model.Street, @Model.Ward, @Model.District, @Model.City</div>
-                <div class="price">6 triệu</div>
+                <div class="price">@String.Format("{0:#,##0}", Model.Price) VNĐ</div>
                 <!--Social and favorite-->
                 <!--Thong tin chinh-->
                 <h2 class="info-title">Thông tin chính</h2>

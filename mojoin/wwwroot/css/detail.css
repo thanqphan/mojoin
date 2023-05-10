@@ -453,3 +453,18 @@ svg:not(:root) {
     width: 100%;
 }
 /*end-info*/
+/*slide img*/
+
+.slider span {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0 auto;
+    background: rgba(34,34,34,.7);
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 16px;
+    z-index: 1;
+}
+/*end-slide img*/

@@ -3,20 +3,24 @@
 @{
     ViewData["Title"] = "GetRoomImages";
     <link href="~/css/detail.css" rel="stylesheet" />
-    
+    int count = 0;
+    int index = 0;
 }
     <div class="slider">
         <i class="fa fa-angle-left slider-prev" style="display: flex;"></i>       
-        <div class="slider-wrapper" style="display:block;">
+        <div class="slider-wrapper" style="position: relative;">
             <div class="slider-main">
                 @foreach (var item in Model)
                 {
+                count++;
                     <div class="slider-item">                        
                         <img src="@item.Image" alt="">
                     </div>
                 }
             </div>
+            
         </div>
+        <span class="countpage">@(index + 1)/@count</span>
         <i class="fa fa-angle-right slider-next" style="display: flex;"></i>
     </div>
     <script>
@@ -29,6 +33,8 @@
             const dotItems = this.document.querySelectorAll(".slider-dot-item");
             const sliderItemWidth = sliderItems[0].offsetWidth;
             const slidesLength = sliderItems.length;
+            const count = this.document.querySelector(".countpage");
+        //document.querySelector("span").innerText = `${index + 1}/${slidesLength}`;
             let postionX = 0;
             let index = 0;
             nextBtn.addEventListener("click", function () {
@@ -54,7 +60,8 @@
                     postionX = postionX - sliderItemWidth;
                     sliderMain.style = `transform: translateX(${postionX}px)`;
                     console.log(index);
-                    index++;
+                    index++;               
+                    count.innerHTML = `${index + 1}/${slidesLength}`;
                 } else if (direction == -1) {
                     if (index <= 0) {
                         index = 0;
@@ -64,9 +71,9 @@
                     sliderMain.style = `transform: translateX(${postionX}px)`;
                     console.log("prev slide");
                     index--;
+                    count.innerHTML = `${index + 1 }/${slidesLength}`;
                 }
-                [...dotItems].forEach(el => el.classList.remove("active"));
-                dotItems[index].classList.add("active");
+                
             }
         })
     </script>
