@@ -23,6 +23,8 @@ public partial class User
 
     public string? Password { get; set; }
 
+    public string? Salt { get; set; }
+
     public string? Avatar { get; set; }
 
     public bool? IsActive { get; set; }

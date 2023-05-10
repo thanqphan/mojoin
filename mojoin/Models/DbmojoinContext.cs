@@ -182,6 +182,7 @@ public partial class DbmojoinContext : DbContext
                 .HasMaxLength(20)
                 .IsUnicode(false);
             entity.Property(e => e.RolesId).HasColumnName("RolesID");
+            entity.Property(e => e.Salt).IsUnicode(false);
             entity.Property(e => e.Sex).HasMaxLength(10);
             entity.Property(e => e.SupportUserId).HasColumnName("support_UserID");
 
