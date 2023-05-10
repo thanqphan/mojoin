@@ -55,12 +55,29 @@ namespace mojoin.Controllers
 				return Json(data: true);
 			}
 		}
-		[HttpGet]
+
+        [Route("my-Account.html", Name = "Dashboard")]
+        public IActionResult Dashboard()
+        {
+            var taikhoanID = HttpContext.Session.GetString("UserId");
+            if (taikhoanID != null)
+            {
+                var khachhang = _context.Users.AsNoTracking().SingleOrDefault(x => x.UserId == Convert.ToInt32(taikhoanID));
+                if (khachhang != null)
+                {
+                    
+                    return View(khachhang);
+                }
+
+            }
+            return RedirectToAction("Login");
+        }
+
+        [HttpGet]
 		[AllowAnonymous]
 		[Route("register.html", Name = "DangKy")]
 		public IActionResult Register()
 		{
-            ViewBag.IsRegister = true;
             return View();
         }
 
@@ -78,7 +95,8 @@ namespace mojoin.Controllers
 					{
 						RolesId = 3,
 						Fullname = taikhoan.FullName,
-						Phone = taikhoan.Phone.Trim().ToLower(),
+                        Email = taikhoan.Email.Trim(),
+                        Phone = taikhoan.Phone.Trim().ToLower(),
 						Password = taikhoan.Password,
 						//*+ salt.Trim()).ToMD5()*//*,
 						IsActive = true,
@@ -102,8 +120,8 @@ namespace mojoin.Controllers
 						ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "login");
 						ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 						await HttpContext.SignInAsync(claimsPrincipal);
-						_notyfService.Success("Đăng ký thành công");
-						return RedirectToAction("Dashboard", "Account");
+						_notyfService.Success("Đăng ký thành công!");
+						return RedirectToAction("Index", "MyAccount");
 					}
 					catch
 					{
@@ -121,30 +139,30 @@ namespace mojoin.Controllers
 			}
 		}
 		[AllowAnonymous]
-		[Route("dang-nhap.html", Name = "DangNhap")]
+		[Route("login.html", Name = "DangNhap")]
 		public IActionResult Login(string returnUrl = null)
 		{
 			var taikhoanID = HttpContext.Session.GetString("UserId");
 			if (taikhoanID != null)
 			{
-				return RedirectToAction("Dashboard", "Account");
+				return RedirectToAction("Index", "MyAccount");
 			}
-            ViewBag.IsRegister = false;
             return View();
 		}
 		[HttpPost]
 		[AllowAnonymous]
-		[Route("dang-nhap.html", Name = "DangNhap")]
-		public async Task<IActionResult> Login(LoginViewModel taikhoan, string returnUrl)
+		[Route("login.html", Name = "DangNhap")]
+		public async Task<IActionResult> Login(LoginViewModel taikhoan/*, string returnUrl*/)
 		{
 			try
 			{
 				if (ModelState.IsValid)
 				{
 					bool isEmail = Utilities.IsValidEmail(taikhoan.UserName);
-					if (!isEmail) return View(taikhoan);
-
-					var user = _context.Users.AsNoTracking().SingleOrDefault(x => x.Email.Trim() == taikhoan.UserName);
+/*                    bool isPhone = Utilities.IsInteger(taikhoan.UserName);
+*/                    if (!isEmail) return View(taikhoan);
+                    /*if (!isPhone) return View(taikhoan);*/
+                    var user = _context.Users.AsNoTracking().SingleOrDefault(x => x.Email.Trim() == taikhoan.UserName /*|| x.Phone.Trim()==taikhoan.UserName*/);
 
 					if (user == null) return RedirectToAction("Register");
 					string pass = user.Password /*+ khachhang.Salt.Trim()).ToMD5()*/;
@@ -174,21 +192,27 @@ namespace mojoin.Controllers
 					ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 					await HttpContext.SignInAsync(claimsPrincipal);
 					_notyfService.Success("Đăng nhập thành công");
-					if (string.IsNullOrEmpty(returnUrl))
+
+                    return RedirectToAction("Index", "MyAccount");
+
+                    /*if (string.IsNullOrEmpty(returnUrl))
 					{
-						return RedirectToAction("Dashboard", "Account");
+						return RedirectToAction("Index", "MyAccount");
 					}
 					else
 					{
 						return Redirect(returnUrl);
-					}
-				}
-			}
+					}*/
+                }
+            }
 			catch
 			{
-				return RedirectToAction("Register", "Account");
+                _notyfService.Error("Đăng nhập không thành công!");
+
+                return RedirectToAction("Register", "Account");
 			}
-			return View(taikhoan);
+            _notyfService.Error("Đăng nhập không thành công!");
+            return View(taikhoan);
 		}
 		[HttpGet]
 		[Route("dang-xuat.html", Name = "DangXuat")]

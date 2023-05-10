@@ -19,7 +19,13 @@ namespace mojoin.ViewModel
 		[Remote(action: "ValidatePhone", controller: "Login")]
 		public string Phone { get; set; }
 
-		[Display(Name = "Mật khẩu")]
+        [MaxLength(150)]
+        [Required(ErrorMessage = "Vui lòng nhập Email")]
+        [DataType(DataType.EmailAddress)]
+        [Remote(action: "ValidateEmail", controller: "Accounts")]
+        public string Email { get; set; }
+
+        [Display(Name = "Mật khẩu")]
 		[Required(ErrorMessage = "Vui lòng nhập mật khẩu")]
 		[MinLength(5, ErrorMessage = "Bạn cần đặt mật khẩu tối thiểu 5 ký tự")]
 		public string Password { get; set; }
