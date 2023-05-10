@@ -11,228 +11,251 @@ using System.Security.Claims;
 
 namespace mojoin.Controllers
 {
+	[Authorize]
 	public class AccountController : Controller
 	{
-		[Authorize]
-		public class AccountsController : Controller
+		private readonly DbmojoinContext _context;
+		public INotyfService _notyfService { get; }
+		public AccountController(DbmojoinContext context, INotyfService notyfService)
 		{
-			/*private readonly DbmojoinContext _context;
-			public INotyfService _notyfService { get; }
-			public AccountsController(DbmojoinContext context, INotyfService notyfService)
+			_context = context;
+			_notyfService = notyfService;
+		}
+		[HttpGet]
+		[AllowAnonymous]
+		public IActionResult ValidatePhone(string Phone)
+		{
+			try
 			{
-				_context = context;
-				_notyfService = notyfService;
-			}
-			[HttpGet]
-			[AllowAnonymous]
-			public IActionResult ValidatePhone(string Phone)
-			{
-				try
-				{
-					var khachhang = _context.Users.AsNoTracking().SingleOrDefault(x => x.Phone.ToLower() == Phone.ToLower());
-					if (khachhang != null)
-						return Json(data: "Số điện thoại : " + Phone + "đã được sử dụng");
+				var khachhang = _context.Users.AsNoTracking().SingleOrDefault(x => x.Phone.ToLower() == Phone.ToLower());
+				if (khachhang != null)
+					return Json(data: "Số điện thoại : " + Phone + "đã được sử dụng");
 
-					return Json(data: true);
+				return Json(data: true);
 
-				}
-				catch
-				{
-					return Json(data: true);
-				}
 			}
-			[HttpGet]
-			[AllowAnonymous]
-			public IActionResult ValidateEmail(string Email)
+			catch
 			{
-				try
-				{
-					var khachhang = _context.Users.AsNoTracking().SingleOrDefault(x => x.Email.ToLower() == Email.ToLower());
-					if (khachhang != null)
-						return Json(data: "Email : " + Email + " đã được sử dụng");
-					return Json(data: true);
-				}
-				catch
-				{
-					return Json(data: true);
-				}
+				return Json(data: true);
 			}
-			[HttpGet]
-			[AllowAnonymous]
-			[Route("dang-ky.html", Name = "DangKy")]
-			public IActionResult DangkyTaiKhoan()
+		}
+		[HttpGet]
+		[AllowAnonymous]
+		public IActionResult ValidateEmail(string Email)
+		{
+			try
 			{
-				return View();
+				var khachhang = _context.Users.AsNoTracking().SingleOrDefault(x => x.Email.ToLower() == Email.ToLower());
+				if (khachhang != null)
+					return Json(data: "Email : " + Email + " đã được sử dụng");
+				return Json(data: true);
 			}
+			catch
+			{
+				return Json(data: true);
+			}
+		}
 
-			[HttpPost]
-			[AllowAnonymous]
-			[Route("dang-ky.html", Name = "DangKy")]
-			public async Task<IActionResult> DangkyTaiKhoan(RegisterViewModel taikhoan)
+        [Route("my-Account.html", Name = "Dashboard")]
+        public IActionResult Dashboard()
+        {
+            var taikhoanID = HttpContext.Session.GetString("UserId");
+            if (taikhoanID != null)
+            {
+                var khachhang = _context.Users.AsNoTracking().SingleOrDefault(x => x.UserId == Convert.ToInt32(taikhoanID));
+                if (khachhang != null)
+                {
+                    
+                    return View(khachhang);
+                }
+
+            }
+            return RedirectToAction("Login");
+        }
+
+        [HttpGet]
+		[AllowAnonymous]
+		[Route("register.html", Name = "DangKy")]
+		public IActionResult Register()
+		{
+            return View();
+        }
+
+		[HttpPost]
+		[AllowAnonymous]
+		[Route("register.html", Name = "DangKy")]
+		public async Task<IActionResult> Register(RegisterViewModel taikhoan)
+		{
+			try
 			{
-				try
+				if (ModelState.IsValid)
 				{
-					if (ModelState.IsValid)
+					//*						string salt = Utilities.GetRandomKey();
+					User user = new User
 					{
-*//*						string salt = Utilities.GetRandomKey();
-*//*						User user = new User
-						{
-							RolesId = 3,
-							Fullname = taikhoan.FullName,
-							Phone = taikhoan.Phone.Trim().ToLower(),
-							Password = taikhoan.Password *//*+ salt.Trim()).ToMD5()*//*,
-							IsActive = true,
-*//*							Salt = salt,
-*//*							CreateDate = DateTime.Now
-						};
-						try
-						{
-							_context.Add(user);
-							await _context.SaveChangesAsync();
-							//Lưu Session User
-							HttpContext.Session.SetString("UserId", user.UserId.ToString());
-							var taikhoanID = HttpContext.Session.GetString("UserId");
-
-							//Identity
-							var claims = new List<Claim>
-						{
-							new Claim(ClaimTypes.Name,khachhang.FullName),
-							new Claim("CustomerId", khachhang.CustomerId.ToString())
-						};
-							ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "login");
-							ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-							await HttpContext.SignInAsync(claimsPrincipal);
-							_notyfService.Success("Đăng ký thành công");
-							return RedirectToAction("Dashboard", "Accounts");
-						}
-						catch
-						{
-							return RedirectToAction("DangkyTaiKhoan", "Accounts");
-						}
-					}
-					else
+						RolesId = 3,
+                        LastName=taikhoan.LastName.Trim(),
+						FirstName=taikhoan.FirstName.Trim(),
+                        Email = taikhoan.Email.Trim(),
+                        Phone = taikhoan.Phone.Trim().ToLower(),
+						Password = taikhoan.Password,
+						//*+ salt.Trim()).ToMD5()*//*,
+						IsActive = true,
+						//*Salt = salt,
+						CreateDate = DateTime.Now
+					};
+					try
 					{
-						return View(taikhoan);
+						_context.Add(user);
+						await _context.SaveChangesAsync();
+						//Lưu Session User
+						HttpContext.Session.SetString("UserId", user.UserId.ToString());
+						var taikhoanID = HttpContext.Session.GetString("UserId");
+
+						//Identity
+						var claims = new List<Claim>
+						{
+							new Claim(ClaimTypes.Name,user.FirstName),
+							new Claim("UserId", user.UserId.ToString())
+						};
+						ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "login");
+						ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+						await HttpContext.SignInAsync(claimsPrincipal);
+						_notyfService.Success("Đăng ký thành công!");
+						return RedirectToAction("Index", "MyAccount");
+					}
+					catch
+					{
+						return RedirectToAction("Register", "Account");
 					}
 				}
-				catch
+				else
 				{
 					return View(taikhoan);
 				}
 			}
-			[AllowAnonymous]
-			[Route("dang-nhap.html", Name = "DangNhap")]
-			public IActionResult Login(string returnUrl = null)
+			catch
+			{
+				return View(taikhoan);
+			}
+		}
+		[AllowAnonymous]
+		[Route("login.html", Name = "DangNhap")]
+		public IActionResult Login(string returnUrl = null)
+		{
+			var taikhoanID = HttpContext.Session.GetString("UserId");
+			if (taikhoanID != null)
+			{
+				return RedirectToAction("Index", "MyAccount");
+			}
+            return View();
+		}
+		[HttpPost]
+		[AllowAnonymous]
+		[Route("login.html", Name = "DangNhap")]
+		public async Task<IActionResult> Login(LoginViewModel taikhoan/*, string returnUrl*/)
+		{
+			try
+			{
+				if (ModelState.IsValid)
+				{
+					bool isPhone = Utilities.IsInteger(taikhoan.UserName);
+/*                    bool isPhone = Utilities.IsInteger(taikhoan.UserName);
+*/                    if (!isPhone) return View(taikhoan);
+                    /*if (!isPhone) return View(taikhoan);*/
+                    var user = _context.Users.AsNoTracking().SingleOrDefault(x => x.Phone.Trim() == taikhoan.UserName /*|| x.Phone.Trim()==taikhoan.UserName*/);
+
+					if (user == null) return RedirectToAction("Register");
+					string pass = user.Password /*+ khachhang.Salt.Trim()).ToMD5()*/;
+					if (user.Password != pass)
+					{
+						_notyfService.Error("Thông tin đăng nhập chưa chính xác");
+						return View(user);
+					}
+					//kiem tra xem account co bi disable hay khong
+
+					if (user.IsActive == false)
+					{
+						return RedirectToAction("ThongBao", "Account");
+					}
+
+					//Luu Session MaKh
+					HttpContext.Session.SetString("UserId", user.UserId.ToString());
+					var taikhoanID = HttpContext.Session.GetString("UserId");
+
+					//Identity
+					var claims = new List<Claim>
+					{
+						new Claim(ClaimTypes.Name, user.FirstName),
+						new Claim("UserId", user.UserId.ToString())
+					};
+					ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "login");
+					ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+					await HttpContext.SignInAsync(claimsPrincipal);
+					_notyfService.Success("Đăng nhập thành công");
+
+                    return RedirectToAction("Index", "MyAccount");
+
+                    /*if (string.IsNullOrEmpty(returnUrl))
+					{
+						return RedirectToAction("Index", "MyAccount");
+					}
+					else
+					{
+						return Redirect(returnUrl);
+					}*/
+                }
+            }
+			catch
+			{
+                _notyfService.Error("Đăng nhập không thành công!");
+
+                return RedirectToAction("Register", "Account");
+			}
+            _notyfService.Error("Đăng nhập không thành công!");
+            return View(taikhoan);
+		}
+		[HttpGet]
+		[Route("dang-xuat.html", Name = "DangXuat")]
+		public IActionResult Logout()
+		{
+			HttpContext.SignOutAsync();
+			HttpContext.Session.Remove("UserId");
+			return RedirectToAction("Index", "Home");
+		}
+
+		/*[HttpPost]
+		public IActionResult ChangePassword(ChangePasswordViewModel model)
+		{
+			try
 			{
 				var taikhoanID = HttpContext.Session.GetString("CustomerId");
-				if (taikhoanID != null)
+				if (taikhoanID == null)
 				{
-					return RedirectToAction("Dashboard", "Accounts");
+					return RedirectToAction("Login", "Account");
 				}
-				return View();
-			}
-			[HttpPost]
-			[AllowAnonymous]
-			[Route("dang-nhap.html", Name = "DangNhap")]
-			public async Task<IActionResult> Login(LoginViewModel customer, string returnUrl)
-			{
-				try
+				if (ModelState.IsValid)
 				{
-					if (ModelState.IsValid)
+					var taikhoan = _context.Customers.Find(Convert.ToInt32(taikhoanID));
+					if (taikhoan == null) return RedirectToAction("Login", "Account");
+					var pass = (model.PasswordNow.Trim() + taikhoan.Salt.Trim()).ToMD5();
 					{
-						bool isEmail = Utilities.IsValidEmail(customer.UserName);
-						if (!isEmail) return View(customer);
-
-						var khachhang = _context.Customers.AsNoTracking().SingleOrDefault(x => x.Email.Trim() == customer.UserName);
-
-						if (khachhang == null) return RedirectToAction("DangkyTaiKhoan");
-						string pass = (customer.Password + khachhang.Salt.Trim()).ToMD5();
-						if (khachhang.Password != pass)
-						{
-							_notyfService.Success("Thông tin đăng nhập chưa chính xác");
-							return View(customer);
-						}
-						//kiem tra xem account co bi disable hay khong
-
-						if (khachhang.Active == false)
-						{
-							return RedirectToAction("ThongBao", "Accounts");
-						}
-
-						//Luu Session MaKh
-						HttpContext.Session.SetString("CustomerId", khachhang.CustomerId.ToString());
-						var taikhoanID = HttpContext.Session.GetString("CustomerId");
-
-						//Identity
-						var claims = new List<Claim>
-					{
-						new Claim(ClaimTypes.Name, khachhang.FullName),
-						new Claim("CustomerId", khachhang.CustomerId.ToString())
-					};
-						ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "login");
-						ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-						await HttpContext.SignInAsync(claimsPrincipal);
-						_notyfService.Success("Đăng nhập thành công");
-						if (string.IsNullOrEmpty(returnUrl))
-						{
-							return RedirectToAction("Dashboard", "Accounts");
-						}
-						else
-						{
-							return Redirect(returnUrl);
-						}
+						string passnew = (model.Password.Trim() + taikhoan.Salt.Trim()).ToMD5();
+						taikhoan.Password = passnew;
+						_context.Update(taikhoan);
+						_context.SaveChanges();
+						_notyfService.Success("Đổi mật khẩu thành công");
+						return RedirectToAction("Dashboard", "Account");
 					}
 				}
-				catch
-				{
-					return RedirectToAction("DangkyTaiKhoan", "Accounts");
-				}
-				return View(customer);
 			}
-			[HttpGet]
-			[Route("dang-xuat.html", Name = "DangXuat")]
-			public IActionResult Logout()
+			catch
 			{
-				HttpContext.SignOutAsync();
-				HttpContext.Session.Remove("CustomerId");
-				return RedirectToAction("Index", "Home");
-			}
-
-			[HttpPost]
-			public IActionResult ChangePassword(ChangePasswordViewModel model)
-			{
-				try
-				{
-					var taikhoanID = HttpContext.Session.GetString("CustomerId");
-					if (taikhoanID == null)
-					{
-						return RedirectToAction("Login", "Accounts");
-					}
-					if (ModelState.IsValid)
-					{
-						var taikhoan = _context.Customers.Find(Convert.ToInt32(taikhoanID));
-						if (taikhoan == null) return RedirectToAction("Login", "Accounts");
-						var pass = (model.PasswordNow.Trim() + taikhoan.Salt.Trim()).ToMD5();
-						{
-							string passnew = (model.Password.Trim() + taikhoan.Salt.Trim()).ToMD5();
-							taikhoan.Password = passnew;
-							_context.Update(taikhoan);
-							_context.SaveChanges();
-							_notyfService.Success("Đổi mật khẩu thành công");
-							return RedirectToAction("Dashboard", "Accounts");
-						}
-					}
-				}
-				catch
-				{
-					_notyfService.Success("Thay đổi mật khẩu không thành công");
-					return RedirectToAction("Dashboard", "Accounts");
-				}
 				_notyfService.Success("Thay đổi mật khẩu không thành công");
-				return RedirectToAction("Dashboard", "Accounts");
+				return RedirectToAction("Dashboard", "Account");
 			}
-		}
-	}*/
-		}
+			_notyfService.Success("Thay đổi mật khẩu không thành công");
+			return RedirectToAction("Dashboard", "Account");
+		}*/
 	}
 }
