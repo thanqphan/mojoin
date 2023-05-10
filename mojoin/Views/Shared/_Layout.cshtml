@@ -28,8 +28,8 @@
                 <a class="hidden-xs ng-scope" ng-if="!Profile.isAuth()" id="menu-signin" href="/dang-nhap" gtm-event="link" gtm-cat="menu" gtm-act="user-signin">Đăng nhập</a>
             </div>           
 
-            <div id="toggle" class="navbar-user" onclick="userclick()">
-                <!-- ngIf: Profile.isAuth() --><div ng-if="Profile.isAuth()" class="navbar-user-profile ng-scope">
+            <div  class="navbar-user" >
+                <!-- ngIf: Profile.isAuth() --><div id="toggle" onclick="userclick()" ng-if="Profile.isAuth()" class="navbar-user-profile ng-scope">
                     <a href=""  class="usericon" data-toggle="dropdown" role="button" aria-expanded="false" gtm-event="all" gtm-cat="menu" gtm-act="user-menu">
                         <span  class="avatar ng-binding" ng-bind-html="Profile.getAvatar()"><i class="fa fa-user-circle"></i></span>
                         <!-- ngIf: Profile.Message.HasValue -->
