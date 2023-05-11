@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims;
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -25,16 +26,23 @@
                 <a class="" href="/hoi-dap" gtm-event="link" gtm-cat="menu" gtm-act="top-menu">Hỏi đáp</a>
                 @*<a class="" href="/tim-moi-gioi" gtm-event="link" gtm-cat="menu" gtm-act="top-menu">Môi giới</a>
                 <a class="" href="/du-an" gtm-event="link" gtm-cat="menu" gtm-act="top-menu">Dự án</a>*@
-               
+
                 @if (User.Identity.IsAuthenticated)
                 {
+                    // Lấy đối tượng ClaimsIdentity của người dùng
+                    var identity = (ClaimsIdentity)User.Identity;
+
+                    // Lấy giá trị của các đối tượng Claim
+                    string firstName = identity.FindFirst("FirstName")?.Value;
+                    string lastName = identity.FindFirst("LastName")?.Value;
+                    string userId = identity.FindFirst("UserId")?.Value;
                     <div id="toggle" class="navbar-user" onclick="userclick()">
                         <!-- ngIf: Profile.isAuth() --><div ng-if="Profile.isAuth()" class="navbar-user-profile ng-scope">
                             <a href="" class="usericon" data-toggle="dropdown" role="button" aria-expanded="false" gtm-event="all" gtm-cat="menu" gtm-act="user-menu">
                                 <span class="avatar ng-binding" ng-bind-html="Profile.getAvatar()"><i class="fa fa-user-circle"></i></span>
                                 <!-- ngIf: Profile.Message.HasValue -->
                                 <div class="last-name">
-                                    <div ng-bind="Profile.Data.LastName" class="ng-binding">vu</div>
+                                    <div ng-bind="Profile.Data.LastName" class="ng-binding">@firstName</div>
                                 </div>
                             </a>
                             <div id="toggleUser" class="personel-menu" style="display:none;">
@@ -44,7 +52,7 @@
                                         <div class="info">
                                             <div class="name">
                                                 <div class="info-name">
-                                                    <div ng-bind="Profile.Data.LastName + ' ' +Profile.Data.FirstName" class="ng-binding">vu thi</div>
+                                                    <div ng-bind="Profile.Data.LastName + ' ' +Profile.Data.FirstName" class="ng-binding">@lastName @firstName </div>
                                                 </div>
                                                 <!-- ngIf: !Profile.isNormal() --><span ng-if="!Profile.isNormal()" class="info-check-icon ng-scope">
                                                     <svg width="18" height="18"><use xlink:href="/content/mogi.svg#check-circle-o"></use></svg>
@@ -57,10 +65,7 @@
                                     </div>
                                     <!-- ngIf: !Profile.isNormal() && Profile.Data.SupportStaff !== null -->
                                 </div>
-
-
-
-                                <div ng-class="Profile.isNormal() === true || (Profile.isNormal() === false &amp;&amp; Profile.Data.SupportStaff === null) ? ['main-menu border-top'] : ['main-menu']" class="main-menu border-top">
+                                <div class="main-menu border-top">
                                     <div>
                                         <a href="" rel="nofollow" gtm-event="link" gtm-cat="menu" gtm-act="user-menu-managed-post">
                                             <span class="main-menu-icon"><svg width="24" height="24"><use xlink:href="/content/mogi.svg#house-square"></use></svg></span>
@@ -92,6 +97,12 @@
                                             <span>Tìm kiếm đã lưu</span>
                                         </a>
                                     </div>
+                                    <div>
+                                        <a href="/logout.html" rel="nofollow">
+                                            <span class="main-menu-icon"><svg width="24" height="24"></svg></span>
+                                            <span>Đăng xuất</span>
+                                        </a>
+                                    </div>
                                 </div>
                                 <div class="action-menu border-top">
                                     <div>
@@ -117,7 +128,7 @@
                 }
             </div>
 
-            
+
             <div class="navbar-hamburger">
                 <i class="fa fa-bars" ng-click="openSlideMenu()"></i>
 
@@ -230,6 +241,12 @@
                                 <a href="/trang-ca-nhan/tim-kiem-da-luu" rel="nofollow" gtm-event="link" gtm-cat="menu" gtm-act="user-menu-saved-search">
                                     <span class="main-menu-icon"><svg width="24" height="24"><use xlink:href="/content/mogi.svg#bookmark"></use></svg></span>
                                     <span>Tìm kiếm đã lưu</span>
+                                </a>
+                            </div>
+                            <div>
+                                <a asp-controller="Account" asp-action="Logout">
+                                    <span class="main-menu-icon"><svg width="24" height="24"></svg></span>
+                                    <span>Đăng xuất</span>
                                 </a>
                             </div>
                         </div>
@@ -390,11 +407,11 @@
 
 </body>
 </html>
-@*<script>
+<script>
     document.getElementById("toggle").addEventListener("click", function (event) {
         event.preventDefault()
     });
-    function userclick() {
+    @*function userclick() {
         const tg = document.getElementById("toggleUser");
         const style = getComputedStyle(tg);
 
@@ -405,5 +422,5 @@
                 tg.style.display = "none";
             }
         });
-    }
-</script>*@
+    }*@
+</script>
