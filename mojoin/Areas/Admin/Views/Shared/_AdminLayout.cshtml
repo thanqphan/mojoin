@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims;
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -114,6 +115,15 @@
                             </div>
                         </li>
                         <li class="dropdown dropdown-animated scale-left">
+                            @{
+                                var identity = (ClaimsIdentity)User.Identity;
+
+                                // Lấy giá trị của các đối tượng Claim
+                                string firstName = identity.FindFirst("FirstName")?.Value;
+                                string lastName = identity.FindFirst("LastName")?.Value;
+                                string userId = identity.FindFirst("UserId")?.Value;
+                                string roleAcc = identity.FindFirst("RoleAcc")?.Value;
+                            }
                             <div class="pointer" data-toggle="dropdown">
                                 <div class="avatar avatar-image  m-h-10 m-r-15">
                                     <img src="~/admin_assets/images/avatars/thumb-3.jpg" alt="">
@@ -126,8 +136,21 @@
                                             <img src="~/admin_assets/images/avatars/thumb-3.jpg" alt="">
                                         </div>
                                         <div class="m-l-10">
-                                            <p class="m-b-0 text-dark font-weight-semibold">Marshall Nichols</p>
-                                            <p class="m-b-0 opacity-07">UI/UX Desinger</p>
+                                            <p class="m-b-0 text-dark font-weight-semibold">@lastName @firstName </p>
+
+                                            @if (roleAcc == "1")
+                                            {
+                                                <p class="m-b-0 opacity-07">
+                                                    I'm the Administrator.
+                                                </p>
+                                            }
+                                            else
+                                            {
+                                                <p class="m-b-0 opacity-07">
+                                                    I'm the Staff.
+                                                </p>
+                                            }
+
                                         </div>
                                     </div>
                                 </div>
@@ -207,10 +230,10 @@
 
 
     <!-- page js -->
-    
+
     <a href="~/admin_assets/vendors/jquery/dist/jquery.min.map">~/admin_assets/vendors/jquery/dist/jquery.min.map</a>
     <a href="~/admin_assets/vendors/jquery/dist/jquery.slim.min.map">~/admin_assets/vendors/jquery/dist/jquery.slim.min.map</a>
-    
+
     <script src="~/admin_assets/vendors/jquery/dist/jquery.min.js"></script>
     <script src="~/admin_assets/vendors/jquery/dist/jquery.slim.min.js"></script>
     <script src="~/admin_assets/vendors/jquery/dist/jquery.slim.js"></script>
@@ -222,7 +245,7 @@
     <!-- Core Vendors JS -->
     <script src="~/admin_assets/js/vendors.min.js"></script>
     <!-- Core JS -->
-    <script src="~/admin_assets/js/app.min.js"></script>    
+    <script src="~/admin_assets/js/app.min.js"></script>
     @RenderSection("footer", required: false)
 
     @await Component.InvokeAsync("Notyf")
