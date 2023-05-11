@@ -6,9 +6,9 @@ namespace mojoin.ViewModel
 	{
 		[Key]
 		[MaxLength(100)]
-		[Required(ErrorMessage = ("Vui lòng nhập Email hoặc SĐT"))]
+		[Required(ErrorMessage = ("Vui lòng nhập SĐT"))]
 		[Display(Name = "Email or SDT")]
-		[EmailAddress(ErrorMessage = "Sai định dạng Email")]
+		[Phone(ErrorMessage = "Sai định dạng")]
 		public string UserName { get; set; }
 
 		[Display(Name = "Mật khẩu")]
