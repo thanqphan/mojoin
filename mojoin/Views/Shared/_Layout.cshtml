@@ -26,7 +26,7 @@
                 <a class="" href="/hoi-dap" gtm-event="link" gtm-cat="menu" gtm-act="top-menu">Hỏi đáp</a>
                 @*<a class="" href="/tim-moi-gioi" gtm-event="link" gtm-cat="menu" gtm-act="top-menu">Môi giới</a>
                 <a class="" href="/du-an" gtm-event="link" gtm-cat="menu" gtm-act="top-menu">Dự án</a>*@
-               
+
                 @if (User.Identity.IsAuthenticated)
                 {
                     // Lấy đối tượng ClaimsIdentity của người dùng
@@ -98,7 +98,7 @@
                                         </a>
                                     </div>
                                     <div>
-                                        <a asp-controller="Account" asp-action="Logout">
+                                        <a href="/logout.html" rel="nofollow">
                                             <span class="main-menu-icon"><svg width="24" height="24"></svg></span>
                                             <span>Đăng xuất</span>
                                         </a>
@@ -128,7 +128,7 @@
                 }
             </div>
 
-            
+
             <div class="navbar-hamburger">
                 <i class="fa fa-bars" ng-click="openSlideMenu()"></i>
 
@@ -407,11 +407,11 @@
 
 </body>
 </html>
-@*<script>
+<script>
     document.getElementById("toggle").addEventListener("click", function (event) {
         event.preventDefault()
     });
-    function userclick() {
+    @*function userclick() {
         const tg = document.getElementById("toggleUser");
         const style = getComputedStyle(tg);
 
@@ -422,5 +422,5 @@
                 tg.style.display = "none";
             }
         });
-    }
-</script>*@
+    }*@
+</script>
