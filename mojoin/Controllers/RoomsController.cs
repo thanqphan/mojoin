@@ -59,7 +59,8 @@ namespace mojoin.Controllers
             }
             ViewBag.SDT = room.User.Phone;
             ViewBag.NgayThamGia = room.User.CreateDate;
-           /* ViewBag.UserFullName = room.User.Fullname;*/
+            ViewBag.Ho = room.User.LastName;
+            ViewBag.Ten = room.User.FirstName;
             return View(room);
         }
         public ActionResult GetNameUser(int id)
@@ -89,7 +90,8 @@ namespace mojoin.Controllers
             }
             ViewBag.SDT = room.User.Phone;
             ViewBag.NgayThamGia = room.User.CreateDate;
-            ViewBag.UserFullName = room.User.Fullname;
+            ViewBag.Ho = room.User.LastName;
+            ViewBag.Ten = room.User.FirstName;
             return View(room);
         }
     }

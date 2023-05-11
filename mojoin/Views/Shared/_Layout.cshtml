@@ -12,7 +12,7 @@
 	<script src="~/js/site.js" defer></script>
 	
 </head>
-<body ng-app="mojoinApp" class="ng-cloak1 ng-scope">
+<body ng-app="mojoinApp">
     <div class="mogi-navbar">
         <div class="mogi-navbar-container">
             <div class="mogi-navbar-logo">
@@ -36,34 +36,29 @@
                     string firstName = identity.FindFirst("FirstName")?.Value;
                     string lastName = identity.FindFirst("LastName")?.Value;
                     string userId = identity.FindFirst("UserId")?.Value;
-                    <div id="toggle" class="navbar-user" onclick="userclick()">
-                        <!-- ngIf: Profile.isAuth() --><div ng-if="Profile.isAuth()" class="navbar-user-profile ng-scope">
-                            <a href="" class="usericon" data-toggle="dropdown" role="button" aria-expanded="false" gtm-event="all" gtm-cat="menu" gtm-act="user-menu">
-                                <span class="avatar ng-binding" ng-bind-html="Profile.getAvatar()"><i class="fa fa-user-circle"></i></span>
-                                <!-- ngIf: Profile.Message.HasValue -->
+                    <div  class="navbar-user" >
+                        <div style="display:block;" class="navbar-user-profile">
+                            <a href="" class="usericon">
+                                <span class="avatar ng-binding"><i class="fa fa-user-circle"></i></span>
                                 <div class="last-name">
-                                    <div ng-bind="Profile.Data.LastName" class="ng-binding">@firstName</div>
+                                    <div class="ng-binding">@firstName</div>
                                 </div>
                             </a>
-                            <div id="toggleUser" class="personel-menu" style="display:none;">
+                            <div id="toggleUser" class="personel-menu" style="display:block;">
                                 <div>
                                     <div class="personel">
-                                        <div class="personal-avatar ng-binding" ng-bind-html="Profile.getAvatar()"><i class="fa fa-user-circle"></i></div>
+                                        <div class="personal-avatar ng-binding" ><i class="fa fa-user-circle"></i></div>
                                         <div class="info">
                                             <div class="name">
                                                 <div class="info-name">
-                                                    <div ng-bind="Profile.Data.LastName + ' ' +Profile.Data.FirstName" class="ng-binding">@lastName @firstName </div>
+                                                    <div class="ng-binding">@lastName @firstName </div>
                                                 </div>
-                                                <!-- ngIf: !Profile.isNormal() --><span ng-if="!Profile.isNormal()" class="info-check-icon ng-scope">
-                                                    <svg width="18" height="18"><use xlink:href="/content/mogi.svg#check-circle-o"></use></svg>
-                                                </span><!-- end ngIf: !Profile.isNormal() -->
+                                               <span class="info-check-icon ">
+                                                    <svg width="18" height="18"><use></use></svg>
+                                                </span>
                                             </div>
-                                            @*                                    <!-- ngIf: !Profile.isNormal() --><div ng-if="!Profile.isNormal()" class="user-type ng-scope">
-                                        <a href="/trang-ca-nhan/mogipro" ng-bind-html="Profile.getUserTypeLabel()" class="ng-binding">Thành viên Tiết kiệm</a>
-                                        </div><!-- end ngIf: !Profile.isNormal() -->*@
                                         </div>
-                                    </div>
-                                    <!-- ngIf: !Profile.isNormal() && Profile.Data.SupportStaff !== null -->
+                                    </div>                  
                                 </div>
                                 <div class="main-menu border-top">
                                     <div>
@@ -98,7 +93,7 @@
                                         </a>
                                     </div>
                                     <div>
-                                        <a href="/logout.html" rel="nofollow">
+                                        <a href="/logout.html">
                                             <span class="main-menu-icon"><svg width="24" height="24"></svg></span>
                                             <span>Đăng xuất</span>
                                         </a>
