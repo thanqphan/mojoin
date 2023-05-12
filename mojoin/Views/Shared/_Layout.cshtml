@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/mojoin.styles.css" asp-append-version="true" />
-	<link rel="shortcut icon" href="~/Admin_assets/images/logo/favicon.png">
-	<script src="~/js/site.js" defer></script>
-	
+    <link rel="shortcut icon" href="~/Admin_assets/images/logo/favicon.png">
+    <script src="~/js/site.js" defer></script>
+
 </head>
 <body ng-app="mojoinApp">
     <div class="mogi-navbar">
@@ -36,29 +36,29 @@
                     string firstName = identity.FindFirst("FirstName")?.Value;
                     string lastName = identity.FindFirst("LastName")?.Value;
                     string userId = identity.FindFirst("UserId")?.Value;
-                    <div  class="navbar-user" >
+                    <div class="navbar-user">
                         <div style="display:block;" class="navbar-user-profile">
-                            <a href="" class="usericon">
+                            <a href="javascript:void(0)" class="usericon" onclick="toggleUserMenu()">
                                 <span class="avatar ng-binding"><i class="fa fa-user-circle"></i></span>
                                 <div class="last-name">
                                     <div class="ng-binding">@firstName</div>
                                 </div>
                             </a>
-                            <div id="toggleUser" class="personel-menu" style="display:block;">
+                            <div id="toggleUser" class="personel-menu" style="display:none;">
                                 <div>
                                     <div class="personel">
-                                        <div class="personal-avatar ng-binding" ><i class="fa fa-user-circle"></i></div>
+                                        <div class="personal-avatar ng-binding"><i class="fa fa-user-circle"></i></div>
                                         <div class="info">
                                             <div class="name">
                                                 <div class="info-name">
                                                     <div class="ng-binding">@lastName @firstName </div>
                                                 </div>
-                                               <span class="info-check-icon ">
+                                                <span class="info-check-icon ">
                                                     <svg width="18" height="18"><use></use></svg>
                                                 </span>
                                             </div>
                                         </div>
-                                    </div>                  
+                                    </div>
                                 </div>
                                 <div class="main-menu border-top">
                                     <div>
@@ -403,19 +403,12 @@
 </body>
 </html>
 <script>
-    document.getElementById("toggle").addEventListener("click", function (event) {
-        event.preventDefault()
-    });
-    @*function userclick() {
+    function toggleUserMenu() {
         const tg = document.getElementById("toggleUser");
-        const style = getComputedStyle(tg);
-
-        tg.addEventListener('click', () => {
-            if (style.display === "none") {
-                tg.style.display = "block";
-            } else {
-                tg.style.display = "none";
-            }
-        });
-    }*@
+        if (tg.style.display === "none") {
+            tg.style.display = "block";
+        } else {
+            tg.style.display = "none";
+        }
+    }
 </script>
