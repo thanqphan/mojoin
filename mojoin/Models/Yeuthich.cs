@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Drawing;
+using System.Runtime.CompilerServices;
 
 namespace mojoin.Models
 {
@@ -24,7 +26,21 @@ namespace mojoin.Models
         [Display(Name = "Ngày đăng")]
         public DateTime? CreateDate { get; set; }
 
-        public double? Price { get; set; }
-        
+        public Yeuthich(int id)
+        {
+            RoomID = id;
+            Room room = db.Rooms.Single(n => (n.RoomId == RoomID));
+            Title = room.Title;
+            StreetNumber = room.StreetNumber;
+            Street = room.Street;
+            Ward = room.Ward;
+            District = room.District;
+            City = room.City;
+            NumRooms = room.NumRooms;
+            NumBathrooms = room.NumBathrooms;
+            Area = room.Area;
+            Description = room.Description;
+            CreateDate = room.CreateDate;
+        }
     }
 }
