@@ -11,8 +11,8 @@ using mojoin.Models;
 
 namespace mojoin.Areas.Admin.Controllers
 {
-    [Authorize]
     [Area("Admin")]
+    [Authorize(Roles = "Staff,Admin", Policy = "StaffOnly")]
     public class RolesController : Controller
     {
         private readonly DbmojoinContext _context;
@@ -23,7 +23,7 @@ namespace mojoin.Areas.Admin.Controllers
             _notyfService = notyfService;
 
         }
-
+ 
         // GET: Admin/Roles
         public async Task<IActionResult> Index()
         {

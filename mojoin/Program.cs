@@ -21,6 +21,12 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
                     p.LogoutPath = "/dang-xuat/html";
                     p.AccessDeniedPath = "/not-found.html";
                 });
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminsOnly", policy => policy.RequireRole("Admin"));
+    options.AddPolicy("StaffOnly", policy => policy.RequireRole("Staff", "Admin"));
+    options.AddPolicy("HomePageAccess", policy => policy.RequireRole("User", "Staff", "Admin"));
+});
 // Register DbContext
 builder.Services.AddDbContext<DbmojoinContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("dbRoomFinder")));
