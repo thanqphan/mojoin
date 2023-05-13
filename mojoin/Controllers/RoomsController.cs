@@ -17,11 +17,11 @@ namespace mojoin.Controllers
         DbmojoinContext db = new DbmojoinContext();
 
         // GET: Rooms
-        public ActionResult Index()
+        /*public ActionResult Index()
         {
             var dbmojoinContext = db.Rooms.Include(r => r.Address).Include(r => r.RoomType).Include(r => r.Status).Include(r => r.User);
             return View(dbmojoinContext.ToList());
-        }
+        }*/
 
         // GET: Rooms/Details/5
         public ActionResult Details(int id)

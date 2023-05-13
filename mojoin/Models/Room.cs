@@ -9,6 +9,8 @@ public partial class Room
     [Required]
     public int RoomId { get; set; }
 
+    public int UserId { get; set; }
+
     public int RoomTypeId { get; set; }
 
     public string? Title { get; set; }
@@ -39,15 +41,15 @@ public partial class Room
 
     public string? City { get; set; }
 
-    public bool? HasRefrigerator { get; set; }
+    public bool HasRefrigerator { get; set; }
 
-    public bool? HasAirConditioner { get; set; }
+    public bool HasAirConditioner { get; set; }
 
-    public bool? HasWasher { get; set; }
+    public bool HasWasher { get; set; }
 
-    public bool? HasElevator { get; set; }
+    public bool HasElevator { get; set; }
 
-    public bool? HasParking { get; set; }
+    public bool HasParking { get; set; }
 
     public int? ViewCount { get; set; }
 
