@@ -9,7 +9,9 @@ public partial class User
 
     public int RolesId { get; set; }
 
-    public string? Fullname { get; set; }
+    public string? FirstName { get; set; }
+
+    public string? LastName { get; set; }
 
     public string? Phone { get; set; }
 
@@ -23,6 +25,8 @@ public partial class User
 
     public string? Password { get; set; }
 
+    public string? Salt { get; set; }
+
     public string? Avatar { get; set; }
 
     public bool? IsActive { get; set; }
@@ -30,6 +34,8 @@ public partial class User
     public string? InfoZalo { get; set; }
 
     public string? InfoFacebook { get; set; }
+
+    public string? GoogleId { get; set; }
 
     public int? SupportUserId { get; set; }
 
@@ -42,4 +48,6 @@ public partial class User
     public virtual ICollection<RoomRating> RoomRatings { get; set; } = new List<RoomRating>();
 
     public virtual ICollection<RoomReport> RoomReports { get; set; } = new List<RoomReport>();
+
+    public virtual ICollection<Room> Rooms { get; set; } = new List<Room>();
 }

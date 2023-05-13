@@ -1,17 +1,17 @@
-﻿using Microsoft.Build.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace mojoin.Models;
 
 public partial class Room
 {
-    [Required]
     public int RoomId { get; set; }
 
     public int UserId { get; set; }
 
     public int RoomTypeId { get; set; }
+
+    public int UserId { get; set; }
 
     public string? Title { get; set; }
 
@@ -62,4 +62,6 @@ public partial class Room
     public virtual ICollection<RoomReport> RoomReports { get; set; } = new List<RoomReport>();
 
     public virtual RoomType RoomType { get; set; } = null!;
+
+    public virtual User User { get; set; } = null!;
 }
