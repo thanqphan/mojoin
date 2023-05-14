@@ -1,14 +1,18 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using mojoin.Models;
+using System.Data;
+using System.Security.Claims;
 using XAct.Users;
 
 namespace mojoin.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Staff,Admin", Policy = "StaffOnly")]
     public class RoomsController : Controller
     {
         private readonly DbmojoinContext _context;
@@ -64,6 +68,9 @@ namespace mojoin.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+            var us = room.UserId;
+            var userName= await _context.Users.FirstOrDefaultAsync(u => u.UserId== us);
+            ViewData["UserName"] = new SelectList(_context.Users, "UserId", "FirstName");
             ViewBag.RoomsParams = HttpContext.Session.GetInt32("RoomsParams");
             return View(room);
         }
@@ -80,7 +87,7 @@ namespace mojoin.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RoomId,RoomTypeId,Title,Description,Price,Area,NumRooms,NumBathrooms,CreateDate,LastUpdate,IsActive,StreetNumber,Street,Ward,District,City,HasRefrigerator,HasAirConditioner,HasWasher,HasElevator,HasParking,ViewCount")] RoomViewModel room)
+        public async Task<IActionResult> Create([Bind("RoomId,UserId,RoomTypeId,Title,Description,Price,Area,NumRooms,NumBathrooms,CreateDate,LastUpdate,IsActive,StreetNumber,Street,Ward,District,City,HasRefrigerator,HasAirConditioner,HasWasher,HasElevator,HasParking,ViewCount")] Room room)
         {
             if (ModelState.IsValid)
             {
@@ -105,7 +112,7 @@ namespace mojoin.Areas.Admin.Controllers
                     HasElevator = room.HasElevator,
                     HasParking = room.HasParking,
                     ViewCount = room.ViewCount,
-                    UserId = 5, // thêm sau khi hoàn tất loging
+                    UserId = room.UserId, // thêm sau khi hoàn tất loging
                     CreateDate = DateTime.Now
                 });
                 await _context.SaveChangesAsync();
@@ -138,7 +145,7 @@ namespace mojoin.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RoomId,RoomTypeId,Title,Description,Price,Area,NumRooms,NumBathrooms,CreateDate,LastUpdate,IsActive,StreetNumber,Street,Ward,District,City,HasRefrigerator,HasAirConditioner,HasWasher,HasElevator,HasParking,ViewCount")] RoomViewModel room)
+        public async Task<IActionResult> Edit(int id, [Bind("RoomId,UserId,RoomTypeId,Title,Description,Price,Area,NumRooms,NumBathrooms,CreateDate,LastUpdate,IsActive,StreetNumber,Street,Ward,District,City,HasRefrigerator,HasAirConditioner,HasWasher,HasElevator,HasParking,ViewCount")] Room room)
         {
             if (id != room.RoomId)
             {
