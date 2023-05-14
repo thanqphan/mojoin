@@ -1,8 +1,10 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using mojoin.Models;
+using XAct.Users;
 
 namespace mojoin.Areas.Admin.Controllers
 {
@@ -24,9 +26,14 @@ namespace mojoin.Areas.Admin.Controllers
             return View(await dbmojoinContext.ToListAsync());
 
         }*/
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int isActive = -1)
         {
-            var dbmojoinContext = _context.Rooms.Include(r => r.RoomType);
+            HttpContext.Session.SetInt32("RoomsParams", isActive);
+            ViewBag.RoomsParams = isActive;
+            var dbmojoinContext = isActive == -1 ? 
+                _context.Rooms.Include(r => r.RoomType) : 
+                _context.Rooms.Include(r => r.RoomType).Where(x => x.IsActive == isActive);
+
             ViewData["QuyenAcc"] = new SelectList(_context.Roles, "RoleName", "RoleName");
             List<SelectListItem> lsTrangThai = new List<SelectListItem>();
             List<SelectListItem> lsLoaiPhong = new List<SelectListItem>();
@@ -57,7 +64,7 @@ namespace mojoin.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
+            ViewBag.RoomsParams = HttpContext.Session.GetInt32("RoomsParams");
             return View(room);
         }
 
@@ -98,12 +105,12 @@ namespace mojoin.Areas.Admin.Controllers
                     HasElevator = room.HasElevator,
                     HasParking = room.HasParking,
                     ViewCount = room.ViewCount,
-                    UserId = 5,
+                    UserId = 5, // thêm sau khi hoàn tất loging
                     CreateDate = DateTime.Now
                 });
                 await _context.SaveChangesAsync();
                 _notyfService.Success("Tạo phòng thành công!");
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { isActive = HttpContext.Session.GetInt32("RoomsParams") });
             }
             ViewData["RoomTypeId"] = new SelectList(_context.RoomTypes, "RoomTypeId", "RoomTypeId", room.RoomTypeId);
             return View(room);
@@ -183,7 +190,7 @@ namespace mojoin.Areas.Admin.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { isActive = HttpContext.Session.GetInt32("RoomsParams") });
             }
             ViewData["RoomTypeId"] = new SelectList(_context.RoomTypes, "RoomTypeId", "RoomTypeId", room.RoomTypeId);
             return View(room);
@@ -202,7 +209,6 @@ namespace mojoin.Areas.Admin.Controllers
                 .FirstOrDefaultAsync(m => m.RoomId == id);
             if (room == null)
             {
-
                 return NotFound();
             }
 
@@ -224,7 +230,7 @@ namespace mojoin.Areas.Admin.Controllers
             }
             await _context.SaveChangesAsync();
             _notyfService.Success("Xóa phòng thành công!");
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { isActive = HttpContext.Session.GetInt32("RoomsParams") });
         }
         private bool RoomExists(int id)
         {

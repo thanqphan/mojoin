@@ -19,7 +19,7 @@ namespace mojoin.Controllers
         // GET: Rooms
         public ActionResult Index()
         {
-            var dbmojoinContext = db.Rooms.Include(r => r.Address).Include(r => r.RoomType).Include(r => r.Status).Include(r => r.User);
+           /* var dbmojoinContext = db.Rooms.Include(r => r.Address).Include(r => r.RoomType).Include(r => r.Status).Include(r => r.User);*/
             var dbmojoinContext = db.Rooms.Include(r => r.RoomRatings).Include(r => r.RoomReports).Include(r => r.RoomFavorites).Include(r => r.RoomImages).Include(r => r.RoomType);
             return View(dbmojoinContext.ToList());
         }

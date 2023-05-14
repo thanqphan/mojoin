@@ -11,8 +11,6 @@ public partial class Room
 
     public int RoomTypeId { get; set; }
 
-    public int UserId { get; set; }
-
     public string? Title { get; set; }
 
     public string? Description { get; set; }
