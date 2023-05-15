@@ -1,4 +1,5 @@
 using AspNetCoreHero.ToastNotification;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using mojoin.Models;
 using System.Configuration;
@@ -9,8 +10,23 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
-builder.Services.AddNotyf(config => { config.DurationInSeconds = 3;config.IsDismissable = true;config.Position = NotyfPosition.TopRight; });
-
+builder.Services.AddNotyf(config => { config.DurationInSeconds = 3; config.IsDismissable = true; config.Position = NotyfPosition.TopRight; });
+builder.Services.AddSession();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(p =>
+                {
+                    p.Cookie.Name = "UserLoginCookie";
+                    p.ExpireTimeSpan = TimeSpan.FromDays(1);
+                    p.LoginPath = "/login.html";
+                    p.LogoutPath = "/dang-xuat/html";
+                    p.AccessDeniedPath = "/not-found.html";
+                });
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminsOnly", policy => policy.RequireRole("Admin"));
+    options.AddPolicy("StaffOnly", policy => policy.RequireRole("Staff", "Admin"));
+    options.AddPolicy("HomePageAccess", policy => policy.RequireRole("User", "Staff", "Admin"));
+});
 // Register DbContext
 builder.Services.AddDbContext<DbmojoinContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("dbRoomFinder")));
@@ -26,7 +42,9 @@ if (!app.Environment.IsDevelopment())
 }
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-app.UseRouting();
+app.UseSession();
+app.UseRouting(); 
+app.UseAuthentication();
 app.UseAuthorization();
 app.UseEndpoints(endpoints =>
         {
@@ -37,6 +55,6 @@ app.UseEndpoints(endpoints =>
         });
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Rooms}/{action=Index}/{id?}");
 
 app.Run();

@@ -176,6 +176,7 @@ public partial class DbmojoinContext : DbContext
             entity.Property(e => e.InfoFacebook).IsUnicode(false);
             entity.Property(e => e.InfoZalo).IsUnicode(false);
             entity.Property(e => e.IsActive).HasColumnName("isActive");
+            entity.Property(e => e.LastName).HasMaxLength(100);
             entity.Property(e => e.Password)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -183,6 +184,7 @@ public partial class DbmojoinContext : DbContext
                 .HasMaxLength(20)
                 .IsUnicode(false);
             entity.Property(e => e.RolesId).HasColumnName("RolesID");
+            entity.Property(e => e.Salt).IsUnicode(false);
             entity.Property(e => e.Sex).HasMaxLength(10);
             entity.Property(e => e.SupportUserId).HasColumnName("support_UserID");
 

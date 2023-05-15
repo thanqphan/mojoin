@@ -28,11 +28,11 @@ namespace mojoin.Areas.Admin.Controllers
         // GET: Admin/Users
         public async Task<IActionResult> Index(int isActive = -1)
         {
-            HttpContext.Session.SetInt32("Users1", isActive);
+           /* HttpContext.Session.SetInt32("Users1", isActive);
             ViewBag.Users1 = isActive;
             var dbmojoinContext = isActive == -1 ?
                 _context.Users.Include(r => r.RoomType) :
-                _context.Users.Include(u => u.RoomType).Where(x => x.IsActive == isActive);
+                _context.Users.Include(u => u.RoomType).Where(x => x.IsActive == isActive);*/
 
             ViewData["QuyenAcc"] = new SelectList(_context.Roles, "RoleName", "RoleName");
             List<SelectListItem> lsTrangThaiHoatDong = new List<SelectListItem>();
@@ -42,7 +42,8 @@ namespace mojoin.Areas.Admin.Controllers
             
             ViewData["lsTrangThaiHoatDong"] = lsTrangThaiHoatDong;
             //
-            return View(await dbmojoinContext.ToListAsync());
+            var dbContext = _context.Users.Include(a => a.RolesId);
+            return View(await dbContext.ToListAsync());
         }
 
         // GET: Admin/Users/Details/5
