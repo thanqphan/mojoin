@@ -33,7 +33,7 @@ public partial class DbmojoinContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=MRTHAWNG; Database=dbmojoin;Trusted_Connection=SSPI;Encrypt=false;TrustServerCertificate=true");
+        => optionsBuilder.UseSqlServer("Server=DESKTOP-3OMJ3V2; Database=mojoins1;Trusted_Connection=SSPI;Encrypt=false;TrustServerCertificate=true");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -168,7 +168,8 @@ public partial class DbmojoinContext : DbContext
             entity.Property(e => e.Email)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.Fullname).HasMaxLength(100);
+            entity.Property(e => e.FirstName).HasMaxLength(100);
+            entity.Property(e => e.LastName).HasMaxLength(100);
             entity.Property(e => e.GoogleId)
                 .IsUnicode(false)
                 .HasColumnName("GoogleID");

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,19 +13,35 @@ using mojoin.Models;
 namespace mojoin.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Staff,Admin", Policy = "StaffOnly")]
     public class UsersController : Controller
     {
         private readonly DbmojoinContext _context;
+        public INotyfService _notyfService { get; }
 
-        public UsersController(DbmojoinContext context)
+        public UsersController(DbmojoinContext context, INotyfService notyfService)
         {
             _context = context;
+            _notyfService = notyfService;
         }
 
         // GET: Admin/Users
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int isActive = -1)
         {
-            var dbmojoinContext = _context.Users.Include(u => u.Roles);
+            HttpContext.Session.SetInt32("Users1", isActive);
+            ViewBag.Users1 = isActive;
+            var dbmojoinContext = isActive == -1 ?
+                _context.Users.Include(r => r.RoomType) :
+                _context.Users.Include(u => u.RoomType).Where(x => x.IsActive == isActive);
+
+            ViewData["QuyenAcc"] = new SelectList(_context.Roles, "RoleName", "RoleName");
+            List<SelectListItem> lsTrangThaiHoatDong = new List<SelectListItem>();
+
+            lsTrangThaiHoatDong.Add(new SelectListItem() { Text = "Đang hoạt động", Value = "0" });
+            lsTrangThaiHoatDong.Add(new SelectListItem() { Text = "Tạm ngưng", Value = "1" });
+            
+            ViewData["lsTrangThaiHoatDong"] = lsTrangThaiHoatDong;
+            //
             return View(await dbmojoinContext.ToListAsync());
         }
 
@@ -35,7 +54,6 @@ namespace mojoin.Areas.Admin.Controllers
             }
 
             var user = await _context.Users
-                .Include(u => u.Roles)
                 .FirstOrDefaultAsync(m => m.UserId == id);
             if (user == null)
             {
@@ -63,9 +81,9 @@ namespace mojoin.Areas.Admin.Controllers
             {
                 _context.Add(user);
                 await _context.SaveChangesAsync();
+                _notyfService.Success("Thêm mới thành công!");
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RolesId"] = new SelectList(_context.Roles, "RolelD", "RolelD", user.RolesId);
             return View(user);
         }
 
@@ -82,7 +100,6 @@ namespace mojoin.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["RolesId"] = new SelectList(_context.Roles, "RolelD", "RolelD", user.RolesId);
             return View(user);
         }
 
@@ -104,11 +121,13 @@ namespace mojoin.Areas.Admin.Controllers
                 {
                     _context.Update(user);
                     await _context.SaveChangesAsync();
+                    _notyfService.Success("Cập nhật thành công!");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!UserExists(user.UserId))
                     {
+                        _notyfService.Error("Có lỗi xảy ra!");
                         return NotFound();
                     }
                     else
@@ -118,7 +137,6 @@ namespace mojoin.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RolesId"] = new SelectList(_context.Roles, "RolelD", "RolelD", user.RolesId);
             return View(user);
         }
 
@@ -131,7 +149,6 @@ namespace mojoin.Areas.Admin.Controllers
             }
 
             var user = await _context.Users
-                .Include(u => u.Roles)
                 .FirstOrDefaultAsync(m => m.UserId == id);
             if (user == null)
             {
@@ -157,6 +174,7 @@ namespace mojoin.Areas.Admin.Controllers
             }
             
             await _context.SaveChangesAsync();
+            _notyfService.Success("Xóa thành công!");
             return RedirectToAction(nameof(Index));
         }
 
