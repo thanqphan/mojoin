@@ -2,8 +2,7 @@
 
 @{
     ViewData["Title"] = "Details";
-    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
-    <link href="~/admin_assets/css/table.css" rel="stylesheet" />
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Details</h1>
@@ -12,12 +11,6 @@
     <h4>Room</h4>
     <hr />
     <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UserId)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.User.UserId)
-        </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Title)
         </dt>
@@ -144,9 +137,15 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.RoomType.RoomTypeId)
         </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.User)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.User.UserId)
+        </dd>
     </dl>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.RoomId">Edit</a> |
-    <a asp-action="Index" asp-route-isActive="@ViewBag.RoomsParams">Back to List</a>
+    <a asp-action="Index">Back to List</a>
 </div>

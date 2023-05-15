@@ -12,7 +12,7 @@ using XAct.Users;
 namespace mojoin.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Staff,Admin", Policy = "StaffOnly")]
+    /*[Authorize(Roles = "Staff,Admin", Policy = "StaffOnly")]*/
     public class RoomsController : Controller
     {
         private readonly DbmojoinContext _context;
@@ -34,8 +34,8 @@ namespace mojoin.Areas.Admin.Controllers
         {
             HttpContext.Session.SetInt32("RoomsParams", isActive);
             ViewBag.RoomsParams = isActive;
-            var dbmojoinContext = isActive == -1 ? 
-                _context.Rooms.Include(r => r.RoomType) : 
+            var dbmojoinContext = isActive == -1 ?
+                _context.Rooms.Include(r => r.RoomType) :
                 _context.Rooms.Include(r => r.RoomType).Where(x => x.IsActive == isActive);
 
             ViewData["QuyenAcc"] = new SelectList(_context.Roles, "RoleName", "RoleName");
@@ -69,7 +69,7 @@ namespace mojoin.Areas.Admin.Controllers
                 return NotFound();
             }
             var us = room.UserId;
-            var userName= await _context.Users.FirstOrDefaultAsync(u => u.UserId== us);
+            var userName = await _context.Users.FirstOrDefaultAsync(u => u.UserId == us);
             ViewData["UserName"] = new SelectList(_context.Users, "UserId", "FirstName");
             ViewBag.RoomsParams = HttpContext.Session.GetInt32("RoomsParams");
             return View(room);
@@ -112,7 +112,7 @@ namespace mojoin.Areas.Admin.Controllers
                     HasElevator = room.HasElevator,
                     HasParking = room.HasParking,
                     ViewCount = room.ViewCount,
-                    UserId = room.UserId, // thêm sau khi hoàn tất loging
+                    UserId = 5, // thêm sau khi hoàn tất loging
                     CreateDate = DateTime.Now
                 });
                 await _context.SaveChangesAsync();
