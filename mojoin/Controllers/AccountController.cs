@@ -55,7 +55,10 @@ namespace mojoin.Controllers
                 return Json(data: true);
             }
         }
-
+        public IActionResult Inactive()
+        {
+            return View();
+        }
         [Route("my-Account.html", Name = "Dashboard")]
         public IActionResult Dashboard()
         {
@@ -178,7 +181,7 @@ namespace mojoin.Controllers
 
                     if (user.IsActive == false)
                     {
-                        return RedirectToAction("ThongBao", "Account");
+                        return View("Inactive", "Account");
                     }
                     if (user.RolesId == 1 || user.RolesId == 2)
                     {
