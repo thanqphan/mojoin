@@ -41,7 +41,6 @@
     <None Include="wwwroot\images\locationicon.png" />
     <None Include="wwwroot\images\logo.png" />
     <None Include="wwwroot\images\phoneicon.png" />
-    <None Include="wwwroot\js\hcmc.js" />
   </ItemGroup>
 
 </Project>
