@@ -4,13 +4,25 @@
     font-family: 'Open Sans', Arial, sans-serif;
     padding: 1rem 1rem 1rem;
 }
-.ul-type-room{
-    padding:1rem 2rem 1rem;
+
+.ul-type-room {
+    padding: 1rem 2rem 1rem;
 }
+
 .label-item {
     font-size: large;
     font-weight: 600;
-    margin-left:1rem;
+    margin-left: 1rem;
+}
+.label-item-sm {
+    font-size: large;
+    font-weight: 600;
+    margin-left: 5rem;
+}
+.label-item-min {
+    font-size: large;
+    font-weight: 200;
+    margin-left: 0rem;
 }
 .title-div {
     text-align: center;
@@ -18,6 +30,7 @@
     background-color: #00deb6;
     padding: 1rem 1rem 1rem
 }
+
 .type-item {
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -35,6 +48,22 @@
     font-weight: 600;
     color: #036b75;
 }
+
+.input-group {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    line-height: 1.42857143;
+    font-family: 'Open Sans',Arial,sans-serif;
+    font-size: 14px;
+    color: #222;
+    box-sizing: border-box;
+    position: relative;
+    display: table;
+    border-collapse: separate;
+    width: 100%;
+    padding: 0.5rem 0.5rem 0.5rem;
+}
+
 .address-item {
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -47,8 +76,9 @@
     border: 2px solid #d2d2dc;
     font-size: 16px;
     line-height: 1.5;
-    margin: 1rem ;
+    margin: 1rem;
 }
+
 .num-address-item {
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -63,23 +93,145 @@
     padding: 0.5rem 0.5rem 0.5rem;
     margin: 1rem;
 }
+
+.num-item {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    border-collapse: separate;
+    box-sizing: border-box;
+    margin: 0;
+    font: inherit;
+    color: inherit;
+    font-family: inherit;
+    height: 48px;
+    padding: 0.5rem 0.5rem 0.5rem;
+    border: 2px solid #d2d2dc;
+    font-size: 16px;
+    line-height: 1.5;
+    outline: none;
+    display: table-cell;
+    width: 100%;
+}
+
+.num-item-sm {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    border-collapse: separate;
+    box-sizing: border-box;
+    margin: 0;
+    font: inherit;
+    color: inherit;
+    font-family: inherit;
+    height: 48px;
+    padding: 0.5rem 1rem 0.5rem;
+    margin-left: 4.5rem;
+    border: 2px solid #d2d2dc;
+    font-size: 16px;
+    line-height: 1.5;
+    outline: none;
+    display: table-cell;
+    width: 40%;
+}
+.input-addon {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    font-family: 'Open Sans',Arial,sans-serif;
+    border-collapse: separate;
+    box-sizing: border-box;
+    display: table-cell;
+    padding: 0.5rem 0.5rem 0.5rem;
+    border: 2px solid #d2d2dc;
+    background-color: #f6f6f8;
+    font-size: 16px;
+    color: #53535f;
+    line-height: 1.5;
+    text-align: center;
+    border-left: 0;
+    width: 1%;
+}
+
+.title-post {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    box-sizing: border-box;
+    margin: 0;
+    font: inherit;
+    color: inherit;
+    font-family: inherit;
+    height: 48px;
+    padding: 0.5rem 0.5rem 0.5rem;
+    width: 100%;
+    border: 2px solid #d2d2dc;
+    font-size: 16px;
+    line-height: 1.5;
+    outline: none;
+}
+
+.about-post {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    box-sizing: border-box;
+    margin: 0;
+    font: inherit;
+    color: inherit;
+    overflow: auto;
+    font-family: inherit;
+    padding: 0.5rem 0.5rem 0.5rem;
+    width: 100%;
+    height: auto;
+    border: 2px solid #d2d2dc;
+    font-size: 16px;
+    line-height: 1.5;
+    outline: none;
+}
+.checkbox-item {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    border-collapse: separate;
+    box-sizing: border-box;
+    font: inherit;
+    color: inherit;
+    font-family: inherit;
+    height: 19px;
+    padding: 0.5rem 1rem 0.5rem;
+    margin-left: 1.5rem;
+    margin-right:0rem;
+    border: 2px solid #d2d2dc;
+    font-size: 16px;
+    line-height: 1.5;
+    outline: none;
+    display: table-cell;
+    width: 10%;
+}
 .hidden {
     visibility: hidden;
+}
+.navigation-buttons {
+    text-align: right;
+}
+.selected {
+    background-color: #f2f2f2;
 }
 #btn-next {
     background-color: #00deb6;
     border: none;
     color: white;
-    padding: 0.8rem
+    padding: 0.8rem;
 }
+
 #btn-prev {
     display: none;
     background-color: #00deb6;
     border: none;
     color: white;
-    padding: 0.8rem
+    padding: 0.8rem;
+    float: left;
 }
 
 #btn-save {
     display: none;
+    background-color: #00deb6;
+    border: none;
+    color: white;
+    padding: 0.8rem;
 }

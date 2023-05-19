@@ -72,7 +72,7 @@ namespace mojoin.Controllers
                     };
                     try
                     {
-                        _context.Add(room);
+                        _context.Add(user);
                         await _context.SaveChangesAsync();
 
                         _notyfService.Success("Gửi bài thành công!");
@@ -84,7 +84,8 @@ namespace mojoin.Controllers
                     }
                 }
                 else
-                {
+                {               
+                    _notyfService.Error("Gửi bài không thành công!");
                     return View(room);
                 }
             }

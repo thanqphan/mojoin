@@ -1,229 +1,202 @@
-﻿@model mojoin.Models.Room
+﻿@using System.Security.Claims;
+@model mojoin.Models.Room
 @{
     ViewData["Title"] = "CreatePosts";
     Layout = "~/Views/Shared/_LayoutDangtin.cshtml";
 }
+@{
+    var identity = (ClaimsIdentity)User.Identity;
+
+    // Lấy giá trị của các đối tượng Claim
+    string firstName = identity.FindFirst("FirstName")?.Value;
+    string lastName = identity.FindFirst("LastName")?.Value;
+    string userId = identity.FindFirst("UserId")?.Value;
+}
 <link href="~/css/createpost.css" rel="stylesheet" />
 <div class="create-post">
     <form asp-action="CreatePosts" asp-controller="MyAccount">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="navigation-buttons">
             <button id="btn-prev" class="fa fa-arrow-left" type="button" onclick="prevDiv()"></button>
             <button id="btn-next" class="fa fa-arrow-right" type="button" onclick="nextDiv()"></button>
-            <button id="btn-save" type="submit">Tạo mới</button>
+            <button  id="btn-save" type="submit">Tạo mới</button>
         </div>
+        <input asp-for="UserId" type="hidden" name="UserId" value="@userId" />
         <div class="form-group" id="type-div">
             <ul class="ul-type-room">
                 <li class="title-div "><h2>Loại phòng</h2></li>
                 @foreach (var roomType in ViewBag.RoomTypes)
                 {
-                    <li class="type-item" data-room-type-id="@roomType.RoomTypeId" >
+                    <li class="type-item" data-room-type-id="@roomType.RoomTypeId">
                         <span class="type-name">@roomType.TypeName</span>
                     </li>
                 }
             </ul>
             <input asp-for="RoomTypeId" type="hidden" name="RoomTypeId" id="room-type-id" value="@Model?.RoomTypeId" />
-           
+            <span asp-validation-for="RoomTypeId" class="text-danger"></span>
         </div>
 
         <div class="form-group" id="address-div" style="display:none;">
             <h2 class="title-div">Địa chỉ đăng</h2>
             <label class="label-item">Tỉnh thành:<br /></label>
-            <select id="city" class="address-item" onchange="onCityChange()">
+            <select asp-for="City" id="city" class="address-item" onchange="onCityChange()">
                 <option value="">Chọn thành phố</option>
             </select>
-            
+            <span asp-validation-for="City" class="text-danger"></span>
+
+
             <label class="label-item">Quận/Huyện:</label>
-            <select id="district" class="address-item" onchange="onDistrictChange()" disabled>
+            <select asp-for=District id="district" class="address-item" onchange="onDistrictChange()" disabled>
                 <option value="">Chọn quận/huyện</option>
             </select>
+            <span asp-validation-for="District" class="text-danger"></span>
+
 
             <label class="label-item">Phường/Xã:</label>
-            <select id="ward" class="address-item" disabled>
+            <select asp-for=Ward id="ward" class="address-item" disabled>
                 <option value="">Chọn phường/xã</option>
             </select>
+            <span asp-validation-for="Ward" class="text-danger"></span>
+
 
             <label class="label-item">Đường:</label>
-            <select id="street" class="address-item" disabled>
+            <select asp-for=Street id="street" class="address-item" disabled>
                 <option value="">Chọn đường</option>
             </select>
+            <span asp-validation-for="Street" class="text-danger"></span>
+
 
             <label class="label-item">Số nhà:</label>
             <input asp-for="StreetNumber" type="text" class="num-address-item" />
-        </div>
+            <span asp-validation-for="StreetNumber" class="text-danger"></span>
 
-        <div class="form-group" id="info-div" style="display:none;">
-            <h2>Thông tin phòng</h2>
-            @*<label asp-for="Info"></label>
-            <textarea asp-for="Info"></textarea>*@
-        </div>
-
-        <div class="form-group" id="furniture-div" style="display:none;">
-            <h2>Nội thất</h2>
-            @*<label asp-for="Furniture"></label>
-            <textarea asp-for="Furniture"></textarea>*@
         </div>
 
         <div class="form-group" id="price-div" style="display:none;">
+            <h2 class="title-div">Diện tích và giá</h2>
+            <label class="label-item">Diện tích sử dụng:</label>
+            <div class="input-group">
+                <input asp-for="Area" type="number" class="num-item " />
+                <span class="input-addon">m<sup>2</sup></span>
+            </div>
+            <span asp-validation-for="Price" class="text-danger"></span>
+            <label class="label-item">Giá:</label>
+            <div class="input-group">
+                <input asp-for="Price" type="number" class="num-item " />
+                <span class="input-addon">VND/Tháng</span>
+            </div>
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+
+        <div class="form-group" id="info-div" style="display:none;">
+            <h2 class="title-div">Tiêu đề</h2>
+            <label class="label-item">Tiêu đề:</label>
+            <div class="input-group">
+                <input asp-for="Title" type="text" class="title-post" />
+            </div>
+            <span asp-validation-for="Title" class="text-danger"></span>
+            <label class="label-item">Mô tả:</label>
+            <div class="input-group">
+                <textarea asp-for="Description" class="about-post" rows="11" maxlength="3000"></textarea>
+            </div>
+
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="form-group " id="info1-div" style="display:none;">
+
+            <h2 class="title-div">Thông tin chi tiết</h2>
+            <label class="label-item-sm">Số phòng ngủ:</label>
+            <div class="input-group">
+                <select asp-for="NumRooms" id="" class="num-item-sm">
+                    <option value="" disabled selected hidden>Số phòng ngủ</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+
+            </div>
+            <span asp-validation-for="NumRooms" class="text-danger"></span>
+            <label class="label-item-sm">Số phòng vệ:</label>
+            <div class="input-group">
+                <select asp-for="NumBathrooms" id="" class="num-item-sm">
+                    <option value="" disabled selected hidden>Số phòng vệ sinh</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+            </div>
+            <span asp-validation-for="NumBathrooms" class="text-danger"></span>
+
+            <div class="input-group">
+                <input asp-for="HasRefrigerator" type="checkbox" class="checkbox-item" />
+                <label class="label-item-min">Tủ lạnh</label>
+            </div>
+            <div class="input-group">
+                <input asp-for="HasAirConditioner" type="checkbox" class="checkbox-item" />            
+                <label class="label-item-min">Máy lạnh</label>
+            </div>
+            <div class="input-group">
+                <input asp-for="HasWasher" type="checkbox" class="checkbox-item" />          
+                <label class="label-item-min">Máy giặt</label>
+            </div>
+            <div class="input-group">
+                <input asp-for="HasElevator" type="checkbox" class="checkbox-item" />            
+                <label class="label-item-min">Thang máy</label>
+            </div>
+            <div class="input-group">
+                <input asp-for="HasParking" type="checkbox" class="checkbox-item">            
+                <label class="label-item-min">Bãi xe</label>
+            </div>
+        </div>
+
+        <div class="form-group" id="some-div" style="display:none;">
             <h2>Giá thành</h2>
-            <label asp-for="Price"></label>
-            <input asp-for="Price" type="number" />
+
         </div>
         <!-- Nút điều hướng -->
-        
-        
+
+
     </form>
-    
-    
 
-    @* <form asp-action="CreatePosts">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="row">
-    <div class="col-md-12">
-    <label class="form-label">Loại Phòng cho thuê</label>
-    <div class="form-group ">
-    <select asp-for="RoomTypeId" class="form-control " asp-items="ViewBag.RoomTypeId"></select>
-    </div>
-    </div>
-    </div>
-    <div class="row">
-    <div class="col-md-4">
 
-    <div class="form-group">
-    <label asp-for="RoomTypeId" class="control-label"></label>
-    <select asp-for="RoomTypeId" class="form-control dropdown dropdown-divider" asp-items="ViewBag.RoomTypeId"></select>
-    </div>
-    <div class="form-group">
-    <label asp-for="Title" class="control-label"></label>
-    <input asp-for="Title" class="form-control" />
-    <span asp-validation-for="Title" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-    <label asp-for="Description" class="control-label"></label>
-    <input asp-for="Description" class="form-control" />
-    <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-    <label asp-for="Price" class="control-label"></label>
-    <input asp-for="Price" class="form-control" />
-    <span asp-validation-for="Price" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-    <label asp-for="Area" class="control-label"></label>
-    <input asp-for="Area" class="form-control" />
-    <span asp-validation-for="Area" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-    <label asp-for="NumRooms" class="control-label"></label>
-    <input asp-for="NumRooms" class="form-control" />
-    <span asp-validation-for="NumRooms" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-    <label asp-for="NumBathrooms" class="control-label"></label>
-    <input asp-for="NumBathrooms" class="form-control" />
-    <span asp-validation-for="NumBathrooms" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-    <label asp-for="StreetNumber" class="control-label"></label>
-    <input asp-for="StreetNumber" class="form-control" />
-    <span asp-validation-for="StreetNumber" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-    <label asp-for="Street" class="control-label"></label>
-    <input asp-for="Street" class="form-control" />
-    <span asp-validation-for="Street" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-    <label asp-for="Ward" class="control-label"></label>
-    <input asp-for="Ward" class="form-control" />
-    <span asp-validation-for="Ward" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-    <label asp-for="District" class="control-label"></label>
-    <input asp-for="District" class="form-control" />
-    <span asp-validation-for="District" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-    <label asp-for="City" class="control-label"></label>
-    <input asp-for="City" class="form-control" />
-    <span asp-validation-for="City" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-    <label asp-for="HasRefrigerator" class="control-label"></label>
-    <input asp-for="HasRefrigerator" class="form-control" />
-    <span asp-validation-for="HasRefrigerator" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-    <label asp-for="HasAirConditioner" class="control-label"></label>
-    <input asp-for="HasAirConditioner" class="form-control" />
-    <span asp-validation-for="HasAirConditioner" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-    <label asp-for="HasWasher" class="control-label"></label>
-    <input asp-for="HasWasher" class="form-control" />
-    <span asp-validation-for="HasWasher" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-    <label asp-for="HasElevator" class="control-label"></label>
-    <input asp-for="HasElevator" class="form-control" />
-    <span asp-validation-for="HasElevator" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-    <label asp-for="HasParking" class="control-label"></label>
-    <input asp-for="HasParking" class="form-control" />
-    <span asp-validation-for="HasParking" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-    <input type="submit" value="Create" class="btn btn-primary" />
-    </div>
-    </form>*@
+
+
 </div>
 <script src="~/js/getaddresses.js"></script>
 <script>
-    var currentDiv = 0;
-    var divs = document.querySelectorAll('.form-group');
-    function nextDiv() {
-        if (currentDiv < divs.length - 1) {
-            currentDiv++;
-            updateDivVisibility();
-        }
-    }
+    $(document).ready(function () {
+        // Lấy giá trị RoomTypeId của thẻ li đầu tiên trong danh sách
+        var selectedRoomTypeId = $('.type-item:first').data('room-type-id');
+        // Đưa giá trị RoomTypeId vào input hidden
+        $('#room-type-id').val(selectedRoomTypeId);
+        // Sáng màu thẻ li đầu tiên
+        $('.type-item:first').addClass('selected');
 
-    function prevDiv() {
-        if (currentDiv > 0) {
-            currentDiv--;
-            updateDivVisibility();
-        }
-    }
+        // Bắt sự kiện click vào các thẻ li
+        $('.type-item').click(function () {
+            // Loại bỏ lớp 'selected' của các thẻ li khác
+            $('.type-item').removeClass('selected');
+            // Thêm lớp 'selected' vào thẻ li được chọn
+            $(this).addClass('selected');
+            // Lấy giá trị RoomTypeIdcủa thẻ li được chọn
+            var selectedRoomTypeId = $(this).data('room-type-id');
+            // Đưa giá trị RoomTypeId vào input hidden
+            $('#room-type-id').val(selectedRoomTypeId);
+        });
 
-    function updateDivVisibility() {
-        for (var i = 0; i < divs.length; i++) {
-            if (i === currentDiv) {
-                divs[i].style.display = 'block';
-            } else {
-                divs[i].style.display = 'none';
+        // Bắt sự kiện submit form
+        $('form').submit(function () {
+            // Kiểm tra xem RoomTypeId có được chọn không
+            if ($('#room-type-id').val() == '') {
+                // Hiển thị thông báo lỗi
+                alert('Vui lòng chọn loại phòng!');
+                return false;
             }
-        }
-
-        // show/hide buttons
-        if (currentDiv === 0) {
-            document.getElementById('btn-prev').style.display = 'none';
-        } else {
-            document.getElementById('btn-prev').style.display = 'inline-block';
-        }
-
-        if (currentDiv === divs.length - 1) {
-            document.getElementById('btn-next').style.display = 'none';
-            document.getElementById('btn-save').style.display = 'inline-block';
-        } else {
-            document.getElementById('btn-next').style.display = 'inline-block';
-            document.getElementById('btn-save').style.display = 'none';
-        }
-    }
-
-
-
-</script>
-
+        });
+    });</script>
+<script src="~/js/navbuttons.js"></script>
 
 
 

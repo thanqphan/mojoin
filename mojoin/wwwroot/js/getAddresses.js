@@ -1533,7 +1533,7 @@ function populateCities(cities) {
     for (var i = 0; i < cities.length; i++) {
         var city = cities[i];
         var option = document.createElement("option");
-        option.value = city.code;
+        option.value = city.name;
         option.text = city.name;
         citySelect.appendChild(option);
     }

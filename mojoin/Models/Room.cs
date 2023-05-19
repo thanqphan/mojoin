@@ -39,15 +39,15 @@ public partial class Room
 
     public string? City { get; set; }
 
-    public bool? HasRefrigerator { get; set; }
+    public bool HasRefrigerator { get; set; }
 
-    public bool? HasAirConditioner { get; set; }
+    public bool HasAirConditioner { get; set; }
 
-    public bool? HasWasher { get; set; }
+    public bool HasWasher { get; set; }
 
-    public bool? HasElevator { get; set; }
+    public bool HasElevator { get; set; }
 
-    public bool? HasParking { get; set; }
+    public bool HasParking { get; set; }
 
     public int? ViewCount { get; set; }
 
