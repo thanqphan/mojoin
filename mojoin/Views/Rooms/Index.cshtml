@@ -112,11 +112,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="SaveAd_saveAdWrapper___sBMh AdItem_saveAd__3prt2 ">
-                                            <button href="" id="btn_save_ad" onclick="yeuthich()" type="button" class="SaveAd_btnSavedAd__jwoYd ">
-                                                <img id="img_save_ad" height="20" width="20" src="https://static.chotot.com/storage/icons/saveAd/save-ad.svg" alt="like" loading="lazy" data-saved="false">
-                                            </button>
-                                        </div>
+                                        @*@{
+                                            Html.RenderPartial("~/Views/YeuThich/YeuThichPartial.cshtml");
+                                        }*@
                                     </div>
                                     <div class="AdBody_caption__0FF4E">
                                         <div class="commonStyle_adTitleGrid__ZQnBY" role="button" tabindex="0">@item.Title</div>
@@ -153,5 +151,8 @@
         </div>
     </main>
 </div>
+<script>
+    
+</script>
 
 

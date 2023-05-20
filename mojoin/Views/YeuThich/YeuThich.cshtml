@@ -1,0 +1,115 @@
+﻿@model IEnumerable<mojoin.Models.RoomFavorite>
+
+@{
+    ViewData["Title"] = "YeuThich";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link href="~/css/yeuthich.css" rel="stylesheet" />
+}
+<div id="profile" class="mg-container ng-scope">
+
+    <div id="sidebar" class="clearfix" style="">
+        <div class="col-md-3">
+            <div class="profile-sidebar">
+                <!-- SIDEBAR USERPIC -->
+                <div class="profile-userinfo clearfix line">
+                    <div class="profile-userpic">
+                        <img class="img-responsive ng-hide">
+                        <img class="img-responsive" src="">
+                    </div>
+                    <!-- END SIDEBAR USERPIC -->
+                    <!-- SIDEBAR USER TITLE -->
+                    <div class="profile-usertitle">
+                        <div class="profile-usertitle-name ng-binding"></div>
+                        <div class="profile-usertitle-job ng-binding"></div>
+                    </div>
+                    <!-- END SIDEBAR USER TITLE -->
+                    <!-- SIDEBAR MENU -->
+                </div>
+                <div class="profile-usermenu clearfix">
+                    <ul class="nav navbar-nav">
+                        <li class=""><a href="/trang-ca-nhan/tim-kiem-da-luu" rel="nofollow"><i class="fa fa-bell"></i>Thông báo &amp; Tìm kiếm</a></li>
+                        <li class="active"><a href="/trang-ca-nhan/bat-dong-san-yeu-thich" rel="nofollow"><i class="fa fa-heart"></i>Tin yêu thích</a></li>
+                        <li class=""><a href="/trang-ca-nhan/thong-tin-ca-nhan" rel="nofollow"><i class="fa fa-address-card"></i>Thông tin cá nhân</a></li>
+                        <li class="" ng-show="menu.changepassword.visible"><a href="/trang-ca-nhan/doi-mat-khau" rel="nofollow"><i class="fa fa-password"></i>Thay đổi mật khẩu</a></li>
+                        <li class=""><a href="/trang-ca-nhan/mogipro" rel="nofollow"><i class="fa fa-user-plus"></i>Mogi Pro</a></li>
+                        <li><a href="/logoff"><i class="fa fa-sign-out f18"></i>Thoát</a></li>
+                    </ul>
+                </div>
+                <!-- END MENU -->
+            </div>
+        </div>
+
+    </div>
+    <div id="main" class="clearfix" style="">
+        <div id="property" class="clearfix">
+            <div class="summary clearfix line">
+                @*<div class="summary-tab" style="">
+                <h4><a class="to-uppper" data-toggle="pill" href="">Bán <span class="counter ng-binding">(0)</span></a></h4>
+                </div>*@
+                <div class="summary-tab active" style="">
+                    <h4><a class="to-uppper" data-toggle="pill" href="">Thuê<span class="counter ng-binding"> (@ViewBag.tongsoluong)</span></a></h4>
+                </div>
+            </div>
+
+            <div id="property-items" class="tab-content">
+                <div id="rent-list" class="" style="">
+                    @foreach (var item in Model)
+                    {
+                        <div class="property-item clearfix" id="@item.UserId">
+                            <div class="property-header clearfix">
+                                <div class="property-image">
+                                    <img src="/Rooms/ShowImage/@item.RoomId">
+                                </div>
+                                <div class="property-price">@String.Format("{0:#,##0}", @item.Price) VNĐ</div>
+                            </div>
+                            <div class="property-content clearfix">
+                                <div class="property-info clearfix">
+                                    <div class="title clearfix">
+                                        <a href="/Rooms/Details/@item.RoomId" class="link-overlay">
+                                            @item.Title
+                                        </a>
+                                    </div>
+                                    <div class="property-address clearfix">
+
+                                        @item.StreetNumber @item.Street, @item.District, @item.City
+                                    </div>
+
+                                    <div class="property-utility clearfix">
+                                        <div class="property-utility">
+                                            <span><i class="fa fa-bed"></i>@item.NumRooms</span>
+                                            <span class="bathroom"><i class="fa fa-bath"></i>@item.NumBathrooms</span>
+                                            <span><i class="icon icon-acreage"></i>@item.Area m<sup>2</sup></span>
+                                        </div>
+                                    </div>
+                                    <div class="property-summary">
+                                        @item.Description
+                                    </div>
+                                </div>
+                                <div class="posted-date clearfix ">Ngày đăng:@String.Format("{0:dd/MM/yyyy}", @item.CreateDate)</div>
+@*
+                                <div class="property-agent clearfix">
+                                    <div class="agent-image">
+                                        <img src="@item.Avatar">
+                                    </div>
+                                    <div class="agent-info">
+                                        <div class="agent-intro clearfix">
+                                            <div class="agent-name mg-tr">
+                                                @item.LastName @item.FirstName
+                                            </div>
+                                            <div class="agent-mobile">@item.Phone</div>
+                                        </div>
+                                        <div class="command-delete">
+                                            <span class="icon icon-trash"></span>
+                                        </div>
+                                    </div>
+
+                                </div>*@
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
