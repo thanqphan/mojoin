@@ -1,5 +1,5 @@
 ﻿@using System.Security.Claims;
-@model mojoin.Models.Room
+@model mojoin.ViewModel.RoomPostViewModel
 @{
     ViewData["Title"] = "CreatePosts";
     Layout = "~/Views/Shared/_LayoutDangtin.cshtml";
@@ -109,10 +109,10 @@
             <div class="input-group">
                 <select asp-for="NumRooms" id="" class="num-item-sm">
                     <option value="" disabled selected hidden>Số phòng ngủ</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
+                    <option value=1>1</option>
+                    <option value=2>2</option>
+                    <option value=3>3</option>
+                    <option value=4>4</option>
                 </select>
 
             </div>
@@ -121,10 +121,10 @@
             <div class="input-group">
                 <select asp-for="NumBathrooms" id="" class="num-item-sm">
                     <option value="" disabled selected hidden>Số phòng vệ sinh</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
+                    <option value=1>1</option>
+                    <option value=2>2</option>
+                    <option value=3>3</option>
+                    <option value=4>4</option>
                 </select>
             </div>
             <span asp-validation-for="NumBathrooms" class="text-danger"></span>

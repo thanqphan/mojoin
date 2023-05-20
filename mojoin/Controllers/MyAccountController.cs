@@ -2,11 +2,13 @@
 using AspNetCoreHero.ToastNotification.Notyf;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using mojoin.Models;
 using mojoin.ViewModel;
 using System.Security.Claims;
+using XAct.Users;
 
 namespace mojoin.Controllers
 {
@@ -36,12 +38,28 @@ namespace mojoin.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("dang-bai.html", Name = "DangBai")]
-        public async Task<IActionResult> CreatePosts(Room room)
+        public async Task<IActionResult> CreatePosts(RoomPostViewModel room)
         {
             var roomTypes = _context.RoomTypes.ToList();
             ViewBag.RoomTypes = roomTypes;
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    foreach (var key in ModelState.Keys)
+                    {
+                        if (ModelState.TryGetValue(key, out ModelStateEntry entry) && entry.Errors.Any())
+                        {
+                            // Trường có tên là "key" có lỗi validation
+                            var errorMessage = entry.Errors[0].ErrorMessage;
+                            // Xử lý lỗi ở đây
+                        }
+                        else
+                        {
+                            // Trường có tên là "key" không có lỗi validation
+                        }
+                    }
+                }
                 if (ModelState.IsValid)
                 {
                     //*						string salt = Utilities.GetRandomKey();
