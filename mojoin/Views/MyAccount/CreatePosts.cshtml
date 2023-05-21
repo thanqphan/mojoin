@@ -152,10 +152,18 @@
         </div>
 
         <div class="form-group" id="uploadimg-div" style="display:none;">
-            <h2>Giá thành</h2>
-
+            <h2 class="title-div">Ảnh phòng</h2>
+            <form id="uploadForm" method="post" enctype="multipart/form-data" asp-action="UploadImages" asp-controller="MyAccount">
+                <input type="file" name="images" id="imageInput" multiple />
+                <button type="submit">Upload</button>
+            </form>
+            <div id="imagePreviewContainer"></div>
         </div>
-        <!-- Nút điều hướng -->
+
+        
+
+        
+
 
 
     </form>
@@ -164,40 +172,56 @@
 
 
 </div>
-<script src="~/js/getaddresses.js"></script>
 <script>
-    $(document).ready(function () {
-        // Lấy giá trị RoomTypeId của thẻ li đầu tiên trong danh sách
-        var selectedRoomTypeId = $('.type-item:first').data('room-type-id');
-        // Đưa giá trị RoomTypeId vào input hidden
-        $('#room-type-id').val(selectedRoomTypeId);
-        // Sáng màu thẻ li đầu tiên
-        $('.type-item:first').addClass('selected');
+    // Lắng nghe sự kiện khi người dùng chọn tệp hình ảnh
+    document.getElementById('imageInput').addEventListener('change', function () {
+        var container = document.getElementById('imagePreviewContainer');
+        container.innerHTML = ''; // Xóa bỏ các hình ảnh xem trước hiện tại (nếu có)
 
-        // Bắt sự kiện click vào các thẻ li
-        $('.type-item').click(function () {
-            // Loại bỏ lớp 'selected' của các thẻ li khác
-            $('.type-item').removeClass('selected');
-            // Thêm lớp 'selected' vào thẻ li được chọn
-            $(this).addClass('selected');
-            // Lấy giá trị RoomTypeIdcủa thẻ li được chọn
-            var selectedRoomTypeId = $(this).data('room-type-id');
-            // Đưa giá trị RoomTypeId vào input hidden
-            $('#room-type-id').val(selectedRoomTypeId);
-        });
+        var files = this.files;
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            var reader = new FileReader();
 
-        // Bắt sự kiện submit form
-        $('form').submit(function () {
-            // Kiểm tra xem RoomTypeId có được chọn không
-            if ($('#room-type-id').val() == '') {
-                // Hiển thị thông báo lỗi
-                alert('Vui lòng chọn loại phòng!');
-                return false;
+            // Đọc nội dung của tệp hình ảnh và hiển thị xem trước
+            reader.onload = function (e) {
+                var img = document.createElement('img');
+                img.src = e.target.result;
+                img.classList.add('preview-image');
+                container.appendChild(img);
+            };
+
+            reader.readAsDataURL(file); // Đọc tệp hình ảnh dưới dạng URL dữ liệu
+
+        }
+    });
+
+</script>
+<script>
+    function uploadImages() {
+        // Lấy các giá trị của form và thực hiện tác vụ tải lên bằng AJAX hoặc gửi form đến action UploadImages
+        var formData = new FormData(document.getElementById('uploadForm'));
+        $.ajax({
+            url: '/MyAccount/UploadImages',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                // Xử lý kết quả thành công
+                alert('Tải lên thành công!');
+            },
+            error: function (xhr, status, error) {
+                // Xử lý lỗi
+                alert('Tải lên thành công!');   
             }
         });
-    });</script>
+    }
+</script>
+
+
 <script src="~/js/navbuttons.js"></script>
-
-
+<script src="~/js/getaddresses.js"></script>
+<script src="~/js/getroomtype.js"></script>
 
 

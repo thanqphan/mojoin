@@ -3,6 +3,7 @@ using AspNetCoreHero.ToastNotification.Notyf;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using mojoin.Models;
@@ -102,7 +103,7 @@ namespace mojoin.Controllers
                     }
                 }
                 else
-                {               
+                {
                     _notyfService.Error("Gửi bài không thành công!");
                     return View(room);
                 }
@@ -112,6 +113,38 @@ namespace mojoin.Controllers
                 return View(room);
             }
         }
+        [HttpPost]
+        public async Task<IActionResult> UploadImages(List<IFormFile> images, int roomId)
+        {
+            foreach (var image in images)
+            {
+                // Xử lý tệp ảnh, ví dụ: lưu trữ ảnh trong thư mục "wwwroot/Images" của dự án
+                if (image.Length > 0)
+                {
+                    var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Images", image.FileName);
+                    using (var fileStream = new FileStream(imagePath, FileMode.Create))
+                    {
+                        await image.CopyToAsync(fileStream);
+                    }
+
+                    // Lưu thông tin ảnh vào cơ sở dữ liệu
+                    var imageModel = new RoomImage
+                    {
+                        RoomId = roomId,
+/*                        RoomImageId = Guid.NewGuid().ToString(),
+*/                        Image = imagePath
+                    };
+
+                    // Sử dụng đối tượng DbContext để thêm bản ghi mới vào bảng ảnh
+                    _context.RoomImages.Add(imageModel);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            _notyfService.Success("Upload thành công!");
+            // Hoàn thành quá trình tải lên và chuyển hướng hoặc trả về thông báo thành công
+            return View();
+        }
+
     }
 
 }

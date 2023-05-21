@@ -212,6 +212,12 @@
 .selected {
     background-color: #f2f2f2;
 }
+.preview-image {
+    max-width: 200px;
+    max-height: 200px;
+    margin: 10px;
+}
+
 #btn-next {
     background-color: #00deb6;
     border: none;
