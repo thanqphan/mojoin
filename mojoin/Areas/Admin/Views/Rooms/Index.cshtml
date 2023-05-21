@@ -47,22 +47,6 @@
 </div>
 
 <div class="card-body">
-	@*<div class="row m-b-30">
-	<div class="col-lg-8">
-	<div class="d-md-flex">
-	<div class="m-b-10 m-r-15">
-	<select class="custom-select" id="idrole" name="idrole" style="min-width: 200px;" asp-items="ViewBag.QuyenAcc">
-	<option value="0" disabled selected>Quyền truy cập</option>
-	</select>
-	</div>
-	<div class="m-b-10">
-	<select class="custom-select" id="idrole" name="idrole" style="min-width: 200px;" asp-items="ViewBag.lsTrangThai">
-	<option value="0" disabled selected>Trạng thái truy cập</option>
-	</select>
-	</div>
-	</div>
-	</div>
-	</div>*@
 	<div class="table-responsive">
 		<table id="myTable" class="table table-hover e-commerce-table">
 			<thead>
@@ -73,7 +57,7 @@
 						RoomType
 						@if (ViewBag.RoomsParams == -1)
 						{
-							<select class="border-0" id="idRole" name="idRole" title="Chọn loại phòng trọ" style="max-width:15px" asp-items="ViewBag.lsLoaiPhong">
+							<select class="border-0" id="idRoom" name="idRoom" title="Chọn loại phòng trọ" style="max-width:15px" asp-items="ViewBag.lsLoaiPhong">
 							</select>
 						}
 
@@ -213,8 +197,8 @@
 				$(table.column(colIdx).nodes()).addClass('highlight');
 			});
 			// Lấy dữ liệu cho dropdown từ ViewData
-			$('#idRole').on('change', function () {
-				var selectedValue = $("#idRole option:selected").text(); // Lấy giá trị đã chọn từ dropdown
+			$('#idRoom').on('change', function () {
+				var selectedValue = $("#idRoom option:selected").text(); // Lấy giá trị đã chọn từ dropdown
 				// Lọc bảng dữ liệu bằng giá trị đã chọn
 				table.column(2).search(selectedValue).draw();
 			});

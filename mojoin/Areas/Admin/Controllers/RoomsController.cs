@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using mojoin.Extension;
 using mojoin.Models;
 using System.Data;
 using System.Security.Claims;
@@ -87,7 +88,7 @@ namespace mojoin.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RoomId,UserId,RoomTypeId,Title,Description,Price,Area,NumRooms,NumBathrooms,CreateDate,LastUpdate,IsActive,StreetNumber,Street,Ward,District,City,HasRefrigerator,HasAirConditioner,HasWasher,HasElevator,HasParking,ViewCount")] Room room)
+        public async Task<IActionResult> Create([Bind("RoomId,RoomTypeId,Title,Description,Price,Area,NumRooms,NumBathrooms,CreateDate,LastUpdate,IsActive,StreetNumber,Street,Ward,District,City,HasRefrigerator,HasAirConditioner,HasWasher,HasElevator,HasParking,ViewCount")] Room room)
         {
             if (ModelState.IsValid)
             {
@@ -112,7 +113,7 @@ namespace mojoin.Areas.Admin.Controllers
                     HasElevator = room.HasElevator,
                     HasParking = room.HasParking,
                     ViewCount = room.ViewCount,
-                    UserId = 5, // thêm sau khi hoàn tất loging
+                    UserId = HttpContext.GetUserId(), // thêm sau khi hoàn tất loging
                     CreateDate = DateTime.Now
                 });
                 await _context.SaveChangesAsync();

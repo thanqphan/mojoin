@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 using System.Collections.Generic;
 
 namespace mojoin.Models;
@@ -39,15 +40,15 @@ public partial class Room
 
     public string? City { get; set; }
 
-    public bool? HasRefrigerator { get; set; }
+    public bool HasRefrigerator { get; set; }
 
-    public bool? HasAirConditioner { get; set; }
+    public bool HasAirConditioner { get; set; }
 
-    public bool? HasWasher { get; set; }
+    public bool HasWasher { get; set; }
 
-    public bool? HasElevator { get; set; }
+    public bool HasElevator { get; set; }
 
-    public bool? HasParking { get; set; }
+    public bool HasParking { get; set; }
 
     public int? ViewCount { get; set; }
 
@@ -59,7 +60,9 @@ public partial class Room
 
     public virtual ICollection<RoomReport> RoomReports { get; set; } = new List<RoomReport>();
 
+    [ValidateNever]
     public virtual RoomType RoomType { get; set; } = null!;
 
+    [ValidateNever]
     public virtual User User { get; set; } = null!;
 }
