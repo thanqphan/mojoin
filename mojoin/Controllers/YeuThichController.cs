@@ -32,6 +32,12 @@ namespace mojoin.Controllers
         //    }
         //    return lstGiohang;
         //}
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public YeuThichController(IHttpContextAccessor httpContextAccessor)
+        {
+            _httpContextAccessor = httpContextAccessor;
+        }
         public List<Yeuthich> Layyeuthich()
         {
             string json = HttpContext.Session.GetString("Yeuthich");
@@ -80,10 +86,12 @@ namespace mojoin.Controllers
             }
             return tsl;
         }
+        
         public ActionResult YeuThich(int id)
         {
+            var taikhoanID = _httpContextAccessor.HttpContext.Session.GetString("UserId");
             var roomIDs = db.RoomFavorites.Include(r => r.Room).Include(r => r.User)
-            .Where(rf => rf.UserId == id)
+            .Where(rf => rf.UserId == int.Parse(taikhoanID))
             .ToList();
             ViewBag.tongsoluong = roomIDs.Count();
             return View(roomIDs);
@@ -97,24 +105,24 @@ namespace mojoin.Controllers
             return View(roomIDs);
         }
         [HttpGet]
-        public ActionResult LuuYeuThich()
-        {
+        //public ActionResult LuuYeuThich()
+        //{
 
-            if (Session["TaiKhoan"] == null || Session["TaiKhoan"].ToString() == "")
-            {
-                return RedirectToAction("DangNhap", "NguoiDung");
-            }
-            if (Session["GioHang"] == null)
-            {
-                return RedirectToAction("Index", "DanhSachSanPham");
-            }
-            List<Giohang> lstGiohang = Laygiohang();
-            ViewBag.Tongsoluong = TongSoLuong();
-            ViewBag.Tongtien = TongTien();
-            ViewBag.Tongsoluongsanpham = TongSoLuongSanPham();
-            return View(lstGiohang);
+        //    if (Session["TaiKhoan"] == null || Session["TaiKhoan"].ToString() == "")
+        //    {
+        //        return RedirectToAction("DangNhap", "NguoiDung");
+        //    }
+        //    if (Session["GioHang"] == null)
+        //    {
+        //        return RedirectToAction("Index", "DanhSachSanPham");
+        //    }
+        //    List<Giohang> lstGiohang = Laygiohang();
+        //    ViewBag.Tongsoluong = TongSoLuong();
+        //    ViewBag.Tongtien = TongTien();
+        //    ViewBag.Tongsoluongsanpham = TongSoLuongSanPham();
+        //    return View(lstGiohang);
 
-        }
+        //}
         //public ActionResult YeuThich(int id)
         //{
         //    // Lấy UserId từ thông tin người dùng hiện tại
