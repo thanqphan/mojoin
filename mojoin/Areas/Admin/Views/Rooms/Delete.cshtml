@@ -149,6 +149,6 @@
     <form asp-action="Delete">
         <input type="hidden" asp-for="RoomId" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <a asp-action="Index" asp-route-isActive="ViewBag.RoomsParams ">Back to List</a>
     </form>
 </div>

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<mojoin.Models.Room>
+﻿
 
 @{
 	ViewData["Title"] = "Index";
@@ -6,6 +6,11 @@
 	<link href="~/admin_assets/css/table.css" rel="stylesheet" />
 
 }
+<style>
+	form {
+		display: inline;
+	}
+</style>
 <link href="~/css/jquery.datatables.min.css" rel="stylesheet" />
 <div class="page-header">
 	<div class="header-sub-title">
@@ -46,119 +51,10 @@
 	</div>
 </div>
 
-<div class="card-body">
-	<div class="table-responsive">
-		<table id="myTable" class="table table-hover e-commerce-table">
-			<thead>
-				<tr>
-					<th>ID</th>
-					<th>Title</th>
-					<th>
-						RoomType
-						@if (ViewBag.RoomsParams == -1)
-						{
-							<select class="border-0" id="idRoom" name="idRoom" title="Chọn loại phòng trọ" style="max-width:15px" asp-items="ViewBag.lsLoaiPhong">
-							</select>
-						}
-
-					</th>
-					<th>
-						Trạng thái
-						@if (ViewBag.RoomsParams == -1)
-						{
-							<select class="border-0" id="idActive" name="idActive" title="Chọn Trạng thái" style="max-width:18px" asp-items="ViewBag.lsTrangThai">
-							</select>
-						}
-					</th>
-					<th>Chức năng</th>
-				</tr>
-			</thead>
-			<tbody>
-				@if (Model != null)
-				{
-					foreach (var item in Model)
-					{
-						<tr>
-							<th scope="row">@item.RoomId</th>
-
-							<td>
-								<div class="d-flex align-items-center">
-									<img class="img-fluid rounded" src="assets/images/others/thumb-15.jpg" style="max-width: 60px" alt="">
-									<h6 class="m-b-0 m-l-10">@item.Title</h6>
-								</div>
-
-							</td>
-							<td>
-								@if (item.RoomTypeId == 1)
-								{
-									<div class="d-flex align-items-center">
-										@*<div class="badge badge-success badge-dot m-r-10"></div>*@
-										<div>Nhà trọ</div>
-									</div>
-								}
-								else if (item.RoomTypeId == 2)
-								{
-									<div class="d-flex align-items-center">
-										@*<div class="badge badge-warning badge-dot m-r-10"></div>*@
-										<div>Căn hộ</div>
-									</div>
-								}
-								else if (item.RoomTypeId == 3)
-								{
-									<div class="d-flex align-items-center">
-										@* <div class="badge badge-danger badge-dot m-r-10"></div>*@
-										<div>Ở chung chủ</div>
-									</div>
-								}
-								else if (item.RoomTypeId == 4)
-								{
-									<div class="d-flex align-items-center">
-										@* <div class="badge badge-danger badge-dot m-r-10"></div>*@
-										<div>Ở ghép</div>
-									</div>
-								}
-							</td>
-							@*<td>@item.Phone</td>
-					<td><img class="avatar" src="" alt="Avatar" /></td>
-					<td>@(item.Room != null ? item.Rooms.RoleName : "")</td>*@
-							<td>
-								@if (item.IsActive == 1)
-								{
-									<div class="d-flex align-items-center">
-										<div class="badge badge-success badge-dot m-r-10"></div>
-										<div>Đã duyệt</div>
-									</div>
-								}
-								else if (item.IsActive == 2)
-								{
-									<div class="d-flex align-items-center">
-										<div class="badge badge-warning badge-dot m-r-10"></div>
-										<div>Không được duyệt</div>
-									</div>
-								}
-								else
-								{
-									<div class="d-flex align-items-center">
-										<div class="badge badge-danger badge-dot m-r-10"></div>
-										<div>Chưa duyệt</div>
-									</div>
-								}
-							</td>
-							@*@if (ViewBag.RoomsParams == -1)
-					{*@
-							<td>
-								<a class="btn btn-secondary btn-tone m-r-5 fa fa-eye" title="Details" asp-action="Details" asp-route-id="@item.RoomId"></a>
-								<a class="btn btn-warning btn-tone m-r-5 fa fa-edit" title="Edit" asp-action="Edit" asp-route-id="@item.RoomId"></a>
-								<a class="btn btn-danger btn-tone m-r-5 fa fa-trash" title="Delete" asp-action="Delete" asp-route-id="@item.RoomId"></a>
-							</td>
-							@* }
-					<a class="btn btn-secondary btn-tone m-r-5 fa fa-eye" title="Phê Duyệt" asp-route-id="@item.RoomId"></a>*@
-						</tr>
-					}
-				}
-			</tbody>
-		</table>
-	</div>
+<div class="card-body" id="list-room">
+	@{
+		Html.RenderPartialAsync("ListRoom");
+	}
 </div>
 	</div>
 <script>
@@ -210,6 +106,26 @@
 
 		});
 
+		function UpdateActiveStatus(id){
+			$.ajax({
+				url: '@Url.Action("UpdateRoomActive", "Rooms")',
+				type: 'GET',
+				cache: false,
+				data: { roomId: id }
+			}).done(function (result) {
+				$('#list-room').html(result);
+			});
+		}
 
+		//function DeleteRoom(id) {
+		//	$.ajax({
+		//		url: '@Url.Action("DeleteRoom", "Rooms")',
+		//		type: 'GET',
+		//		cache: false,
+		//		data: { roomId: id }
+		//	}).done(function (result) {
+		//		$('#list-room').html(result);
+		//	});
+		//}
 	</script>
 	}
