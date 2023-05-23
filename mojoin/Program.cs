@@ -30,6 +30,12 @@ builder.Services.AddAuthorization(options =>
             (c.Type == "RoleAcc" && c.Value == "2")    // staff
         )
     ));
+    options.AddPolicy("Users", policy => policy.RequireAssertion(context =>
+        context.User.HasClaim(c =>
+            (c.Type == "RoleAcc" && c.Value == "1") || // admin
+            (c.Type == "RoleAcc" && c.Value == "2")   // staff
+        )
+    ));
 
 });
 // Register DbContext

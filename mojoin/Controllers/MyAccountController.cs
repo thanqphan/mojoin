@@ -23,12 +23,12 @@ namespace mojoin.Controllers
             _context = context;
             _notyfService = notyfService;
         }
+        [Route("quan-li-tin.html", Name = "QuanLiTin")]
         public IActionResult Index()
         {
             return View();
         }
         [HttpGet]
-        [AllowAnonymous]
         [Route("dang-bai.html", Name = "DangBai")]
         public IActionResult CreatePosts()
         {
@@ -37,7 +37,6 @@ namespace mojoin.Controllers
             return View();
         }
         [HttpPost]
-        [AllowAnonymous]
         [Route("dang-bai.html", Name = "DangBai")]
         public async Task<IActionResult> CreatePosts(RoomPostViewModel room)
         {
@@ -60,89 +59,95 @@ namespace mojoin.Controllers
                             // Trường có tên là "key" không có lỗi validation
                         }
                     }
-                }
-                if (ModelState.IsValid)
-                {
-                    //*						string salt = Utilities.GetRandomKey();
-                    Room user = new Room
-                    {
-                        RoomTypeId = room.RoomTypeId,
-                        UserId = room.UserId,
-                        Title = room.Title,
-                        Description = room.Description,
-                        Price = room.Price,
-                        Area = room.Area,
-                        NumRooms = room.NumRooms,
-                        NumBathrooms = room.NumBathrooms,
-                        CreateDate = DateTime.Now,
-                        LastUpdate = DateTime.Now,
-                        IsActive = 0,
-                        StreetNumber = room.StreetNumber,
-                        Street = room.Street,
-                        Ward = room.Ward,
-                        District = room.District,
-                        City = room.City,
-                        HasAirConditioner = room.HasAirConditioner,
-                        HasElevator = room.HasElevator,
-                        HasParking = room.HasParking,
-                        HasRefrigerator = room.HasRefrigerator,
-                        HasWasher = room.HasWasher,
-                        ViewCount = 1,
-                    };
-                    try
-                    {
-                        _context.Add(user);
-                        await _context.SaveChangesAsync();
 
-                        _notyfService.Success("Gửi bài thành công!");
-                        return RedirectToAction("Index", "MyAccount");
-                    }
-                    catch
-                    {
-                        return RedirectToAction("Register", "Account");
-                    }
-                }
-                else
-                {
                     _notyfService.Error("Gửi bài không thành công!");
                     return View(room);
                 }
+
+                Room user = new Room
+                {
+                    RoomTypeId = room.RoomTypeId,
+                    UserId = room.UserId,
+                    Title = room.Title,
+                    Description = room.Description,
+                    Price = room.Price,
+                    Area = room.Area,
+                    NumRooms = room.NumRooms,
+                    NumBathrooms = room.NumBathrooms,
+                    CreateDate = DateTime.Now,
+                    LastUpdate = DateTime.Now,
+                    IsActive = 0,
+                    StreetNumber = room.StreetNumber,
+                    Street = room.Street,
+                    Ward = room.Ward,
+                    District = room.District,
+                    City = room.City,
+                    HasAirConditioner = room.HasAirConditioner,
+                    HasElevator = room.HasElevator,
+                    HasParking = room.HasParking,
+                    HasRefrigerator = room.HasRefrigerator,
+                    HasWasher = room.HasWasher,
+                    ViewCount = 1,
+                };
+
+                _context.Add(user);
+                await _context.SaveChangesAsync();
+                int roomId = user.RoomId; // Thực hiện tạo mới roomId
+
+                // Lưu roomId vào TempData để sử dụng trong action UploadImages
+                TempData["RoomId"] = roomId;
+
+                // Các logic xử lý khác của action CreatePosts
+                _notyfService.Success("Gửi bài thành công!");
+                // Chuyển hướng đến action UploadImages và truyền roomId qua route data
+                return RedirectToAction("Index", "MyAccount");
             }
             catch
             {
+                _notyfService.Error("Gửi bài không thành công!");
                 return View(room);
             }
         }
+
         [HttpPost]
-        public async Task<IActionResult> UploadImages(List<IFormFile> images, int roomId)
+        public async Task<IActionResult> UploadImages(List<IFormFile> images)
         {
-            foreach (var image in images)
+            int roomId = Convert.ToInt32(TempData["RoomId"]);            // Lấy ra ID của phòng từ TempData
+            try
             {
-                // Xử lý tệp ảnh, ví dụ: lưu trữ ảnh trong thư mục "wwwroot/Images" của dự án
-                if (image.Length > 0)
+                foreach (var image in images)
                 {
-                    var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Images", image.FileName);
-                    using (var fileStream = new FileStream(imagePath, FileMode.Create))
+                    // Xử lý tệp ảnh, ví dụ: lưu trữ ảnh trong thư mục "wwwroot/Images" của dự án
+                    if (image.Length > 0)
                     {
-                        await image.CopyToAsync(fileStream);
+                        var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", image.FileName);
+                        using (var fileStream = new FileStream(imagePath, FileMode.Create))
+                        {
+                            await image.CopyToAsync(fileStream);
+                        }
+
+                        // Lưu thông tin ảnh vào cơ sở dữ liệu
+                        var imageModel = new RoomImage
+                        {
+                            RoomId = roomId,
+                            Image = Url.Content("~/images/" + image.FileName)
+                        };
+
+                        // Sử dụng đối tượng DbContext để thêm bản ghi mới vào bảng ảnh
+                        _context.RoomImages.Add(imageModel);
+                        await _context.SaveChangesAsync();
                     }
-
-                    // Lưu thông tin ảnh vào cơ sở dữ liệu
-                    var imageModel = new RoomImage
-                    {
-                        RoomId = roomId,
-/*                        RoomImageId = Guid.NewGuid().ToString(),
-*/                        Image = imagePath
-                    };
-
-                    // Sử dụng đối tượng DbContext để thêm bản ghi mới vào bảng ảnh
-                    _context.RoomImages.Add(imageModel);
-                    await _context.SaveChangesAsync();
                 }
+                _notyfService.Success("Gửi bài thành công!");
+
+                // Hoàn thành quá trình tải lên và chuyển hướng hoặc trả về thông báo thành công
+                return RedirectToAction("Index", "MyAccount");
             }
-            _notyfService.Success("Upload thành công!");
-            // Hoàn thành quá trình tải lên và chuyển hướng hoặc trả về thông báo thành công
-            return View();
+            catch
+            {
+                _notyfService.Error("Upload không thành công!");
+                return RedirectToAction("CreatePosts");
+            }
         }
 
     }

@@ -14,12 +14,13 @@
 }
 <link href="~/css/createpost.css" rel="stylesheet" />
 <div class="create-post">
-    <form asp-action="CreatePosts" asp-controller="MyAccount">
+    <form id="createRoomForm" asp-action="CreatePosts" asp-controller="MyAccount">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="navigation-buttons">
             <button id="btn-prev" class="fa fa-arrow-left" type="button" onclick="prevDiv()"></button>
             <button id="btn-next" class="fa fa-arrow-right" type="button" onclick="nextDiv()"></button>
-            <button  id="btn-save" type="submit">Tạo mới</button>
+            <input id="btn-save" type="submit" name="create-post" value="Tạo mới" />
+
         </div>
         <input asp-for="UserId" type="hidden" name="UserId" value="@userId" />
         <div class="form-group" id="type-div">
@@ -134,73 +135,129 @@
                 <label class="label-item-min">Tủ lạnh</label>
             </div>
             <div class="input-group">
-                <input asp-for="HasAirConditioner" type="checkbox" class="checkbox-item" />            
+                <input asp-for="HasAirConditioner" type="checkbox" class="checkbox-item" />
                 <label class="label-item-min">Máy lạnh</label>
             </div>
             <div class="input-group">
-                <input asp-for="HasWasher" type="checkbox" class="checkbox-item" />          
+                <input asp-for="HasWasher" type="checkbox" class="checkbox-item" />
                 <label class="label-item-min">Máy giặt</label>
             </div>
             <div class="input-group">
-                <input asp-for="HasElevator" type="checkbox" class="checkbox-item" />            
+                <input asp-for="HasElevator" type="checkbox" class="checkbox-item" />
                 <label class="label-item-min">Thang máy</label>
             </div>
             <div class="input-group">
-                <input asp-for="HasParking" type="checkbox" class="checkbox-item">            
+                <input asp-for="HasParking" type="checkbox" class="checkbox-item">
                 <label class="label-item-min">Bãi xe</label>
             </div>
         </div>
-
+    </form>
+    <form id="uploadForm" method="post" enctype="multipart/form-data" asp-action="UploadImages" asp-controller="MyAccount">
         <div class="form-group" id="uploadimg-div" style="display:none;">
             <h2 class="title-div">Ảnh phòng</h2>
-            <form id="uploadForm" method="post" enctype="multipart/form-data" asp-action="UploadImages" asp-controller="MyAccount">
-                <input type="file" name="images" id="imageInput" multiple />
-                <button type="submit">Upload</button>
-            </form>
-            <div id="imagePreviewContainer"></div>
-        </div>
-
-        
-
-        
-
-
-
+            <div id="image-container" class="image-container">
+            </div>
+            <div class="upload-buttons">
+                <label for="file-upload" class="file-button">Chọn file</label>
+                <input id="file-upload" name="images" type="file" accept="image/*" multiple>
+            </div>
+     </div>
     </form>
-
-
-
-
 </div>
+
 <script>
-    // Lắng nghe sự kiện khi người dùng chọn tệp hình ảnh
-    document.getElementById('imageInput').addEventListener('change', function () {
-        var container = document.getElementById('imagePreviewContainer');
-        container.innerHTML = ''; // Xóa bỏ các hình ảnh xem trước hiện tại (nếu có)
+    document.getElementById("createRoomForm").addEventListener("submit", function (event) {
+        event.preventDefault(); // Ngăn chặn submit form mặc định
 
-        var files = this.files;
-        for (var i = 0; i < files.length; i++) {
-            var file = files[i];
-            var reader = new FileReader();
+        // Thực hiện submit form "CreatePosts"
+        var createPostsForm = document.getElementById("createRoomForm");
+        var createPostsFormData = new FormData(createPostsForm);
+        var createPostsRequest = new XMLHttpRequest();
+        createPostsRequest.open(createPostsForm.method, createPostsForm.action);
+        createPostsRequest.send(createPostsFormData);
 
-            // Đọc nội dung của tệp hình ảnh và hiển thị xem trước
-            reader.onload = function (e) {
-                var img = document.createElement('img');
-                img.src = e.target.result;
-                img.classList.add('preview-image');
-                container.appendChild(img);
-            };
+        createPostsRequest.onload = function () {
+            // Kiểm tra nếu "CreatePosts" thành công
+            if (createPostsRequest.status === 200) {
+                // Thực hiện submit form "UploadImages"
+                var uploadForm = document.getElementById("uploadForm");
+                var uploadFormData = new FormData(uploadForm);
+                var uploadRequest = new XMLHttpRequest();
+                uploadRequest.open(uploadForm.method, uploadForm.action);
+                uploadRequest.send(uploadFormData);
 
-            reader.readAsDataURL(file); // Đọc tệp hình ảnh dưới dạng URL dữ liệu
-
+                uploadRequest.onload = function () {
+                    // Kiểm tra nếu "UploadImages" thành công
+                    if (uploadRequest.status === 200) {
+                        // Chuyển hướng đến trang Index của MyAccountController
+                        window.location.href = "/MyAccount/Index";
+                    } else {
+                        // Xử lý lỗi khi submit form "UploadImages"
+                    }
+                }
+            } else {
+                // Xử lý lỗi khi submit form "CreatePosts"
+            }
         }
+
     });
 
 </script>
 <script>
+    // Lắng nghe sự kiện khi có hình ảnh được chọn
+    document.getElementById('file-upload').addEventListener('change', handleFileSelect, false);
+
+    // Hàm xử lý khi có hình ảnh được chọn
+    function handleFileSelect(event) {
+        var files = event.target.files; // Danh sách các file được chọn
+        var imageContainer = document.getElementById('image-container');
+
+        // Duyệt qua từng file và tạo các image preview
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            var reader = new FileReader();
+
+            // Đọc file ảnh và tạo image preview
+            reader.onload = (function (file) {
+                return function (event) {
+                    var imagePreview = createImagePreview(event.target.result);
+                    imageContainer.appendChild(imagePreview);
+                };
+            })(file);
+
+            // Đọc file ảnh dưới dạng dữ liệu URL
+            reader.readAsDataURL(file);
+        }
+    }
+
+    // Hàm tạo image preview
+    function createImagePreview(imageUrl) {
+        var imagePreview = document.createElement('div');
+        imagePreview.className = 'image-preview';
+
+        var img = document.createElement('img');
+        img.src = imageUrl;
+        imagePreview.appendChild(img);
+
+        var deleteButton = document.createElement('button');
+        deleteButton.className = 'delete-button';
+        deleteButton.textContent = 'Xóa';
+        deleteButton.addEventListener('click', function () {
+            imagePreview.remove();
+        });
+        imagePreview.appendChild(deleteButton);
+
+        return imagePreview;
+    }
+</script>
+
+
+<script>
     function uploadImages() {
         // Lấy các giá trị của form và thực hiện tác vụ tải lên bằng AJAX hoặc gửi form đến action UploadImages
         var formData = new FormData(document.getElementById('uploadForm'));
+        var formData = new FormData(document.getElementById('uploadForm'));
+        formData.append("images", file);
         $.ajax({
             url: '/MyAccount/UploadImages',
             type: 'POST',
@@ -213,7 +270,7 @@
             },
             error: function (xhr, status, error) {
                 // Xử lý lỗi
-                alert('Tải lên thành công!');   
+                alert('Tải lên thành công!');
             }
         });
     }

@@ -2,5 +2,34 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_LayoutDangtin.cshtml";
 }
+<link href="~/css/postmanagement.css" rel="stylesheet" />
+<div class="post-manage">
+    <h2 class="title-div">Quản lý tin</h2>
+    <div class="property-tabs" id="">
+        <ul class="noselect">
+            <li id="" class="select-post">
+                Đang đăng
+                <span class="num-post">()</span>
+            </li>
+            <li id="" class="select-post">
+                Đang chờ
+                <span class="num-post">()</span>
+            </li>
+            <li id="" class="select-post">
+                Tin lỗi
+                <span class="num-post">()</span>
+            </li>
+        </ul>
+    </div>
+    <div class="property-list" id="">
+        <div id="active-list">
 
-<h1>Demo</h1>
+        </div>
+        <div id="wait-list">
+
+        </div>
+        <div id="err-list">
+
+        </div>
+    </div>
+</div>
