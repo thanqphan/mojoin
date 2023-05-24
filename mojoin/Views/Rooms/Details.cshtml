@@ -108,15 +108,40 @@
 
             <div @*id="viewlist"*@ class="agent-command-widget">
                 @*@{
-                    Html.RenderPartial("~/Views/YeuThich/YeuThichPartial.cshtml");
+                Html.RenderPartial("~/Views/YeuThich/YeuThichPartial.cshtml");
                 }*@
                 <div class="DatMua" style="display: inline-block; justify-content: flex-end">
-                    <a title="Đặt hàng" class="btn-add-cat btn btn-outline-secondary fa fa-shopping-cart text-black " href="/YeuThich/LuuYeuThich"></a>
+                    @if (ViewBag.IsYeuThich)
+                {
+                        <div class="SaveAd_saveAdWrapper___sBMh AdItem_saveAd__3prt2 ">
+                            <a href="@Url.Action("XoaYeuThich", "YeuThich", new { id = Model.RoomId })" id="btn_save_ad" onclick="" type="button" class="SaveAd_btnSavedAd__jwoYd ">
+                                <img id="img_save_ad" height="20" width="20" src="https://static.chotot.com/storage/icons/saveAd/save-ad-active.svg" alt="like" loading="lazy" data-saved="false">
+                            </a>
+                        </div>
+@*                <a title="Xóa khỏi yêu thích" class="btn-add-cat btn btn-outline-secondary fa fa-heart text-danger" href="@Url.Action("XoaYeuThich", "YeuThich", new { id = Model.RoomId })"></a>*@
+                }
+                else
+                {
+                        <div class="SaveAd_saveAdWrapper___sBMh AdItem_saveAd__3prt2 ">
+                            <a href="@Url.Action("LuuYeuThich", "YeuThich", new { id = Model.RoomId })" id="btn_save_ad" onclick="" type="button" class="SaveAd_btnSavedAd__jwoYd ">
+                                <img id="img_save_ad" height="20" width="20" src="https://static.chotot.com/storage/icons/saveAd/save-ad.svg" alt="like" loading="lazy" data-saved="false">
+                            </a>
+                        </div>
+                @*<div class="DatMua" style="display: inline-block; justify-content: flex-end">
+                <a title="Thêm vào yêu thích" class="btn-add-cat btn btn-outline-secondary fa fa-heart text-black" href="@Url.Action("LuuYeuThich", "YeuThich", new { id = Model.RoomId })"></a>
+                </div>*@
+                }
                 </div>
+                @*<div class="DatMua" style="display: inline-block; justify-content: flex-end">
+                <a title="Đặt hàng" class="btn-add-cat btn btn-outline-secondary fa fa-shopping-cart text-black " href="@Url.Action("LuuYeuThich", "YeuThich", new { id = Model.RoomId })"></a>
+                </div>
+                <div class="DatMua" style="display: inline-block; justify-content: flex-end">
+                <a title="Đặt hàng" class="btn-add-cat btn btn-outline-secondary fa fa-shopping-cart text-black " href="@Url.Action("XoaYeuThich", "YeuThich", new { id = Model.RoomId })"></a>
+                </div>*@
             </div>
         </div>
     </div>
 </div>
 <script>
-    
+
 </script>
