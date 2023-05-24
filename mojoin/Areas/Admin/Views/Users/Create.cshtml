@@ -39,6 +39,15 @@
                     <form asp-action="Create">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group">
+                            <label class="font-weight-semibold" for="productCategory">Mã quyền</label>
+                            <select asp-for="RolesId" class="custom-select" id="productCategory">
+                                <option value="1" selected="">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label>Họ</label>
                             <input asp-for="LastName" class="form-control" />
                             <span asp-validation-for="LastName" class="text-danger"></span>
@@ -65,10 +74,10 @@
                         </div>
                         <div class="form-group">
                             <label class="font-weight-semibold" for="productCategory">Giới tính</label>
-                            <select class="custom-select" id="productCategory">
-                                <option value="nam" selected="">Nam</option>
-                                <option value="nu">Nữ</option>
-                                <option value="Khac">Khác</option>
+                            <select asp-for="Sex" class="custom-select" id="productCategory">
+                                <option value="1" selected="">Nam</option>
+                                <option value="2">Nữ</option>
+                                <option value="3">Khác</option>
                                
                             </select>
                         </div>
@@ -98,16 +107,7 @@
                             <input asp-for="InfoFacebook" class="form-control" />
                             <span asp-validation-for="InfoFacebook" class="text-danger"></span>
                         </div>
-                        <div class="form-group">
-                            <label>Mã Google</label>
-                            <input asp-for="GoogleId" class="form-control" />
-                            <span asp-validation-for="GoogleId" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label>Ngày tạo</label>
-                            <input asp-for="CreateDate" class="form-control" />
-                            <span asp-validation-for="CreateDate" class="text-danger"></span>
-                        </div>
+                       
                         <div class="form-group">
                             <input type="submit" value="Thêm" class="btn btn-primary btn-tone" />
                         </div>

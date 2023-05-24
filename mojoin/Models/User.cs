@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 using System.Collections.Generic;
 
 namespace mojoin.Models;
@@ -7,6 +8,7 @@ public partial class User
 {
     public int UserId { get; set; }
 
+    
     public int RolesId { get; set; }
 
     public string? FirstName { get; set; }
@@ -41,6 +43,7 @@ public partial class User
 
     public DateTime? CreateDate { get; set; }
 
+    [ValidateNever]
     public virtual Role Roles { get; set; } = null!;
 
     public virtual ICollection<RoomFavorite> RoomFavorites { get; set; } = new List<RoomFavorite>();

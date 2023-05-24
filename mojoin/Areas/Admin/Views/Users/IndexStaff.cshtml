@@ -1,15 +1,15 @@
 ﻿@model IEnumerable<mojoin.Models.User>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "IndexStaff";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
 <div class="page-header">
     <div class="header-sub-title">
         <nav class="breadcrumb breadcrumb-dash">
-            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
-            <span class="breadcrumb-item active">Danh sách người dùng</span>
+            <a asp-area="Admin" asp-controller="Home" asp-action="IndexStaff" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <span class="breadcrumb-item active">Danh sách Nhân viên</span>
         </nav>
     </div>
 </div>
@@ -27,7 +27,7 @@
                     </div>
 
                     <div class="col-md-4 text-right">
-                        <a class="btn btn-success btn-tone m-r-5" asp-action="Create">Thêm</a>
+                        <a class="btn btn-success btn-tone m-r-5" asp-action="CreateStaff">Thêm</a>
                     </div>
                 </div>
             </div>
@@ -37,20 +37,21 @@
                     <table id="myTable" class="table table-hover e-commerce-table">
                         <thead>
                             <tr>
-                                <th scope="col">Tên quyền</th>
+                                <th scope="col">Mã quyền</th>
                                 <th scope="col">Họ</th>
                                 <th scope="col">Tên</th>
                                 <th scope="col">Số điện thoại</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Địa chỉ</th>
-                                
+
                                 <th>
                                     Trạng thái hoạt động
-
-
-                                    <select class="border-0" id="idActive" name="idActive" title="Chọn Trạng thái" style="max-width:20px" asp-items="ViewBag.lstrangthaihoatdong">
+                                    @if (ViewBag.IsActive == -1)
+                                    {
+                                        <select class="border-0" id="idRole" name="idRole" title="Trạng thái hoạt động" style="max-width:15px" asp-items="ViewBag.lsTrangThaiHoatDong">
                                         </select>
-                                    
+                                    }
+
                                 </th>
                                 <th scope="col">Chức năng</th>
                             </tr>
@@ -63,7 +64,7 @@
                                         @Html.DisplayFor(modelItem => item.RolesId)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.LastName)                                        
+                                        @Html.DisplayFor(modelItem => item.LastName)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.FirstName)
@@ -83,7 +84,7 @@
                                         @if (item.IsActive == true)
                                         {
                                             <div class="d-flex align-items-center">
-                                                <div class="badge badge-success badge-dot m-r-10"></div>   
+                                                <div class="badge badge-success badge-dot m-r-10"></div>
                                                 <div>Đang hoạt động</div>
                                             </div>
                                         }
@@ -96,9 +97,9 @@
                                         }
                                     </td>
                                     <td>
-                                        <a class="btn btn-tone m-r-5 fa fa-eye" title="Details" asp-action="Details" asp-route-id="@item.UserId"></a>
-                                        <a class="btn btn-tone m-r-5 fa fa-edit" title="Edit" asp-action="Edit" asp-route-id="@item.UserId"></a>
-                                        <a class="btn btn-tone m-r-5 fa fa-trash" title="Delete" asp-action="Delete" asp-route-id="@item.UserId"></a>
+                                        <a class="btn  fa fa-eye" title="Details" asp-action="Details" asp-route-id="@item.UserId"></a>
+                                        <a class="btn  fa fa-edit" title="Edit" asp-action="Edit" asp-route-id="@item.UserId"></a>
+                                        <a class="btn  fa fa-trash" title="Delete" asp-action="Delete" asp-route-id="@item.UserId"></a>
                                     </td>
                                 </tr>
                             }
@@ -106,7 +107,7 @@
                         </tbody>
 
                     </table>
-                    
+
 
                 </div>
             </div>
@@ -159,12 +160,12 @@
             $('#idRole').on('change', function () {
                 var selectedValue = $("#idRole option:selected").text(); // Lấy giá trị đã chọn từ dropdown
                 // Lọc bảng dữ liệu bằng giá trị đã chọn
-                table.column(1).search(selectedValue).draw();
+                table.column(2).search(selectedValue).draw();
             });
             $('#idActive').on('change', function () {
                 var selectedValue = $("#idActive option:selected").text(); // Lấy giá trị đã chọn từ dropdown
                 // Lọc bảng dữ liệu bằng giá trị đã chọn
-                table.column(6).search(selectedValue).draw();
+                table.column(3).search(selectedValue).draw();
             });
 
         });
