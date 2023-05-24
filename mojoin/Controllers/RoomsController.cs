@@ -77,22 +77,6 @@ namespace mojoin.Controllers
 
 /*            ViewBag.UserFullName = room.UserFullName;
 */            return View(room);
-        }
-        public ActionResult Yeuthich(int id)
-        {
-            var room = db.Rooms
-                 .Include(r => r.User).Include(r => r.RoomImages).Where(ri => ri.RoomId == id).ToList()
-                 .FirstOrDefault(r => r.RoomId == id);
-
-            if (room == null)
-            {
-                return NotFound();
-            }
-            ViewBag.SDT = room.User.Phone;
-            ViewBag.NgayThamGia = room.User.CreateDate;
-            ViewBag.Ho = room.User.LastName;
-            ViewBag.Ten = room.User.FirstName;
-            return View(room);
-        }
+        }      
     }
 }

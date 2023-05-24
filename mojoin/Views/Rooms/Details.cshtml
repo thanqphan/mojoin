@@ -111,8 +111,7 @@
                     Html.RenderPartial("~/Views/YeuThich/YeuThichPartial.cshtml");
                 }*@
                 <div class="DatMua" style="display: inline-block; justify-content: flex-end">
-                    <a title="Đặt hàng" class="btn-add-cat btn btn-outline-secondary fa fa-shopping-cart text-black " href="@Url.Action("ThemYeuThich", "YeuThich",
-                 new { @id = Model.RoomId, @strURL = Url.ActionContext.HttpContext.Request.GetEncodedUrl() })"></a>
+                    <a title="Đặt hàng" class="btn-add-cat btn btn-outline-secondary fa fa-shopping-cart text-black " href="/YeuThich/LuuYeuThich"></a>
                 </div>
             </div>
         </div>

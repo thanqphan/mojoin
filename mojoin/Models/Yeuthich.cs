@@ -11,9 +11,10 @@ namespace mojoin.Models
 {
     public class Yeuthich
     {
-        DbmojoinContext db = new DbmojoinContext();
+        [Key]
+        public int FavoriteId { get; set; }
         public int RoomId { get; set; }
-        public int Soluong { get; set; }
+        public int UserId { get; set; }
         public string? Title { get; set; }
         public string? StreetNumber { get; set; }
 
@@ -30,31 +31,8 @@ namespace mojoin.Models
         public double? Area { get; set; }
         public double? Price { get; set; }
         public string? Description { get; set; }
-        [Display(Name = "Ngày đăng")]
+
         public DateTime? CreateDate { get; set; }
-        public string? FirstName { get; set; }
 
-        public string? LastName { get; set; }
-
-        public string? Phone { get; set; }
-        public string? Avatar { get; set; }
-        public Yeuthich(int id)
-        {
-            RoomId = id;
-            Room room = db.Rooms.Single(n => n.RoomId == RoomId);
-            Title = room.Title;
-            StreetNumber = room.StreetNumber;
-            Street = room.Street;
-            Ward = room.Ward;
-            District = room.District;
-            City = room.City;
-            NumRooms = room.NumRooms;
-            NumBathrooms = room.NumBathrooms;
-            Area = room.Area;
-            Description = room.Description;
-            Price = room.Price;
-            CreateDate = room.CreateDate;
-            Soluong = 1;
-        }
     }
 }

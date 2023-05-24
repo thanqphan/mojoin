@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using mojoin.Models;
 
 namespace mojoin.Models;
 
@@ -197,4 +198,6 @@ public partial class DbmojoinContext : DbContext
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+    public DbSet<mojoin.Models.Yeuthich>? Yeuthich { get; set; }
 }

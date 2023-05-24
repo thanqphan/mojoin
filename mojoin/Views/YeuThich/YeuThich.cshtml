@@ -1,4 +1,4 @@
-﻿@model IEnumerable<mojoin.Models.RoomFavorite>
+﻿@model IEnumerable<mojoin.Models.Yeuthich>
 
 @{
     ViewData["Title"] = "YeuThich";
@@ -86,24 +86,24 @@
                                     </div>
                                 </div>
                                 <div class="posted-date clearfix ">Ngày đăng:@String.Format("{0:dd/MM/yyyy}", @item.CreateDate)</div>
-@*
-                                <div class="property-agent clearfix">
-                                    <div class="agent-image">
-                                        <img src="@item.Avatar">
-                                    </div>
-                                    <div class="agent-info">
-                                        <div class="agent-intro clearfix">
-                                            <div class="agent-name mg-tr">
-                                                @item.LastName @item.FirstName
-                                            </div>
-                                            <div class="agent-mobile">@item.Phone</div>
-                                        </div>
-                                        <div class="command-delete">
-                                            <span class="icon icon-trash"></span>
-                                        </div>
-                                    </div>
+                                @*
+                            <div class="property-agent clearfix">
+                            <div class="agent-image">
+                            <img src="@item.Avatar">
+                            </div>
+                            <div class="agent-info">
+                            <div class="agent-intro clearfix">
+                            <div class="agent-name mg-tr">
+                            @item.LastName @item.FirstName
+                            </div>
+                            <div class="agent-mobile">@item.Phone</div>
+                            </div>
+                            <div class="command-delete">
+                            <span class="icon icon-trash"></span>
+                            </div>
+                            </div>
 
-                                </div>*@
+                            </div>*@
                             </div>
                         </div>
                     }

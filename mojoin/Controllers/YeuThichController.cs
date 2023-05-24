@@ -53,23 +53,7 @@ namespace mojoin.Controllers
                 lstYeuthich = JsonConvert.DeserializeObject<List<Yeuthich>>(json);
             }
             return lstYeuthich;
-        }
-        public ActionResult ThemYeuThich(int id, string strURL)
-        {
-            List<Yeuthich> lstYeuthich = Layyeuthich();
-            Yeuthich yt = lstYeuthich.Find(n => n.RoomId == id);
-            if (yt == null)
-            {
-                yt = new Yeuthich(id);
-                lstYeuthich.Add(yt);
-                return Redirect(strURL);
-            }
-            else
-            {
-                yt.Soluong++;
-                return Redirect(strURL);
-            }
-        }
+        }       
         private int TongSoLuongYeuThich()
         {
             int tsl = 0;
@@ -90,11 +74,33 @@ namespace mojoin.Controllers
         public ActionResult YeuThich(int id)
         {
             var taikhoanID = _httpContextAccessor.HttpContext.Session.GetString("UserId");
-            var roomIDs = db.RoomFavorites.Include(r => r.Room).Include(r => r.User)
-            .Where(rf => rf.UserId == int.Parse(taikhoanID))
-            .ToList();
-            ViewBag.tongsoluong = roomIDs.Count();
-            return View(roomIDs);
+            // Truy vấn danh sách yêu thích từ CSDL
+            var roomFavorites = db.RoomFavorites.Include(r => r.Room).Include(r => r.User)
+                .Where(rf => rf.UserId == int.Parse(taikhoanID))
+                .ToList();
+
+            // Chuyển đổi danh sách yêu thích sang ViewModel Yeuthich
+            var yeuthichList = roomFavorites.Select(rf => new Yeuthich
+            {
+                FavoriteId = rf.FavoriteId,
+                RoomId = rf.Room.RoomId,
+                UserId = rf.UserId,
+                Title = rf.Room.Title,
+                StreetNumber = rf.Room.StreetNumber,
+                Street = rf.Room.Street,
+                Ward = rf.Room.Ward,
+                District = rf.Room.District,
+                City = rf.Room.City,
+                NumRooms = rf.Room.NumRooms,
+                NumBathrooms = rf.Room.NumBathrooms,
+                Area = rf.Room.Area,
+                Price = rf.Room.Price,
+                Description = rf.Room.Description,
+                CreateDate = rf.Room.CreateDate
+            }).ToList();
+            ViewBag.tongsoluong = roomFavorites.Count();
+            // Truyền danh sách yêu thích sang View
+            return View(yeuthichList);
         }
         public ActionResult UserPartial(int id)
         {
@@ -104,51 +110,42 @@ namespace mojoin.Controllers
 
             return View(roomIDs);
         }
-        [HttpGet]
-        //public ActionResult LuuYeuThich()
+        public ActionResult LuuYeuThich(int id)
+        {
+            Room s = new Room();
+            var taikhoanID = _httpContextAccessor.HttpContext.Session.GetString("UserId");
+            if (taikhoanID == null || taikhoanID.ToString() == "")
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            List<Yeuthich> gh = Layyeuthich();
+                RoomFavorite ctdh = new RoomFavorite();
+                ctdh.RoomId = s.RoomId;
+                ctdh.UserId = int.Parse(taikhoanID);
+                s = db.Rooms.Single(n => n.RoomId == s.RoomId);               
+                db.RoomFavorites.Add(ctdh);
+                db.SaveChanges();
+                return View();
+        }
+        //public ActionResult LuuYeuThich(int id)
         //{
-
-        //    if (Session["TaiKhoan"] == null || Session["TaiKhoan"].ToString() == "")
+        //    var taikhoanID = _httpContextAccessor.HttpContext.Session.GetString("UserId");
+        //    if (taikhoanID == null || taikhoanID.ToString() == "")
         //    {
-        //        return RedirectToAction("DangNhap", "NguoiDung");
+        //        return RedirectToAction("Login", "Account");
         //    }
-        //    if (Session["GioHang"] == null)
-        //    {
-        //        return RedirectToAction("Index", "DanhSachSanPham");
-        //    }
-        //    List<Giohang> lstGiohang = Laygiohang();
-        //    ViewBag.Tongsoluong = TongSoLuong();
-        //    ViewBag.Tongtien = TongTien();
-        //    ViewBag.Tongsoluongsanpham = TongSoLuongSanPham();
-        //    return View(lstGiohang);
-
+        //    Room dh = db.Rooms.Single(r => r.RoomId == id);
+        //    RoomFavorite kh = new RoomFavorite();
+        //    kh.RoomId = dh.RoomId;
+        //    kh.UserId = int.Parse(taikhoanID);
+        //    db.RoomFavorites.Add(kh);
+        //    db.SaveChanges();
+        //    return View(dh);
         //}
-        //public ActionResult YeuThich(int id)
+        //[HttpPost]
+        //public ActionResult LuuYeuThich(FormCollection collection)
         //{
-        //    // Lấy UserId từ thông tin người dùng hiện tại
-        //    var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-        //    // Kiểm tra nếu UserId không null hoặc trống
-        //    if (!string.IsNullOrEmpty(userId))
-        //    {
-        //        // Tiếp tục xử lý với userId
-        //        var roomIDs = db.RoomFavorites.Include(r => r.Room).Include(r => r.User)
-        //            .Where(rf => rf.UserId == int.Parse(userId))
-        //            .ToList();
-
-        //        return View(roomIDs);
-        //    }
-
-        //    // Xử lý khi không có UserId
-        //    // Ví dụ: Redirect hoặc trả về một trạng thái không hợp lệ
-        //    return RedirectToAction("Error");
-        //}
-
-
-        //public ActionResult YeuThich()
-        //{
-        //    List<Yeuthich> lstGiohang = Layyeuthich();
-        //    return View(lstGiohang);
         //}
 
         public ActionResult YeuThichPartial()
