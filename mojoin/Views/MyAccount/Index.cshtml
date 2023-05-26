@@ -7,29 +7,56 @@
     <h2 class="title-div">Quản lý tin</h2>
     <div class="property-tabs" id="">
         <ul class="noselect">
-            <li id="" class="select-post">
+            <li id="active-select" class="select-post active" onclick="toggleTab('active')">
                 Đang đăng
                 <span class="num-post">()</span>
             </li>
-            <li id="" class="select-post">
+            <li id="wait-select" class="select-post" onclick="toggleTab('wait')">
                 Đang chờ
                 <span class="num-post">()</span>
             </li>
-            <li id="" class="select-post">
+            <li id="err-select" class="select-post" onclick="toggleTab('err')">
                 Tin lỗi
                 <span class="num-post">()</span>
             </li>
         </ul>
     </div>
     <div class="property-list" id="">
-        <div id="active-list">
-
+        <div id="active-list" class="tab-content active">
+            1
         </div>
-        <div id="wait-list">
-
+        <div id="wait-list" class="tab-content">
+            2
         </div>
-        <div id="err-list">
-
+        <div id="err-list" class="tab-content">
+            3
         </div>
     </div>
 </div>
+<script>
+    window.addEventListener('load', function () {
+        var activeList = document.getElementById('active-list');
+        activeList.style.display = 'block';
+    });
+
+    function toggleTab(tabId) {
+        // Ẩn tất cả các tab-content và xóa lớp CSS "active" khỏi các select-post và tab-content
+        var tabContents = document.getElementsByClassName("tab-content");
+        for (var i = 0; i < tabContents.length; i++) {
+            tabContents[i].style.display = "none";
+        }
+
+        var selectPosts = document.getElementsByClassName("select-post");
+        for (var i = 0; i < selectPosts.length; i++) {
+            selectPosts[i].classList.remove("active");
+        }
+
+        // Hiển thị tab-content và thêm lớp CSS "active" cho select-post tương ứng với tab được chọn
+        var selectedTab = document.getElementById(tabId + "-list");
+        selectedTab.style.display = "block";
+
+        var selectedPost = document.getElementById(tabId + "-select");
+        selectedPost.classList.add("active");
+    }
+
+</script>

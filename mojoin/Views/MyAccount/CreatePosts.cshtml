@@ -39,29 +39,29 @@
 
         <div class="form-group" id="address-div" style="display:none;">
             <h2 class="title-div">Địa chỉ đăng</h2>
-            <label class="label-item">Tỉnh thành:<br /></label>
-            <select asp-for="City" id="city" class="address-item" onchange="onCityChange()">
+            <label class="label-item">Tỉnh thành<label class="label-requied">(*)</label>:<br /></label>
+            <select asp-for="City" id="city" class="address-item" onchange="onCityChange()" required >
                 <option value="">Chọn thành phố</option>
             </select>
             <span asp-validation-for="City" class="text-danger"></span>
 
 
-            <label class="label-item">Quận/Huyện:</label>
-            <select asp-for=District id="district" class="address-item" onchange="onDistrictChange()" disabled>
+            <label class="label-item">Quận/Huyện<label class="label-requied">(*)</label>:</label>
+            <select asp-for=District id="district" class="address-item" onchange="onDistrictChange()" disabled required>
                 <option value="">Chọn quận/huyện</option>
             </select>
             <span asp-validation-for="District" class="text-danger"></span>
 
 
-            <label class="label-item">Phường/Xã:</label>
-            <select asp-for=Ward id="ward" class="address-item" disabled>
+            <label class="label-item">Phường/Xã<label class="label-requied">(*)</label>:</label>
+            <select asp-for=Ward id="ward" class="address-item" disabled required>
                 <option value="">Chọn phường/xã</option>
             </select>
             <span asp-validation-for="Ward" class="text-danger"></span>
 
 
-            <label class="label-item">Đường:</label>
-            <select asp-for=Street id="street" class="address-item" disabled>
+            <label class="label-item">Đường<label class="label-requied">(*)</label>:</label>
+            <select asp-for=Street id="street" class="address-item" disabled required>
                 <option value="">Chọn đường</option>
             </select>
             <span asp-validation-for="Street" class="text-danger"></span>
@@ -75,15 +75,15 @@
 
         <div class="form-group" id="price-div" style="display:none;">
             <h2 class="title-div">Diện tích và giá</h2>
-            <label class="label-item">Diện tích sử dụng:</label>
+            <label class="label-item">Diện tích sử dụng<label class="label-requied">(*)</label>:</label>
             <div class="input-group">
-                <input asp-for="Area" type="number" class="num-item " />
+                <input asp-for="Area" type="number" class="num-item " required />
                 <span class="input-addon">m<sup>2</sup></span>
             </div>
-            <span asp-validation-for="Price" class="text-danger"></span>
-            <label class="label-item">Giá:</label>
+            <span asp-validation-for="Area" class="text-danger"></span>
+            <label class="label-item">Giá<label class="label-requied">(*)</label>:</label>
             <div class="input-group">
-                <input asp-for="Price" type="number" class="num-item " />
+                <input asp-for="Price" type="number" class="num-item " required />
                 <span class="input-addon">VND/Tháng</span>
             </div>
             <span asp-validation-for="Price" class="text-danger"></span>
@@ -91,24 +91,23 @@
 
         <div class="form-group" id="info-div" style="display:none;">
             <h2 class="title-div">Tiêu đề</h2>
-            <label class="label-item">Tiêu đề:</label>
+            <label class="label-item">Tiêu đề<label class="label-requied">(*)</label>:</label>
             <div class="input-group">
-                <input asp-for="Title" type="text" class="title-post" />
+                <input asp-for="Title" type="text" class="title-post" required />
             </div>
             <span asp-validation-for="Title" class="text-danger"></span>
-            <label class="label-item">Mô tả:</label>
+            <label class="label-item">Mô tả<label class="label-requied">(*)</label>:</label>
             <div class="input-group">
-                <textarea asp-for="Description" class="about-post" rows="11" maxlength="3000"></textarea>
+                <textarea asp-for="Description" class="about-post" rows="11" maxlength="3000 " required></textarea>
             </div>
-
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
         <div class="form-group " id="info1-div" style="display:none;">
 
             <h2 class="title-div">Thông tin chi tiết</h2>
-            <label class="label-item-sm">Số phòng ngủ:</label>
+            <label class="label-item-sm">Số phòng ngủ<label class="label-requied">(*)</label>:</label>
             <div class="input-group">
-                <select asp-for="NumRooms" id="" class="num-item-sm">
+                <select asp-for="NumRooms" id="" class="num-item-sm" required>
                     <option value="" disabled selected hidden>Số phòng ngủ</option>
                     <option value=1>1</option>
                     <option value=2>2</option>
@@ -118,9 +117,9 @@
 
             </div>
             <span asp-validation-for="NumRooms" class="text-danger"></span>
-            <label class="label-item-sm">Số phòng vệ:</label>
+            <label class="label-item-sm">Số phòng vệ<label class="label-requied">(*)</label>:</label>
             <div class="input-group">
-                <select asp-for="NumBathrooms" id="" class="num-item-sm">
+                <select asp-for="NumBathrooms" id="" class="num-item-sm" required>
                     <option value="" disabled selected hidden>Số phòng vệ sinh</option>
                     <option value=1>1</option>
                     <option value=2>2</option>

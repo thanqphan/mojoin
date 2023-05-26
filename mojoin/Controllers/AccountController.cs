@@ -169,13 +169,17 @@ namespace mojoin.Controllers
                     if (!isPhone) return View(taikhoan);
                     /*if (!isPhone) return View(taikhoan);*/
                     var user = _context.Users.AsNoTracking().SingleOrDefault(x => x.Phone.Trim() == taikhoan.UserName /*|| x.Phone.Trim()==taikhoan.UserName*/);
+                    if (user == null) {
+                        _notyfService.Error("Vui lòng tạo tài khoản!");
+                        return RedirectToAction("Register"); 
+                    }
 
-                    if (user == null) return RedirectToAction("Register");
-                    string pass = user.Password /*+ khachhang.Salt.Trim()).ToMD5()*/;
+
+                    string pass = taikhoan.Password /*+ khachhang.Salt.Trim()).ToMD5()*/;
                     if (user.Password != pass)
                     {
                         _notyfService.Error("Thông tin đăng nhập chưa chính xác");
-                        return View(user);
+                        return View(taikhoan);
                     }
                     //kiem tra xem account co bi disable hay khong
 

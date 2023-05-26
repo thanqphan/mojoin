@@ -11,8 +11,9 @@ namespace mojoin.ViewModel
         public int RoomTypeId { get; set; }
 
         public int UserId { get; set; }
-
+        [Required(ErrorMessage = "Vui lòng điền chủ đề bài đăng!")]
         public string? Title { get; set; }
+        [Required(ErrorMessage = "Vui lòng điền nội dung bài đăng!")]
 
         public string? Description { get; set; }
 
@@ -31,13 +32,16 @@ namespace mojoin.ViewModel
         public int? IsActive { get; set; }
 
         public string? StreetNumber { get; set; }
+        [Required(ErrorMessage = "Vui lòng chọn Đường!")]
 
         public string? Street { get; set; }
+        [Required(ErrorMessage = "Vui lòng chọn Phường!")]
 
         public string? Ward { get; set; }
+        [Required(ErrorMessage = "Vui lòng chọn Quận!")]
 
         public string? District { get; set; }
-
+        [Required(ErrorMessage = "Vui lòng chọn Thành phố!")]
         public string? City { get; set; }
 
         public bool HasRefrigerator { get; set; }
