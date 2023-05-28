@@ -14,12 +14,17 @@ using XAct;
 using XAct.Domain.Repositories;
 using System.Security.Claims;
 using XAct.Users;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Net.Http;
 
 namespace mojoin.Controllers
 {
+    [Authorize]
     public class YeuThichController : Controller
     {
         DbmojoinContext db = new DbmojoinContext();
+ 
         //public List<Yeuthich> Layyeuthich()
         //{
         //    var yt = HttpContext.Session.GetString("Yeuthich");
@@ -70,13 +75,13 @@ namespace mojoin.Controllers
             }
             return tsl;
         }
-        
-        public ActionResult YeuThich(int id)
+        [Route("ca-nhan/yeu-thich.html", Name = "CaNhan")]
+        public IActionResult YeuThich()
         {
-            var taikhoanID = _httpContextAccessor.HttpContext.Session.GetString("UserId");
+            var userId = HttpContext.User.FindFirstValue("UserId");
             // Truy vấn danh sách yêu thích từ CSDL
             var roomFavorites = db.RoomFavorites.Include(r => r.Room).Include(r => r.User)
-                .Where(rf => rf.UserId == int.Parse(taikhoanID))
+                .Where(rf => rf.UserId == int.Parse(userId))
                 .ToList();
 
             // Chuyển đổi danh sách yêu thích sang ViewModel Yeuthich
@@ -151,6 +156,7 @@ namespace mojoin.Controllers
             // Chuyển hướng về trang danh sách yêu thích
             return RedirectToAction("YeuThich");
         }
+
         public ActionResult YeuThichPartial()
         {           
             return View();
