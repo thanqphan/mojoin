@@ -44,6 +44,7 @@ namespace mojoin.Areas.Admin.Controllers
 			lsTrangThai.Add(new SelectListItem() { Text = "Đã duyệt", Value = "0" });
 			lsTrangThai.Add(new SelectListItem() { Text = "Không được duyệt", Value = "2" });
 			lsTrangThai.Add(new SelectListItem() { Text = "Bài đăng đang chờ xử lý", Value = "1" });
+			
 			lsLoaiPhong.Add(new SelectListItem() { Text = "Nhà trọ", Value = "1" });
 			lsLoaiPhong.Add(new SelectListItem() { Text = "Căn hộ", Value = "2" });
 			lsLoaiPhong.Add(new SelectListItem() { Text = "Ở chung chủ", Value = "3" });
@@ -271,7 +272,7 @@ namespace mojoin.Areas.Admin.Controllers
 				var findRoom = _context.Rooms.Where(x => x.RoomId == roomId).FirstOrDefault();
 				if (findRoom != null)
 				{
-					findRoom.IsActive = 1;
+					findRoom.IsActive = 0;
 					_context.SaveChanges();
 
 					_notyfService.Success("Cập nhật thành công!");
@@ -293,35 +294,35 @@ namespace mojoin.Areas.Admin.Controllers
 		}
 
 
-		//public IActionResult DeleteRoom(int roomId)
-		//{
-		//	int isActive = (int)HttpContext.Session.GetInt32("RoomsParams");
+			public IActionResult DeleteRoom(int roomId)
+			{
+				int isActive = (int)HttpContext.Session.GetInt32("RoomsParams");
 
-		//	try
-		//	{
-		//		var findRoom = _context.Rooms.Where(x => x.RoomId == roomId).FirstOrDefault();
-		//		if (findRoom != null)
-		//		{
-		//			findRoom.IsActive = 10;
-		//			_context.SaveChanges();
+				try
+				{
+					var findRoom = _context.Rooms.Where(x => x.RoomId == roomId).FirstOrDefault();
+					if (findRoom != null)
+					{
+						findRoom.IsActive = 2;
+						_context.SaveChanges();
 
-		//			_notyfService.Success("Xóa thành công!");
-		//		}
-		//		else
-		//		{
-		//			_notyfService.Success("Xóa thất bại!");
-		//		}
+						_notyfService.Success("Xóa thành công!");
+					}
+					else
+					{
+						_notyfService.Success("Xóa thất bại!");
+					}
 
-		//		var dbmojoinContext = GetListRoomByActive(isActive);
+					var dbmojoinContext = GetListRoomByActive(isActive);
 
-		//		return PartialView("ListRoom", dbmojoinContext);
-		//	}
-		//	catch
-		//	{
-		//		_notyfService.Success("Xoa thất bại!");
-		//	}
-		//	return RedirectToAction(nameof(Index), new { isActive });
-		//}
+					return PartialView("ListRoom", dbmojoinContext);
+				}
+				catch
+				{
+					_notyfService.Success("Xoa thất bại!");
+				}
+				return RedirectToAction(nameof(Index), new { isActive });
+			}
 	}
 
 }

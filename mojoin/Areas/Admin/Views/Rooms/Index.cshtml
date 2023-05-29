@@ -117,15 +117,16 @@
 			});
 		}
 
-		//function DeleteRoom(id) {
-		//	$.ajax({
-		//		url: '@Url.Action("DeleteRoom", "Rooms")',
-		//		type: 'GET',
-		//		cache: false,
-		//		data: { roomId: id }
-		//	}).done(function (result) {
-		//		$('#list-room').html(result);
-		//	});
-		//}
+		function DeleteRoom(id) {
+			$.ajax({
+				url: '@Url.Action("DeleteRoom", "Rooms")',
+				type: 'GET',
+				cache: false,
+				data: { roomId: id }
+			}).done(function (result) {
+				$('#list-room').html(result);
+			});
+		}
+
 	</script>
 	}
