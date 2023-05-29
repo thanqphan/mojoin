@@ -1,10 +1,9 @@
-﻿@model mojoin.Models.User
+﻿    @model mojoin.Models.User
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "DetailsStaff";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
-
 <div class="page-header">
     <div class="header-sub-title">
         <nav class="breadcrumb breadcrumb-dash">
@@ -50,20 +49,10 @@
                         <td>Địa chỉ:</td>
                         <td>@Model.Address</td>
                     </tr>
-                    @*<tr>
-                        <td>Giới tính: </td>
-                        @if (Model.Sex == 1)
-                        {
-                            <td>Giới tính: Nam</td>
-                        }else if(Model.Sex == 2)
-                        {
-                            <td>Giới tính: Nữ</td>
-                        }
-                        else
-                        {
-                            <td>Giới tính: Khác</td>
-                        }
-                    </tr>*@
+                    <tr>
+                        <td>Giới tính:</td>
+                        <td>@Model.Sex</td>
+                    </tr>
                     <tr>
                         <td>Ngày sinh:</td>
                         <td>@Model.Dateofbirth</td>
@@ -84,7 +73,7 @@
                         <td>InfoFacebook:</td>
                         <td>@Model.InfoFacebook</td>
                     </tr>
-                    
+
                     <tr>
                         <td>Ngày tạo:</td>
                         <td>@Model.CreateDate</td>
@@ -93,8 +82,4 @@
             </table>
         </div>
     </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.UserId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
 </div>
-

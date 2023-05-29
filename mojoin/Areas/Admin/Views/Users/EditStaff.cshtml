@@ -1,7 +1,7 @@
 ﻿@model mojoin.Models.User
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "EditStaff";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -9,17 +9,17 @@
     <div class="header-sub-title">
         <nav class="breadcrumb breadcrumb-dash">
             <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
-            <a asp-area="Admin" asp-controller="Users" asp-action="Index" class="breadcrumb-item">Danh sách người dùng</a>
-            <span class="breadcrumb-item active">Chỉnh sửa người dùng</span>
+            <a asp-area="Admin" asp-controller="Users" asp-action="IndexStaff" class="breadcrumb-item">Danh sách nhân viên</a>
+            <span class="breadcrumb-item active">Chỉnh sửa nhân viên</span>
         </nav>
     </div>
 </div>
 <div class="card">
     <div class="card-body">
         <div class="row">
-            <h3 class="card-title col-md-8">Chỉnh sửa Người dùng</h3>
+            <h3 class="card-title col-md-8">Chỉnh sửa nhân viên</h3>
             <div class="col-md-4 text-right">
-                <a class="btn btn-info btn-tone m-r-5" asp-action="Index">Back to list</a>
+                <a class="btn btn-info btn-tone m-r-5" asp-action="IndexStaff">Back to list</a>
             </div>
         </div>
         <div class="table-responsive">
@@ -87,15 +87,6 @@
                             <span asp-validation-for="LastName" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label class="font-weight-semibold" for="productCategory">Trạng thái hoạt động</label>
-                            <select asp-for="IsActive" class="custom-select" id="productCategory">
-                                <option value="0" selected="">Đang họat động </option>
-                                <option value="1">Tạm ngưng</option>
-                                
-
-                            </select>
-                        </div>
-                        <div class="form-group">
                             <label>InfoZalo</label>
                             <input asp-for="InfoZalo" class="form-control" />
                             <span asp-validation-for="InfoZalo" class="text-danger"></span>
@@ -105,8 +96,8 @@
                             <input asp-for="InfoFacebook" class="form-control" />
                             <span asp-validation-for="InfoFacebook" class="text-danger"></span>
                         </div>
-                        
-                        
+
+
                         <div class="form-group">
                             <input type="submit" value="Save" class="btn btn-primary btn-tone" />
                         </div>
@@ -116,8 +107,6 @@
         </div>
     </div>
 </div>
-
-
 
 
 
