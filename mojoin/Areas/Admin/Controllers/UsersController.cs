@@ -70,6 +70,7 @@ namespace mojoin.Areas.Admin.Controllers
 
             return View(user);
         }
+
         public async Task<IActionResult> DetailsStaff(int? id)
         {
             if (id == null)
@@ -176,15 +177,8 @@ namespace mojoin.Areas.Admin.Controllers
             if (user == null)
             {
                 return NotFound();
-
             }
-            ViewData["QuyenAcc"] = new SelectList(_context.Users, "RoleName", "RoleName");
-            List<SelectListItem> lstrangthaihoatdong = new List<SelectListItem>();
-            lstrangthaihoatdong.Add(new SelectListItem() { Text = "Đang hoạt động", Value = "0" });
-            lstrangthaihoatdong.Add(new SelectListItem() { Text = "Tạm ngưng", Value = "1" });
-
-            ViewData["lstrangthaihoatdong"] = lstrangthaihoatdong;
-
+         
             ViewData["QuyenTruyCap"] = new SelectList(_context.Roles, "RoleId", "RoleName", user.RolesId);
             return View(user);
         }
@@ -212,22 +206,41 @@ namespace mojoin.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("UserId,RolesId,FirstName,LastName,Phone,Email,Address,Sex,Dateofbirth,Password,Salt,Avatar,IsActive,InfoZalo,InfoFacebook,GoogleId,SupportUserId,CreateDate")] User user)
         {
-            if (id != user.UserId)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(user);
-                    await _context.SaveChangesAsync();
+                    int result = await _context.Users.Where(x => x.UserId == user.UserId).ExecuteUpdateAsync(x =>
+                    x.SetProperty(p => p.RolesId, user.RolesId)
+                    .SetProperty(p => p.FirstName, user.FirstName)
+                    .SetProperty(p => p.LastName, user.LastName)
+                    .SetProperty(p => p.Phone, user.Phone)
+                    .SetProperty(p => p.Email, user.Email)
+                    .SetProperty(p => p.Address, user.Address)
+                    .SetProperty(p => p.Sex, user.Sex)
+                    .SetProperty(p => p.Dateofbirth, user.Dateofbirth)
+                    .SetProperty(p => p.Password, user.Password)
+                    .SetProperty(p => p.Avatar, user.Avatar)
+                    .SetProperty(p => p.IsActive, user.IsActive)
+                    .SetProperty(p => p.InfoZalo, user.InfoZalo)
+                    .SetProperty(p => p.InfoFacebook, user.InfoFacebook)
+                    .SetProperty(p => p.SupportUserId, user.SupportUserId)
+                    .SetProperty(p => p.CreateDate, DateTime.Now));
+
+                    if (result > 0)
+                    {
+                        _notyfService.Success("Cập nhật người dùng thành công!");
+                    }
+                    else
+                    {
+                        _notyfService.Success("Không tìm thấy người dùng tương ứng!");
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!UserExists(user.UserId))
                     {
+                        _notyfService.Success("Có lỗi xảy ra!");
                         return NotFound();
                     }
                     else
@@ -239,37 +252,73 @@ namespace mojoin.Areas.Admin.Controllers
             }
             ViewData["RolesId"] = new SelectList(_context.Roles, "RolelD", "RolelD", user.RolesId); return View(user);
         }
-        public async Task<IActionResult> EditStaff(User tk)
+        public async Task<IActionResult> EditStaff(int id, [Bind("UserId,RolesId,FirstName,LastName,Phone,Email,Address,Sex,Dateofbirth,Password,Salt,Avatar,IsActive,InfoZalo,InfoFacebook,GoogleId,SupportUserId,CreateDate")] User user)
         {
             if (ModelState.IsValid)
             {
-                User user = new User
+                try
                 {
-                    RolesId = tk.RolesId,
-                    FirstName = tk.FirstName,
-                    LastName = tk.LastName,
-                    Phone = tk.Phone,
-                    Email = tk.Email,
-                    Address = tk.Address,
-                    Sex = tk.Sex,
-                    Dateofbirth = tk.Dateofbirth,
-                    Password = tk.Password,
-                    IsActive = true,
-                    InfoFacebook = tk.InfoFacebook,
-                    InfoZalo = tk.InfoZalo,
-                    CreateDate = DateTime.Now,
-                };
-                _context.Add(user);
-                await _context.SaveChangesAsync();
-                _notyfService.Success("Thêm mới thành công!");
+                    int result = await _context.Users.Where(x => x.UserId == user.UserId).ExecuteUpdateAsync(x =>
+                    x.SetProperty(p => p.RolesId, user.RolesId)
+                    .SetProperty(p => p.FirstName, user.FirstName)
+                    .SetProperty(p => p.LastName, user.LastName)
+                    .SetProperty(p => p.Phone, user.Phone)
+                    .SetProperty(p => p.Email, user.Email)
+                    .SetProperty(p => p.Address, user.Address)
+                    .SetProperty(p => p.Sex, user.Sex)
+                    .SetProperty(p => p.Dateofbirth, user.Dateofbirth)
+                    .SetProperty(p => p.Password, user.Password)
+                    .SetProperty(p => p.Avatar, user.Avatar)
+                    .SetProperty(p => p.IsActive, user.IsActive)
+                    .SetProperty(p => p.InfoZalo, user.InfoZalo)
+                    .SetProperty(p => p.InfoFacebook, user.InfoFacebook)
+                    .SetProperty(p => p.SupportUserId, user.SupportUserId)
+                    .SetProperty(p => p.CreateDate, DateTime.Now));
+
+                    if (result > 0)
+                    {
+                        _notyfService.Success("Cập nhật người dùng thành công!");
+                    }
+                    else
+                    {
+                        _notyfService.Success("Không tìm thấy người dùng tương ứng!");
+                    }
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!UserExists(user.UserId))
+                    {
+                        _notyfService.Success("Có lỗi xảy ra!");
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["QuyenTruyCap"] = new SelectList(_context.Roles, "RolesId", "RoleName", tk.RolesId);
-            return RedirectToAction("Index");
+            ViewData["RolesId"] = new SelectList(_context.Roles, "RolelD", "RolelD", user.RolesId); return View(user);
         }
-
         // GET: Admin/Users/Delete/5
         public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _context.Users
+
+                .FirstOrDefaultAsync(m => m.UserId == id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
+        public async Task<IActionResult> DeleteStaff(int? id)
         {
             if (id == null)
             {
@@ -291,6 +340,22 @@ namespace mojoin.Areas.Admin.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+
+            if (_context.Users == null)
+            {
+                return Problem("Entity set 'DbmojoinContext.Roles'  is null.");
+            }
+            var user = await _context.Users.FindAsync(id);
+            if (user != null)
+            {
+                _context.Users.Remove(user);
+            }
+            await _context.SaveChangesAsync();
+            _notyfService.Success("Xóa thành công!");
+            return RedirectToAction(nameof(Index));
+        }
+        public async Task<IActionResult> DeleteStaffConfirmed(int id)
         {
 
             if (_context.Users == null)

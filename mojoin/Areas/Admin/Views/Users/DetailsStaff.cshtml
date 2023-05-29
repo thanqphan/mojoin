@@ -19,7 +19,7 @@
             <h3 class="card-title col-md-8">Thông tin Nhân viên</h3>
             <div class="col-md-4 text-right">
                 <a class="btn btn-info btn-tone m-r-5" asp-action="IndexStaff">Back to list</a>
-                <a class="btn btn-warning btn-tone m-r-5" asp-action="Edit" asp-route-id="@Model.UserId">Edit</a>
+                <a class="btn btn-warning btn-tone m-r-5" asp-action="EditStaff" asp-route-id="@Model.UserId">EditStaff</a>
             </div>
         </div>
         <div class="table-responsive">
@@ -50,8 +50,23 @@
                         <td>@Model.Address</td>
                     </tr>
                     <tr>
-                        <td>Giới tính:</td>
-                        <td>@Model.Sex</td>
+                        <td> Giới tính:</td>
+                        @{
+                            string gender = string.Empty;
+                            if (Model.Sex == "0")
+                            {
+                                gender = "Nam";
+                            }
+                            else if (Model.Sex == "1")
+                            {
+                                gender = "Nữ";
+                            }
+                            else if (Model.Sex == "2")
+                            {
+                                gender = "Khác";
+                            }
+                        }
+                        <td>@gender</td>
                     </tr>
                     <tr>
                         <td>Ngày sinh:</td>

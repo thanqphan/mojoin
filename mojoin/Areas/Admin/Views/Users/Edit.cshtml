@@ -65,9 +65,9 @@
                         <div class="form-group">
                             <label class="font-weight-semibold" for="productCategory">Giới tính</label>
                             <select asp-for="Sex" class="custom-select" id="productCategory">
-                                <option value="1" selected="">Nam</option>
-                                <option value="2">Nữ</option>
-                                <option value="3">Khác</option>
+                                <option value="0" selected="">Nam</option>
+                                <option value="1">Nữ</option>
+                                <option value="2">Khác</option>
 
                             </select>
                         </div>
@@ -86,7 +86,7 @@
                             <input asp-for="Avatar" class="form-control" />
                             <span asp-validation-for="LastName" class="text-danger"></span>
                         </div>
-                        <div class="form-group">
+                        @*<div class="form-group">
                             <label class="font-weight-semibold" for="productCategory">Trạng thái hoạt động</label>
                             <select asp-for="IsActive" class="custom-select" id="productCategory">
                                 <option value="0" selected="">Đang họat động </option>
@@ -94,7 +94,7 @@
                                 
 
                             </select>
-                        </div>
+                        </div>*@
                         <div class="form-group">
                             <label>InfoZalo</label>
                             <input asp-for="InfoZalo" class="form-control" />
@@ -116,6 +116,7 @@
         </div>
     </div>
 </div>
+
 
 
 
