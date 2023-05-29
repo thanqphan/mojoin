@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using mojoin.Models;
 
 namespace mojoin.Models;
 
@@ -169,6 +170,7 @@ public partial class DbmojoinContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.FirstName).HasMaxLength(100);
+            entity.Property(e => e.LastName).HasMaxLength(100);
             entity.Property(e => e.GoogleId)
                 .IsUnicode(false)
                 .HasColumnName("GoogleID");
@@ -197,4 +199,5 @@ public partial class DbmojoinContext : DbContext
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
 }

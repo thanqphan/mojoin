@@ -5,120 +5,147 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Delete</h1>
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <a asp-area="Admin" asp-controller="Roles" asp-action="Index" class="breadcrumb-item">Danh sách người dùng</a>
+            <span class="breadcrumb-item active">Xác nhận xóa người dùng</span>
+        </nav>
+    </div>
+</div>
+@Html.AntiForgeryToken()
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>User</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Phone)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Phone)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Address)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Sex)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Sex)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Dateofbirth)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Dateofbirth)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Password)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Password)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Salt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Salt)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Avatar)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Avatar)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsActive)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsActive)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.InfoZalo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.InfoZalo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.InfoFacebook)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.InfoFacebook)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.GoogleId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.GoogleId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SupportUserId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SupportUserId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreateDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreateDate)
-        </dd>
+        <!-- Default box -->
+        <div class="card pt-2">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-md-8  text-black">
+                        <h3 class="card-title">Tiến hành xóa người dùng </h3>
+                    </div>
+                    <div class="col-md-4 text-black text-right">
+                        <a class="btn btn-info btn-tone btn-sm" asp-action="Index"> Back to List</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+
+                <dl class="row">
+                    <dt class="col-sm-2">
+                        Họ
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.LastName)
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-2">
+                        Tên 
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.FirstName)
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-2">
+                        Số điện thoại
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Phone)
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-2">
+                        Email
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Email)
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-2">
+                        Địa chỉ
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Address)
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-2">
+                        Giới tính
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Sex)
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-2">
+                        Ngày sinh
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Dateofbirth)
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-2">
+                        Mật khẩu
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Password)
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-2">
+                       Avatar
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Avatar)
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-2">
+                        InfoZalo
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.InfoZalo)
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-sm-2">
+                        InfoFacebook
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.InfoFacebook)
+                    </dd>
+                </dl>
+                
+                <dl class="row">
+                    <dt class="col-sm-2">
+                        Ngày tạo
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.CreateDate)
+                    </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Roles)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Roles.RolelD)
         </dd>
-    </dl>
+                </dl>
     
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="UserId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+                <form asp-action="Delete">
+                    <input type="submit" value="Xác nhận xóa" class="btn btn-danger" />
+                </form>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </section>
+    <!-- /.content -->
 </div>
+<!-- /.content-wrapper -->
