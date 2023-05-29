@@ -41,9 +41,9 @@ namespace mojoin.Areas.Admin.Controllers
 			ViewData["QuyenAcc"] = new SelectList(_context.Roles, "RoleName", "RoleName");
 			List<SelectListItem> lsTrangThai = new List<SelectListItem>();
 			List<SelectListItem> lsLoaiPhong = new List<SelectListItem>();
-			lsTrangThai.Add(new SelectListItem() { Text = "Đã duyệt", Value = "0" });
+			lsTrangThai.Add(new SelectListItem() { Text = "Đã duyệt", Value = "1" });
 			lsTrangThai.Add(new SelectListItem() { Text = "Không được duyệt", Value = "2" });
-			lsTrangThai.Add(new SelectListItem() { Text = "Bài đăng đang chờ xử lý", Value = "1" });
+			lsTrangThai.Add(new SelectListItem() { Text = "Bài đăng đang chờ xử lý", Value = "0" });
 			
 			lsLoaiPhong.Add(new SelectListItem() { Text = "Nhà trọ", Value = "1" });
 			lsLoaiPhong.Add(new SelectListItem() { Text = "Căn hộ", Value = "2" });
@@ -272,7 +272,7 @@ namespace mojoin.Areas.Admin.Controllers
 				var findRoom = _context.Rooms.Where(x => x.RoomId == roomId).FirstOrDefault();
 				if (findRoom != null)
 				{
-					findRoom.IsActive = 0;
+					findRoom.IsActive = 1;
 					_context.SaveChanges();
 
 					_notyfService.Success("Cập nhật thành công!");
