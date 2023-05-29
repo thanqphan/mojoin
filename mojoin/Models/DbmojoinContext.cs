@@ -200,4 +200,5 @@ public partial class DbmojoinContext : DbContext
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
+    public DbSet<mojoin.Models.Yeuthich>? Yeuthich { get; set; }
 }
