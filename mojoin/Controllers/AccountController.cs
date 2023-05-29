@@ -9,7 +9,6 @@ using mojoin.Models;
 using mojoin.ViewModel;
 using System.Security.Claims;
 
-
 namespace mojoin.Controllers
 {
     [Authorize]
@@ -56,10 +55,7 @@ namespace mojoin.Controllers
                 return Json(data: true);
             }
         }
-        public IActionResult Inactive()
-        {
-            return View();
-        }
+
         [Route("my-Account.html", Name = "Dashboard")]
         public IActionResult Dashboard()
         {
@@ -121,8 +117,7 @@ namespace mojoin.Controllers
                         {
                             new Claim("FirstName", user.FirstName),
                             new Claim("LastName",user.LastName),
-                            new Claim("UserId", user.UserId.ToString()),
-                            new Claim("Number",user.Phone.ToString()),
+                            new Claim("UserId", user.UserId.ToString())
                         };
                         ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "login");
                         ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
@@ -171,24 +166,19 @@ namespace mojoin.Controllers
                     if (!isPhone) return View(taikhoan);
                     /*if (!isPhone) return View(taikhoan);*/
                     var user = _context.Users.AsNoTracking().SingleOrDefault(x => x.Phone.Trim() == taikhoan.UserName /*|| x.Phone.Trim()==taikhoan.UserName*/);
-                    if (user == null)
-                    {
-                        _notyfService.Error("Vui lòng tạo tài khoản!");
-                        return RedirectToAction("Register");
-                    }
 
-
-                    string pass = taikhoan.Password /*+ khachhang.Salt.Trim()).ToMD5()*/;
+                    if (user == null) return RedirectToAction("Register");
+                    string pass = user.Password /*+ khachhang.Salt.Trim()).ToMD5()*/;
                     if (user.Password != pass)
                     {
                         _notyfService.Error("Thông tin đăng nhập chưa chính xác");
-                        return View(taikhoan);
+                        return View(user);
                     }
                     //kiem tra xem account co bi disable hay khong
 
                     if (user.IsActive == false)
                     {
-                        return View("Inactive", "Account");
+                        return RedirectToAction("ThongBao", "Account");
                     }
                     if (user.RolesId == 1 || user.RolesId == 2)
                     {
@@ -200,11 +190,9 @@ namespace mojoin.Controllers
                         var claims = new List<Claim>
                         {
                             new Claim("FirstName", user.FirstName),
-                            new Claim("LastName",user.LastName),
+                            new Claim("LastName",user.LastName),                            
                             new Claim("RoleAcc",user.RolesId.ToString()),
-                            new Claim("UserId", user.UserId.ToString()),
-                            new Claim("UserPhone",user.Phone.ToString()),
-                            new Claim("UserAvt",user.Avatar.ToString())
+                            new Claim("UserId", user.UserId.ToString())
                         };
                         ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "login");
                         ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
@@ -213,7 +201,7 @@ namespace mojoin.Controllers
 
                         return RedirectToAction("Index", "Home", new { area = "Admin" });
                     }
-                    else if (user.RolesId == 3)
+                    else if (user.RolesId == 3 )
                     {
                         //Luu Session MaKh
                         HttpContext.Session.SetString("UserId", user.UserId.ToString());
@@ -223,10 +211,8 @@ namespace mojoin.Controllers
                         var claims = new List<Claim>
                         {
                             new Claim("FirstName", user.FirstName),
-                            new Claim("LastName",user.LastName),
-                            new Claim("UserId", user.UserId.ToString()),
-                            new Claim("UserPhone",user.Phone.ToString()),
-                            new Claim("UserAvatar",user.Avatar.ToString())
+                            new Claim("LastName",user.LastName),                            
+                            new Claim("UserId", user.UserId.ToString())
                         };
                         ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "login");
                         ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
@@ -263,38 +249,38 @@ namespace mojoin.Controllers
             return RedirectToAction("Index", "Rooms");
         }
 
-        [HttpPost]
-        public IActionResult ChangePassword(ChangePasswordViewModel model)
-        {
-            try
-            {
-                var taikhoanID = HttpContext.Session.GetString("UserId");
-                if (taikhoanID == null)
-                {
-                    return RedirectToAction("Login", "Account");
-                }
-                if (ModelState.IsValid)
-                {
-                    var taikhoan = _context.Users.Find(Convert.ToInt32(taikhoanID));
-                    if (taikhoan == null) return RedirectToAction("Login", "Account");
-                    var pass = (model.PasswordNow.Trim());
-                    {
-                        string passnew = (model.Password.Trim());
-                        taikhoan.Password = passnew;
-                        _context.Update(taikhoan);
-                        _context.SaveChanges();
-                        _notyfService.Success("Đổi mật khẩu thành công");
-                        return RedirectToAction("Login", "Account");
-                    }
-                }
-            }
-            catch
-            {
-                _notyfService.Success("Thay đổi mật khẩu không thành công");
-                return View();
-            }
-            _notyfService.Success("Thay đổi mật khẩu không thành công");
-            return View();
-        }
+        /*[HttpPost]
+		public IActionResult ChangePassword(ChangePasswordViewModel model)
+		{
+			try
+			{
+				var taikhoanID = HttpContext.Session.GetString("CustomerId");
+				if (taikhoanID == null)
+				{
+					return RedirectToAction("Login", "Account");
+				}
+				if (ModelState.IsValid)
+				{
+					var taikhoan = _context.Customers.Find(Convert.ToInt32(taikhoanID));
+					if (taikhoan == null) return RedirectToAction("Login", "Account");
+					var pass = (model.PasswordNow.Trim() + taikhoan.Salt.Trim()).ToMD5();
+					{
+						string passnew = (model.Password.Trim() + taikhoan.Salt.Trim()).ToMD5();
+						taikhoan.Password = passnew;
+						_context.Update(taikhoan);
+						_context.SaveChanges();
+						_notyfService.Success("Đổi mật khẩu thành công");
+						return RedirectToAction("Dashboard", "Account");
+					}
+				}
+			}
+			catch
+			{
+				_notyfService.Success("Thay đổi mật khẩu không thành công");
+				return RedirectToAction("Dashboard", "Account");
+			}
+			_notyfService.Success("Thay đổi mật khẩu không thành công");
+			return RedirectToAction("Dashboard", "Account");
+		}*/
     }
 }
