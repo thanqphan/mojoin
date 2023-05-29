@@ -47,7 +47,7 @@
                     <ul class="nav navbar-nav navbar-right mogi-menu">
                         <li><a href="/" ng-class="GetActiveClass('/')">Trang chủ</a></li>
                         <li style="position:relative"><a href="/Report" ng-class="GetActiveClass('/Report')">Báo cáo</a><span style="color:red;right: 2px;top:0;position: absolute;font-size: 9px;font-weight: bold;">Beta</span></li>
-                        <li><a href="/quan-ly-tin" ng-class="GetActiveClass('/PropertyList')">Quản lý tin</a></li>
+                        <li><a href="/quan-li-tin.html" ng-class="GetActiveClass('/PropertyList')">Quản lý tin</a></li>
                         <li><a href="/don-hang" ng-class="GetActiveClass('/InvoiceList')">Đơn hàng</a></li>
                         <li><a href="/phi-thanh-vien" ng-class="GetActiveClass('/RegisZone')">Phí thành viên</a></li>
                         <li><a href="/nap-tien" ng-class="GetActiveClass('/DepositMBPay')">Nạp tiền</a></li>
@@ -74,19 +74,19 @@
                             </script>
                         </li>
                         <li class="open">
-                                <span class="first-name dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">@firstName</span>
-                                <a href="#" class="avatar dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                </a>
-                                <ul class="dropdown-menu profile-menu">
-                                    <li><a href="/alert-search" rel="nofollow"><i class="fa fa-bell"></i>Thông báo &amp; Tìm kiếm</a></li>
-                                    <li><a href="/favorite" rel="nofollow"><i class="fa fa-heart"></i>Bất động sản yêu thích</a></li>
-                                    <li><a href="/profile" rel="nofollow"><i class="fa fa-user"></i>Thông tin cá nhân</a></li>
-                                    <li><a href="/nap-tien" rel="nofollow"><i class="fa fa-vcard-o"></i>Nạp tiền</a></li>
-                                    <li><a href="/Coupon/CouponList" ng-class="GetActiveClass('/CouponList')"><i class="fa fa-gift"></i>Mã thưởng</a></li>
-                                    <li><a href="/change-password" rel="nofollow"><i class="fa fa-lock"></i>Thay đổi mật khẩu</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="/logout.html"><i class="fa fa-sign-out"></i>Thoát</a></li>
-                                </ul>
+                            <span class="first-name dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">@firstName</span>
+                            <a href="#" class="avatar dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            </a>
+                            <ul class="dropdown-menu profile-menu">
+                                <li><a href="/alert-search" rel="nofollow"><i class="fa fa-bell"></i>Thông báo &amp; Tìm kiếm</a></li>
+                                <li><a href="/ca-nhan/yeu-thich.html" rel="nofollow"><i class="fa fa-heart"></i>Bất động sản yêu thích</a></li>
+                                <li><a href="/profile" rel="nofollow"><i class="fa fa-user"></i>Thông tin cá nhân</a></li>
+                                <li><a href="/nap-tien" rel="nofollow"><i class="fa fa-vcard-o"></i>Nạp tiền</a></li>
+                                <li><a href="/Coupon/CouponList" ng-class="GetActiveClass('/CouponList')"><i class="fa fa-gift"></i>Mã thưởng</a></li>
+                                <li><a href="/change-password.html" rel="nofollow"><i class="fa fa-lock"></i>Thay đổi mật khẩu</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/logout.html"><i class="fa fa-sign-out"></i>Thoát</a></li>
+                            </ul>
                         </li>
                     </ul>
                 </div>
@@ -131,7 +131,6 @@
         @RenderBody()
     </div>
     <div>
-        
     </div>
 </body>
 </html>
@@ -141,4 +140,3 @@
     }
 </style>
 @await Component.InvokeAsync("Notyf")
-

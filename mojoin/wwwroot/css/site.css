@@ -947,4 +947,11 @@ button, input {
     margin: 0;
 }
 /*end find*/
+.btn-loginr {
+    background-color: #3bacb6;
+    color: white;
+}
+    .btn-loginr:hover {
+        color: black;
+    }
 
