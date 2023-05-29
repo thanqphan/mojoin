@@ -99,7 +99,8 @@
                     <div style="display: flex; flex-flow: row wrap;">
                         @foreach (var item in Model)
                         {
-                            if(item.IsActive.Equals(0))
+                            //so sánh để hiị thị bài đăng được hhieenr thị
+                            if(item.IsActive.Equals(1))
                             {
                                 <div class="AdItem_item__Ljfcd col-6 col-sm-4">
                                     <a class="AdItem_wrapperLink__Q_RTw" href="/Rooms/Details/@item.RoomId">
