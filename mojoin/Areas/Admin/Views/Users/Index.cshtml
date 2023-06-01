@@ -1,0 +1,175 @@
+﻿@model IEnumerable<mojoin.Models.User>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <span class="breadcrumb-item active">Danh sách người dùng</span>
+        </nav>
+    </div>
+</div>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+
+        <!-- Default box -->
+        <div class="card pt-2">
+
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-md-8 ">
+                    </div>
+
+                    <div class="col-md-4 text-right">
+                        <a class="btn btn-success btn-tone m-r-5" asp-action="Create">Thêm</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+
+                <div class="table-responsive ">
+                    <table id="myTable" class="table table-hover e-commerce-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Tên quyền</th>
+                                <th scope="col">Họ</th>
+                                <th scope="col">Tên</th>
+                                <th scope="col">Số điện thoại</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Địa chỉ</th>
+                                
+                                <th>
+                                    Trạng thái hoạt động
+
+
+                                    <select class="border-0" id="idActive" name="idActive" title="Chọn Trạng thái" style="max-width:20px" asp-items="ViewBag.lstrangthaihoatdong">
+                                        </select>
+                                    
+                                </th>
+                                <th scope="col">Chức năng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.RolesId)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.LastName)                                        
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FirstName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Phone)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Email)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Address)
+                                    </td>
+
+
+                                    <td>
+                                        @if (item.IsActive == true)
+                                        {
+                                            <div class="d-flex align-items-center">
+                                                <div class="badge badge-success badge-dot m-r-10"></div>   
+                                                <div>Đang hoạt động</div>
+                                            </div>
+                                        }
+                                        else if (item.IsActive == false)
+                                        {
+                                            <div class="d-flex align-items-center">
+                                                <div class="badge badge-danger badge-dot m-r-10"></div>
+                                                <div>Tạm ngưng</div>
+                                            </div>
+                                        }
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-tone m-r-5 fa fa-eye" title="Details" asp-action="Details" asp-route-id="@item.UserId"></a>
+                                        <a class="btn btn-tone m-r-5 fa fa-edit" title="Edit" asp-action="Edit" asp-route-id="@item.UserId"></a>
+                                        <a class="btn btn-tone m-r-5 fa fa-trash" title="Delete" asp-action="Delete" asp-route-id="@item.UserId"></a>
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+                    
+
+                </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+
+    </section>
+    <!-- /.content -->
+
+</div>
+<!-- /.content-wrapper -->
+<script>
+    $("#form-create").validate({
+        errorClass: 'is-invalid',
+        validClass: 'is-valid',
+        rules: {
+            Username: {
+                required: true,
+                minlength: 8
+            },
+            Password: {
+                required: true
+            },
+            ConfirmPassword: {
+                required: true,
+                equalTo: '#password'
+            },
+        }
+    });
+</script>
+@section footer{
+    <script src="~/js/jquery.datatables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var table = $('#myTable').DataTable({
+                // ...
+                "columnDefs": [
+                    { "orderable": false, "targets": "_all" }
+                ]
+            });
+
+            $('#myTable tbody').on('mouseenter', 'td', function () {
+                var colIdx = table.cell(this).index().column;
+
+                $(table.cells().nodes()).removeClass('highlight');
+                $(table.column(colIdx).nodes()).addClass('highlight');
+            });
+            // Lấy dữ liệu cho dropdown từ ViewData
+            $('#idRole').on('change', function () {
+                var selectedValue = $("#idRole option:selected").text(); // Lấy giá trị đã chọn từ dropdown
+                // Lọc bảng dữ liệu bằng giá trị đã chọn
+                table.column(1).search(selectedValue).draw();
+            });
+            $('#idActive').on('change', function () {
+                var selectedValue = $("#idActive option:selected").text(); // Lấy giá trị đã chọn từ dropdown
+                // Lọc bảng dữ liệu bằng giá trị đã chọn
+                table.column(6).search(selectedValue).draw();
+            });
+
+        });
+
+
+    </script>
+}
+
