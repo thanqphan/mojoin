@@ -1,13 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace mojoin.Models;
 
 public partial class Room
 {
-    [Key]
     public int RoomId { get; set; }
 
     public int RoomTypeId { get; set; }

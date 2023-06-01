@@ -23,20 +23,9 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
                 });
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("AdminOnly", policy => policy.RequireClaim("RoleAcc", "1"));
-    options.AddPolicy("AdminOrStaff", policy => policy.RequireAssertion(context =>
-        context.User.HasClaim(c =>
-            (c.Type == "RoleAcc" && c.Value == "1") || // admin
-            (c.Type == "RoleAcc" && c.Value == "2")    // staff
-        )
-    ));
-    options.AddPolicy("Users", policy => policy.RequireAssertion(context =>
-        context.User.HasClaim(c =>
-            (c.Type == "RoleAcc" && c.Value == "1") || // admin
-            (c.Type == "RoleAcc" && c.Value == "2")   // staff
-        )
-    ));
-
+    options.AddPolicy("AdminsOnly", policy => policy.RequireRole("Admin"));
+    options.AddPolicy("StaffOnly", policy => policy.RequireRole("Staff", "Admin"));
+    options.AddPolicy("HomePageAccess", policy => policy.RequireRole("User", "Staff", "Admin"));
 });
 // Register DbContext
 builder.Services.AddDbContext<DbmojoinContext>(options =>
@@ -51,11 +40,10 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseSession();
-app.UseRouting();
+app.UseRouting(); 
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseEndpoints(endpoints =>
