@@ -30,11 +30,11 @@
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <input type="hidden" asp-for="UserId" />
                         <div class="form-group">
-                            <label class="font-weight-semibold" for="productCategory">Mã quyền</label>
+                            <label class="font-weight-semibold" for="productCategory">Tên quyền</label>
                             <select asp-for="RolesId" class="custom-select" id="productCategory">
-                                <option value="1" selected="">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                <option value="1" selected="">Admin</option>
+                                <option value="2">Staff</option>
+                                <option value="3">User</option>
 
                             </select>
                         </div>
