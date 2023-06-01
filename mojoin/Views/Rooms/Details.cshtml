@@ -1,4 +1,5 @@
-﻿@model mojoin.Models.Room
+﻿@using Microsoft.AspNetCore.Http.Extensions
+@model mojoin.Models.Room
 
 @{
     ViewData["Title"] = "Details";
@@ -105,38 +106,42 @@
                 </div>
             </div>
 
-            <div class="agent-command-widget">
-                <div class="command-favorite" id="btn_save_ad" onclick="yeuthich2()">
-                    <img id="img_save_ad" height="20" width="20" style="display: inline-block;" src="https://static.chotot.com/storage/icons/saveAd/save-ad.svg" alt="like" loading="lazy" data-saved="false"><span style="user-select:none;">Lưu tin</span>
+            <div @*id="viewlist"*@ class="agent-command-widget">
+                @*@{
+                Html.RenderPartial("~/Views/YeuThich/YeuThichPartial.cshtml");
+                }*@
+                <div class="DatMua" style="display: inline-block; justify-content: flex-end">
+                    @if (ViewBag.IsYeuThich)
+                {
+                        <div class="SaveAd_saveAdWrapper___sBMh AdItem_saveAd__3prt2 ">
+                            <a href="@Url.Action("XoaYeuThich", "YeuThich", new { id = Model.RoomId })" id="btn_save_ad" onclick="" type="button" class="SaveAd_btnSavedAd__jwoYd ">
+                                <img id="img_save_ad" height="20" width="20" src="https://static.chotot.com/storage/icons/saveAd/save-ad-active.svg" alt="like" loading="lazy" data-saved="false">
+                            </a>
+                        </div>
+@*                <a title="Xóa khỏi yêu thích" class="btn-add-cat btn btn-outline-secondary fa fa-heart text-danger" href="@Url.Action("XoaYeuThich", "YeuThich", new { id = Model.RoomId })"></a>*@
+                }
+                else
+                {
+                        <div class="SaveAd_saveAdWrapper___sBMh AdItem_saveAd__3prt2 ">
+                            <a href="@Url.Action("LuuYeuThich", "YeuThich", new { id = Model.RoomId })" id="btn_save_ad" onclick="" type="button" class="SaveAd_btnSavedAd__jwoYd ">
+                                <img id="img_save_ad" height="20" width="20" src="https://static.chotot.com/storage/icons/saveAd/save-ad.svg" alt="like" loading="lazy" data-saved="false">
+                            </a>
+                        </div>
+                @*<div class="DatMua" style="display: inline-block; justify-content: flex-end">
+                <a title="Thêm vào yêu thích" class="btn-add-cat btn btn-outline-secondary fa fa-heart text-black" href="@Url.Action("LuuYeuThich", "YeuThich", new { id = Model.RoomId })"></a>
+                </div>*@
+                }
                 </div>
-                <div class="social-network share-link-group ng-isolate-scope" svg-url="/content/fonts/mogi-icons.svg">
-                    <a class="share-link" socialshare="" socialshare-provider="facebook" socialshare-display="popup" socialshare-popup-height="400" socialshare-popup-width="500" socialshare-url="https://mogi.vn/quan-2/thue-can-ho-dich-vu/chdv-cao-cap-sang-xin-chat-luong-quan-2-may-giat-rieng-id21986906">
-                        <svg width="32px" height="32px"><use xlink:href="/content/fonts/mogi-icons.svg#mi-facebook"></use></svg>
-                    </a>
-                    <a class="share-link" socialshare="" socialshare-provider="facebook" socialshare-type="send" socialshare-via="280564992105935" socialshare-display="popup" socialshare-popup-height="400" socialshare-popup-width="600" socialshare-redirect-uri="https://mogi.vn/quan-2/thue-can-ho-dich-vu/chdv-cao-cap-sang-xin-chat-luong-quan-2-may-giat-rieng-id21986906" socialshare-url="https://mogi.vn/quan-2/thue-can-ho-dich-vu/chdv-cao-cap-sang-xin-chat-luong-quan-2-may-giat-rieng-id21986906">
-                        <svg width="32px" height="32px"><use xlink:href="/content/fonts/mogi-icons.svg#mi-messenger"></use></svg>
-                    </a>
-                    <a class="share-link zalo-share-button" data-href="https://mogi.vn/quan-2/thue-can-ho-dich-vu/chdv-cao-cap-sang-xin-chat-luong-quan-2-may-giat-rieng-id21986906" data-oaid="4599343447665056788" data-layout="2" data-color="blue" data-customize="true">
-                        <img alt="zalo" src="/content/fonts/circle-zalo.svg" style="width:32px;height:32px;">
-                    </a>
+                @*<div class="DatMua" style="display: inline-block; justify-content: flex-end">
+                <a title="Đặt hàng" class="btn-add-cat btn btn-outline-secondary fa fa-shopping-cart text-black " href="@Url.Action("LuuYeuThich", "YeuThich", new { id = Model.RoomId })"></a>
                 </div>
+                <div class="DatMua" style="display: inline-block; justify-content: flex-end">
+                <a title="Đặt hàng" class="btn-add-cat btn btn-outline-secondary fa fa-shopping-cart text-black " href="@Url.Action("XoaYeuThich", "YeuThich", new { id = Model.RoomId })"></a>
+                </div>*@
             </div>
         </div>
     </div>
-
 </div>
 <script>
-    function yeuthich2() {
-        const btn = document.getElementById("btn_save_ad");
-        const img = document.getElementById("img_save_ad");
-        btn.addEventListener(`click`, () => {
-            if (img.getAttribute("src") === "https://static.chotot.com/storage/icons/saveAd/save-ad.svg") {
-                img.setAttribute("src", "https://static.chotot.com/storage/icons/saveAd/save-ad-active.svg");
-            }
-            else {
-                img.setAttribute("src", "https://static.chotot.com/storage/icons/saveAd/save-ad.svg");
-            }
 
-        });
-    }
 </script>
