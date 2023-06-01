@@ -10,11 +10,9 @@ namespace mojoin.ViewModel
 
 		[Display(Name = "Họ")]
 		[Required(ErrorMessage = "Vui lòng nhập Họ Tên")]
-        [RegularExpression(@"^[^0-9]+$", ErrorMessage = "Họ và tên không chứa sô!")]
-
-        public string LastName { get; set; }
+		public string LastName { get; set; }
         [Display(Name = "Tên")]
-        [RegularExpression(@"^[^0-9]+$", ErrorMessage = "Họ và tên không chứa sô!")]
+        [Required(ErrorMessage = "Vui lòng nhập Họ Tên")]
         public string FirstName { get; set; }
 
         [MaxLength(11)]
@@ -35,8 +33,7 @@ namespace mojoin.ViewModel
 		[MinLength(5, ErrorMessage = "Bạn cần đặt mật khẩu tối thiểu 5 ký tự")]
 		public string Password { get; set; }
 
-        [Required(ErrorMessage = "Vui lòng xác nhận mật khẩu")]
-        [MinLength(5, ErrorMessage = "Bạn cần đặt mật khẩu tối thiểu 5 ký tự")]
+		[MinLength(5, ErrorMessage = "Bạn cần đặt mật khẩu tối thiểu 5 ký tự")]
 		[Display(Name = "Nhập lại mật khẩu")]
 		[Compare("Password", ErrorMessage = "Nhập lại mật khẩu không đúng")]
 		public string ConfirmPassword { get; set; }

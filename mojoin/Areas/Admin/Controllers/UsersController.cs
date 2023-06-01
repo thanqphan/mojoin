@@ -47,6 +47,7 @@ namespace mojoin.Areas.Admin.Controllers
         //GET: Admin/Users
         
 
+        // GET: Admin/Users/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -222,6 +223,7 @@ namespace mojoin.Areas.Admin.Controllers
             {
                 _context.Users.Remove(user);
             }
+            
             await _context.SaveChangesAsync();
             _notyfService.Success("Xóa thành công!");
             return RedirectToAction(nameof(Index));

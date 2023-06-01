@@ -21,13 +21,13 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a href="index-crm.html">Danh sách Báo cáo</a>
+                        <a asp-area="Admin" asp-controller="RoomReports" asp-action="Index">Danh sách Báo cáo</a>
                     </li>
                     <li>
-                        <a href="index-crm.html">Danh sách Phê duyệt</a>
+                        <a asp-area="Admin" asp-controller="Rooms" asp-action="Index" asp-route-isActive="0">Danh sách Phê duyệt</a>
                     </li>
                     <li>
-                        <a href="index-projects.html">Danh sách Bài đăng</a>
+                        <a asp-area="Admin" asp-controller="Rooms" asp-action="Index" asp-route-isActive="-1">Danh sách Bài đăng</a>
                     </li>
                     
                 </ul>
