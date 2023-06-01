@@ -1,14 +1,15 @@
-﻿    @model mojoin.Models.User
+﻿@model mojoin.Models.User
 
 @{
-    ViewData["Title"] = "DetailsStaff";
+    ViewData["Title"] = "Details";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
+
 <div class="page-header">
     <div class="header-sub-title">
         <nav class="breadcrumb breadcrumb-dash">
             <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
-            <a asp-area="Admin" asp-controller="Users" asp-action="IndexStaff" class="breadcrumb-item">Danh sách Nhân viên</a>
+            <a asp-area="Admin" asp-controller="Staffs" asp-action="Index" class="breadcrumb-item">Danh sách Nhân viên</a>
             <span class="breadcrumb-item active">Chi tiết Nhân viên</span>
         </nav>
     </div>
@@ -18,8 +19,8 @@
         <div class="row">
             <h3 class="card-title col-md-8">Thông tin Nhân viên</h3>
             <div class="col-md-4 text-right">
-                <a class="btn btn-info btn-tone m-r-5" asp-action="IndexStaff">Back to list</a>
-                <a class="btn btn-warning btn-tone m-r-5" asp-action="EditStaff" asp-route-id="@Model.UserId">EditStaff</a>
+                <a class="btn btn-info btn-tone m-r-5" asp-action="Index">Back to list</a>
+                <a class="btn btn-warning btn-tone m-r-5" asp-action="Edit" asp-route-id="@Model.UserId">Edit</a>
             </div>
         </div>
         <div class="table-responsive">

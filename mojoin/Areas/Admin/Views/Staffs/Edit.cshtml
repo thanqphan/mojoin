@@ -1,7 +1,7 @@
 ﻿@model mojoin.Models.User
 
 @{
-    ViewData["Title"] = "EditStaff";
+    ViewData["Title"] = "Edit";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -9,7 +9,7 @@
     <div class="header-sub-title">
         <nav class="breadcrumb breadcrumb-dash">
             <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
-            <a asp-area="Admin" asp-controller="Users" asp-action="IndexStaff" class="breadcrumb-item">Danh sách nhân viên</a>
+            <a asp-area="Admin" asp-controller="Staffs" asp-action="Index" class="breadcrumb-item">Danh sách nhân viên</a>
             <span class="breadcrumb-item active">Chỉnh sửa nhân viên</span>
         </nav>
     </div>
@@ -19,7 +19,7 @@
         <div class="row">
             <h3 class="card-title col-md-8">Chỉnh sửa nhân viên</h3>
             <div class="col-md-4 text-right">
-                <a class="btn btn-info btn-tone m-r-5" asp-action="IndexStaff">Back to list</a>
+                <a class="btn btn-info btn-tone m-r-5" asp-action="Index">Back to list</a>
             </div>
         </div>
         <div class="table-responsive">
@@ -92,7 +92,7 @@
                             <select asp-for="Sex" class="custom-select" id="productCategory">
                                 <option value="0" selected="">Đang hoạt động</option>
                                 <option value="1">Tạm ngưng</option>
-                               
+
 
                             </select>
                         </div>
@@ -117,7 +117,6 @@
         </div>
     </div>
 </div>
-
 
 
 

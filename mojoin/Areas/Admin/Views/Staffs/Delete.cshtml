@@ -1,7 +1,7 @@
 ﻿@model mojoin.Models.User
 
 @{
-    ViewData["Title"] = "DeleteStaff";
+    ViewData["Title"] = "Delete";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -9,7 +9,7 @@
     <div class="header-sub-title">
         <nav class="breadcrumb breadcrumb-dash">
             <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
-            <a asp-area="Admin" asp-controller="Users" asp-action="IndexStaff" class="breadcrumb-item">Danh sách Nhân viên</a>
+            <a asp-area="Admin" asp-controller="Staffs" asp-action="Index" class="breadcrumb-item">Danh sách Nhân viên</a>
             <span class="breadcrumb-item active">Xác nhận xóa Nhân viên</span>
         </nav>
     </div>
@@ -28,7 +28,7 @@
                         <h3 class="card-title">Tiến hành xóa Nhân viên </h3>
                     </div>
                     <div class="col-md-4 text-black text-right">
-                        <a class="btn btn-info btn-tone btn-sm" asp-action="IndexStaff"> Back to List</a>
+                        <a class="btn btn-info btn-tone btn-sm" asp-action="Index"> Back to List</a>
                     </div>
                 </div>
             </div>
