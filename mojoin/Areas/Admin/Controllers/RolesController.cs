@@ -12,7 +12,7 @@ using mojoin.Models;
 namespace mojoin.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Policy = "AdminOrStaff")]
+    /*[Authorize(Policy = "AdminOrStaff")]*/
     public class RolesController : Controller
     {
         private readonly DbmojoinContext _context;
