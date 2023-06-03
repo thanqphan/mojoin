@@ -30,12 +30,6 @@ builder.Services.AddAuthorization(options =>
             (c.Type == "RoleAcc" && c.Value == "2")    // staff
         )
     ));
-    options.AddPolicy("Users", policy => policy.RequireAssertion(context =>
-        context.User.HasClaim(c =>
-            (c.Type == "RoleAcc" && c.Value == "1") || // admin
-            (c.Type == "RoleAcc" && c.Value == "2")   // staff
-        )
-    ));
 
 });
 // Register DbContext
@@ -51,11 +45,10 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseSession();
-app.UseRouting();
+app.UseRouting(); 
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseEndpoints(endpoints =>

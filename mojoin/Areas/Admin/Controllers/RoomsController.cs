@@ -41,9 +41,9 @@ namespace mojoin.Areas.Admin.Controllers
 			ViewData["QuyenAcc"] = new SelectList(_context.Roles, "RoleName", "RoleName");
 			List<SelectListItem> lsTrangThai = new List<SelectListItem>();
 			List<SelectListItem> lsLoaiPhong = new List<SelectListItem>();
-			lsTrangThai.Add(new SelectListItem() { Text = "Đã duyệt", Value = "0" });
+			lsTrangThai.Add(new SelectListItem() { Text = "Đã duyệt", Value = "1" });
 			lsTrangThai.Add(new SelectListItem() { Text = "Không được duyệt", Value = "2" });
-			lsTrangThai.Add(new SelectListItem() { Text = "Bài đăng đang chờ xử lý", Value = "1" });
+			lsTrangThai.Add(new SelectListItem() { Text = "Bài đăng đang chờ xử lý", Value = "0" });
 			
 			lsLoaiPhong.Add(new SelectListItem() { Text = "Nhà trọ", Value = "1" });
 			lsLoaiPhong.Add(new SelectListItem() { Text = "Căn hộ", Value = "2" });
@@ -86,14 +86,15 @@ namespace mojoin.Areas.Admin.Controllers
 			var us = room.UserId;
 			var userName = await _context.Users.FirstOrDefaultAsync(u => u.UserId == us);
 			ViewData["UserName"] = new SelectList(_context.Users, "UserId", "FirstName");
-			ViewBag.RoomsParams = HttpContext.Session.GetInt32("RoomsParams");
+            ViewData["RoomTypeName"] = room.RoomType?.TypeName;
+            ViewBag.RoomsParams = HttpContext.Session.GetInt32("RoomsParams");
 			return View(room);
 		}
 
 		// GET: Admin/Rooms/Create
 		public IActionResult Create()
 		{
-			ViewData["RoomTypeId"] = new SelectList(_context.RoomTypes, "RoomTypeId", "RoomTypeId");
+			ViewData["RoomTypeId"] = new SelectList(_context.RoomTypes, "RoomTypeId", "TypeName");
 			return View();
 		}
 
@@ -106,9 +107,11 @@ namespace mojoin.Areas.Admin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
+				/*var roomType = _context.RoomTypes.Find(room.RoomTypeId);*/
 				_context.Rooms.Add(new Room
 				{
 					RoomTypeId = room.RoomTypeId,
+					/*RoomType = roomType.TypeName,*/
 					Title = room.Title,
 					Description = room.Description,
 					Price = room.Price,
@@ -134,7 +137,8 @@ namespace mojoin.Areas.Admin.Controllers
 				_notyfService.Success("Tạo phòng thành công!");
 				return RedirectToAction(nameof(Index), new { isActive = HttpContext.Session.GetInt32("RoomsParams") });
 			}
-			ViewData["RoomTypeId"] = new SelectList(_context.RoomTypes, "RoomTypeId", "RoomTypeId", room.RoomTypeId);
+            
+            ViewData["RoomTypeId"] = new SelectList(_context.RoomTypes, "RoomTypeId", "TypeName", room.RoomTypeId);
 			return View(room);
 		}
 
@@ -151,7 +155,7 @@ namespace mojoin.Areas.Admin.Controllers
 			{
 				return NotFound();
 			}
-			ViewData["RoomTypeId"] = new SelectList(_context.RoomTypes, "RoomTypeId", "RoomTypeId", room.RoomTypeId);
+			ViewData["RoomTypeId"] = new SelectList(_context.RoomTypes, "RoomTypeId", "TypeName", room.RoomTypeId);
 			return View(room);
 		}
 
@@ -170,7 +174,7 @@ namespace mojoin.Areas.Admin.Controllers
 			{
 				try
 				{
-					int result = await _context.Rooms.Where(x => x.RoomId == room.RoomId).ExecuteUpdateAsync(x =>
+                    int result = await _context.Rooms.Where(x => x.RoomId == room.RoomId).ExecuteUpdateAsync(x =>
 					x.SetProperty(p => p.RoomTypeId, room.RoomTypeId)
 					.SetProperty(p => p.Title, room.Title)
 					.SetProperty(p => p.Description, room.Description)
@@ -214,7 +218,8 @@ namespace mojoin.Areas.Admin.Controllers
 				}
 				return RedirectToAction(nameof(Index), new { isActive = HttpContext.Session.GetInt32("RoomsParams") });
 			}
-			ViewData["RoomTypeId"] = new SelectList(_context.RoomTypes, "RoomTypeId", "RoomTypeId", room.RoomTypeId);
+			
+			ViewData["RoomTypeId"] = new SelectList(_context.RoomTypes, "RoomTypeId", "TypeName", room.RoomTypeId);
 			return View(room);
 		}
 
@@ -272,7 +277,7 @@ namespace mojoin.Areas.Admin.Controllers
 				var findRoom = _context.Rooms.Where(x => x.RoomId == roomId).FirstOrDefault();
 				if (findRoom != null)
 				{
-					findRoom.IsActive = 0;
+					findRoom.IsActive = 1;
 					_context.SaveChanges();
 
 					_notyfService.Success("Cập nhật thành công!");

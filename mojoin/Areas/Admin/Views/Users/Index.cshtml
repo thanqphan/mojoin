@@ -100,6 +100,29 @@
                                         <a class="btn btn-tone m-r-5 fa fa-edit" title="Edit" asp-action="Edit" asp-route-id="@item.UserId"></a>
                                         <a class="btn btn-tone m-r-5 fa fa-trash" title="Delete" asp-action="Delete" asp-route-id="@item.UserId"></a>
                                     </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InfoZalo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InfoFacebook)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GoogleId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SupportUserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreateDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Roles.RolelD)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.UserId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.UserId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.UserId">Delete</a>
+            </td>
                                 </tr>
                             }
 

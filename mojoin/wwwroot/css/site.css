@@ -9,7 +9,7 @@ html {
 
 body {
     margin: 0;
-    padding-top: 10rem;
+    padding-top: 10px;
     padding-bottom: 0;
     font-size: 14px;
     color: #262637;
@@ -575,7 +575,6 @@ svg:not(:root) {
     .footer .footer-top {
         padding-top: 2rem;
         padding-bottom: 1rem;
-        margin-top:10rem;
     }
 }
 
@@ -583,7 +582,6 @@ svg:not(:root) {
     .footer .footer-top {
         padding-top: 3rem;
         padding-bottom: 2rem;
-        margin-top: 10rem;
     }
 }
 
@@ -947,11 +945,4 @@ button, input {
     margin: 0;
 }
 /*end find*/
-.btn-loginr {
-    background-color: #3bacb6;
-    color: white;
-}
-    .btn-loginr:hover {
-        color: black;
-    }
 

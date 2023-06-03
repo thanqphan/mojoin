@@ -1,7 +1,7 @@
 ﻿@model mojoin.Models.User
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "EditStaff";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -9,7 +9,7 @@
     <div class="header-sub-title">
         <nav class="breadcrumb breadcrumb-dash">
             <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
-            <a asp-area="Admin" asp-controller="Staffs" asp-action="Index" class="breadcrumb-item">Danh sách nhân viên</a>
+            <a asp-area="Admin" asp-controller="Users" asp-action="IndexStaff" class="breadcrumb-item">Danh sách nhân viên</a>
             <span class="breadcrumb-item active">Chỉnh sửa nhân viên</span>
         </nav>
     </div>
@@ -19,7 +19,7 @@
         <div class="row">
             <h3 class="card-title col-md-8">Chỉnh sửa nhân viên</h3>
             <div class="col-md-4 text-right">
-                <a class="btn btn-info btn-tone m-r-5" asp-action="Index">Back to list</a>
+                <a class="btn btn-info btn-tone m-r-5" asp-action="IndexStaff">Back to list</a>
             </div>
         </div>
         <div class="table-responsive">
@@ -29,11 +29,11 @@
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <input type="hidden" asp-for="UserId" />
                         <div class="form-group">
-                            <label class="font-weight-semibold" for="productCategory">Tên quyền</label>
+                            <label class="font-weight-semibold" for="productCategory">Mã quyền</label>
                             <select asp-for="RolesId" class="custom-select" id="productCategory">
-                                <option value="1" selected="">Admin</option>
-                                <option value="2">Staff</option>
-                                <option value="3">User</option>
+                                <option value="1" selected="">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
 
                             </select>
                         </div>
@@ -71,7 +71,6 @@
 
                             </select>
                         </div>
-
                         <div class="form-group">
                             <label>Ngày sinh</label>
                             <input asp-for="Dateofbirth" class="form-control" />
@@ -86,15 +85,6 @@
                             <label>Avatar</label>
                             <input asp-for="Avatar" class="form-control" />
                             <span asp-validation-for="LastName" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label class="font-weight-semibold" for="productCategory">Trạng thái hoạt động</label>
-                            <select asp-for="IsActive" class="custom-select" id="productCategory">
-                                <option value="true" selected="">Đang họat động </option>
-                                <option value="false">Tạm ngưng</option>
-
-
-                            </select>
                         </div>
                         <div class="form-group">
                             <label>InfoZalo</label>
@@ -117,6 +107,7 @@
         </div>
     </div>
 </div>
+
 
 
 

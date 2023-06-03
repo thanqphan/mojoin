@@ -13,7 +13,7 @@ namespace mojoin.Controllers
 {
     public class RoomsController : Controller
     {
-        
+
         DbmojoinContext db = new DbmojoinContext();
 
         // GET: Rooms
@@ -24,7 +24,7 @@ namespace mojoin.Controllers
         }
         public ActionResult ShowImage(int id)
         {
-            var roomImage =db.RoomImages
+            var roomImage = db.RoomImages
                 .Where(r => r.RoomId == id)
                 .Select(r => r.Image)
                 .FirstOrDefault();
@@ -93,6 +93,13 @@ namespace mojoin.Controllers
 
 /*            ViewBag.UserFullName = room.UserFullName;
 */            return View(room);
-        }      
+        }
+        public ActionResult Search(string keyword)
+        {
+
+            var all = db.Rooms.Include(r => r.RoomImages).Where(x => x.Description.Contains(keyword));
+
+            return View(all);
+        }
     }
 }

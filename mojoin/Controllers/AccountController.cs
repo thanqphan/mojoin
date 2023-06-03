@@ -263,38 +263,6 @@ namespace mojoin.Controllers
             return RedirectToAction("Index", "Rooms");
         }
 
-        [HttpPost]
-        public IActionResult ChangePassword(ChangePasswordViewModel model)
-        {
-            try
-            {
-                var taikhoanID = HttpContext.Session.GetString("UserId");
-                if (taikhoanID == null)
-                {
-                    return RedirectToAction("Login", "Account");
-                }
-                if (ModelState.IsValid)
-                {
-                    var taikhoan = _context.Users.Find(Convert.ToInt32(taikhoanID));
-                    if (taikhoan == null) return RedirectToAction("Login", "Account");
-                    var pass = (model.PasswordNow.Trim());
-                    {
-                        string passnew = (model.Password.Trim());
-                        taikhoan.Password = passnew;
-                        _context.Update(taikhoan);
-                        _context.SaveChanges();
-                        _notyfService.Success("Đổi mật khẩu thành công");
-                        return RedirectToAction("Login", "Account");
-                    }
-                }
-            }
-            catch
-            {
-                _notyfService.Success("Thay đổi mật khẩu không thành công");
-                return View();
-            }
-            _notyfService.Success("Thay đổi mật khẩu không thành công");
-            return View();
-        }
+       
     }
 }
