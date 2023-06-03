@@ -91,9 +91,15 @@ namespace mojoin.Controllers
                 return NotFound();
             }
 
-            /*            ViewBag.UserFullName = room.UserFullName;
-            */
-            return View(room);
+/*            ViewBag.UserFullName = room.UserFullName;
+*/            return View(room);
+        }
+        public ActionResult Search(string keyword)
+        {
+
+            var all = db.Rooms.Include(r => r.RoomImages).Where(x => x.Description.Contains(keyword));
+
+            return View(all);
         }
     }
 }
