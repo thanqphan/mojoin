@@ -12,7 +12,7 @@ using mojoin.Models;
 namespace mojoin.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Policy = "AdminOrStaff")]
+    /*[Authorize(Policy = "AdminOrStaff")]*/
     public class RolesController : Controller
     {
         private readonly DbmojoinContext _context;
@@ -53,6 +53,7 @@ namespace mojoin.Areas.Admin.Controllers
         // GET: Admin/Roles/Create
         public IActionResult Create()
         {
+            ViewData["UserId"] = new SelectList(_context.RoomTypes, "RoomTypeId", "RoomTypeId");
             return View();
         }
 

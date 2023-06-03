@@ -170,6 +170,7 @@ public partial class DbmojoinContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.FirstName).HasMaxLength(100);
+            entity.Property(e => e.LastName).HasMaxLength(100);
             entity.Property(e => e.GoogleId)
                 .IsUnicode(false)
                 .HasColumnName("GoogleID");

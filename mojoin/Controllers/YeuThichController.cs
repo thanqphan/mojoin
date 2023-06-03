@@ -24,7 +24,7 @@ namespace mojoin.Controllers
     public class YeuThichController : Controller
     {
         DbmojoinContext db = new DbmojoinContext();
- 
+
         //public List<Yeuthich> Layyeuthich()
         //{
         //    var yt = HttpContext.Session.GetString("Yeuthich");
@@ -58,7 +58,7 @@ namespace mojoin.Controllers
                 lstYeuthich = JsonConvert.DeserializeObject<List<Yeuthich>>(json);
             }
             return lstYeuthich;
-        }       
+        }
         private int TongSoLuongYeuThich()
         {
             int tsl = 0;
@@ -158,7 +158,7 @@ namespace mojoin.Controllers
         }
 
         public ActionResult YeuThichPartial()
-        {           
+        {
             return View();
         }
     }

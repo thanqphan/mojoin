@@ -1,0 +1,85 @@
+﻿    @model mojoin.Models.User
+
+@{
+    ViewData["Title"] = "DetailsStaff";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <a asp-area="Admin" asp-controller="Users" asp-action="IndexStaff" class="breadcrumb-item">Danh sách Nhân viên</a>
+            <span class="breadcrumb-item active">Chi tiết Nhân viên</span>
+        </nav>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <h3 class="card-title col-md-8">Thông tin Nhân viên</h3>
+            <div class="col-md-4 text-right">
+                <a class="btn btn-info btn-tone m-r-5" asp-action="IndexStaff">Back to list</a>
+                <a class="btn btn-warning btn-tone m-r-5" asp-action="Edit" asp-route-id="@Model.UserId">Edit</a>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="product-info-table m-t-20 table-bordered table-hover">
+                <tbody>
+                    <tr>
+                        <td>Tên Quyền:</td>
+                        <td>@Model.RolesId</td>
+                    </tr>
+                    <tr>
+                        <td>Họ:</td>
+                        <td>@Model.LastName</td>
+                    </tr>
+                    <tr>
+                        <td>Tên:</td>
+                        <td>@Model.FirstName</td>
+                    </tr>
+                    <tr>
+                        <td>Số điện thoại:</td>
+                        <td>@Model.Phone</td>
+                    </tr>
+                    <tr>
+                        <td>Email:</td>
+                        <td>@Model.Email</td>
+                    </tr>
+                    <tr>
+                        <td>Địa chỉ:</td>
+                        <td>@Model.Address</td>
+                    </tr>
+                    <tr>
+                        <td>Giới tính:</td>
+                        <td>@Model.Sex</td>
+                    </tr>
+                    <tr>
+                        <td>Ngày sinh:</td>
+                        <td>@Model.Dateofbirth</td>
+                    </tr>
+                    <tr>
+                        <td>Mật khẩu:</td>
+                        <td>@Model.Password</td>
+                    </tr>
+                    <tr>
+                        <td>Avatar:</td>
+                        <td>@Model.Avatar</td>
+                    </tr>
+                    <tr>
+                        <td>InfoZalo:</td>
+                        <td>@Model.InfoZalo</td>
+                    </tr>
+                    <tr>
+                        <td>InfoFacebook:</td>
+                        <td>@Model.InfoFacebook</td>
+                    </tr>
+
+                    <tr>
+                        <td>Ngày tạo:</td>
+                        <td>@Model.CreateDate</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

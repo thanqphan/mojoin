@@ -13,7 +13,7 @@ namespace mojoin.Controllers
 {
     public class RoomsController : Controller
     {
-        
+
         DbmojoinContext db = new DbmojoinContext();
 
         // GET: Rooms
@@ -24,7 +24,7 @@ namespace mojoin.Controllers
         }
         public ActionResult ShowImage(int id)
         {
-            var roomImage =db.RoomImages
+            var roomImage = db.RoomImages
                 .Where(r => r.RoomId == id)
                 .Select(r => r.Image)
                 .FirstOrDefault();
