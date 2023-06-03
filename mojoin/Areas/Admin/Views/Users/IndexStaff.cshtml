@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<mojoin.Models.User>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "IndexStaff";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
 <div class="page-header">
     <div class="header-sub-title">
         <nav class="breadcrumb breadcrumb-dash">
-            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <a asp-area="Admin" asp-controller="Home" asp-action="IndexStaff" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
             <span class="breadcrumb-item active">Danh sách Nhân viên</span>
         </nav>
     </div>
@@ -27,7 +27,7 @@
                     </div>
 
                     <div class="col-md-4 text-right">
-                        <a class="btn btn-success btn-tone m-r-5" asp-action="Create">Thêm</a>
+                        <a class="btn btn-success btn-tone m-r-5" asp-action="CreateStaff">Thêm</a>
                     </div>
                 </div>
             </div>

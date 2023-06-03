@@ -13,9 +13,9 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="RoomId" />
+            <input type="hidden" asp-for="RoomId"/>
             <div class="form-group">
-                <label asp-for="RoomTypeId" class="control-label"></label>
+                <label class="control-label">RoomType</label>
                 <select asp-for="RoomTypeId" class="form-control" asp-items="ViewBag.RoomTypeId"></select>
                 <span asp-validation-for="RoomTypeId" class="text-danger"></span>
             </div>

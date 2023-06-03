@@ -1,33 +1,43 @@
 ﻿@model mojoin.Models.User
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "CreateStaff";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
+@Html.AntiForgeryToken()
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
 <div class="page-header">
     <div class="header-sub-title">
         <nav class="breadcrumb breadcrumb-dash">
             <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
-            <a asp-area="Admin" asp-controller="Staffs" asp-action="Index" class="breadcrumb-item">Danh sách nhân viên</a>
-            <span class="breadcrumb-item active">Chỉnh sửa nhân viên</span>
+            <a asp-area="Admin" asp-controller="Users" asp-action="IndexStaff" class="breadcrumb-item">Danh sách Nhân viên</a>
+            <span class="breadcrumb-item active">Thêm mới nhân viên</span>
         </nav>
     </div>
 </div>
-<div class="card">
-    <div class="card-body">
-        <div class="row">
-            <h3 class="card-title col-md-8">Chỉnh sửa nhân viên</h3>
-            <div class="col-md-4 text-right">
-                <a class="btn btn-info btn-tone m-r-5" asp-action="Index">Back to list</a>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+        <!-- Default box -->
+        <div class="card pt-2">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-md-8  text-black">
+                        <h3>
+                            Thêm mới nhân viên
+                        </h3>
+                    </div>
+                    <div class="col-md-4 text-black text-right">
+                        <a class="btn btn-info btn-tone btn-sm" asp-action="IndexStaff">Back to List</a>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="table-responsive">
-            <table class="product-info-table m-t-20 table-bordered table-hover">
-                <tbody>
-                    <form asp-action="Edit">
+            <div class="card-body">
+                <div class="col-md-4">
+                    <form asp-action="Create">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <input type="hidden" asp-for="UserId" />
                         <div class="form-group">
                             <label class="font-weight-semibold" for="productCategory">Mã quyền</label>
                             <select asp-for="RolesId" class="custom-select" id="productCategory">
@@ -71,31 +81,22 @@
 
                             </select>
                         </div>
-
                         <div class="form-group">
                             <label>Ngày sinh</label>
                             <input asp-for="Dateofbirth" class="form-control" />
                             <span asp-validation-for="Dateofbirth" class="text-danger"></span>
                         </div>
                         <div class="form-group">
+                            <label>Avatar</label>
+                            <input asp-for="Avatar" class="form-control" />
+                            <span asp-validation-for="Avatar" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
                             <label>Mật khẩu</label>
                             <input asp-for="Password" class="form-control" />
                             <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
-                        <div class="form-group">
-                            <label>Avatar</label>
-                            <input asp-for="Avatar" class="form-control" />
-                            <span asp-validation-for="LastName" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label class="font-weight-semibold" for="productCategory">Trạng thái hoạt động</label>
-                            <select asp-for="Sex" class="custom-select" id="productCategory">
-                                <option value="0" selected="">Đang hoạt động</option>
-                                <option value="1">Tạm ngưng</option>
 
-
-                            </select>
-                        </div>
                         <div class="form-group">
                             <label>InfoZalo</label>
                             <input asp-for="InfoZalo" class="form-control" />
@@ -107,26 +108,15 @@
                             <span asp-validation-for="InfoFacebook" class="text-danger"></span>
                         </div>
 
-
                         <div class="form-group">
-                            <input type="submit" value="Save" class="btn btn-primary btn-tone" />
+                            <input type="submit" value="Thêm" class="btn btn-primary btn-tone" />
                         </div>
                     </form>
-                </tbody>
-            </table>
+                </div>
+            </div>
+            <!-- /.card-body -->
         </div>
-    </div>
+    </section>
+    <!-- /.content -->
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
+<!-- /.content-wrapper -->

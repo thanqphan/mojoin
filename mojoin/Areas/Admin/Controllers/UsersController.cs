@@ -45,7 +45,13 @@ namespace mojoin.Areas.Admin.Controllers
             
         }
         //GET: Admin/Users
-        
+        public IActionResult IndexStaff()
+        {
+            var users = _context.Users.Where(u => u.RolesId == 2).ToList();
+
+            // Truyền danh sách tài khoản cho view để hiển thị
+            return View(users);
+        }
 
         // GET: Admin/Users/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -65,8 +71,23 @@ namespace mojoin.Areas.Admin.Controllers
 
             return View(user);
         }
+        public async Task<IActionResult> DetailsStaff(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        
+            var user = await _context.Users
+
+                .FirstOrDefaultAsync(m => m.UserId == id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
 
         // GET: Admin/Users/Create
 
@@ -75,7 +96,11 @@ namespace mojoin.Areas.Admin.Controllers
             ViewData["RolesId"] = new SelectList(_context.Roles, "RolelD", "RoleName");
             return View();
         }
-        
+        public IActionResult CreateStaff()
+        {
+            ViewData["RolesId"] = new SelectList(_context.Roles, "RolelD", "RoleName");
+            return View();
+        }
         // POST: Admin/Users/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -109,7 +134,36 @@ namespace mojoin.Areas.Admin.Controllers
             ViewData["QuyenTruyCap"] = new SelectList(_context.Roles, "RolesId", "RoleName", taiKhoan.RolesId);
             return View(taiKhoan);
         }
-        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateStaff (User tk)
+        {
+            if (ModelState.IsValid)
+            {
+                User user = new User
+                {
+                    RolesId = tk.RolesId,
+                    FirstName = tk.FirstName,
+                    LastName = tk.LastName,
+                    Phone = tk.Phone,
+                    Email = tk.Email,
+                    Address = tk.Address,
+                    Sex = tk.Sex,
+                    Dateofbirth = tk.Dateofbirth,
+                    Password = tk.Password,
+                    IsActive = true,
+                    InfoFacebook = tk.InfoFacebook,
+                    InfoZalo = tk.InfoZalo,
+                    CreateDate = DateTime.Now,
+                };
+                _context.Add(user);
+                await _context.SaveChangesAsync();
+                _notyfService.Success("Thêm mới thành công!");
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["QuyenTruyCap"] = new SelectList(_context.Roles, "RolesId", "RoleName", tk.RolesId);
+            return RedirectToAction("Index");
+        }
 
         // GET: Admin/Users/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -123,12 +177,34 @@ namespace mojoin.Areas.Admin.Controllers
             if (user == null)
             {
                 return NotFound();
+
             }
-         
+            ViewData["QuyenAcc"] = new SelectList(_context.Users, "RoleName", "RoleName");
+            List<SelectListItem> lstrangthaihoatdong = new List<SelectListItem>();
+            lstrangthaihoatdong.Add(new SelectListItem() { Text = "Đang hoạt động", Value = "0" });
+            lstrangthaihoatdong.Add(new SelectListItem() { Text = "Tạm ngưng", Value = "1" });
+
+            ViewData["lstrangthaihoatdong"] = lstrangthaihoatdong;
+
             ViewData["QuyenTruyCap"] = new SelectList(_context.Roles, "RoleId", "RoleName", user.RolesId);
             return View(user);
         }
-        
+        public async Task<IActionResult> EditStaff(int? id)
+        {
+            if (id == null || _context.Users == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            ViewData["QuyenTruyCap"] = new SelectList(_context.Roles, "RoleId", "RoleName", user.RolesId);
+            return View(user);
+        }
 
         // POST: Admin/Users/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -137,42 +213,22 @@ namespace mojoin.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("UserId,RolesId,FirstName,LastName,Phone,Email,Address,Sex,Dateofbirth,Password,Salt,Avatar,IsActive,InfoZalo,InfoFacebook,GoogleId,SupportUserId,CreateDate")] User user)
         {
+            if (id != user.UserId)
+            {
+                return NotFound();
+            }
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                    int result = await _context.Users.Where(x => x.UserId == user.UserId).ExecuteUpdateAsync(x =>
-                    x.SetProperty(p => p.RolesId, user.RolesId)
-                    .SetProperty(p => p.FirstName, user.FirstName)
-                    .SetProperty(p => p.LastName, user.LastName)
-                    .SetProperty(p => p.Phone, user.Phone)
-                    .SetProperty(p => p.Email, user.Email)
-                    .SetProperty(p => p.Address, user.Address)
-                    .SetProperty(p => p.Sex, user.Sex)
-                    .SetProperty(p => p.Dateofbirth, user.Dateofbirth)
-                    .SetProperty(p => p.Password, user.Password)
-                    .SetProperty(p => p.Avatar, user.Avatar)
-                    .SetProperty(p => p.IsActive, user.IsActive)
-                    .SetProperty(p => p.InfoZalo, user.InfoZalo)
-                    .SetProperty(p => p.InfoFacebook, user.InfoFacebook)
-                    .SetProperty(p => p.SupportUserId, user.SupportUserId)
-                    .SetProperty(p => p.CreateDate, DateTime.Now));
-
-                    if (result > 0)
-                    {
-                        _notyfService.Success("Cập nhật người dùng thành công!");
-                        return RedirectToAction(nameof(Index));
-                    }
-                    else
-                    {
-                        _notyfService.Success("Không tìm thấy người dùng tương ứng!");
-                    }
+                    _context.Update(user);
+                    await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!UserExists(user.UserId))
                     {
-                        _notyfService.Success("Có lỗi xảy ra!");
                         return NotFound();
                     }
                     else
@@ -182,12 +238,37 @@ namespace mojoin.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RolesId"] = new SelectList(_context.Roles, "RolelD", "RolelD", user.RolesId);
-            _notyfService.Error("Có lỗi xảy ra.");
-            return View(user);
-
+            ViewData["RolesId"] = new SelectList(_context.Roles, "RolelD", "RolelD", user.RolesId); return View(user);
         }
-        
+        public async Task<IActionResult> EditStaff(User tk)
+        {
+            if (ModelState.IsValid)
+            {
+                User user = new User
+                {
+                    RolesId = tk.RolesId,
+                    FirstName = tk.FirstName,
+                    LastName = tk.LastName,
+                    Phone = tk.Phone,
+                    Email = tk.Email,
+                    Address = tk.Address,
+                    Sex = tk.Sex,
+                    Dateofbirth = tk.Dateofbirth,
+                    Password = tk.Password,
+                    IsActive = true,
+                    InfoFacebook = tk.InfoFacebook,
+                    InfoZalo = tk.InfoZalo,
+                    CreateDate = DateTime.Now,
+                };
+                _context.Add(user);
+                await _context.SaveChangesAsync();
+                _notyfService.Success("Thêm mới thành công!");
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["QuyenTruyCap"] = new SelectList(_context.Roles, "RolesId", "RoleName", tk.RolesId);
+            return RedirectToAction("Index");
+        }
+
         // GET: Admin/Users/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -206,7 +287,6 @@ namespace mojoin.Areas.Admin.Controllers
 
             return View(user);
         }
-        
 
         // POST: Admin/Users/Delete/5
         [HttpPost, ActionName("Delete")]
@@ -228,7 +308,6 @@ namespace mojoin.Areas.Admin.Controllers
             _notyfService.Success("Xóa thành công!");
             return RedirectToAction(nameof(Index));
         }
-        
 
         private bool UserExists(int id)
         {

@@ -63,6 +63,7 @@ public partial class Room
     [ValidateNever]
     public virtual RoomType RoomType { get; set; } = null!;
 
+
     [ValidateNever]
     public virtual User User { get; set; } = null!;
 }
