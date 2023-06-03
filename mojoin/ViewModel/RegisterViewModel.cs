@@ -8,13 +8,16 @@ namespace mojoin.ViewModel
         [Key]
         public int CustomerId { get; set; }
 
-        [Display(Name = "Họ")]
-        [Required(ErrorMessage = "Vui lòng nhập Họ Tên")]
-        [RegularExpression(@"^[^0-9]+$", ErrorMessage = "Họ và tên không chứa sô!")]
+		[Display(Name = "Họ")]
+		[Required(ErrorMessage = "Vui lòng nhập Họ Tên")]
+        [RegularExpression(@"^[a-zA-Z\sáàảãạăắằẳẵặâấầẩẫậéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵ]+$",
+        ErrorMessage = "Sai định dạng họ tên.")]
 
         public string LastName { get; set; }
+        [Required(ErrorMessage = "Vui lòng nhập Họ Tên")]
         [Display(Name = "Tên")]
-        [RegularExpression(@"^[^0-9]+$", ErrorMessage = "Họ và tên không chứa sô!")]
+        [RegularExpression(@"^[a-zA-Z\sáàảãạăắằẳẵặâấầẩẫậéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵ]+$",
+        ErrorMessage = "Sai định dạng tên.")]
         public string FirstName { get; set; }
 
         [MaxLength(11)]

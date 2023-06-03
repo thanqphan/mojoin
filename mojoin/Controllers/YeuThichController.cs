@@ -17,6 +17,8 @@ using XAct.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System.Net.Http;
+using mojoin.ViewModel;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace mojoin.Controllers
 {
@@ -24,7 +26,13 @@ namespace mojoin.Controllers
     public class YeuThichController : Controller
     {
         DbmojoinContext db = new DbmojoinContext();
-
+        public INotyfService _notyfService { get; }
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public YeuThichController( INotyfService notyfService, IHttpContextAccessor httpContextAccessor)
+        {
+            _notyfService = notyfService;
+            _httpContextAccessor = httpContextAccessor;
+        }
         //public List<Yeuthich> Layyeuthich()
         //{
         //    var yt = HttpContext.Session.GetString("Yeuthich");
@@ -37,12 +45,6 @@ namespace mojoin.Controllers
         //    }
         //    return lstGiohang;
         //}
-        private readonly IHttpContextAccessor _httpContextAccessor;
-
-        public YeuThichController(IHttpContextAccessor httpContextAccessor)
-        {
-            _httpContextAccessor = httpContextAccessor;
-        }
         public List<Yeuthich> Layyeuthich()
         {
             string json = HttpContext.Session.GetString("Yeuthich");
@@ -156,9 +158,41 @@ namespace mojoin.Controllers
             // Chuyển hướng về trang danh sách yêu thích
             return RedirectToAction("YeuThich");
         }
-
         public ActionResult YeuThichPartial()
+        {           
+            return View();
+        }
+        [HttpPost]
+        public IActionResult ChangePassword(ChangePasswordViewModel model)
         {
+            try
+            {
+                var taikhoanID = HttpContext.Session.GetString("UserId");
+                if (taikhoanID == null)
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+                if (ModelState.IsValid)
+                {
+                    var taikhoan = db.Users.Find(Convert.ToInt32(taikhoanID));
+                    if (taikhoan == null) return RedirectToAction("Login", "Account");
+                    var pass = (model.PasswordNow.Trim());
+                    {
+                        string passnew = (model.Password.Trim());
+                        taikhoan.Password = passnew;
+                        db.Update(taikhoan);
+                        db.SaveChanges();
+                        _notyfService.Success("Đổi mật khẩu thành công");
+                        return RedirectToAction("Login", "Account");
+                    }
+                }
+            }
+            catch
+            {
+                _notyfService.Success("Thay đổi mật khẩu không thành công");
+                return View();
+            }
+            _notyfService.Success("Thay đổi mật khẩu không thành công");
             return View();
         }
     }
