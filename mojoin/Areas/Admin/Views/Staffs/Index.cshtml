@@ -44,13 +44,13 @@
                                 <th scope="col">Email</th>
                                 <th scope="col">Địa chỉ</th>
 
+                                <
                                 <th>
                                     Trạng thái hoạt động
-                                    @if (ViewBag.IsActive == -1)
-                                    {
-                                        <select class="border-0" id="idRole" name="idRole" title="Trạng thái hoạt động" style="max-width:15px" asp-items="ViewBag.lsTrangThaiHoatDong">
-                                        </select>
-                                    }
+
+
+                                    <select class="border-0" id="idActive" name="idActive" title="Chọn Trạng thái" style="max-width:20px" asp-items="ViewBag.lstrangthaihoatdongg">
+                                    </select>
 
                                 </th>
                                 <th scope="col">Chức năng</th>
@@ -160,12 +160,12 @@
             $('#idRole').on('change', function () {
                 var selectedValue = $("#idRole option:selected").text(); // Lấy giá trị đã chọn từ dropdown
                 // Lọc bảng dữ liệu bằng giá trị đã chọn
-                table.column(2).search(selectedValue).draw();
+                table.column(1).search(selectedValue).draw();
             });
             $('#idActive').on('change', function () {
                 var selectedValue = $("#idActive option:selected").text(); // Lấy giá trị đã chọn từ dropdown
                 // Lọc bảng dữ liệu bằng giá trị đã chọn
-                table.column(3).search(selectedValue).draw();
+                table.column(6).search(selectedValue).draw();
             });
 
         });

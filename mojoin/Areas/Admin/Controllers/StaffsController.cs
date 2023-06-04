@@ -30,11 +30,11 @@ namespace mojoin.Areas.Admin.Controllers
         {
             var users = _context.Users.Where(u => u.RolesId == 2).ToList();
             ViewData["QuyenAcc"] = new SelectList(_context.Users, "RoleName", "RoleName");
-            List<SelectListItem> lstrangthaihoatdong = new List<SelectListItem>();
-            lstrangthaihoatdong.Add(new SelectListItem() { Text = "Đang hoạt động", Value = "0" });
-            lstrangthaihoatdong.Add(new SelectListItem() { Text = "Tạm ngưng", Value = "1" });
+            List<SelectListItem> lstrangthaihoatdongg = new List<SelectListItem>();
+            lstrangthaihoatdongg.Add(new SelectListItem() { Text = "Đang hoạt động", Value = "0" });
+            lstrangthaihoatdongg.Add(new SelectListItem() { Text = "Tạm ngưng", Value = "1" });
 
-            ViewData["lstrangthaihoatdong"] = lstrangthaihoatdong;
+            ViewData["lstrangthaihoatdongg"] = lstrangthaihoatdongg;
 
             // Truyền danh sách tài khoản cho view để hiển thị
             return View(users);

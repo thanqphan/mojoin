@@ -224,8 +224,16 @@ namespace mojoin.Areas.Admin.Controllers
             _notyfService.Success("Xóa thành công!");
             return RedirectToAction(nameof(Index));
         }
-        
 
+        //public string ProcessUpload(HttpPostedFileBase file)
+        //{
+        //    if (file == null)
+        //    {
+        //        return "";
+        //    }
+        //    file.SaveAs(Server.MapPath("~/Content/images/" + file.FileName));
+        //    return "/Content/images/" + file.FileName;
+        //}
         private bool UserExists(int id)
         {
           return _context.Users.Any(e => e.UserId == id);

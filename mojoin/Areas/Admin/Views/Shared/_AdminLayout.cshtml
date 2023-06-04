@@ -249,6 +249,8 @@
 
     @await Component.InvokeAsync("Notyf")
     @await RenderSectionAsync("Scripts",required: false)
+    @RenderSection("scripts", required: false)
+    @RenderSection("upload", required: false)
 </body>
 
 </html>
