@@ -60,8 +60,24 @@
                             {
                                 <tr>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.RolesId)
+                                        @if (item.RolesId == 1)
+                                        {
+                                            <text>Admin</text>
+                                        }
+                                        else if (item.RolesId == 2)
+                                        {
+                                            <text>Staff</text>
+                                        }
+                                        else if (item.RolesId == 3)
+                                        {
+                                            <text>User</text>
+                                        }
+                                        else
+                                        {
+                                            <text>Unknown</text>
+                                        }
                                     </td>
+
                                     <td>
                                         @Html.DisplayFor(modelItem => item.LastName)                                        
                                     </td>
@@ -96,9 +112,9 @@
                                         }
                                     </td>
                                     <td>
-                                        <a class="btn btn-tone m-r-5 fa fa-eye" title="Details" asp-action="Details" asp-route-id="@item.UserId"></a>
-                                        <a class="btn btn-tone m-r-5 fa fa-edit" title="Edit" asp-action="Edit" asp-route-id="@item.UserId"></a>
-                                        <a class="btn btn-tone m-r-5 fa fa-trash" title="Delete" asp-action="Delete" asp-route-id="@item.UserId"></a>
+                                        <a class="btn fa fa-eye text-primary" title="Details" asp-action="Details" asp-route-id="@item.UserId"></a>
+                                        <a class="btn fa fa-edit text-warning" title="Edit" asp-action="Edit" asp-route-id="@item.UserId"></a>
+                                        <a class="btn fa fa-trash text-danger" title="Delete" asp-action="Delete" asp-route-id="@item.UserId"></a>
                                     </td>
                                 </tr>
                             }
