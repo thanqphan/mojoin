@@ -1,0 +1,142 @@
+﻿@model IEnumerable<mojoin.Models.Room>
+
+<div class="table-responsive">
+	<table id="myTable" class="table table-hover e-commerce-table">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Title</th>
+				<th>
+					RoomType
+					@if (ViewBag.RoomsParams == -1)
+					{
+						<select class="border-0" id="idRoom" name="idRoom" title="Chọn loại phòng trọ" style="max-width:20px" asp-items="ViewBag.lsLoaiPhong">
+						</select>
+					}
+
+				</th>
+				<th>
+					Trạng thái
+					@if (ViewBag.RoomsParams == -1)
+					{
+						<select class="border-0" id="idActive" name="idActive" title="Chọn Trạng thái" style="max-width:20px" asp-items="ViewBag.lsTrangThai">
+						</select>
+					}
+				</th>
+				<th>Chức năng</th>
+			</tr>
+		</thead>
+		<tbody>
+			@if (Model != null)
+			{
+				foreach (var item in Model)
+				{
+					<tr>
+						<th scope="row">@item.RoomId</th>
+
+						<td>
+							<div class="d-flex align-items-center">
+								<img class="img-fluid rounded" src="assets/images/others/thumb-15.jpg" style="max-width: 60px" alt="">
+								<h6 class="m-b-0 m-l-10">@item.Title</h6>
+							</div>
+
+						</td>
+						<td>
+							@if (item.RoomTypeId == 1)
+							{
+								<div class="d-flex align-items-center">
+
+									<div>Nhà trọ</div>
+								</div>
+							}
+							else if (item.RoomTypeId == 2)
+							{
+								<div class="d-flex align-items-center">
+
+									<div>Căn hộ</div>
+								</div>
+							}
+							else if (item.RoomTypeId == 3)
+							{
+								<div class="d-flex align-items-center">
+
+									<div>Ở chung chủ</div>
+								</div>
+							}
+							else if (item.RoomTypeId == 4)
+							{
+								<div class="d-flex align-items-center">
+									@* <div class="badge badge-danger badge-dot m-r-10"></div>*@
+									<div>Ở ghép</div>
+								</div>
+							}
+						</td>
+						@*<td>@item.Phone</td>
+				<td><img class="avatar" src="" alt="Avatar" /></td>
+				<td>@(item.Room != null ? item.Rooms.RoleName : "")</td>*@
+						<td>
+							@if (item.IsActive == 1)
+							{
+								<div class="d-flex align-items-center">
+									<div class="badge badge-success badge-dot m-r-10"></div>
+									<div>Đã duyệt</div>
+								</div>
+							}
+							else if (item.IsActive == 2)
+							{
+								<div class="d-flex align-items-center">
+									<div class="badge badge-danger badge-dot m-r-10"></div>
+									<div>Không được duyệt</div>
+								</div>
+							}
+							else @*if (item.IsActive == 0)*@
+							{
+								<div class="d-flex align-items-center">
+									<div class="badge badge-warning  badge-dot m-r-10"></div>
+									<div>Bài đăng đang chờ xử lý</div>
+								</div>
+							}
+
+						</td>
+						<td>
+							@if (ViewBag.RoomsParams == -1)
+							{
+								<li class="list-inline-item">
+									@*<a class="text-dark" title="Details" asp-action="Details" asp-route-id="@item.RoomId">
+						<i class="btn-tone m-r-5 fa fa-eye"></i>
+						</a>*@
+									<a class="btn btn-tone m-r-5 fa fa-eye" title="Details" asp-action="Details" asp-route-id="@item.RoomId"></a>
+									<a class="btn btn-tone m-r-5 fa fa-edit" title="Edit" asp-action="Edit" asp-route-id="@item.RoomId"></a>
+									<a class="btn btn-tone m-r-5 fa fa-trash" title="Delete" asp-action="Delete" asp-route-id="@item.RoomId"></a>
+								</li>
+								@*<li class="list-inline-item">
+					<a class="text-dark" title="Edit" asp-action="Edit" asp-route-id="@item.RoomId">
+					<i class="btn-tone m-r-5 fa fa-edit"></i>
+					</a>
+
+					</li>
+					<li class="list-inline-item">
+					<a class="text-dark" title="Delete" style="display: inline-block; border: 1px solid black; padding: 5px;" asp-action="Delete" asp-route-id="@item.RoomId">
+					<i class="btn-tone m-r-5 fa fa-trash"></i>
+					</a>
+					</li>*@
+							}
+							else
+							@if (ViewBag.RoomsParams == 0)
+							{
+
+								<li class="list-inline-item">
+									<a class="btn btn-success  m-r-5" style="display: inline-block; border: 1px solid white; padding: 5px;" onclick="UpdateActiveStatus(@item.RoomId)">Duyệt bài</a>
+									<a class="btn btn-default  m-r-5" style="display: inline-block; border: 1px solid white; padding: 5px;" asp-action="Edit" asp-route-id="@item.RoomId">Sửa nội dung</a>
+									@*<a class="btn btn-danger m-r-5" style="display: inline-block; border: 1px solid white; padding: 5px;" asp-action="Delete" asp-route-id="@item.RoomId">Xóa</a>*@
+									<a class="btn btn-danger m-r-5" style="display: inline-block; border: 1px solid white; padding: 5px;" onclick="DeleteRoom(@item.RoomId)">Từ chối</a>
+								</li>
+							}
+						</td>
+
+					</tr>
+				}
+			}
+		</tbody>
+	</table>
+</div>
