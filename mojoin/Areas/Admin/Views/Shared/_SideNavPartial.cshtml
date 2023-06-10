@@ -21,15 +21,15 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a asp-area="Admin" asp-controller="RoomReports" asp-action="Index">Danh sách Báo cáo</a>
+                        <a asp-area="Admin" asp-controller="Rooms" asp-action="Index" asp-route-isActive="-1">Danh sách Bài đăng</a>
                     </li>
                     <li>
                         <a asp-area="Admin" asp-controller="Rooms" asp-action="Index" asp-route-isActive="0">Danh sách Phê duyệt</a>
                     </li>
+                    
                     <li>
-                        <a asp-area="Admin" asp-controller="Rooms" asp-action="Index" asp-route-isActive="-1">Danh sách Bài đăng</a>
+                        <a asp-area="Admin" asp-controller="RoomReports" asp-action="Index">Danh sách Báo cáo</a>
                     </li>
-
                 </ul>
             </li>
             <li class="nav-item dropdown">
