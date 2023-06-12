@@ -21,15 +21,15 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a href="index-crm.html">Danh sách Báo cáo</a>
+                        <a asp-area="Admin" asp-controller="Rooms" asp-action="Index" asp-route-isActive="-1">Danh sách Bài Đăng</a>
                     </li>
                     <li>
-                        <a href="index-crm.html">Danh sách Phê duyệt</a>
-                    </li>
-                    <li>
-                        <a href="index-projects.html">Danh sách Bài đăng</a>
+                        <a asp-area="Admin" asp-controller="Rooms" asp-action="Index" asp-route-isActive="0">Danh sách Phê duyệt</a>
                     </li>
                     
+                    <li>
+                        <a asp-area="Admin" asp-controller="RoomReports" asp-action="Index">Danh sách Báo cáo</a>
+                    </li>
                 </ul>
             </li>
             <li class="nav-item dropdown">
@@ -47,10 +47,10 @@
                         <a asp-area="Admin" asp-controller="Roles" asp-action="Index">Quyền truy cập</a>
                     </li>
                     <li>
-                        <a asp-area="Admin" asp-controller="Roles" asp-action="Index">Danh sách Nhân viên</a>
+                        <a asp-area="Admin" asp-controller="Users" asp-action="IndexStaff">Danh sách Nhân viên</a>
                     </li>
                     <li>
-                        <a asp-area="Admin" asp-controller="UserAccounts" asp-action="Index">Danh sách Người dùng</a>
+                        <a asp-area="Admin" asp-controller="Users" asp-action="Index">Danh sách Người dùng</a>
                     </li>
                 </ul>
         </ul>
