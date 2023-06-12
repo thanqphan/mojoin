@@ -36,13 +36,14 @@
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="wwwroot\NewFolder\" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\css\images\homeicon.png" />
-    <None Include="wwwroot\css\images\locationicon.png" />
-    <None Include="wwwroot\css\images\logo.png" />
-    <None Include="wwwroot\css\images\phoneicon.png" />
+    <None Include="wwwroot\images\homeicon.png" />
+    <None Include="wwwroot\images\locationicon.png" />
+    <None Include="wwwroot\images\logo.png" />
+    <None Include="wwwroot\images\phoneicon.png" />
   </ItemGroup>
 
 </Project>
