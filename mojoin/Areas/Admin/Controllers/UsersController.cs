@@ -26,31 +26,48 @@ namespace mojoin.Areas.Admin.Controllers
         }
 
         //GET: Admin/Users
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? roleFilter)
         {
-            
+            IQueryable<User> users = _context.Users; // Lấy toàn bộ danh sách User
 
-            ViewData["QuyenAcc"] = new SelectList(_context.Users, "RoleName", "RoleName");
-            List<SelectListItem> lstrangthaihoatdong = new List<SelectListItem>();
-            lstrangthaihoatdong.Add(new SelectListItem() { Text = "Đang hoạt động", Value = "0" });
-            lstrangthaihoatdong.Add(new SelectListItem() { Text = "Tạm ngưng", Value = "1" });          
-            ViewData["lstrangthaihoatdong"] = lstrangthaihoatdong;
+            if (roleFilter.HasValue)
+            {
+                users = users.Where(u => u.RolesId == roleFilter); // Lọc theo RoleID được chọn
+            }
 
+            // Gửi danh sách quyền và danh sách User tới View
+            ViewData["lstRole"] = GetRoleAcc();
+            ViewData["lstrangthaihoatdong"] = GetTrangThaiHoatDong();
 
-            ViewData["QuyenAcc"] = new SelectList(_context.Users, "RoleName", "RoleName");
-            List<SelectListItem> lsquyen = new List<SelectListItem>();
-            lsquyen.Add(new SelectListItem() { Text = "Admin", Value = "1" });
-            lsquyen.Add(new SelectListItem() { Text = "Staff", Value = "2" });
-            lsquyen.Add(new SelectListItem() { Text = "User", Value = "3" });
-            ViewData["lsquyen"] = lsquyen;
-
-            return _context.Users != null ?
-                        View(await _context.Users.ToListAsync()) :
-                        Problem("Entity set 'DbmojoinContext.Roles'  is null.");
-            
+            return View(await users.ToListAsync());
         }
+        private List<SelectListItem> GetRoleAcc()
+        {
+            List<SelectListItem> lstRole = new List<SelectListItem>
+    {
+        new SelectListItem() { Text = "Admin", Value = "1" },
+        new SelectListItem() { Text = "Staff", Value = "2" },
+                new SelectListItem() { Text = "User", Value = "3" }
+
+    };
+
+            return lstRole;
+        }
+        private List<SelectListItem> GetTrangThaiHoatDong()
+        {
+            List<SelectListItem> lstrangthaihoatdong = new List<SelectListItem>
+    {
+        new SelectListItem() { Text = "Đang hoạt động", Value = "0" },
+        new SelectListItem() { Text = "Tạm ngưng", Value = "1" }
+    };
+
+            return lstrangthaihoatdong;
+        }
+
+
+
         //GET: Admin/Users
-        
+
 
         public async Task<IActionResult> Details(int? id)
         {
@@ -60,7 +77,7 @@ namespace mojoin.Areas.Admin.Controllers
             }
 
             var user = await _context.Users
-              
+
                 .FirstOrDefaultAsync(m => m.UserId == id);
             if (user == null)
             {
@@ -70,7 +87,7 @@ namespace mojoin.Areas.Admin.Controllers
             return View(user);
         }
 
-        
+
 
         // GET: Admin/Users/Create
 
@@ -79,23 +96,23 @@ namespace mojoin.Areas.Admin.Controllers
             ViewData["RolesId"] = new SelectList(_context.Roles, "RolelD", "RoleName");
             return View();
         }
-        
+
         // POST: Admin/Users/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create( User taiKhoan)
+        public async Task<IActionResult> Create(User taiKhoan)
         {
             if (ModelState.IsValid)
             {
                 User user = new User
                 {
-                    RolesId=taiKhoan.RolesId,
-                    FirstName=taiKhoan.FirstName,   
-                    LastName=taiKhoan.LastName,
-                    Phone=taiKhoan.Phone,
-                    Email=taiKhoan.Email,
+                    RolesId = taiKhoan.RolesId,
+                    FirstName = taiKhoan.FirstName,
+                    LastName = taiKhoan.LastName,
+                    Phone = taiKhoan.Phone,
+                    Email = taiKhoan.Email,
                     Address = taiKhoan.Address,
                     Sex = taiKhoan.Sex,
                     Dateofbirth = taiKhoan.Dateofbirth,
@@ -103,7 +120,7 @@ namespace mojoin.Areas.Admin.Controllers
                     IsActive = true,
                     InfoFacebook = taiKhoan.InfoFacebook,
                     InfoZalo = taiKhoan.InfoZalo,
-                    CreateDate =DateTime.Now,
+                    CreateDate = DateTime.Now,
                 };
                 _context.Add(user);
                 await _context.SaveChangesAsync();
@@ -113,7 +130,7 @@ namespace mojoin.Areas.Admin.Controllers
             ViewData["QuyenTruyCap"] = new SelectList(_context.Roles, "RolesId", "RoleName", taiKhoan.RolesId);
             return View(taiKhoan);
         }
-        
+
 
         // GET: Admin/Users/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -128,11 +145,11 @@ namespace mojoin.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-         
+
             ViewData["QuyenTruyCap"] = new SelectList(_context.Roles, "RoleId", "RoleName", user.RolesId);
             return View(user);
         }
-        
+
 
         // POST: Admin/Users/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -191,7 +208,7 @@ namespace mojoin.Areas.Admin.Controllers
             return View(user);
 
         }
-        
+
         // GET: Admin/Users/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -210,7 +227,7 @@ namespace mojoin.Areas.Admin.Controllers
 
             return View(user);
         }
-        
+
 
         // POST: Admin/Users/Delete/5
         [HttpPost, ActionName("Delete")]
@@ -243,7 +260,7 @@ namespace mojoin.Areas.Admin.Controllers
         //}
         private bool UserExists(int id)
         {
-          return _context.Users.Any(e => e.UserId == id);
+            return _context.Users.Any(e => e.UserId == id);
         }
     }
 }

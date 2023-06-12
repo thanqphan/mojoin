@@ -37,7 +37,10 @@
                     <table id="myTable" class="table table-hover e-commerce-table">
                         <thead>
                             <tr>
-                                <th scope="col">Tên quyền</th>
+                                <th scope="col">Tên quyền
+                                    <select class="border-0" id="idRole" name="idRole" title="Chọn Quyền " style="max-width:20px" asp-items="ViewBag.lstRole">
+                                    </select>
+                                </th>
                                 <th scope="col">Họ</th>
                                 <th scope="col">Tên</th>
                                 <th scope="col">Số điện thoại</th>
@@ -77,6 +80,7 @@
                                             <text>Unknown</text>
                                         }
                                     </td>
+
 
                                     <td>
                                         @Html.DisplayFor(modelItem => item.LastName)                                        
@@ -175,7 +179,7 @@
             $('#idRole').on('change', function () {
                 var selectedValue = $("#idRole option:selected").text(); // Lấy giá trị đã chọn từ dropdown
                 // Lọc bảng dữ liệu bằng giá trị đã chọn
-                table.column(1).search(selectedValue).draw();
+                table.column(0).search(selectedValue).draw();
             });
             $('#idActive').on('change', function () {
                 var selectedValue = $("#idActive option:selected").text(); // Lấy giá trị đã chọn từ dropdown
