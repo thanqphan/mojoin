@@ -1,0 +1,56 @@
+﻿@model IEnumerable<mojoin.Models.Room>
+@{
+    ViewData["Title"] = "IndexPartial";
+    <link href="~/css/yeuthich2.css" rel="stylesheet" />
+}
+<div id="profile" class="mg-container ng-scope">
+    <div id="main" class="clearfix" style="">
+        <div id="property" class="clearfix">
+            <div id="property-items" class="">
+                <div id="rent-list" class="" style="">
+                    @foreach (var item in Model)
+                    {
+                        if (item.IsActive.Equals(0))
+                        {
+                            <div class="property-item clearfix" id="@item.UserId">
+                                <div class="property-header clearfix">
+                                    <div class="property-image">
+                                        <img src="/Rooms/ShowImage/@item.RoomId">
+                                    </div>
+                                    <div class="property-price">@String.Format("{0:#,##0}", @item.Price) VNĐ</div>
+                                </div>
+                                <div class="property-content clearfix">
+                                    <div class="property-info clearfix">
+                                        <div class="title clearfix">
+                                            <a href="/Rooms/Details/@item.RoomId" class="link-overlay">
+                                                @item.Title
+                                            </a>
+                                        </div>
+                                        <div class="property-address clearfix">
+
+                                            @item.StreetNumber @item.Street, @item.Ward, @item.District, @item.City
+                                        </div>
+
+                                        <div class="property-utility clearfix">
+                                            <div class="property-utility">
+                                                <span><i class="fa fa-bed"></i>@item.NumRooms</span>
+                                                <span class="bathroom"><i class="fa fa-bath"></i>@item.NumBathrooms</span>
+                                                <span><i class="icon icon-acreage"></i>@item.Area m<sup>2</sup></span>
+                                            </div>
+                                        </div>
+                                        <div class="property-summary">
+                                            @item.Description
+                                        </div>
+                                    </div>
+                                    <div class="posted-date clearfix ">Ngày đăng:@String.Format("{0:dd/MM/yyyy}", @item.CreateDate)</div>
+                                    <hr />
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
