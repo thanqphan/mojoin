@@ -2,102 +2,97 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AspNetCoreHero.ToastNotification.Abstractions;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using mojoin.Models;
 
-namespace mojoin.Areas.Admin.Controllers
+namespace mojoin.Controllers
 {
-    [Area("Admin")]
-    /*[Authorize(Policy = "AdminOrStaff")]*/
-    public class RolesController : Controller
+    public class TestUsersController : Controller
     {
         private readonly DbmojoinContext _context;
-        public INotyfService _notyfService { get; }
-        public RolesController(DbmojoinContext context, INotyfService notyfService)
+
+        public TestUsersController(DbmojoinContext context)
         {
             _context = context;
-            _notyfService = notyfService;
-
         }
- 
-        // GET: Admin/Roles
+
+        // GET: TestUsers
         public async Task<IActionResult> Index()
         {
-            return _context.Roles != null ?
-                        View(await _context.Roles.ToListAsync()) :
-                        Problem("Entity set 'DbmojoinContext.Roles'  is null.");
+            var dbmojoinContext = _context.Users.Include(u => u.Roles);
+            return View(await dbmojoinContext.ToListAsync());
         }
 
-        // GET: Admin/Roles/Details/5
+        // GET: TestUsers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Roles == null)
+            if (id == null || _context.Users == null)
             {
                 return NotFound();
             }
 
-            var role = await _context.Roles
-                .FirstOrDefaultAsync(m => m.RolelD == id);
-            if (role == null)
+            var user = await _context.Users
+                .Include(u => u.Roles)
+                .FirstOrDefaultAsync(m => m.UserId == id);
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return View(role);
+            return View(user);
         }
 
-        // GET: Admin/Roles/Create
+        // GET: TestUsers/Create
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.RoomTypes, "RoomTypeId", "RoomTypeId");
+            ViewData["RolesId"] = new SelectList(_context.Roles, "RolelD", "RolelD");
             return View();
         }
 
-        // POST: Admin/Roles/Create
+        // POST: TestUsers/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RoleID,RoleName")] Role role)
+        public async Task<IActionResult> Create([Bind("UserId,RolesId,FirstName,LastName,Phone,Email,Address,Sex,Dateofbirth,Password,Salt,Avatar,IsActive,InfoZalo,InfoFacebook,GoogleId,SupportUserId,CreateDate")] User user)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(role);
+                _context.Add(user);
                 await _context.SaveChangesAsync();
-                _notyfService.Success("Thêm mới thành công!");
                 return RedirectToAction(nameof(Index));
             }
-            return View(role);
+            ViewData["RolesId"] = new SelectList(_context.Roles, "RolelD", "RolelD", user.RolesId);
+            return View(user);
         }
 
-        // GET: Admin/Roles/Edit/5
+        // GET: TestUsers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Roles == null)
+            if (id == null || _context.Users == null)
             {
                 return NotFound();
             }
 
-            var role = await _context.Roles.FindAsync(id);
-            if (role == null)
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
             {
                 return NotFound();
             }
-            return View(role);
+            ViewData["RolesId"] = new SelectList(_context.Roles, "RolelD", "RolelD", user.RolesId);
+            return View(user);
         }
 
-        // POST: Admin/Roles/Edit/5
+        // POST: TestUsers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RoleID,RoleName")] Role role)
+        public async Task<IActionResult> Edit(int id, [Bind("UserId,RolesId,FirstName,LastName,Phone,Email,Address,Sex,Dateofbirth,Password,Salt,Avatar,IsActive,InfoZalo,InfoFacebook,GoogleId,SupportUserId,CreateDate")] User user)
         {
-            if (id != role.RolelD)
+            if (id != user.UserId)
             {
                 return NotFound();
             }
@@ -106,15 +101,13 @@ namespace mojoin.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(role);
+                    _context.Update(user);
                     await _context.SaveChangesAsync();
-                    _notyfService.Success("Cập nhật thành công!");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RoleExists(role.RolelD))
+                    if (!UserExists(user.UserId))
                     {
-                        _notyfService.Error("Có lỗi xảy ra!");
                         return NotFound();
                     }
                     else
@@ -124,49 +117,51 @@ namespace mojoin.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(role);
+            ViewData["RolesId"] = new SelectList(_context.Roles, "RolelD", "RolelD", user.RolesId);
+            return View(user);
         }
 
-        // GET: Admin/Roles/Delete/5
+        // GET: TestUsers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Roles == null)
+            if (id == null || _context.Users == null)
             {
                 return NotFound();
             }
 
-            var role = await _context.Roles
-                .FirstOrDefaultAsync(m => m.RolelD == id);
-            if (role == null)
+            var user = await _context.Users
+                .Include(u => u.Roles)
+                .FirstOrDefaultAsync(m => m.UserId == id);
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return View(role);
+            return View(user);
         }
 
-        // POST: Admin/Roles/Delete/5
+        // POST: TestUsers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Roles == null)
+            if (_context.Users == null)
             {
-                return Problem("Entity set 'DbmojoinContext.Roles'  is null.");
+                return Problem("Entity set 'DbmojoinContext.Users'  is null.");
             }
-            var role = await _context.Roles.FindAsync(id);
-            if (role != null)
+            var user = await _context.Users.FindAsync(id);
+            if (user != null)
             {
-                _context.Roles.Remove(role);
+                _context.Users.Remove(user);
             }
+            
             await _context.SaveChangesAsync();
-            _notyfService.Success("Xóa thành công!");
             return RedirectToAction(nameof(Index));
         }
 
-        private bool RoleExists(int id)
+        private bool UserExists(int id)
         {
-            return (_context.Roles?.Any(e => e.RolelD == id)).GetValueOrDefault();
+          return (_context.Users?.Any(e => e.UserId == id)).GetValueOrDefault();
         }
     }
 }

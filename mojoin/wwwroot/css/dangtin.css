@@ -1,4 +1,8 @@
 ﻿body {
+    background-color: #e9ebee;
+}
+
+body {
     padding-top: 50px; 
     padding-bottom: 20px;
     background: #F0F0F0;
@@ -6,6 +10,18 @@
     font-family: 'Open Sans', Arial, sans-serif;
     font-size: 14px;
     color: #222222;
+}
+
+body {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+    background-color: #fff;
+}
+
+body {
+    margin: 0;
 }
 /*layoutDangtin*/
 .mogi-goback {
@@ -25,7 +41,6 @@
         width: 1170px;
     }
 }
-
 
 /*@media (min-width: 992px) {
     .container {
