@@ -26,7 +26,40 @@ namespace mojoin.Controllers
         [Route("quan-li-tin.html", Name = "QuanLiTin")]
         public IActionResult Index()
         {
-            return View();
+            var userId = HttpContext.User.FindFirstValue("UserId");
+            var roomFavorites = _context.Rooms.Include(r => r.User)
+               .Where(rf => rf.UserId == int.Parse(userId)).ToList();
+            ViewBag.dangdang = roomFavorites.Where(rf => rf.IsActive == 1).Count();
+            ViewBag.dangcho = roomFavorites.Where(rf => rf.IsActive == 0).Count();
+            ViewBag.tinloi = roomFavorites.Where(rf => rf.IsActive == 2).Count();
+            return View(roomFavorites);
+        }
+        public ActionResult IndexPartial()
+        {
+            var userId = HttpContext.User.FindFirstValue("UserId");
+            var roomFavorites = _context.Rooms.Include(r => r.User)
+               .Where(rf => rf.UserId == int.Parse(userId))
+               .ToList();
+            ViewBag.tongsoluong = roomFavorites.Count();
+            return View(roomFavorites);
+        }
+        public ActionResult IndexPartial0()
+        {
+            var userId = HttpContext.User.FindFirstValue("UserId");
+            var roomFavorites = _context.Rooms.Include(r => r.User)
+               .Where(rf => rf.UserId == int.Parse(userId))
+               .ToList();
+            ViewBag.tongsoluong = roomFavorites.Count();
+            return View(roomFavorites);
+        }
+        public ActionResult IndexPartial2()
+        {
+            var userId = HttpContext.User.FindFirstValue("UserId");
+            var roomFavorites = _context.Rooms.Include(r => r.User)
+               .Where(rf => rf.UserId == int.Parse(userId))
+               .ToList();
+            ViewBag.tongsoluong = roomFavorites.Count();
+            return View(roomFavorites);
         }
         [HttpGet]
         [Route("dang-bai.html", Name = "DangBai")]
