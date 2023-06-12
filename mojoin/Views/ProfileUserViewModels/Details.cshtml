@@ -1,4 +1,4 @@
-﻿@model mojoin.Models.User
+﻿@model mojoin.ViewModel.ProfileUserViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -8,7 +8,7 @@
 <h1>Details</h1>
 
 <div>
-    <h4>User</h4>
+    <h4>ProfileUserViewModel</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -54,46 +54,10 @@
             @Html.DisplayFor(model => model.Dateofbirth)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Password)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Password)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Salt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Salt)
-        </dd>
-        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Avatar)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Avatar)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsActive)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsActive)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.InfoZalo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.InfoZalo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.InfoFacebook)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.InfoFacebook)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.GoogleId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.GoogleId)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.SupportUserId)
@@ -101,21 +65,9 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.SupportUserId)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreateDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreateDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Roles)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Roles.RolelD)
-        </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.UserId">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.UsserId">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

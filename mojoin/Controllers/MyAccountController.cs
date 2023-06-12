@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using mojoin.Models;
 using mojoin.ViewModel;
 using System.Security.Claims;
+using XAct.Library.Settings;
 using XAct.Users;
 
 namespace mojoin.Controllers
@@ -17,16 +18,102 @@ namespace mojoin.Controllers
     public class MyAccountController : Controller
     {
         private readonly DbmojoinContext _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         public INotyfService _notyfService { get; }
-        public MyAccountController(DbmojoinContext context, INotyfService notyfService)
+        public MyAccountController(DbmojoinContext context, INotyfService notyfService, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _notyfService = notyfService;
+            _httpContextAccessor = httpContextAccessor;
         }
         [Route("quan-li-tin.html", Name = "QuanLiTin")]
         public IActionResult Index()
         {
             return View();
+        }
+        [HttpGet]
+        [Route("doi-pass.html", Name = "DoiPassword")]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        [Route("doi-pass.html", Name = "DoiPassword")]
+        public IActionResult ChangePassword(ChangePasswordViewModel model)
+        {
+            try
+            {
+                var taikhoanID = HttpContext.Session.GetString("UserId");
+                if (taikhoanID == null)
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+                if (ModelState.IsValid)
+                {
+                    var taikhoan = _context.Users.Find(Convert.ToInt32(taikhoanID));
+                    if (taikhoan == null) return RedirectToAction("Login", "Account");
+                    var pass = (model.PasswordNow.Trim());
+                    {
+                        string passnew = (model.Password.Trim());
+                        taikhoan.Password = passnew;
+                        _context.Update(taikhoan);
+                        _context.SaveChanges();
+                        _notyfService.Success("Đổi mật khẩu thành công");
+                        return RedirectToAction("Login", "Account");
+                    }
+                }
+            }
+            catch
+            {
+                _notyfService.Success("Thay đổi mật khẩu không thành công");
+                return RedirectToAction("Index","MyAccount");
+            }
+            _notyfService.Success("Thay đổi mật khẩu không thành công");
+            return RedirectToAction("Index", "MyAccount");
+        }
+        // GET: ProfileUserViewModels/Edit/5
+        [HttpGet]
+        [Route("update-in4.html", Name = "UpdateIn4")]
+        public IActionResult UpdateUserIn4()
+        {
+            return View();
+        }
+
+        // POST: ProfileUserViewModels/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("update-in4.html", Name = "UpdateIn4")]
+        public async Task<IActionResult> UpdateUserIn4( [Bind("UsserId,FirstName,LastName,Phone,Email,Address,Sex,Dateofbirth,Avatar,SupportUserId")] ProfileUserViewModel profileUserViewModel)
+        {
+            var taikhoanID = _httpContextAccessor.HttpContext.Session.GetString("UserId");
+            if (int.Parse(taikhoanID) != profileUserViewModel.UsserId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(profileUserViewModel);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ProfileUserViewModelExists(profileUserViewModel.UsserId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(profileUserViewModel);
         }
         [HttpGet]
         [Route("dang-bai.html", Name = "DangBai")]
@@ -100,13 +187,34 @@ namespace mojoin.Controllers
                 // Các logic xử lý khác của action CreatePosts
                 _notyfService.Success("Gửi bài thành công!");
                 // Chuyển hướng đến action UploadImages và truyền roomId qua route data
-                return RedirectToAction("Index", "MyAccount");
+                return RedirectToRoute("QuanLiTin");
             }
             catch
             {
                 _notyfService.Error("Gửi bài không thành công!");
                 return View(room);
             }
+        }
+        [HttpPost]
+        public async Task<IActionResult> UploadImage(IFormFile imageFile)
+        {
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Images", fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await imageFile.CopyToAsync(stream);
+                }
+
+                // Lưu đường dẫn ảnh vào cơ sở dữ liệu hoặc thực hiện các xử lý khác
+                // Trả về thành công
+                return Ok();
+            }
+
+            // Trả về lỗi nếu không có ảnh được tải lên
+            return BadRequest();
         }
 
         [HttpPost]
@@ -141,7 +249,7 @@ namespace mojoin.Controllers
                 _notyfService.Success("Gửi bài thành công!");
 
                 // Hoàn thành quá trình tải lên và chuyển hướng hoặc trả về thông báo thành công
-                return RedirectToAction("Index", "MyAccount");
+                return RedirectToRoute("QuanLiTin");
             }
             catch
             {
@@ -149,7 +257,10 @@ namespace mojoin.Controllers
                 return RedirectToAction("CreatePosts");
             }
         }
-
+        private bool ProfileUserViewModelExists(int id)
+        {
+            return (_context.ProfileUserViewModel?.Any(e => e.UsserId == id)).GetValueOrDefault();
+        }
     }
 
 }

@@ -1,0 +1,103 @@
+﻿.title-div {
+    text-align: center;
+    color: white;
+    background-color: #00deb6;
+    padding: 1rem 1rem 1rem
+}
+
+.userprofile {
+    background: #ffffff;
+    margin: 1rem 5rem 1rem;
+    font-family: 'Open Sans', Arial, sans-serif;
+    padding: 1rem 1rem 1rem;
+}
+
+    .userprofile .form-group-in4 {
+        -webkit-text-size-adjust: 100%;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+        font-family: 'Open Sans',Arial,sans-serif;
+        font-size: 14px;
+        color: #222;
+        line-height: 1.5;
+        box-sizing: border-box;
+        padding-bottom: 15px;
+    }
+
+        .userprofile .form-group-in4 .form-label {
+            -webkit-text-size-adjust: 100%;
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+            font-family: 'Open Sans',Arial,sans-serif;
+            color: #222;
+            line-height: 1.5;
+            box-sizing: border-box;
+            float: left;
+            width: 245px;
+            text-align: right;
+            font-size: 16px;
+            padding: 5px 30px 5px 0;
+        }
+        .userprofile .form-group-in4 .form-name {
+            -webkit-text-size-adjust: 100%;
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+            font-family: 'Open Sans',Arial,sans-serif;
+            font-size: 14px;
+            color: #222;
+            line-height: 1.5;
+            box-sizing: border-box;
+            float: left;
+            text-align: left;
+            width: calc(100% - 245px);
+            position: relative;
+        }
+        .userprofile .form-group-in4 .form-input {
+            -webkit-text-size-adjust: 100%;
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+            font-family: 'Open Sans',Arial,sans-serif;
+            font-size: 14px;
+            color: #222;
+            line-height: 1.5;
+            box-sizing: border-box;
+            float: left;
+            text-align: left;
+            width: calc(100% - 245px);
+            position: relative;
+        }
+            .userprofile .form-group-in4 .form-label .avatar-in4 {
+                -webkit-text-size-adjust: 100%;
+                -webkit-tap-highlight-color: rgba(0,0,0,0);
+                font-family: 'Open Sans',Arial,sans-serif;
+                color: #222;
+                line-height: 1.5;
+                text-align: right;
+                font-size: 16px;
+                box-sizing: border-box;
+                border: 0;
+                vertical-align: middle;
+                width: 48px;
+                height: 48px;
+                display: inline-block;
+                border-radius: 50%;
+                padding-top: 0;
+                padding-bottom: 0;
+            }
+.full-name {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    font-family: 'Open Sans',Arial,sans-serif;
+    color: #222;
+    line-height: 1.5;
+    text-align: left;
+    box-sizing: border-box;
+    font-size: 20px;
+}
+.upload-avatar {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    font-family: 'Open Sans',Arial,sans-serif;
+    line-height: 1.5;
+    text-align: left;
+    box-sizing: border-box;
+    font-size: 16px;
+    color: #036b75;
+    cursor: pointer;
+}

@@ -1,0 +1,119 @@
+﻿@using System.Security.Claims;
+@model mojoin.ViewModel.ProfileUserViewModel
+
+@{
+    ViewData["Title"] = "Thông tin cá nhân";
+    Layout = "~/Views/Shared/_LayoutDangtin.cshtml";
+    <link href="~/css/user_in4.css" rel="stylesheet" />
+
+}
+@{
+    var identity = (ClaimsIdentity)User.Identity;
+
+    // Lấy giá trị của các đối tượng Claim
+    string firstName = identity.FindFirst("FirstName")?.Value;
+    string lastName = identity.FindFirst("LastName")?.Value;
+    string userId = identity.FindFirst("UserId")?.Value;
+    string userPhone = identity.FindFirst("UserPhone")?.Value;
+    string userAvt = identity.FindFirst("UserAvatar")?.Value;
+}
+<div class="userprofile">
+    <h2 class="title-div">Thông tin tài khoản</h2>
+
+    <div class="userprofile">
+        <div class="form-group-in4 ">
+            <div class="form-label">
+                <img class="avatar-in4" src="@userAvt">
+            </div>
+            <div class="form-name">
+                <div class="full-name ng-binding">@lastName @firstName</div>
+                <div class="upload-avatar">
+                    <input type="file" id="imageFile" accept="image/*" multiple="false" />
+                    <button onclick="uploadAvatar()">Tải ảnh lên</button>
+                </div>
+            </div>
+        </div>
+        <form asp-action="UpdateUserIn4" asp-controller="MyAccount">
+            <div class="form-group-in4">
+                <div class="form-label">
+                    Họ
+                </div>
+                <div class="form-input">
+                    <input asp-for="LastName" autocomplete="off" id="LastName" name="LastName" required="required" type="text" value="" class="" style="">
+                    <!-- ngIf: myForm.LastName.$touched || myForm.$submitted -->
+                </div>
+            </div>
+            <div class="form-group-in4">
+                <div class="form-label">
+                    Tên
+                </div>
+                <div class="form-input">
+                    <input asp-for="FirstName" autocomplete="off" id="FirstName" name="FirstName" required="required" type="text" value="" class="" style="">
+                    <!-- ngIf: myForm.FirstName.$touched || myForm.$submitted -->
+                </div>
+            </div>
+            <div class="form-group-in4">
+                <div class="form-label">
+                    Email
+                </div>
+                <div class="form-input">
+                    <input asp-for="Email" name="Email" required type="email" />
+                </div>
+            </div>
+            <div class="form-group-in4">
+                <div class="form-label">
+                    Tỉnh/Thành phố
+                </div>
+                <div class="form-input">
+                    <select asp-for="Address" chosen="" allow-single-deselect="true" name="CityId" class="" required="required" style="display: none;">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group-in4">
+                <div class="form-label">
+                    Giới tính
+                </div>
+                <select asp-for="Sex">
+                    <option value=1 selected>Nam</option>
+                    <option value=2>Nữ</option>
+                    <option value=3>Khác</option>
+                </select>
+                <span asp-validation-for="Sex" class="text-danger"></span>
+            </div>
+
+            <div class="form-group-in4">
+                <div class="form-label"></div>
+                <div class="form-input ">
+                    <button type="submit" class="btn btn-continue text-uppercase left-120">Cập nhật</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    function uploadAvatar() {
+        var imageFiles = document.getElementById('imageFile').files;
+        if (imageFiles.length === 1) {
+            var imageFile = imageFiles[0];
+            var formData = new FormData();
+            formData.append('imageFile', imageFile);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/MyAccount/UploadImage', true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var userAvatar = document.getElementById('userAvatar');
+                    userAvatar.src = URL.createObjectURL(imageFile);
+                } else {
+                    alert('Đã xảy ra lỗi khi tải lên ảnh.');
+                }
+            };
+            xhr.send(formData);
+        } else {
+            alert('Vui lòng chọn một ảnh để tải lên.');
+        }
+    }
+</script>
+

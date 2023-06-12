@@ -1,4 +1,4 @@
-﻿@model IEnumerable<mojoin.Models.User>
+﻿@model IEnumerable<mojoin.ViewModel.ProfileUserViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -35,34 +35,10 @@
                 @Html.DisplayNameFor(model => model.Dateofbirth)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Password)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Salt)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Avatar)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsActive)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.InfoZalo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.InfoFacebook)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GoogleId)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.SupportUserId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreateDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Roles)
             </th>
             <th></th>
         </tr>
@@ -92,39 +68,15 @@
                 @Html.DisplayFor(modelItem => item.Dateofbirth)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Password)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Salt)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Avatar)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.InfoZalo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.InfoFacebook)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GoogleId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.SupportUserId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CreateDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Roles.RolelD)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.UserId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.UserId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.UserId">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.UsserId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.UsserId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.UsserId">Delete</a>
             </td>
         </tr>
 }
