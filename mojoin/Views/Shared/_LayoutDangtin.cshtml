@@ -20,6 +20,8 @@
         string firstName = identity.FindFirst("FirstName")?.Value;
         string lastName = identity.FindFirst("LastName")?.Value;
         string userId = identity.FindFirst("UserId")?.Value;
+        string userAvt = identity.FindFirst("UserAvatar")?.Value;
+
     }
     <div ng-app="mojoinApp" ng-strict-di="false" class="ng-scope">
         <div class="mogi-goback">
@@ -76,7 +78,12 @@
                         <li class="open">
                             <span class="first-name dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">@firstName</span>
                             <a href="#" class="avatar dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                @if (!string.IsNullOrEmpty(userAvt))
+                                {
+                                    <img src="@userAvt" alt="User Avatar">
+                                }
                             </a>
+
                             <ul class="dropdown-menu profile-menu">
                                 <li><a href="/alert-search" rel="nofollow"><i class="fa fa-bell"></i>Thông báo &amp; Tìm kiếm</a></li>
                                 <li><a href="/yeu-thich.html" rel="nofollow"><i class="fa fa-heart"></i>Bất động sản yêu thích</a></li>

@@ -1,5 +1,6 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
 using AspNetCoreHero.ToastNotification.Notyf;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -76,7 +77,7 @@ namespace mojoin.Controllers
         {
             try
             {
-                var taikhoanID = HttpContext.Session.GetString("UserId");
+                var taikhoanID = model.UserId.ToString();
                 if (taikhoanID == null)
                 {
                     return RedirectToAction("Login", "Account");
@@ -98,11 +99,11 @@ namespace mojoin.Controllers
             }
             catch
             {
-                _notyfService.Success("Thay đổi mật khẩu không thành công");
-                return RedirectToAction("Index","MyAccount");
+                _notyfService.Error("Thay đổi không thành công");
+                return View();
             }
-            _notyfService.Success("Thay đổi mật khẩu không thành công");
-            return RedirectToAction("Index", "MyAccount");
+            _notyfService.Error("Thay đổi không thành công");
+            return View();
         }
         // GET: ProfileUserViewModels/Edit/5
         [HttpGet]
@@ -118,19 +119,46 @@ namespace mojoin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("update-in4.html", Name = "UpdateIn4")]
-        public async Task<IActionResult> UpdateUserIn4( [Bind("UsserId,FirstName,LastName,Phone,Email,Address,Sex,Dateofbirth,Avatar,SupportUserId")] ProfileUserViewModel profileUserViewModel)
+        public async Task<IActionResult> UpdateUserIn4(ProfileUserViewModel profileUserViewModel)
         {
             var taikhoanID = _httpContextAccessor.HttpContext.Session.GetString("UserId");
             if (int.Parse(taikhoanID) != profileUserViewModel.UsserId)
             {
                 return NotFound();
             }
+            if (!ModelState.IsValid)
+            {
+                foreach (var key in ModelState.Keys)
+                {
+                    if (ModelState.TryGetValue(key, out ModelStateEntry entry) && entry.Errors.Any())
+                    {
+                        // Trường có tên là "key" có lỗi validation
+                        var errorMessage = entry.Errors[0].ErrorMessage;
+                        // Xử lý lỗi ở đây
+                    }
+                    else
+                    {
+                        // Trường có tên là "key" không có lỗi validation
+                    }
+                }
 
+                _notyfService.Error("Gửi bài không thành công!");
+                return View();
+            }
             if (ModelState.IsValid)
             {
+                var taikhoan = _context.Users.Find(Convert.ToInt32(taikhoanID));
                 try
                 {
-                    _context.Update(profileUserViewModel);
+                    taikhoan.FirstName = profileUserViewModel.FirstName;
+                    taikhoan.LastName = profileUserViewModel.LastName;
+                    taikhoan.Address = profileUserViewModel.Address;
+                    string newImagePath = TempData.Peek("NewImagePath") as string;
+
+                    taikhoan.Avatar = newImagePath;
+                    taikhoan.Email = profileUserViewModel.Email;
+                    taikhoan.Sex = profileUserViewModel.Sex;
+                    _context.Update(taikhoan);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -144,9 +172,11 @@ namespace mojoin.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                HttpContext.SignOutAsync();
+                HttpContext.Session.Remove("UserId");
+                return RedirectToAction("Login", "Account");
             }
-            return View(profileUserViewModel);
+            return View();
         }
         [HttpGet]
         [Route("dang-bai.html", Name = "DangBai")]
@@ -234,21 +264,25 @@ namespace mojoin.Controllers
             if (imageFile != null && imageFile.Length > 0)
             {
                 var fileName = Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName);
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Images", fileName);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", fileName);
 
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await imageFile.CopyToAsync(stream);
-                }
+                    string imagePath = "/images/" + fileName; // Đường dẫn mới của hình ảnh
+                    TempData["NewImagePath"] = imagePath;
 
-                // Lưu đường dẫn ảnh vào cơ sở dữ liệu hoặc thực hiện các xử lý khác
-                // Trả về thành công
-                return Ok();
+                    // Chuyển hướng đến action UpdateUserIn4
+                    return RedirectToAction("UpdateUserIn4");
+                }
             }
 
-            // Trả về lỗi nếu không có ảnh được tải lên
-            return BadRequest();
+            // Trả về null nếu không có hình ảnh được tải lên
+            return null;
         }
+
+
+
 
         [HttpPost]
         public async Task<IActionResult> UploadImages(List<IFormFile> images)

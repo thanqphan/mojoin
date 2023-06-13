@@ -17,29 +17,32 @@
     string userPhone = identity.FindFirst("UserPhone")?.Value;
     string userAvt = identity.FindFirst("UserAvatar")?.Value;
 }
-<div class="userprofile">
+<div  class="userprofile">
     <h2 class="title-div">Thông tin tài khoản</h2>
 
     <div class="userprofile">
-        <div class="form-group-in4 ">
+        <div class="form-group-in4">
             <div class="form-label">
-                <img class="avatar-in4" src="@userAvt">
+                <img id="avatarImage" class="avatar-in4" src="@userAvt">
             </div>
-            <div class="form-name">
-                <div class="full-name ng-binding">@lastName @firstName</div>
-                <div class="upload-avatar">
-                    <input type="file" id="imageFile" accept="image/*" multiple="false" />
-                    <button onclick="uploadAvatar()">Tải ảnh lên</button>
+
+            <div class="form-input">
+                <form id="uploadForm" method="post" asp-action="UpdateImage" asp-controller="MyAccount">
+                        <div class="full-name ng-binding">@lastName @firstName</div>
+                        <div class="upload-avatar">
+                            <input type="file" enctype="multipart/form-data" id="imageFile" accept="image/*" name="images" multiple="false" onchange="uploadAvatar(event);handleFileSelect(event); clearFileName();" />
+                        </div>
+                </form>
                 </div>
-            </div>
         </div>
-        <form asp-action="UpdateUserIn4" asp-controller="MyAccount">
+        <form asp-action="UpdateUserIn4" asp-controller="MyAccount" class="form-horizontal" id="updateUserInfoForm">
+            <input asp-for="UsserId" type="hidden" name="UsserId" value="@userId" />
             <div class="form-group-in4">
                 <div class="form-label">
                     Họ
                 </div>
                 <div class="form-input">
-                    <input asp-for="LastName" autocomplete="off" id="LastName" name="LastName" required="required" type="text" value="" class="" style="">
+                    <input asp-for="LastName" autocomplete="off" id="LastName" name="LastName" required="required" type="text" value="" placeholder="@lastName" class="" style="">
                     <!-- ngIf: myForm.LastName.$touched || myForm.$submitted -->
                 </div>
             </div>
@@ -48,7 +51,7 @@
                     Tên
                 </div>
                 <div class="form-input">
-                    <input asp-for="FirstName" autocomplete="off" id="FirstName" name="FirstName" required="required" type="text" value="" class="" style="">
+                    <input asp-for="FirstName" autocomplete="off" id="FirstName" name="FirstName" required="required" type="text" value="" placeholder="@firstName" class="" style="">
                     <!-- ngIf: myForm.FirstName.$touched || myForm.$submitted -->
                 </div>
             </div>
@@ -65,55 +68,150 @@
                     Tỉnh/Thành phố
                 </div>
                 <div class="form-input">
-                    <select asp-for="Address" chosen="" allow-single-deselect="true" name="CityId" class="" required="required" style="display: none;">
-                    </select>
+                    <select asp-for="Address" name="Address" class="dropdown-city" required="required">
+                            <option value="TP HCM" selected>Hồ Chí Minh</option>
+                            <option value="Ha Noi">Hà Nội</option>
+                            <option value="Da Nang">Đà Nẵng</option>
+                            <option value="Can Tho">Cần Thơ</option>
+                            <option value="Hai Phong">Hải Phòng</option>
+                            <option value="An Giang">An Giang</option>
+                            <option value="Ba Ria - Vung Tau">Bà Rịa - Vũng Tàu</option>
+                            <option value="Bac Giang">Bắc Giang</option>
+                            <option value="Bac Kan">Bắc Kạn</option>
+                            <option value="Bac Lieu">Bạc Liêu</option>
+                            <option value="Bac Ninh">Bắc Ninh</option>
+                            <option value="Ben Tre">Bến Tre</option>
+                            <option value="Binh Dinh">Bình Định</option>
+                            <option value="Binh Duong">Bình Dương</option>
+                            <option value="Binh Phuoc">Bình Phước</option>
+                            <option value="Binh Thuan">Bình Thuận</option>
+                            <option value="Ca Mau">Cà Mau</option>
+                            <option value="Cao Bang">Cao Bằng</option>
+                            <option value="Dak Lak">Đắk Lắk</option>
+                            <option value="Dak Nong">Đắk Nông</option>
+                            <option value="Dien Bien">Điện Biên</option>
+                            <option value="Dong Nai">Đồng Nai</option>
+                            <option value="Dong Thap">Đồng Tháp</option>
+                            <option value="Gia Lai">Gia Lai</option>
+                            <option value="Ha Giang">Hà Giang</option>
+                            <option value="Ha Nam">Hà Nam</option>
+                            <option value="Ha Tinh">Hà Tĩnh</option>
+                            <option value="Hai Duong">Hải Dương</option>
+                            <option value="Hau Giang">Hậu Giang</option>
+                            <option value="Hoa Binh">Hòa Bình</option>
+                            <option value="Hung Yen">Hưng Yên</option>
+                            <option value="Khanh Hoa">Khánh Hòa</option>
+                            <option value="Kien Giang">Kiên Giang</option>
+                            <option value="Kon Tum">Kon Tum</option>
+                            <option value="Lai Chau">Lai Châu</option>
+                            <option value="Lam Dong">Lâm Đồng</option>
+                            <option value="Lang Son">Lạng Sơn</option>
+                            <option value="Lao Cai">Lào Cai</option>
+                            <option value="Long An">Long An</option>
+                            <option value="Nam Dinh">Nam Định</option>
+                            <option value="Nghe An">Nghệ An</option>
+                            <option value="Ninh Binh">Ninh Bình</option>
+                            <option value="Ninh Thuan">Ninh Thuận</option>
+                            <option value="Phu Tho">Phú Thọ</option>
+                            <option value="Phu Yen">Phú Yên</option>
+                            <option value="Quang Binh">Quảng Bình</option>
+                            <option value="Quang Nam">Quảng Nam</option>
+                            <option value="Quang Ngai">Quảng Ngãi</option>
+                            <option value="Quang Ninh">Quảng Ninh</option>
+                            <option value="Quang Tri">Quảng Trị</option>
+                            <option value="Soc Trang">Sóc Trăng</option>
+                            <option value="Son La">Sơn La</option>
+                            <option value="Tay Ninh">Tây Ninh</option>
+                            <option value="Thai Binh">Thái Bình</option>
+                            <option value="Thai Nguyen">Thái Nguyên</option>
+                            <option value="Thanh Hoa">Thanh Hóa</option>
+                            <option value="Thua Thien - Hue">Thừa Thiên - Huế</option>
+                            <option value="Tien Giang">Tiền Giang</option>
+                            <option value="Tra Vinh">Trà Vinh</option>
+                            <option value="Tuyen Quang">Tuyên Quang</option>
+                            <option value="Vinh Long">Vĩnh Long</option>
+                            <option value="Vinh Phuc">Vĩnh Phúc</option>
+                            <option value="Yen Bai">Yên Bái</option>
+                        </select>
+
                 </div>
             </div>
             <div class="form-group-in4">
                 <div class="form-label">
                     Giới tính
                 </div>
-                <select asp-for="Sex">
-                    <option value=1 selected>Nam</option>
-                    <option value=2>Nữ</option>
-                    <option value=3>Khác</option>
-                </select>
-                <span asp-validation-for="Sex" class="text-danger"></span>
+                <div class="form-input">
+                    <select asp-for="Sex" class="dropdown-city">
+                        <option value=1 selected>Nam</option>
+                        <option value=2>Nữ</option>
+                        <option value=3>Khác</option>
+                    </select>
+                    <span asp-validation-for="Sex" class="text-danger"></span>
+                </div>
+               
             </div>
 
             <div class="form-group-in4">
                 <div class="form-label"></div>
                 <div class="form-input ">
-                    <button type="submit" class="btn btn-continue text-uppercase left-120">Cập nhật</button>
+                    <button type="submit" class="btn btn-continue text-uppercase left-120" onclick="submitForm()">Cập nhật</button>
                 </div>
             </div>
         </form>
     </div>
 </div>
-
-
 <script>
-    function uploadAvatar() {
-        var imageFiles = document.getElementById('imageFile').files;
-        if (imageFiles.length === 1) {
-            var imageFile = imageFiles[0];
-            var formData = new FormData();
-            formData.append('imageFile', imageFile);
+    function uploadAvatar(event) {
+        var input = event.target;
+        var file = input.files[0];
 
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', '/MyAccount/UploadImage', true);
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    var userAvatar = document.getElementById('userAvatar');
-                    userAvatar.src = URL.createObjectURL(imageFile);
-                } else {
-                    alert('Đã xảy ra lỗi khi tải lên ảnh.');
-                }
-            };
-            xhr.send(formData);
-        } else {
-            alert('Vui lòng chọn một ảnh để tải lên.');
-        }
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var image = document.getElementById("avatarImage");
+            image.src = e.target.result;
+
+            var imageUrlInput = document.getElementById("imageFile");
+            imageUrlInput.value = e.target.result;
+        };
+        reader.readAsDataURL(file);
     }
+    function clearFileName() {
+        var input = document.getElementById("imageFile");
+        input.value = "";
+    }
+
+    
+
+
+
 </script>
+<script>
+    function handleFileSelect(event) {
+        var file = event.target.files[0];
+        uploadImages(file); // Truyền giá trị file vào hàm uploadImages()
+    }
+
+    function uploadImages(file) {
+        var formData = new FormData();
+        formData.append("imageFile", file);
+
+        $.ajax({
+            url: '/MyAccount/UploadImage',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                // Xử lý kết quả thành công
+                alert('Tải lên thành công!');
+            },
+            error: function (xhr, status, error) {
+                // Xử lý lỗi
+                alert('Lỗi khi tải lên!');
+            }
+        });
+    }
+
+</script>
+
 
