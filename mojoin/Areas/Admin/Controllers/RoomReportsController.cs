@@ -161,14 +161,14 @@ namespace mojoin.Areas.Admin.Controllers
             {
                 _context.RoomReports.Remove(roomReport);
             }
-
+            
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool RoomReportExists(int id)
         {
-            return (_context.RoomReports?.Any(e => e.ReportId == id)).GetValueOrDefault();
+          return (_context.RoomReports?.Any(e => e.ReportId == id)).GetValueOrDefault();
         }
     }
 }

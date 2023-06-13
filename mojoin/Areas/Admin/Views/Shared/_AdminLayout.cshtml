@@ -232,8 +232,7 @@
 
     <!-- page js -->
 
-    <a href="~/admin_assets/vendors/jquery/dist/jquery.min.map">~/admin_assets/vendors/jquery/dist/jquery.min.map</a>
-    <a href="~/admin_assets/vendors/jquery/dist/jquery.slim.min.map">~/admin_assets/vendors/jquery/dist/jquery.slim.min.map</a>
+
 
     <script src="~/admin_assets/vendors/jquery/dist/jquery.min.js"></script>
     <script src="~/admin_assets/vendors/jquery/dist/jquery.slim.min.js"></script>
@@ -251,6 +250,8 @@
 
     @await Component.InvokeAsync("Notyf")
     @await RenderSectionAsync("Scripts",required: false)
+    @RenderSection("scripts", required: false)
+    @RenderSection("upload", required: false)
 </body>
 
 </html>
