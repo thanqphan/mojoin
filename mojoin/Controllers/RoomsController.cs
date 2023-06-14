@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using mojoin.Models;
 using System.Web;
-
+using Microsoft.AspNetCore.Mvc.ViewEngines;
+using Microsoft.AspNetCore.Authorization;
 
 namespace mojoin.Controllers
 {
@@ -101,5 +102,113 @@ namespace mojoin.Controllers
 
             return View(all);
         }
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult SelectedSearch(string categoryId, string cityId, string districtId, string streetId, string priceId, string areaId)
+        {
+            List<Room> searchResults = PerformSearch(categoryId, cityId, districtId, streetId, priceId, areaId);
+            return PartialView("_ListSearchRoomPartial", searchResults);
+        }
+
+        // Hàm để render partial view thành chuỗi HTML
+        /*protected string RenderPartialViewToString(string viewName, object model)
+        {
+            ViewData.Model = model;
+            using (var sw = new StringWriter())
+            {
+                var viewResult = ViewEngines.Engines.FindPartialView(ControllerContext, viewName);
+                var viewContext = new ViewContext(ControllerContext, viewResult.View, ViewData, TempData, sw);
+                viewResult.View.Render(viewContext, sw);
+                viewResult.ViewEngine.ReleaseView(ControllerContext, viewResult.View);
+                return sw.GetStringBuilder().ToString();
+            }
+        }*/
+
+        // Hàm để thực hiện tìm kiếm
+        protected List<Room> PerformSearch(string categoryId, string cityId, string districtId, string streetId, string priceId, string areaId)
+        {
+            List<Room> searchResults = new List<Room>();
+
+            // Lấy danh sách toàn bộ phòng từ CSDL hoặc từ một nguồn dữ liệu khác
+            List<Room> allRooms = db.Rooms.ToList(); // Hàm này cần được thay thế bằng phương thức truy vấn dữ liệu thực tế
+            
+            // Duyệt qua từng phòng và áp dụng điều kiện tìm kiếm
+            foreach (var room in allRooms)
+            {
+                if (room.IsActive == 0 && room.IsActive==2)
+                {
+                    continue;
+                }
+                // So sánh categoryId với RoomTypeId
+                if (categoryId != "0" && room.RoomTypeId != int.Parse(categoryId))
+                    continue; // Bỏ qua phòng không khớp điều kiện
+
+                // So sánh districtId với District
+                if (districtId != "" && room.District != districtId)
+                    continue; // Bỏ qua phòng không khớp điều kiện
+
+                // So sánh streetId với Street
+                if (streetId != "" && room.Street != streetId)
+                    continue; // Bỏ qua phòng không khớp điều kiện
+
+                // So sánh priceId với Price
+                int priceValue = int.Parse(priceId);
+                switch (priceValue)
+                {
+                    case 0: // Thỏa thuận
+                            // Bỏ qua phòng không khớp điều kiện
+                        break;
+                    case 1: // Dưới 1 triệu
+                        if (room.Price >= 1000000)
+                            continue; // Bỏ qua phòng không khớp điều kiện
+                        break;
+                    case 2: // 1 triệu - 2 triệu
+                        if (room.Price < 1000000 || room.Price >= 2000000)
+                            continue; // Bỏ qua phòng không khớp điều kiện
+                        break;
+                    case 3: // 2 triệu - 3 triệu
+                        if (room.Price < 2000000 || room.Price >= 3000000)
+                            continue; // Bỏ qua phòng không khớp điều kiện
+                        break;
+                    // Các case khác tương tự
+
+                    default: // Trường hợp không xác định
+                             // Bỏ qua phòng không khớp điều kiện
+                        break;
+                }
+
+                // So sánh areaId với Area
+                int areaValue = int.Parse(areaId);
+                switch (areaValue)
+                {
+                    case 0: // Chưa xác định
+                            // Bỏ qua phòng không khớp điều kiện
+                        break;
+                    case 1: // Dưới 20 m2
+                        if (room.Area >= 20)
+                            continue; // Bỏ qua phòng không khớp điều kiện
+                        break;
+                    case 2: // 20 - 30 m2
+                        if (room.Area < 20 || room.Area >= 30)
+                            continue; // Bỏ qua phòng không khớp điều kiện
+                        break;
+                    case 3: // 30 - 50 m2
+                        if (room.Area < 30 || room.Area >= 50)
+                            continue; // Bỏ qua phòng không khớp điều kiện
+                        break;
+                    // Các case khác tương tự
+
+                    default: // Trường hợp không xác định
+                             // Bỏ qua phòng không khớp điều kiện
+                        break;
+                }
+
+                // Nếu phòng vượt qua tất cả các điều kiện, thì thêm vào danh sách kết quả tìm kiếm
+                searchResults.Add(room);
+            }
+
+            return searchResults;
+        }
+
     }
 }

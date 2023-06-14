@@ -1,0 +1,102 @@
+﻿@{
+
+}
+@model List<Room>
+<link href="~/css/sort_room.css" rel="stylesheet" />
+
+<div id="main" class="clearfix" style="">
+    <div id="property" class="clearfix">
+        <div class="summary clearfix line">
+            @*<div class="summary-tab" style="">
+            <h4><a class="to-uppper" data-toggle="pill" href="">Bán <span class="counter ng-binding">(0)</span></a></h4>
+            </div>*@
+            <div class="summary-tab active" style="">
+                <h4><a class="to-uppper" data-toggle="pill" href="">Kết quả tìm kiếm<span class="counter ng-binding"> </span></a></h4>
+            </div>
+        </div>
+        <ul class="props">
+            @if (Model != null && Model.Count > 0)
+            {
+                @foreach (var item in Model)
+                {
+                    <li>
+                        <div class="prop-img">
+                            <img src="/Rooms/ShowImage/@item.RoomId">
+                        </div>
+                        <div class="prop-info">
+                            <a href="/Rooms/Details/@item.RoomId" class="link-overlay">
+                                @item.Title
+                            </a>
+                            <div class="prop-addr">@item.StreetNumber Đường @item.Street, Quận @item.District, @item.City</div>
+                            <ul class="prop-attr">
+                                <li>@item.Area m<sup>2</sup></li>
+                                <li>@item.NumRooms PN</li>
+                                <li>@item.NumBathrooms WC</li>
+                            </ul>
+                            <div class="price">@String.Format("{0:#,##0}", @item.Price) VNĐ</div>
+                        </div>
+                        <div class="prop-extra">
+                            <div class="prop-created">Ngày đăng:@String.Format("{0:dd/MM/yyyy}", @item.CreateDate)</div>
+                            <div class="prop-favorite" ><i class="fa fa-heart"></i></div>
+                        </div>
+                    </li>
+                    <br />
+                }
+            }
+            else
+            {
+                <p>Không tìm thấy kết quả phù hợp.</p>
+            }
+
+        </ul>
+        @*<div id="property-items" class="tab-content">
+            <div id="rent-list" class="" style="">
+                @if (Model != null && Model.Count > 0)
+                {
+                    @foreach (var item in Model)
+                    {
+                        <div class="property-item clearfix" id="@item.UserId">
+                            <div class="property-header clearfix">
+                                <div class="property-image">
+                                    <img src="/Rooms/ShowImage/@item.RoomId">
+                                </div>
+                                <div class="property-price">@String.Format("{0:#,##0}", @item.Price) VNĐ</div>
+                            </div>
+                            <div class="property-content clearfix">
+                                <div class="property-info clearfix">
+                                    <div class="title clearfix">
+                                        <a href="/Rooms/Details/@item.RoomId" class="link-overlay">
+                                            @item.Title
+                                        </a>
+                                    </div>
+                                    <div class="property-address clearfix">
+
+                                        @item.StreetNumber @item.Street, @item.District, @item.City
+                                    </div>
+
+                                    <div class="property-utility clearfix">
+                                        <div class="property-utility">
+                                            <span><i class="fa fa-bed"></i>@item.NumRooms</span>
+                                            <span class="bathroom"><i class="fa fa-bath"></i>@item.NumBathrooms</span>
+                                            <span><i class="icon icon-acreage"></i>@item.Area m<sup>2</sup></span>
+                                        </div>
+                                    </div>
+                                    <div class="property-summary">
+                                        @item.Description
+                                    </div>
+                                </div>
+                                <div class="posted-date clearfix ">Ngày đăng:@String.Format("{0:dd/MM/yyyy}", @item.CreateDate)</div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p>Không tìm thấy kết quả phù hợp.</p>
+                }
+            </div>
+        </div>*@
+
+    </div>
+
+</div>
