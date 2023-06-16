@@ -13,6 +13,24 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <h2>Upload Multiple Image</h2>
+
+            @using (Html.BeginForm("UploadMultipleImage", "Home", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+
+            {
+
+                @Html.TextBox("files", "", new { type = "file", multiple = "multiple", accept = "image/*" })
+
+                <br />
+
+                <div class="filearray">
+                </div>
+
+                <br />
+
+                <input type="submit" value="Upload" class="btn btn-default" />
+
+            }
             <div class="form-group">
                 <label class="control-label">RoomType</label>
                 <select asp-for="RoomTypeId" class="form-control" asp-items="ViewBag.RoomTypeId"></select>
@@ -114,7 +132,39 @@
         </form>
     </div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
+<script>
+
+    $(document).on('ready', () => {
+
+        $("#files").on('change', function () {
+
+            $(".filearray").empty();
+
+            for (let i = 0; i < this.files.length; ++i) {
+
+                let filereader = new FileReader();
+
+                let $img = jQuery.parseHTML("<img width='150' height='100' src=''>");
+
+                filereader.onload = function () {
+
+                    $img[0].src = this.result;
+
+                };
+
+                filereader.readAsDataURL(this.files[i]);
+
+                $(".filearray").append($img);
+
+            }
+
+        });
+
+    });
+
+</script>
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
