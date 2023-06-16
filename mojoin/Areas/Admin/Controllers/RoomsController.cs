@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using mojoin.Extension;
 using mojoin.Models;
 using System.Data;
-using System.IO;
 using System.Security.Claims;
 using XAct.Library.Settings;
 using XAct.Users;
@@ -330,26 +329,5 @@ namespace mojoin.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index), new { isActive });
         }
     }
-    [HttpPost]
-
-    public ActionResult UploadMultipleImage(HttpPostedFileBase[] files)
-    {
-        foreach (HttpPostedFileBase file in files)
-{
-            if (file != null || file.ContentLength > 0)
-            {
-                string _FileName = Path.GetFileName(file.FileName);
-                string path = Path.Combine(Server.MapPath("/images/"), _FileName); if (System.IO.File.Exists(path))
-                {
-                    //nếu hình ảnh đã tồn tại, thì xóa ảnh cũ, cập nhật lại ảnh mới System.IO.File.Delete(path);
-                    file.SaveAs(path);
-                }
-                else
-                {
-                    file.SaveAs(path);
-                }
-            }
-            return RedirectToAction("Index");
-        }
-    }
+    
 }
