@@ -163,14 +163,14 @@ namespace mojoin.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProfileUserViewModelExists(profileUserViewModel.UsserId))
+                    /*if (!ProfileUserViewModelExists(profileUserViewModel.UsserId))
                     {
                         return NotFound();
                     }
                     else
                     {
                         throw;
-                    }
+                    }*/
                 }
                 HttpContext.SignOutAsync();
                 HttpContext.Session.Remove("UserId");
@@ -324,10 +324,10 @@ namespace mojoin.Controllers
                 return RedirectToAction("CreatePosts");
             }
         }
-        private bool ProfileUserViewModelExists(int id)
+/*        private bool ProfileUserViewModelExists(int id)
         {
-            return (_context.ProfileUserViewModel?.Any(e => e.UsserId == id)).GetValueOrDefault();
-        }
+            return (_context.?.Any(e => e.UsserId == id)).GetValueOrDefault();
+        }*/
     }
 
 }
