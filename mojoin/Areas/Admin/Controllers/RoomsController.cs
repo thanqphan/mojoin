@@ -146,7 +146,7 @@ namespace mojoin.Areas.Admin.Controllers
                 foreach (var file in room.Files)
                 {
                     //var fileName = $"{DateTime.Now.ToString("yyyyMMddHHmmssfff")}{Path.GetFileName(file.FileName)}";
-                    var fileName = $"img{roomEntity.RoomId}{index++}.{file.FileName.Split('.')[1]}";
+                    var fileName = $"img{roomEntity.RoomId}-{index++}.{file.FileName.Split('.')[1]}";
                     var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {

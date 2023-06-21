@@ -4,163 +4,94 @@
     ViewData["Title"] = "Delete";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
-
-<h1>Delete</h1>
-
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Room</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.RoomImages)
-        </dt>
-        <dd class="col-sm-10">
-            @foreach (var image in Model.RoomImages)
-            {
-                <img src="@image.Image" width="300px" />
-            }
-        </dd>
-
-
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Area)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Area)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.NumRooms)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.NumRooms)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.NumBathrooms)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.NumBathrooms)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CreateDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CreateDate)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.LastUpdate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.LastUpdate)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.IsActive)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.IsActive)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.StreetNumber)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.StreetNumber)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Street)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Street)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Ward)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Ward)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.District)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.District)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.City)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.City)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.HasRefrigerator)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.HasRefrigerator)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.HasAirConditioner)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.HasAirConditioner)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.HasWasher)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.HasWasher)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.HasElevator)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.HasElevator)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.HasParking)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.HasParking)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ViewCount)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ViewCount)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.RoomType)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.RoomType.TypeName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.User)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.User.UserId)
-        </dd>
-    </dl>
-
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="RoomId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index" asp-route-isActive="ViewBag.RoomsParams ">Back to List</a>
-    </form>
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <a asp-area="Admin" asp-controller="Rooms" asp-action="Index" class="breadcrumb-item">Danh sách bài đăng</a>
+            <span class="breadcrumb-item active">Xóa bài đăng</span>
+        </nav>
+    </div>
 </div>
+<div class="card">
+    
+    <div class="card-body">
+        <div class="card-header">
+            <h3>Xóa bài đăng</h3>
+        </div>
+        <form asp-action="Delete" class="form" onsubmit="return confirm('Bạn có chắc chắn muốn xóa phòng này không? Hành động này không thể hoàn tác.');">
+            <hr />
+            <div class="row">
+                <div class="col-md-6">
+                    <h4 class="font-weight-bold">Thông tin phòng</h4>
+                    <hr />
+                    <dl class="row">
+
+                        <dt class="col-sm-4">Tiêu đề:</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Title)</dd>
+
+                        <dt class="col-sm-4">Mô tả:</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Description)</dd>
+
+                        <dt class="col-sm-4">Loại phòng:</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.RoomType.TypeName)</dd>
+
+                        <dt class="col-sm-4">Số phòng tắm:</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.NumBathrooms)</dd>
+
+                        <dt class="col-sm-4">Số phòng ngủ:</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.NumRooms)</dd>
+
+                        <dt class="col-sm-4">Diện tích:</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Area) m<sup>2</sup></dd>
+
+                        <dt class="col-sm-4">Giá:</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Price) đồng/tháng</dd>
+
+                        <dt class="col-sm-4">Địa chỉ:</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.StreetNumber) @Html.DisplayFor(model => model.Street), Ward @Html.DisplayFor(model => model.Ward), District @Html.DisplayFor(model => model.District), @Html.DisplayFor(model => model.City)</dd>
+
+                        <dt class="col-sm-4">Tiện nghi:</dt>
+                        <dd class="col-sm-8">
+                            <ul class="list-unstyled">
+                                <li>@Html.DisplayFor(model => model.HasRefrigerator) Tủ lạnh</li>
+                                <li>@Html.DisplayFor(model => model.HasAirConditioner) Điều hòa</li>
+                                <li>@Html.DisplayFor(model => model.HasWasher) Máy giặt</li>
+                                <li>@Html.DisplayFor(model => model.HasElevator) Thang máy</li>
+                                <li>@Html.DisplayFor(model => model.HasParking) Chỗ đỗ xe</li>
+                            </ul>
+                        </dd>
+
+                        <dt class="col-sm-4">Ngày đăng:</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.CreateDate)</dd>
+
+                        <dt class="col-sm-4">Lần cập nhật cuối:</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.LastUpdate)</dd>
+
+                        <dt class="col-sm-4">Được xem:</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.ViewCount) lượt</dd>
+                    </dl>
+                </div>
+
+                <div class="col-md-6">
+                    <h4 class="font-weight-bold">Hình ảnh</h4>
+                    <hr />
+                    <div class="row">
+                        @foreach (var image in Model.RoomImages)
+                        {
+                            <div class="col-sm-4 mb-3">
+                                <img src="@image.Image" class="img-fluid" />
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" asp-for="RoomId" />
+            <div class="form-group">
+                <button type="submit" class="btn btn-danger">Xóa</button>
+                <a asp-action="Index" asp-route-isActive="ViewBag.RoomsParams " class="btn btn-secondary">Quay lại danh sách</a>
+            </div>
+        </form>
+    </div>
+</div>
+

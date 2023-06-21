@@ -2,126 +2,180 @@
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    <link href="~/admin_assets/css/site.css" rel="stylesheet" />
 }
-
-<h1>Edit Room</h1>
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <a asp-area="Admin" asp-controller="Rooms" asp-action="Index" class="breadcrumb-item">Danh sách bài đăng</a>
+            <span class="breadcrumb-item active">Cập nhật bài đăng</span>
+        </nav>
+    </div>
+</div>
+<h1>Cập nhật bài đăng</h1>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
         <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="RoomId" />
-            @*<div class="form-group" id="preview">
-                
-                <h2>Upload Multiple Image</h2>
-                <input id="file-input" name="Files" type="file" multiple="multiple" accept="image/*" />
-            </div>*@
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Loại phòng</label>
+                        <select asp-for="RoomTypeId" class="form-control" asp-items="ViewBag.RoomTypeId"></select>
+                        <span asp-validation-for="RoomTypeId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Kiểm duyệt</label>
+                        <select asp-for="IsActive" class="form-control">
+                            <option value="" disabled selected hidden>Số phòng ngủ</option>
+                            <option value=0>Bài viết đang chờ phê duyệt</option>
+                            <option value=1>Đã duyệt</option>
+                            <option value=2>Từ chối</option>
+                        </select>
+                        <span asp-validation-for="IsActive" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Tiêu đề</label>
+                        <input asp-for="Title" class="form-control" placeholder="Nhập tiêu đề" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Mô tả</label>
+                        <textarea asp-for="Description" class="form-control" rows="11" maxlength="3000"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Giá</label>
+                        <input asp-for="Price" class="form-control" placeholder="VNĐ" />
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Diện tích</label>
+                        <input asp-for="Area" class="form-control" placeholder="m2" />
+                        <span asp-validation-for="Area" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Số phòng ngủ</label>
+                        <select asp-for="NumRooms" class="form-control">
+                            <option value="" disabled selected hidden>Số phòng ngủ</option>
+                            <option value=1>1</option>
+                            <option value=2>2</option>
+                            <option value=3>3</option>
+                            <option value=4>4</option>
+                        </select>
+                        <span asp-validation-for="NumRooms" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Số phòng vệ sinh</label>
+                        <select asp-for="NumBathrooms" class="form-control">
+                            <option value="" disabled selected hidden>Số phòng vệ sinh</option>
+                            <option value=1>1</option>
+                            <option value=2>2</option>
+                            <option value=3>3</option>
+                            <option value=4>4</option>
+                        </select>
+                        <span asp-validation-for="NumBathrooms" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Số nhà</label>
+                        <input asp-for="StreetNumber" class="form-control" />
+                        <span asp-validation-for="StreetNumber" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Đường</label>
+                        <input asp-for="Street" class="form-control" />
+                        <span asp-validation-for="Street" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Phường/Xã</label>
+                        <input asp-for="Ward" class="form-control" />
+                        <span asp-validation-for="Ward" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Quận/Huyện</label>
+                        <input asp-for="District" class="form-control" />
+                        <span asp-validation-for="District" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Tỉnh thành</label>
+                        <input asp-for="City" class="form-control" />
+                        <span asp-validation-for="City" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
 
-            <div class="form-group">
-                <label class="control-label">RoomType</label>
-                <select asp-for="RoomTypeId" class="form-control" asp-items="ViewBag.RoomTypeId"></select>
-                <span asp-validation-for="RoomTypeId" class="text-danger"></span>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-check">
+                        <input asp-for="HasRefrigerator" type="checkbox" class="form-check-input" />
+                        <label asp-for="HasRefrigerator" class="form-check-label"></label>
+                        <span asp-validation-for="HasRefrigerator" class="text-danger"></span>
+                    </div>
+                    <div class="form-check">
+                        <input asp-for="HasAirConditioner" type="checkbox" class="form-check-input" />
+                        <label asp-for="HasAirConditioner" class="form-check-label"></label>
+                        <span asp-validation-for="HasAirConditioner" class="text-danger"></span>
+                    </div>
+                    <div class="form-check">
+                        <input asp-for="HasElevator" type="checkbox" class="form-check-input" />
+                        <label asp-for="HasElevator" class="form-check-label"></label>
+                        <span asp-validation-for="HasElevator" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-check">
+                        <input asp-for="HasWasher" type="checkbox" class="form-check-input" />
+                        <label asp-for="HasWasher" class="form-check-label"></label>
+                        <span asp-validation-for="HasWasher" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="form-check">
+                        <input asp-for="HasParking" type="checkbox" class="form-check-input" />
+                        <label asp-for="HasParking" class="form-check-label"></label>
+                        <span asp-validation-for="HasParking" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
-           
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Area" class="control-label"></label>
-                <input asp-for="Area" class="form-control" />
-                <span asp-validation-for="Area" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NumRooms" class="control-label"></label>
-                <input asp-for="NumRooms" class="form-control" />
-                <span asp-validation-for="NumRooms" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NumBathrooms" class="control-label"></label>
-                <input asp-for="NumBathrooms" class="form-control" />
-                <span asp-validation-for="NumBathrooms" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IsActive" class="control-label"></label>
-                <input asp-for="IsActive" class="form-control" />
-                <span asp-validation-for="IsActive" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StreetNumber" class="control-label"></label>
-                <input asp-for="StreetNumber" class="form-control" />
-                <span asp-validation-for="StreetNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Street" class="control-label"></label>
-                <input asp-for="Street" class="form-control" />
-                <span asp-validation-for="Street" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Ward" class="control-label"></label>
-                <input asp-for="Ward" class="form-control" />
-                <span asp-validation-for="Ward" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="District" class="control-label"></label>
-                <input asp-for="District" class="form-control" />
-                <span asp-validation-for="District" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="City" class="control-label"></label>
-                <input asp-for="City" class="form-control" />
-                <span asp-validation-for="City" class="text-danger"></span>
-            </div>
-            <div class="form-check">
-                <input asp-for="HasRefrigerator" type="checkbox" class="form-check-input" />
-                <label asp-for="HasRefrigerator" class="form-check-label"></label>
-                <span asp-validation-for="HasRefrigerator" class="text-danger"></span>
-            </div>
-            <div class="form-check">
-                <input asp-for="HasAirConditioner" type="checkbox" class="form-check-input" />
-                <label asp-for="HasAirConditioner" class="form-check-label"></label>
-                <span asp-validation-for="HasAirConditioner" class="text-danger"></span>
-            </div>
-            <div class="form-check">
-                <input asp-for="HasWasher" type="checkbox" class="form-check-input" />
-                <label asp-for="HasWasher" class="form-check-label"></label>
-                <span asp-validation-for="HasWasher" class="text-danger"></span>
-            </div>
-            <div class="form-check">
-                <input asp-for="HasElevator" type="checkbox" class="form-check-input" />
-                <label asp-for="HasElevator" class="form-check-label"></label>
-                <span asp-validation-for="HasElevator" class="text-danger"></span>
-            </div>
-            <div class="form-check">
-                <input asp-for="HasParking" type="checkbox" class="form-check-input" />
-                <label asp-for="HasParking" class="form-check-label"></label>
-                <span asp-validation-for="HasParking" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ViewCount" class="control-label"></label>
-                <input asp-for="ViewCount" class="form-control" />
-                <span asp-validation-for="ViewCount" class="text-danger"></span>
-            </div>
+            <br/>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
+                ||<a asp-action="Index">Back to List</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 <script src="~/js/navbuttons.js"></script>
