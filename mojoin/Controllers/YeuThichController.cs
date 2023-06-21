@@ -134,8 +134,8 @@ namespace mojoin.Controllers
             ctdh.UserId = int.Parse(taikhoanID);
             db.RoomFavorites.Add(ctdh);
             db.SaveChanges();
-
-            return View();
+            _notyfService.Success("Đã yêu thích!");
+            return RedirectToAction("Details", "Rooms", new { id = id });
         }
         public ActionResult XoaYeuThich(int id)
         {
@@ -156,7 +156,8 @@ namespace mojoin.Controllers
             }
 
             // Chuyển hướng về trang danh sách yêu thích
-            return RedirectToAction("YeuThich");
+            _notyfService.Error("Đã gỡ yêu thích!");
+            return RedirectToAction("Details", "Rooms", new { id = id });
         }
         public ActionResult YeuThichPartial()
         {           
