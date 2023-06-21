@@ -40,28 +40,28 @@
         <div class="form-group" id="address-div" style="display:none;">
             <h2 class="title-div">Địa chỉ đăng</h2>
             <label class="label-item">Tỉnh thành<label class="label-requied">(*)</label>:<br /></label>
-            <select asp-for="City" id="city" class="address-item" onchange="onCityChange()" name="chooseCity" required>
+            <select asp-for="City" id="city" class="address-item" onchange="onCityChange()" name="City" required>
                 <option value="">Chọn thành phố</option>
             </select>
             <span asp-validation-for="City" class="text-danger error-message" id="chooseCity-error"></span>
 
 
             <label class="label-item">Quận/Huyện<label class="label-requied">(*)</label>:</label>
-            <select asp-for=District id="district" class="address-item" onchange="onDistrictChange()" name="chooseDistrict" disabled required>
+            <select asp-for=District id="district" class="address-item" onchange="onDistrictChange()" name="District" disabled required>
                 <option value="">Chọn quận/huyện</option>
             </select>
             <span asp-validation-for="District" class="text-danger error-message" id="chooseDistrict-error"></span>
 
 
             <label class="label-item">Phường/Xã<label class="label-requied">(*)</label>:</label>
-            <select asp-for=Ward id="ward" class="address-item" disabled required name="chooseDistrict">
+            <select asp-for=Ward id="ward" class="address-item" disabled required name="Ward">
                 <option value="">Chọn phường/xã</option>
             </select>
             <span asp-validation-for="Ward" class="text-danger error-message" id="chooseDistrict-error"></span>
 
 
             <label class="label-item">Đường<label class="label-requied">(*)</label>:</label>
-            <select asp-for=Street id="street" class="address-item" disabled required name="chooseStreet">
+            <select asp-for=Street id="street" class="address-item" disabled required name="Street">
                 <option value="">Chọn đường</option>
             </select>
             <span asp-validation-for="Street" class="text-danger error-message" id="chooseStreet-error"></span>
@@ -77,13 +77,13 @@
             <h2 class="title-div">Diện tích và giá</h2>
             <label class="label-item">Diện tích sử dụng<label class="label-requied">(*)</label>:</label>
             <div class="input-group">
-                <input asp-for="Area" type="number" class="num-item " name="fieldArea" required />
+                <input asp-for="Area" type="number" class="num-item " name="Area" required />
                 <span class="input-addon">m<sup>2</sup></span>
             </div>
             <span asp-validation-for="Area" class="text-danger error-message" id="fieldArea-error"></span><br />
             <label class="label-item">Giá<label class="label-requied">(*)</label>:</label>
             <div class="input-group">
-                <input asp-for="Price" type="number" class="num-item " name="fieldPrice" required />
+                <input asp-for="Price" type="number" class="num-item " name="Price" required />
                 <span class="input-addon">VND/Tháng</span>
             </div>
             <span asp-validation-for="Price" class="text-danger error-message" id="fieldPrice-error"></span>
@@ -93,12 +93,12 @@
             <h2 class="title-div">Tiêu đề</h2>
             <label class="label-item">Tiêu đề<label class="label-requied">(*)</label>:</label>
             <div class="input-group">
-                <input asp-for="Title" type="text" class="title-post" required name="fieldTitle" />
+                <input asp-for="Title" type="text" class="title-post" required name="Title" />
             </div>
             <span asp-validation-for="Title" class="text-danger error-message" id="fieldTitle-error"></span><br />
             <label class="label-item">Mô tả<label class="label-requied">(*)</label>:</label>
             <div class="input-group">
-                <textarea asp-for="Description" class="about-post" rows="11"  name="fieldDescription" required></textarea>
+                <textarea asp-for="Description" class="about-post" rows="11" name="Description" required></textarea>
             </div>
             <span asp-validation-for="Description" class="text-danger error-message" id="fieldDescription-error"></span>
         </div>

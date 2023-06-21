@@ -30,6 +30,12 @@ namespace mojoin.Controllers
         [Route("quan-li-tin.html", Name = "QuanLiTin")]
         public IActionResult Index()
         {
+            if (TempData != null && TempData.ContainsKey("SuccessMessage") && !string.IsNullOrEmpty(TempData["SuccessMessage"].ToString()))
+            {
+                string successMessage = TempData["SuccessMessage"] as string;
+                _notyfService.Success(successMessage);
+            }
+
             var userId = HttpContext.User.FindFirstValue("UserId");
             var roomFavorites = _context.Rooms.Include(r => r.User)
                .Where(rf => rf.UserId == int.Parse(userId)).ToList();
@@ -314,6 +320,7 @@ namespace mojoin.Controllers
                     }
                 }
                 _notyfService.Success("Gửi bài thành công!");
+                TempData["SuccessMessage"] = "Đã gửi bài thành công";
 
                 // Hoàn thành quá trình tải lên và chuyển hướng hoặc trả về thông báo thành công
                 return RedirectToRoute("QuanLiTin");
@@ -324,10 +331,6 @@ namespace mojoin.Controllers
                 return RedirectToAction("CreatePosts");
             }
         }
-/*        private bool ProfileUserViewModelExists(int id)
-        {
-            return (_context.?.Any(e => e.UsserId == id)).GetValueOrDefault();
-        }*/
     }
 
 }

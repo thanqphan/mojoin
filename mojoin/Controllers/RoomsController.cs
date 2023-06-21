@@ -9,12 +9,16 @@ using mojoin.Models;
 using System.Web;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Authorization;
+using AspNetCoreHero.ToastNotification.Abstractions;
+using XAct.Users;
+using mojoin.Extension;
 
 namespace mojoin.Controllers
 {
     public class RoomsController : Controller
     {
-        
+        INotyfService _notyfService { get; }
+        IEmailService _emailService;
         DbmojoinContext db = new DbmojoinContext();
 
         // GET: Rooms
@@ -73,11 +77,13 @@ namespace mojoin.Controllers
                     isYeuThich = true;
                 }
             }
+            ViewBag.Avt = room.User.Avatar;
             ViewBag.IsYeuThich = isYeuThich;
             ViewBag.SDT = room.User.Phone;
             ViewBag.NgayThamGia = room.User.CreateDate;
             ViewBag.Ho = room.User.LastName;
             ViewBag.Ten = room.User.FirstName;
+            ViewBag.Mail = room.User.Email;
             return View(room);
         }
         public ActionResult GetNameUser(int id)
@@ -110,20 +116,6 @@ namespace mojoin.Controllers
             return PartialView("_ListSearchRoomPartial", searchResults);
         }
 
-        // Hàm để render partial view thành chuỗi HTML
-        /*protected string RenderPartialViewToString(string viewName, object model)
-        {
-            ViewData.Model = model;
-            using (var sw = new StringWriter())
-            {
-                var viewResult = ViewEngines.Engines.FindPartialView(ControllerContext, viewName);
-                var viewContext = new ViewContext(ControllerContext, viewResult.View, ViewData, TempData, sw);
-                viewResult.View.Render(viewContext, sw);
-                viewResult.ViewEngine.ReleaseView(ControllerContext, viewResult.View);
-                return sw.GetStringBuilder().ToString();
-            }
-        }*/
-
         // Hàm để thực hiện tìm kiếm
         protected List<Room> PerformSearch(string categoryId, string cityId, string districtId, string streetId, string priceId, string areaId)
         {
@@ -131,76 +123,58 @@ namespace mojoin.Controllers
 
             // Lấy danh sách toàn bộ phòng từ CSDL hoặc từ một nguồn dữ liệu khác
             List<Room> allRooms = db.Rooms.ToList(); // Hàm này cần được thay thế bằng phương thức truy vấn dữ liệu thực tế
-            
+
             // Duyệt qua từng phòng và áp dụng điều kiện tìm kiếm
             foreach (var room in allRooms)
             {
-                if (room.IsActive == 0 && room.IsActive==2)
+                if (room.IsActive != 1)
                 {
-                    continue;
+                    continue; // Bỏ qua phòng không khớp điều kiện
                 }
+
                 // So sánh categoryId với RoomTypeId
-                if (categoryId != "0" && room.RoomTypeId != int.Parse(categoryId))
+                if (!string.IsNullOrEmpty(categoryId) && categoryId != "0" && room.RoomTypeId != int.Parse(categoryId))
                     continue; // Bỏ qua phòng không khớp điều kiện
 
-                // So sánh districtId với District
-                if (districtId != "" && room.District != districtId)
+                // Kiểm tra các điều kiện lọc và chỉ áp dụng nếu có giá trị
+                if (!string.IsNullOrEmpty(cityId) && room.City != cityId)
                     continue; // Bỏ qua phòng không khớp điều kiện
 
-                // So sánh streetId với Street
-                if (streetId != "" && room.Street != streetId)
+                if (!string.IsNullOrEmpty(districtId) && room.District != districtId)
                     continue; // Bỏ qua phòng không khớp điều kiện
 
-                // So sánh priceId với Price
-                int priceValue = int.Parse(priceId);
-                switch (priceValue)
+                if (!string.IsNullOrEmpty(streetId) && room.Street != streetId)
+                    continue; // Bỏ qua phòng không khớp điều kiện
+
+                if (!string.IsNullOrEmpty(priceId))
                 {
-                    case 0: // Thỏa thuận
-                            // Bỏ qua phòng không khớp điều kiện
-                        break;
-                    case 1: // Dưới 1 triệu
-                        if (room.Price >= 1000000)
-                            continue; // Bỏ qua phòng không khớp điều kiện
-                        break;
-                    case 2: // 1 triệu - 2 triệu
-                        if (room.Price < 1000000 || room.Price >= 2000000)
-                            continue; // Bỏ qua phòng không khớp điều kiện
-                        break;
-                    case 3: // 2 triệu - 3 triệu
-                        if (room.Price < 2000000 || room.Price >= 3000000)
-                            continue; // Bỏ qua phòng không khớp điều kiện
-                        break;
-                    // Các case khác tương tự
+                    int priceValue = int.Parse(priceId);
+                    if (priceValue == 1 && room.Price >= 1000000)
+                        continue; // Bỏ qua phòng không khớp điều kiện
 
-                    default: // Trường hợp không xác định
-                             // Bỏ qua phòng không khớp điều kiện
-                        break;
+                    if (priceValue == 2 && (room.Price < 1000000 || room.Price >= 2000000))
+                        continue; // Bỏ qua phòng không khớp điều kiện
+
+                    if (priceValue == 3 && (room.Price < 2000000 || room.Price >= 3000000))
+                        continue; // Bỏ qua phòng không khớp điều kiện
+
+                    // Các trường hợp khác tương tự
                 }
 
-                // So sánh areaId với Area
-                int areaValue = int.Parse(areaId);
-                switch (areaValue)
+                if (!string.IsNullOrEmpty(areaId))
                 {
-                    case 0: // Chưa xác định
-                            // Bỏ qua phòng không khớp điều kiện
-                        break;
-                    case 1: // Dưới 20 m2
-                        if (room.Area >= 20)
-                            continue; // Bỏ qua phòng không khớp điều kiện
-                        break;
-                    case 2: // 20 - 30 m2
-                        if (room.Area < 20 || room.Area >= 30)
-                            continue; // Bỏ qua phòng không khớp điều kiện
-                        break;
-                    case 3: // 30 - 50 m2
-                        if (room.Area < 30 || room.Area >= 50)
-                            continue; // Bỏ qua phòng không khớp điều kiện
-                        break;
-                    // Các case khác tương tự
+                    int areaValue = int.Parse(areaId);
 
-                    default: // Trường hợp không xác định
-                             // Bỏ qua phòng không khớp điều kiện
-                        break;
+                    if (areaValue == 1 && room.Area >= 20)
+                        continue; // Bỏ qua phòng không khớp điều kiện
+
+                    if (areaValue == 2 && (room.Area < 20 || room.Area >= 30))
+                        continue; // Bỏ qua phòng không khớp điều kiện
+
+                    if (areaValue == 3 && (room.Area < 30 || room.Area >= 50))
+                        continue; // Bỏ qua phòng không khớp điều kiện
+
+                    // Các trường hợp khác tương tự
                 }
 
                 // Nếu phòng vượt qua tất cả các điều kiện, thì thêm vào danh sách kết quả tìm kiếm
@@ -210,5 +184,35 @@ namespace mojoin.Controllers
             return searchResults;
         }
 
+        public ActionResult SendMessage()
+        {
+            return View();
+        }
+
+        // Action để xử lý việc gửi tin nhắn
+        [HttpPost]
+        public ActionResult SendMessage(FormCollection form)
+        {
+            // Lấy giá trị từ các trường form
+            string userMail = form["usermail"];
+            string fullName = form["fullName"];
+            string email = form["email"];
+            string phoneNumber = form["phoneNumber"];
+            if (string.IsNullOrEmpty(fullName) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(phoneNumber) )
+            {
+                // Hiển thị thông báo lỗi hoặc xử lý lỗi khác tùy theo yêu cầu của bạn
+                ModelState.AddModelError("", "Vui lòng điền đầy đủ thông tin.");
+                return View();
+            }
+            string emailBody = $"Chào bạn, " +
+                $"/n Tôi là: {fullName}, có nhu cầu liên hệ với bạn về bài đăng cho thuê phòng/căn hộ của bạn trên 'mojoin'.  "+
+                $"/n Đây là thông tin liên hệ của mình email: {email} hoặc liên hệ: {phoneNumber}."+
+                $"/n Mong nhận được phản hồi sớm từ bạn, /n {fullName}.";
+
+            _emailService.SendEmail(userMail, "Đặt lại mật khẩu", emailBody);
+            // Sau khi gửi thành công, bạn có thể chuyển hướng hoặc hiển thị thông báo thành công cho người dùng
+            _notyfService.Success("Gửi thành công! Người dùng sẽ liên hệ đến bạn sau!");
+            return RedirectToAction("SendMessage");
+        }
     }
 }

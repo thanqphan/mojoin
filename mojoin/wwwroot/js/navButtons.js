@@ -48,10 +48,10 @@ function updateDivVisibility() {
     }
 }
 // Lấy đối tượng của các trường nhập liệu
-const areaField = document.querySelector('input[name="fieldArea"]');
-const priceField = document.querySelector('input[name="fieldPrice"]');
-const titleField = document.querySelector('input[name="fieldTitle"]');
-const descriptionField = document.querySelector('input[name="fieldDescription"]');
+const areaField = document.querySelector('input[name="Area"]');
+const priceField = document.querySelector('input[name="Price"]');
+const titleField = document.querySelector('input[name="Title"]');
+const descriptionField = document.querySelector('textarea[name="Description"]');
 
 // Thêm sự kiện khi người dùng thoát khỏi trường nhập liệu
 areaField.addEventListener('blur', validateArea);
@@ -116,7 +116,7 @@ function validateTitle() {
     // Kiểm tra xem trường có rỗng hay không
     if (titleValue === '') {
         document.querySelector('#fieldTitle-error').innerHTML = 'Vui lòng nhập Tiêu đề';
-    } else if (titleValue.length < 50 || titleValue.length > 200) {
+    } else if (titleValue.length < 40 || titleValue.length > 200) {
         // Kiểm tra độ dài của giá trị tiêu đề
         const errorMessage = 'Tiêu đề phải có ít nhất 50 kí tự và không quá 200 kí tự';
         document.querySelector('#fieldTitle-error').innerHTML = errorMessage;
@@ -181,14 +181,6 @@ function checkRequiredFields() {
     return isValid;
 }
 
-var areaInput = document.getElementById('fieldArea');
-areaInput.addEventListener('blur', function () {
-    validateField(areaInput, 'fieldArea-error', 'Vui lòng nhập diện tích');
-});
-
-areaInput.addEventListener('input', function () {
-    validateField(areaInput, 'fieldArea-error', 'Vui lòng nhập diện tích');
-});
 
 function validateField(inputElement, errorElementId, errorMessage) {
     var value = inputElement.value;

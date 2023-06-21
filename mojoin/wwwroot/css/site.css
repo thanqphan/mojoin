@@ -1,4 +1,4 @@
-html {
+﻿html {
     font-size: 14px;
 }
 
@@ -955,3 +955,6 @@ button, input {
         color: black;
     }
 
+.custom-column {
+    margin-right: 10px; /* Khoảng cách bên phải */
+}

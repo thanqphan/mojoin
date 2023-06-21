@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Http.Extensions
+@using System.Security.Claims;
 @model mojoin.Models.Room
 
 @{
@@ -12,7 +13,13 @@
     <script src="~/lib/jquery/dist/jquery.js"></script>
     //<script src="~/js/site.js" defer></script>
 }
+@{
+    var identity = (ClaimsIdentity)User.Identity;
 
+    // Lấy giá trị của các đối tượng Claim
+    string userId = identity.FindFirst("UserId")?.Value;
+    string userAvt = identity.FindFirst("UserAvatar")?.Value;
+}
 <div id="mogi-page-content" class="mg-property-listing ng-scope">
 
     <div class="property-detail clearfix">
@@ -73,14 +80,16 @@
                 </div>
                 <!--Agent-->
                 <div class="agent-info">
-                    <img src="" alt="">
+                    <img src="@ViewBag.Avt" width="16" height="16" style="display:inline-block" />
                     <div class="agent-name">
-                        <a href="">@ViewBag.Ho@ViewBag.Ten</a>
+                        <a href="">@ViewBag.Ho @ViewBag.Ten</a>
 
                         <svg width="18" height="18"><use xlink:href="/content/mogi.svg#check-circle-o"></use></svg>
                     </div>
                     <div class="agent-date">Đã tham gia: @String.Format("{0:dd/MM/yyyy}", ViewBag.NgayThamGia)</div>
                 </div>
+                <h2 class="info-title">Tiện ích xung quanh</h2>
+                <div id="map" style="width: 100%; height: 400px;"></div>
 
             </div>
         </div>
@@ -88,21 +97,45 @@
         <div class="side-bar">
             <div class="agent-widget widget">
                 <div class="agent-info">
-                    <img src="/images/avatar.png" alt="">
+                    @if (!string.IsNullOrEmpty(userAvt))
+                    {
+                        <img src="@ViewBag.Avt" width="16" height="16" style="display:inline-block" />
+                    }
+                    else
+                    {
+                        <img src="~/images/avatar.png" width="16" height="16" style="display:inline-block" />
+                    }
                     <div class="agent-name">
-                        <a href="">@ViewBag.Ho@ViewBag.Ten</a>
+                        <a href="">@ViewBag.Ho @ViewBag.Ten</a>
                     </div>
                     <div class="agent-date">Đã tham gia: @String.Format("{0:dd/MM/yyyy}", ViewBag.NgayThamGia)</div>
                 </div>
                 <div class="agent-contact clearfix">
                     <a href="#">
-                        <img width="16" height="16" style="display:inline-block" src="~/images/phoneicon.png" />
+                        <img src="~/images/phoneicon.png" width="16" height="16" style="display:inline-block" />
                         <span class="ng-binding">@ViewBag.SDT</span>
                     </a>
-                    <a href="#" data-toggle="modal" data-target="#message" gtm-event="link" gtm-cat="detail" gtm-act="ask" ng-click="Message.Open()">
+                    <a href="#" id="sendMessageLink">
                         <svg width="24" height="24"><use xlink:href="/content/mogi.svg#envelop-icon"></use></svg>
                         <span class="hidden-xs">Gửi tin nhắn</span>
                     </a>
+
+                    @*<div id="messageForm" class="hiddenPopup">
+                        <form asp-action="SendMessage" id="messageForm">
+                            <input type="hidden" name="usermail" value="@ViewBag.Mail" />
+                            <!-- Trường họ tên -->
+                            <input type="text" name="fullName" placeholder="Họ tên">
+
+                            <!-- Trường địa chỉ email -->
+                            <input type="email" name="email" placeholder="Địa chỉ email">
+
+                            <!-- Trường số điện thoại -->
+                            <input type="tel" name="phoneNumber" placeholder="Số điện thoại">
+
+                            <!-- Nút Submit -->
+                            <button type="submit">Gửi</button>
+                        </form>
+                    </div>*@
                 </div>
             </div>
 
@@ -112,34 +145,56 @@
                 }*@
                 <div class="DatMua" style="display: inline-block; justify-content: flex-end">
                     @if (ViewBag.IsYeuThich)
-                {
+                    {
                         <div class="SaveAd_saveAdWrapper___sBMh AdItem_saveAd__3prt2 ">
                             <a href="@Url.Action("XoaYeuThich", "YeuThich", new { id = Model.RoomId })" id="btn_save_ad" onclick="" type="button" class="SaveAd_btnSavedAd__jwoYd ">
                                 <img id="img_save_ad" height="20" width="20" src="https://static.chotot.com/storage/icons/saveAd/save-ad-active.svg" alt="like" loading="lazy" data-saved="false">
                             </a>
                         </div>
-@*                <a title="Xóa khỏi yêu thích" class="btn-add-cat btn btn-outline-secondary fa fa-heart text-danger" href="@Url.Action("XoaYeuThich", "YeuThich", new { id = Model.RoomId })"></a>*@
-                }
-                else
-                {
+                        @*                <a title="Xóa khỏi yêu thích" class="btn-add-cat btn btn-outline-secondary fa fa-heart text-danger" href="@Url.Action("XoaYeuThich", "YeuThich", new { id = Model.RoomId })"></a>*@
+                    }
+                    else
+                    {
                         <div class="SaveAd_saveAdWrapper___sBMh AdItem_saveAd__3prt2 ">
                             <a href="@Url.Action("LuuYeuThich", "YeuThich", new { id = Model.RoomId })" id="btn_save_ad" onclick="" type="button" class="SaveAd_btnSavedAd__jwoYd ">
                                 <img id="img_save_ad" height="20" width="20" src="https://static.chotot.com/storage/icons/saveAd/save-ad.svg" alt="like" loading="lazy" data-saved="false">
                             </a>
                         </div>
-                @*<div class="DatMua" style="display: inline-block; justify-content: flex-end">
-                <a title="Thêm vào yêu thích" class="btn-add-cat btn btn-outline-secondary fa fa-heart text-black" href="@Url.Action("LuuYeuThich", "YeuThich", new { id = Model.RoomId })"></a>
-                </div>*@
-                }
+                    }
                 </div>
-                @*<div class="DatMua" style="display: inline-block; justify-content: flex-end">
-                <a title="Đặt hàng" class="btn-add-cat btn btn-outline-secondary fa fa-shopping-cart text-black " href="@Url.Action("LuuYeuThich", "YeuThich", new { id = Model.RoomId })"></a>
-                </div>
-                <div class="DatMua" style="display: inline-block; justify-content: flex-end">
-                <a title="Đặt hàng" class="btn-add-cat btn btn-outline-secondary fa fa-shopping-cart text-black " href="@Url.Action("XoaYeuThich", "YeuThich", new { id = Model.RoomId })"></a>
-                </div>*@
             </div>
         </div>
     </div>
 </div>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWTx7bREpM5B6JKdbzOvMW-RRlhkukmVE&callback=initMap" async defer></script>
+<script>
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 12,
+            center: { lat: 10.123, lng: 20.456 } // Thay thế bằng tọa độ lat-lng mong muốn
+        });
+
+        var address = "";
+
+        if ("@Model.StreetNumber") {
+            address += "@Model.StreetNumber, ";
+        }
+
+        address += "@Model.Street, @Model.Ward, @Model.District, @Model.City";
+
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ address: address }, function (results, status) {
+            if (status === google.maps.GeocoderStatus.OK) {
+                map.setCenter(results[0].geometry.location);
+
+                var marker = new google.maps.Marker({
+                    map: map,
+                    position: results[0].geometry.location
+                });
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    }
+</script>
 
