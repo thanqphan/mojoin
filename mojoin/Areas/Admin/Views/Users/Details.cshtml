@@ -19,8 +19,8 @@
         <div class="row">
             <h3 class="card-title col-md-8">Thông tin Người dùng</h3>
             <div class="col-md-4 text-right">
-                <a class="btn btn-info btn-tone m-r-5" asp-action="Index">Back to list</a>
-                <a class="btn btn-warning btn-tone m-r-5" asp-action="Edit" asp-route-id="@Model.UserId">Edit</a>
+                <a class="btn btn-info btn-tone m-r-5" asp-action="Index">Quay lại danh sách</a>
+                <a class="btn btn-warning btn-tone m-r-5" asp-action="Edit" asp-route-id="@Model.UserId">Chỉnh sửa</a>
             </div>
         </div>
         <div class="table-responsive">
@@ -66,23 +66,23 @@
                         <td>@Model.Address</td>
                     </tr>
                     <tr>
-                        <td> Giới tính:</td>
-                            @{
-                                string gender = string.Empty;
-                                if (Model.Sex == "0")
-                                {
-                                    gender = "Nam";
-                                }
-                                else if (Model.Sex == "1")
-                                {
-                                    gender = "Nữ";
-                                }
-                                else if (Model.Sex == "2")
-                                {
-                                    gender = "Khác";
-                                }
+                        <td>Giới tính:</td>
+                        @{
+                            string gender = string.Empty;
+                            if (Model.Sex == "0")
+                            {
+                                gender = "Nam";
                             }
-                            <td>@gender</td>
+                            else if (Model.Sex == "1")
+                            {
+                                gender = "Nữ";
+                            }
+                            else if (Model.Sex == "2")
+                            {
+                                gender = "Khác";
+                            }
+                        }
+                        <td>@gender</td>
                     </tr>
                     <tr>
                         <td>Ngày sinh:</td>
@@ -98,18 +98,21 @@
                     </tr>
                     <tr>
                         <td>Trạng thái hoạt động:</td>
-                        @if (Model.IsActive == true)
-                        {
-                            <td>Đang hoạt động</td>
+                        @{
+                            string status = "Chưa xác định";
+                            if (Model.IsActive.HasValue)
+                            {
+                                if (Model.IsActive.Value)
+                                {
+                                    status = "Đang hoạt động";
+                                }
+                                else
+                                {
+                                    status = "Ngừng hoạt động";
+                                }
+                            }
                         }
-                        else if (Model.IsActive == false)
-                        {
-                            <td>Ngưng hoạt động</td>
-                        }
-                        else
-                        {
-                            <td>Chưa xác định</td>
-                        }
+                        <td>@status</td>
                     </tr>
                     <tr>
                         <td>InfoZalo:</td>
@@ -119,7 +122,6 @@
                         <td>InfoFacebook:</td>
                         <td>@Model.InfoFacebook</td>
                     </tr>
-
                     <tr>
                         <td>Ngày tạo:</td>
                         <td>@Model.CreateDate</td>
@@ -129,4 +131,3 @@
         </div>
     </div>
 </div>
-

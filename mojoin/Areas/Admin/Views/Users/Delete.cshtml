@@ -28,7 +28,7 @@
                         <h3 class="card-title">Tiến hành xóa người dùng </h3>
                     </div>
                     <div class="col-md-4 text-black text-right">
-                        <a class="btn btn-info btn-tone btn-sm" asp-action="Index"> Back to List</a>
+                        <a class="btn btn-info btn-tone btn-sm" asp-action="Index"> Quay lại danh sách</a>
                     </div>
                 </div>
             </div>
@@ -44,7 +44,7 @@
                 </dl>
                 <dl class="row">
                     <dt class="col-sm-2">
-                        Tên 
+                        Tên
                     </dt>
                     <dd class="col-sm-10">
                         @Html.DisplayFor(model => model.FirstName)
@@ -79,18 +79,22 @@
                         Giới tính
                     </dt>
                     <dd class="col-sm-10">
-                        @if (Model.Sex == "0")
-                        {
-                            <span>Nam</span>
+                        @{
+                            string gender = string.Empty;
+                            if (Model.Sex == "0")
+                            {
+                                gender = "Nam";
+                            }
+                            else if (Model.Sex == "1")
+                            {
+                                gender = "Nữ";
+                            }
+                            else if (Model.Sex == "2")
+                            {
+                                gender = "Khác";
+                            }
                         }
-                        else if (Model.Sex == "1")
-                        {
-                            <span>Nữ</span>
-                        }
-                        else if (Model.Sex == "2")
-                        {
-                            <span>Khác</span>
-                        }
+                        <span>@gender</span>
                     </dd>
                 </dl>
                 <dl class="row">
@@ -111,7 +115,7 @@
                 </dl>
                 <dl class="row">
                     <dt class="col-sm-2">
-                       Avatar
+                        Avatar
                     </dt>
                     <dd class="col-sm-10">
                         @Html.DisplayFor(model => model.Avatar)
@@ -133,7 +137,7 @@
                         @Html.DisplayFor(model => model.InfoFacebook)
                     </dd>
                 </dl>
-                
+
                 <dl class="row">
                     <dt class="col-sm-2">
                         Ngày tạo

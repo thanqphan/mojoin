@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using mojoin.Helper;
 using mojoin.Models;
 
 namespace mojoin.Areas.Admin.Controllers
@@ -17,58 +20,56 @@ namespace mojoin.Areas.Admin.Controllers
     public class UsersController : Controller
     {
         private readonly DbmojoinContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
         public INotyfService _notyfService { get; }
 
-        public UsersController(DbmojoinContext context, INotyfService notyfService)
+        public UsersController(DbmojoinContext context, INotyfService notyfService, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
             _notyfService = notyfService;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         //GET: Admin/Users
         public async Task<IActionResult> Index(int? roleFilter)
         {
-            IQueryable<User> users = _context.Users; // Lấy toàn bộ danh sách User
+            IQueryable<User> users = _context.Users;
 
             if (roleFilter.HasValue)
             {
-                users = users.Where(u => u.RolesId == roleFilter); // Lọc theo RoleID được chọn
+                users = users.Where(u => u.RolesId == roleFilter);
             }
 
-            // Gửi danh sách quyền và danh sách User tới View
             ViewData["lstRole"] = GetRoleAcc();
             ViewData["lstrangthaihoatdong"] = GetTrangThaiHoatDong();
 
             return View(await users.ToListAsync());
         }
+
         private List<SelectListItem> GetRoleAcc()
         {
             List<SelectListItem> lstRole = new List<SelectListItem>
-    {
-        new SelectListItem() { Text = "Admin", Value = "1" },
-        new SelectListItem() { Text = "Staff", Value = "2" },
+            {
+                new SelectListItem() { Text = "Admin", Value = "1" },
+                new SelectListItem() { Text = "Staff", Value = "2" },
                 new SelectListItem() { Text = "User", Value = "3" }
-
-    };
+            };
 
             return lstRole;
         }
+
         private List<SelectListItem> GetTrangThaiHoatDong()
         {
             List<SelectListItem> lstrangthaihoatdong = new List<SelectListItem>
-    {
-        new SelectListItem() { Text = "Đang hoạt động", Value = "0" },
-        new SelectListItem() { Text = "Tạm ngưng", Value = "1" }
-    };
+            {
+                new SelectListItem() { Text = "Đang hoạt động", Value = "0" },
+                new SelectListItem() { Text = "Tạm ngưng", Value = "1" }
+            };
 
             return lstrangthaihoatdong;
         }
 
-
-
-        //GET: Admin/Users
-
-
+        //GET: Admin/Users/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -76,9 +77,7 @@ namespace mojoin.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users
-
-                .FirstOrDefaultAsync(m => m.UserId == id);
+            var user = await _context.Users.FirstOrDefaultAsync(m => m.UserId == id);
             if (user == null)
             {
                 return NotFound();
@@ -87,10 +86,7 @@ namespace mojoin.Areas.Admin.Controllers
             return View(user);
         }
 
-
-
         // GET: Admin/Users/Create
-
         public IActionResult Create()
         {
             ViewData["RolesId"] = new SelectList(_context.Roles, "RolelD", "RoleName");
@@ -98,28 +94,26 @@ namespace mojoin.Areas.Admin.Controllers
         }
 
         // POST: Admin/Users/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(User taiKhoan)
+        public async Task<IActionResult> Create(User tk)
         {
             if (ModelState.IsValid)
             {
                 User user = new User
                 {
-                    RolesId = taiKhoan.RolesId,
-                    FirstName = taiKhoan.FirstName,
-                    LastName = taiKhoan.LastName,
-                    Phone = taiKhoan.Phone,
-                    Email = taiKhoan.Email,
-                    Address = taiKhoan.Address,
-                    Sex = taiKhoan.Sex,
-                    Dateofbirth = taiKhoan.Dateofbirth,
-                    Password = taiKhoan.Password,
+                    RolesId = tk.RolesId,
+                    FirstName = tk.FirstName,
+                    LastName = tk.LastName,
+                    Phone = tk.Phone,
+                    Email = tk.Email,
+                    Address = tk.Address,
+                    Sex = tk.Sex,
+                    Dateofbirth = tk.Dateofbirth,
+                    Password = tk.Password,
                     IsActive = true,
-                    InfoFacebook = taiKhoan.InfoFacebook,
-                    InfoZalo = taiKhoan.InfoZalo,
+                    InfoFacebook = tk.InfoFacebook,
+                    InfoZalo = tk.InfoZalo,
                     CreateDate = DateTime.Now,
                 };
                 _context.Add(user);
@@ -127,15 +121,14 @@ namespace mojoin.Areas.Admin.Controllers
                 _notyfService.Success("Thêm mới thành công!");
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["QuyenTruyCap"] = new SelectList(_context.Roles, "RolesId", "RoleName", taiKhoan.RolesId);
-            return View(taiKhoan);
+            ViewData["QuyenTruyCap"] = new SelectList(_context.Roles, "RolesId", "RoleName", tk.RolesId);
+            return RedirectToAction("Index");
         }
-
 
         // GET: Admin/Users/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Users == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -150,8 +143,8 @@ namespace mojoin.Areas.Admin.Controllers
             return View(user);
         }
 
-
         // POST: Admin/Users/Edit/5
+        // POST: Admin/Staff/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -182,7 +175,6 @@ namespace mojoin.Areas.Admin.Controllers
                     if (result > 0)
                     {
                         _notyfService.Success("Cập nhật người dùng thành công!");
-                        return RedirectToAction(nameof(Index));
                     }
                     else
                     {
@@ -203,10 +195,7 @@ namespace mojoin.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RolesId"] = new SelectList(_context.Roles, "RolelD", "RolelD", user.RolesId);
-            _notyfService.Error("Có lỗi xảy ra.");
-            return View(user);
-
+            ViewData["RolesId"] = new SelectList(_context.Roles, "RolelD", "RolelD", user.RolesId); return View(user);
         }
 
         // GET: Admin/Users/Delete/5
@@ -217,9 +206,7 @@ namespace mojoin.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users
-
-                .FirstOrDefaultAsync(m => m.UserId == id);
+            var user = await _context.Users.FirstOrDefaultAsync(m => m.UserId == id);
             if (user == null)
             {
                 return NotFound();
@@ -228,39 +215,30 @@ namespace mojoin.Areas.Admin.Controllers
             return View(user);
         }
 
-
         // POST: Admin/Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-
-            if (_context.Users == null)
-            {
-                return Problem("Entity set 'DbmojoinContext.Roles'  is null.");
-            }
             var user = await _context.Users.FindAsync(id);
-            if (user != null)
-            {
-                _context.Users.Remove(user);
-            }
+            _context.Users.Remove(user);
             await _context.SaveChangesAsync();
             _notyfService.Success("Xóa thành công!");
             return RedirectToAction(nameof(Index));
         }
 
-        //public string ProcessUpload(HttpPostedFileBase file)
-        //{
-        //    if (file == null)
-        //    {
-        //        return "";
-        //    }
-        //    file.SaveAs(Server.MapPath("~/Content/images/" + file.FileName));
-        //    return "/Content/images/" + file.FileName;
-        //}
         private bool UserExists(int id)
         {
             return _context.Users.Any(e => e.UserId == id);
+        }
+
+        private string GetUniqueFileName(string fileName)
+        {
+            fileName = Path.GetFileName(fileName);
+            return Path.GetFileNameWithoutExtension(fileName)
+                       + "_"
+                       + Guid.NewGuid().ToString().Substring(0, 4)
+                       + Path.GetExtension(fileName);
         }
     }
 }

@@ -169,46 +169,46 @@ namespace mojoin.Areas.Admin.Controllers
             ViewData["RolesId"] = new SelectList(_context.Roles, "RolelD", "RolelD", user.RolesId); return View(user);
         }
 
-        // GET: Admin/Client/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Users == null)
-            {
-                return NotFound();
-            }
+		// GET: Admin/Client/Delete/5
+		public async Task<IActionResult> Delete(int? id)
+		{
+			if (id == null || _context.Users == null)
+			{
+				return NotFound();
+			}
 
-            var user = await _context.Users
-                .Include(u => u.Roles)
-                .FirstOrDefaultAsync(m => m.UserId == id);
-            if (user == null)
-            {
-                return NotFound();
-            }
+			var user = await _context.Users
+				.Include(u => u.Roles)
+				.FirstOrDefaultAsync(m => m.UserId == id);
+			if (user == null)
+			{
+				return NotFound();
+			}
 
-            return View(user);
-        }
+			return View(user);
+		}
 
-        // POST: Admin/Client/Delete/5
-        [HttpPost, ActionName("Delete")]
+		// POST: Admin/Client/Delete/5
+		[HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
+		public async Task<IActionResult> DeleteConfirmed(int id)
+		{
 
-            if (_context.Users == null)
-            {
-                return Problem("Entity set 'DbmojoinContext.Roles'  is null.");
-            }
-            var user = await _context.Users.FindAsync(id);
-            if (user != null)
-            {
-                _context.Users.Remove(user);
-            }
-            await _context.SaveChangesAsync();
-            _notyfService.Success("Xóa thành công!");
-            return RedirectToAction(nameof(Index));
-        }
+			if (_context.Users == null)
+			{
+				return Problem("Entity set 'DbmojoinContext.Roles'  is null.");
+			}
+			var user = await _context.Users.FindAsync(id);
+			if (user != null)
+			{
+				_context.Users.Remove(user);
+			}
+			await _context.SaveChangesAsync();
+			_notyfService.Success("Xóa thành công!");
+			return RedirectToAction(nameof(Index));
+		}
 
-        private bool UserExists(int id)
+		private bool UserExists(int id)
         {
           return (_context.Users?.Any(e => e.UserId == id)).GetValueOrDefault();
         }
