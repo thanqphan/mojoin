@@ -61,9 +61,9 @@ public partial class Room
     public virtual ICollection<RoomRating> RoomRatings { get; set; } = new List<RoomRating>();
 
     public virtual ICollection<RoomReport> RoomReports { get; set; } = new List<RoomReport>();
-
+    [ValidateNever]
     public virtual RoomType RoomType { get; set; } = null!;
-    
+    [ValidateNever]
     public virtual User User { get; set; } = null!;
 
 }

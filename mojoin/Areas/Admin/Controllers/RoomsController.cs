@@ -169,6 +169,136 @@ namespace mojoin.Areas.Admin.Controllers
         }
 
         // GET: Admin/Rooms/Edit/5
+        //     public async Task<IActionResult> Edit(int? id)
+        //     {
+        //         if (id == null || _context.Rooms == null)
+        //         {
+        //             return NotFound();
+        //         }
+
+        //         var room = await _context.Rooms.FindAsync(id);
+        //         if (room == null)
+        //         {
+        //             return NotFound();
+        //         }
+        //var roomimage = await _context.RoomImages.ToListAsync();
+        //         var viewModel = new RoomPostViewModel
+        //         {
+        //             RoomId = room.RoomId,
+        //	RoomTypeId = room.RoomTypeId,
+        //	Title = room.Title,
+        //             Description = room.Description,
+        //             Price   = room.Price,
+        //             Area    = room.Area,
+        //             NumRooms = room.NumRooms,
+        //             NumBathrooms    = room.NumBathrooms,
+        //             LastUpdate = DateTime.Now,
+        //             IsActive = room.IsActive,
+        //             StreetNumber= room.StreetNumber,
+        //             Street  = room.Street,
+        //             Ward = room.Ward,
+        //             District= room.District,
+        //             City= room.City,
+        //	HasRefrigerator = room.HasRefrigerator,
+        //	HasAirConditioner = room.HasAirConditioner,
+        //	HasWasher = room.HasWasher,
+        //	HasElevator = room.HasElevator,
+        //	HasParking = room.HasParking,
+        //	ViewCount = room.ViewCount,
+        //};
+        //ViewData["RoomTypeId"] = new SelectList(_context.RoomTypes, "RoomTypeId", "TypeName", room.RoomTypeId);
+        //         return View(viewModel);
+        //     }
+
+        //     // POST: Admin/Rooms/Edit/5
+        //     // To protect from overposting attacks, enable the specific properties you want to bind to.
+        //     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //     [HttpPost]
+        //     [ValidateAntiForgeryToken]
+        //     public async Task<IActionResult> Edit(int id, [Bind("RoomId,RoomTypeId,Title,Description,Price,Area,NumRooms,NumBathrooms,CreateDate,LastUpdate,IsActive,StreetNumber,Street,Ward,District,City,HasRefrigerator,HasAirConditioner,HasWasher,HasElevator,HasParking,ViewCount,Files")] RoomPostViewModel room)
+        //     {
+        //         if (id != room.RoomId)
+        //         {
+        //             return NotFound();
+        //         }
+        //         if (ModelState.IsValid)
+        //         {
+        //             try
+        //             {
+        //                 int result = await _context.Rooms.Where(x => x.RoomId == room.RoomId).ExecuteUpdateAsync(x =>
+        //                 x.SetProperty(p => p.RoomTypeId, room.RoomTypeId)
+        //                 .SetProperty(p => p.Title, room.Title)
+        //                 .SetProperty(p => p.Description, room.Description)
+        //                 .SetProperty(p => p.Price, room.Price)
+        //                 .SetProperty(p => p.Area, room.Area)
+        //                 .SetProperty(p => p.NumRooms, room.NumRooms)
+        //                 .SetProperty(p => p.NumBathrooms, room.NumBathrooms)
+        //                 .SetProperty(p => p.LastUpdate, DateTime.Now)
+        //                 .SetProperty(p => p.IsActive, room.IsActive)
+        //                 .SetProperty(p => p.StreetNumber, room.StreetNumber)
+        //                 .SetProperty(p => p.Street, room.Street)
+        //                 .SetProperty(p => p.Ward, room.Ward)
+        //                 .SetProperty(p => p.District, room.District)
+        //                 .SetProperty(p => p.City, room.City)
+        //                 .SetProperty(p => p.HasRefrigerator, room.HasRefrigerator)
+        //                 .SetProperty(p => p.HasAirConditioner, room.HasAirConditioner)
+        //                 .SetProperty(p => p.HasWasher, room.HasWasher)
+        //                 .SetProperty(p => p.HasElevator, room.HasElevator)
+        //                 .SetProperty(p => p.HasParking, room.HasParking)
+        //                 .SetProperty(p => p.ViewCount, room.ViewCount));
+
+        //                 if (result > 0)
+        //                 {
+        //                     _notyfService.Success("Cập nhật phòng thành công!");
+        //                 }
+        //                 else
+        //                 {
+        //                     _notyfService.Success("Không tìm thấy room tương ứng!");
+        //                 }
+
+        //                 await _context.SaveChangesAsync();
+
+        //                 int index = 1;
+
+        //                 var images = await _context.RoomImages.Where(x => x.RoomId == room.RoomId).ToListAsync();
+        //                 images.ForEach(item => _context.RoomImages.Remove(item));
+        //                 await _context.SaveChangesAsync();
+
+        //                 foreach (var file in room.Files)
+        //                 {
+        //                     var fileName = $"img{room.RoomId}-{index++}.{file.FileName.Split('.')[1]}";
+        //                     var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
+        //                     using (var fileStream = new FileStream(filePath, FileMode.Create))
+        //                     {
+        //                         await file.CopyToAsync(fileStream);
+        //                     }
+
+        //                     await _context.RoomImages.AddAsync(new RoomImage
+        //                     {
+        //                         RoomId = room.RoomId,
+        //                         Image = $"/images/{fileName}"
+        //                     });
+        //                 }
+        //                 await _context.SaveChangesAsync();
+        //             }
+        //             catch (DbUpdateConcurrencyException)
+        //             {
+        //                 if (!RoomExists(room.RoomId))
+        //                 {
+        //                     _notyfService.Success("Có lỗi xảy ra!");
+        //                     return NotFound();
+        //                 }
+        //                 else
+        //                 {
+        //                     throw;
+        //                 }
+        //             }
+        //             return RedirectToAction(nameof(Index), new { isActive = HttpContext.Session.GetInt32("RoomsParams") });
+        //         }
+
+        //         ViewData["RoomTypeId"] = new SelectList(_context.RoomTypes, "RoomTypeId", "TypeName", room.RoomTypeId);
+        //         return View(room);
+        //     }
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Rooms == null)
@@ -181,33 +311,8 @@ namespace mojoin.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-			var roomimage = await _context.RoomImages.ToListAsync();
-            var viewModel = new RoomPostViewModel
-            {
-                RoomId = room.RoomId,
-				RoomTypeId = room.RoomTypeId,
-				Title = room.Title,
-                Description = room.Description,
-                Price   = room.Price,
-                Area    = room.Area,
-                NumRooms = room.NumRooms,
-                NumBathrooms    = room.NumBathrooms,
-                LastUpdate = DateTime.Now,
-                IsActive = room.IsActive,
-                StreetNumber= room.StreetNumber,
-                Street  = room.Street,
-                Ward = room.Ward,
-                District= room.District,
-                City= room.City,
-				HasRefrigerator = room.HasRefrigerator,
-				HasAirConditioner = room.HasAirConditioner,
-				HasWasher = room.HasWasher,
-				HasElevator = room.HasElevator,
-				HasParking = room.HasParking,
-				ViewCount = room.ViewCount,
-			};
-			ViewData["RoomTypeId"] = new SelectList(_context.RoomTypes, "RoomTypeId", "TypeName", room.RoomTypeId);
-            return View(viewModel);
+            ViewData["RoomTypeId"] = new SelectList(_context.RoomTypes, "RoomTypeId", "TypeName", room.RoomTypeId);
+            return View(room);
         }
 
         // POST: Admin/Rooms/Edit/5
@@ -215,7 +320,7 @@ namespace mojoin.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RoomId,RoomTypeId,Title,Description,Price,Area,NumRooms,NumBathrooms,CreateDate,LastUpdate,IsActive,StreetNumber,Street,Ward,District,City,HasRefrigerator,HasAirConditioner,HasWasher,HasElevator,HasParking,ViewCount,Files")] RoomPostViewModel room)
+        public async Task<IActionResult> Edit(int id, [Bind("RoomId,UserId,RoomTypeId,Title,Description,Price,Area,NumRooms,NumBathrooms,CreateDate,LastUpdate,IsActive,StreetNumber,Street,Ward,District,City,HasRefrigerator,HasAirConditioner,HasWasher,HasElevator,HasParking,ViewCount")] Room room)
         {
             if (id != room.RoomId)
             {
@@ -246,7 +351,6 @@ namespace mojoin.Areas.Admin.Controllers
                     .SetProperty(p => p.HasElevator, room.HasElevator)
                     .SetProperty(p => p.HasParking, room.HasParking)
                     .SetProperty(p => p.ViewCount, room.ViewCount));
-
                     if (result > 0)
                     {
                         _notyfService.Success("Cập nhật phòng thành công!");
@@ -255,31 +359,6 @@ namespace mojoin.Areas.Admin.Controllers
                     {
                         _notyfService.Success("Không tìm thấy room tương ứng!");
                     }
-
-                    await _context.SaveChangesAsync();
-
-                    int index = 1;
-
-                    var images = await _context.RoomImages.Where(x => x.RoomId == room.RoomId).ToListAsync();
-                    images.ForEach(item => _context.RoomImages.Remove(item));
-                    await _context.SaveChangesAsync();
-
-                    foreach (var file in room.Files)
-                    {
-                        var fileName = $"img{room.RoomId}-{index++}.{file.FileName.Split('.')[1]}";
-                        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
-                        using (var fileStream = new FileStream(filePath, FileMode.Create))
-                        {
-                            await file.CopyToAsync(fileStream);
-                        }
-
-                        await _context.RoomImages.AddAsync(new RoomImage
-                        {
-                            RoomId = room.RoomId,
-                            Image = $"/images/{fileName}"
-                        });
-                    }
-                    await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -299,7 +378,6 @@ namespace mojoin.Areas.Admin.Controllers
             ViewData["RoomTypeId"] = new SelectList(_context.RoomTypes, "RoomTypeId", "TypeName", room.RoomTypeId);
             return View(room);
         }
-
         // GET: Admin/Rooms/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {

@@ -1,4 +1,4 @@
-﻿@model mojoin.ViewModel.RoomPostViewModel
+﻿@model mojoin.Models.Room
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
@@ -11,11 +11,11 @@
         <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="RoomId" />
-            <div class="form-group" id="preview">
+            @*<div class="form-group" id="preview">
                 
                 <h2>Upload Multiple Image</h2>
                 <input id="file-input" name="Files" type="file" multiple="multiple" accept="image/*" />
-            </div>
+            </div>*@
 
             <div class="form-group">
                 <label class="control-label">RoomType</label>
@@ -123,67 +123,7 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-<script>
-    function previewImages() {
-        var preview = document.querySelector('#preview');
-        // Lưu trữ các tên file đã được chọn
-        var selectedFiles = [];
-        if (this.files) {
-            // Xóa tất cả các ảnh đã hiển thị trước đó
 
-
-            [].forEach.call(this.files, readAndPreview);
-        }
-
-        function readAndPreview(file) {
-            // Kiểm tra nếu file không phải là file ảnh thì bỏ qua
-            if (!/\.(jpe?g|png|gif)$/i.test(file.name)) {
-                return alert(file.name + " không phải là file ảnh");
-            }
-
-            // Kiểm tra xem file đã được chọn trước đó hay chưa
-            if (selectedFiles.includes(file.name)) {
-                return alert(file.name + " đã được chọn trước đó");
-            }
-            // Thêm tên file vào mảng selectedFiles
-            selectedFiles.push(file.name);
-
-            var reader = new FileReader();
-
-            reader.addEventListener("load", function () {
-                var image = new Image();
-                image.height = 100;
-                image.title = file.name;
-                image.src = this.result;
-
-                // Tạo một div để chứa ảnh và nút xóa
-                var container = document.createElement('div');
-                container.className = 'image-container';
-
-                // Thêm ảnh và nút xóa vào div container
-                container.appendChild(image);
-                var removeButton = document.createElement('button');
-                removeButton.innerHTML = 'X';
-                removeButton.className = 'remove-image-button';
-                removeButton.addEventListener('click', function () {
-                    // Xóa ảnh khỏi div preview và cập nhật lại mảng selectedFiles
-                    preview.removeChild(container);
-                    selectedFiles = selectedFiles.filter(function (name) {
-                        return name !== file.name;
-                    });
-                });
-                container.appendChild(removeButton);
-
-                // Thêm div container vào div preview
-                preview.appendChild(container);
-            });
-
-            reader.readAsDataURL(file);
-        }
-    }
-
-    document.querySelector('#file-input').addEventListener("change", previewImages);
-</script>
 <script src="~/js/navbuttons.js"></script>
 <script src="~/js/getaddresses.js"></script>
 <script src="~/js/getroomtype.js"></script>
