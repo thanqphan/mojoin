@@ -18,6 +18,18 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Title)
         </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RoomImages)
+        </dt>
+        <dd class="col-sm-10">
+            @foreach (var image in Model.RoomImages)
+            {
+                <img src="@image.Image" width="300px" />
+            }
+        </dd>
+
+
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Description)
         </dt>

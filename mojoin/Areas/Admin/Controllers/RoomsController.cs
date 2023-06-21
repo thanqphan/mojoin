@@ -6,10 +6,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using mojoin.Extension;
 using mojoin.Models;
+using mojoin.ViewModel;
 using System.Data;
 using System.Security.Claims;
 using XAct.Library.Settings;
 using XAct.Users;
+using System.Web;
+
 
 namespace mojoin.Areas.Admin.Controllers
 {
@@ -83,10 +86,14 @@ namespace mojoin.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+            var roomImages = await _context.RoomImages
+            .Where(ri => ri.RoomId == id)
+            .ToListAsync();
+            ViewBag.RoomImages = roomImages;
             var us = room.UserId;
             var userName = await _context.Users.FirstOrDefaultAsync(u => u.UserId == us);
             ViewData["UserName"] = new SelectList(_context.Users, "UserId", "FirstName");
-            ViewData["RoomTypeName"] = room.RoomType?.TypeName;
+            
             ViewBag.RoomsParams = HttpContext.Session.GetInt32("RoomsParams");
             return View(room);
         }
@@ -103,12 +110,11 @@ namespace mojoin.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RoomId,RoomTypeId,Title,Description,Price,Area,NumRooms,NumBathrooms,CreateDate,LastUpdate,IsActive,StreetNumber,Street,Ward,District,City,HasRefrigerator,HasAirConditioner,HasWasher,HasElevator,HasParking,ViewCount")] Room room)
+        public async Task<IActionResult> Create([Bind("RoomId,RoomTypeId,Title,Description,Price,Area,NumRooms,NumBathrooms,CreateDate,LastUpdate,IsActive,StreetNumber,Street,Ward,District,City,HasRefrigerator,HasAirConditioner,HasWasher,HasElevator,HasParking,ViewCount,Files")] RoomPostViewModel room)
         {
             if (ModelState.IsValid)
             {
-                /*var roomType = _context.RoomTypes.Find(room.RoomTypeId);*/
-                _context.Rooms.Add(new Room
+                var roomEntity = new Room
                 {
                     RoomTypeId = room.RoomTypeId,
                     /*RoomType = roomType.TypeName,*/
@@ -132,7 +138,27 @@ namespace mojoin.Areas.Admin.Controllers
                     ViewCount = room.ViewCount,
                     UserId = HttpContext.GetUserId(),
                     CreateDate = DateTime.Now
-                });
+                };
+                /*var roomType = _context.RoomTypes.Find(room.RoomTypeId);*/
+                _context.Rooms.Add(roomEntity);
+                await _context.SaveChangesAsync();
+                int index = 1;
+                foreach (var file in room.Files)
+                {
+                    //var fileName = $"{DateTime.Now.ToString("yyyyMMddHHmmssfff")}{Path.GetFileName(file.FileName)}";
+                    var fileName = $"img{roomEntity.RoomId}{index++}.{file.FileName.Split('.')[1]}";
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(fileStream);
+                    }
+                    await _context.RoomImages.AddAsync(new RoomImage
+                    {
+                        RoomId = roomEntity.RoomId,
+                        Image = $"/images/{fileName}"
+                    });
+                }
+
                 await _context.SaveChangesAsync();
                 _notyfService.Success("Tạo phòng thành công!");
                 return RedirectToAction(nameof(Index), new { isActive = HttpContext.Session.GetInt32("RoomsParams") });
@@ -155,8 +181,33 @@ namespace mojoin.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["RoomTypeId"] = new SelectList(_context.RoomTypes, "RoomTypeId", "TypeName", room.RoomTypeId);
-            return View(room);
+			var roomimage = await _context.RoomImages.ToListAsync();
+            var viewModel = new RoomPostViewModel
+            {
+                RoomId = room.RoomId,
+				RoomTypeId = room.RoomTypeId,
+				Title = room.Title,
+                Description = room.Description,
+                Price   = room.Price,
+                Area    = room.Area,
+                NumRooms = room.NumRooms,
+                NumBathrooms    = room.NumBathrooms,
+                LastUpdate = DateTime.Now,
+                IsActive = room.IsActive,
+                StreetNumber= room.StreetNumber,
+                Street  = room.Street,
+                Ward = room.Ward,
+                District= room.District,
+                City= room.City,
+				HasRefrigerator = room.HasRefrigerator,
+				HasAirConditioner = room.HasAirConditioner,
+				HasWasher = room.HasWasher,
+				HasElevator = room.HasElevator,
+				HasParking = room.HasParking,
+				ViewCount = room.ViewCount,
+			};
+			ViewData["RoomTypeId"] = new SelectList(_context.RoomTypes, "RoomTypeId", "TypeName", room.RoomTypeId);
+            return View(viewModel);
         }
 
         // POST: Admin/Rooms/Edit/5
@@ -164,7 +215,7 @@ namespace mojoin.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RoomId,UserId,RoomTypeId,Title,Description,Price,Area,NumRooms,NumBathrooms,CreateDate,LastUpdate,IsActive,StreetNumber,Street,Ward,District,City,HasRefrigerator,HasAirConditioner,HasWasher,HasElevator,HasParking,ViewCount")] Room room)
+        public async Task<IActionResult> Edit(int id, [Bind("RoomId,RoomTypeId,Title,Description,Price,Area,NumRooms,NumBathrooms,CreateDate,LastUpdate,IsActive,StreetNumber,Street,Ward,District,City,HasRefrigerator,HasAirConditioner,HasWasher,HasElevator,HasParking,ViewCount,Files")] RoomPostViewModel room)
         {
             if (id != room.RoomId)
             {
@@ -195,6 +246,7 @@ namespace mojoin.Areas.Admin.Controllers
                     .SetProperty(p => p.HasElevator, room.HasElevator)
                     .SetProperty(p => p.HasParking, room.HasParking)
                     .SetProperty(p => p.ViewCount, room.ViewCount));
+
                     if (result > 0)
                     {
                         _notyfService.Success("Cập nhật phòng thành công!");
@@ -203,6 +255,31 @@ namespace mojoin.Areas.Admin.Controllers
                     {
                         _notyfService.Success("Không tìm thấy room tương ứng!");
                     }
+
+                    await _context.SaveChangesAsync();
+
+                    int index = 1;
+
+                    result = await _context.RoomImages.Where(x => x.RoomId == room.RoomId).ExecuteUpdateAsync(x =>
+                    x.SetProperty(p => p.RoomId, -1));
+                    await _context.SaveChangesAsync();
+
+                    foreach (var file in room.Files)
+                    {
+                        var fileName = $"img{room.RoomId}{index++}.{file.FileName.Split('.')[1]}";
+                        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await file.CopyToAsync(fileStream);
+                        }
+
+                        await _context.RoomImages.AddAsync(new RoomImage
+                        {
+                            RoomId = room.RoomId,
+                            Image = $"/images/{fileName}"
+                        });
+                    }
+                    await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -240,6 +317,10 @@ namespace mojoin.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+            var roomImages = await _context.RoomImages
+            .Where(ri => ri.RoomId == id)
+            .ToListAsync();
+            ViewBag.RoomImages = roomImages;
 
             return View(room);
         }
@@ -328,6 +409,30 @@ namespace mojoin.Areas.Admin.Controllers
             }
             return RedirectToAction(nameof(Index), new { isActive });
         }
+        [HttpPost]
+        public ActionResult UploadMultipleImage(List<IFormFile> files)
+        {
+            foreach (var file in files)
+            {
+                if (file != null && file.Length > 0)
+                {
+                    string _FileName = Path.GetFileName(file.FileName);
+
+                    //string path = Path.Combine(Server.MapPath("~/images/"), _FileName);
+                    //if (System.IO.File.Exists(path))
+                    //{
+                    //    //nếu hình ảnh đã tồn tại, thì xóa ảnh cũ, cập nhật lại ảnh mới
+                    //    System.IO.File.Delete(path);
+                    //    file.SaveAs(path);
+                    //}
+                    //else
+                    //{
+                    //    file.SaveAs(path);
+                    //}
+                }
+            }
+            return RedirectToAction("Index");
+        }
     }
-    
+
 }

@@ -1,67 +1,54 @@
-﻿@model mojoin.Models.Room
+﻿@model mojoin.ViewModel.RoomPostViewModel
 
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    <link href="~/admin_assets/css/site.css" rel="stylesheet" />
 }
-
-<h1>Create</h1>
-
-<h4>Room</h4>
+<h1>Create Room</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <h2>Upload Multiple Image</h2>
 
-            @using (Html.BeginForm("UploadMultipleImage", "Home", FormMethod.Post, new { @enctype = "multipart/form-data" }))
-
-            {
-
-                @Html.TextBox("files", "", new { type = "file", multiple = "multiple", accept = "image/*" })
-
-                <br />
-
-                <div class="filearray">
-                </div>
-
-                <br />
-
-                <input type="submit" value="Upload" class="btn btn-default" />
-
-            }
+            <div class="form-group" id="preview">
+                <h2>Upload Multiple Image</h2>
+                <input id="file-input" name="Files" type="file" multiple="multiple" accept="image/*" />
+                
+            </div>
             <div class="form-group">
-                <label class="control-label">RoomType</label>
+                <label class="control-label">Loại phòng</label>
                 <select asp-for="RoomTypeId" class="form-control" asp-items="ViewBag.RoomTypeId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
+                <label class="control-label">Tiêu đề</label>
+                <input asp-for="Title" class="form-control"  placeholder="Nhập tiêu đề" />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+                <label  class="control-label">Mô tả</label>
+                <input asp-for="Description" class="form-control" rows="11" maxlength="3000 " />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
+            
             <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
+                <label  class="control-label">Giá</label>
                 <input asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Area" class="control-label"></label>
+                <label  class="control-label">Diện tích</label>
                 <input asp-for="Area" class="form-control" />
                 <span asp-validation-for="Area" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="NumRooms" class="control-label"></label>
+                <label  class="control-label">Số phòng ngủ</label>
                 <input asp-for="NumRooms" class="form-control" />
                 <span asp-validation-for="NumRooms" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="NumBathrooms" class="control-label"></label>
+                <label  class="control-label">Số phòng vệ sinh</label>
                 <input asp-for="NumBathrooms" class="form-control" />
                 <span asp-validation-for="NumBathrooms" class="text-danger"></span>
             </div>
@@ -72,102 +59,172 @@
             <span asp-validation-for="IsActive" class="text-danger"></span>
             </div>*@
             <div class="form-group">
-                <label asp-for="StreetNumber" class="control-label"></label>
-                <input asp-for="StreetNumber" class="form-control" />
-                <span asp-validation-for="StreetNumber" class="text-danger"></span>
+                <label class="control-label">Tỉnh thành</label>
+                
+                <select asp-for="City" id="city" class="form-control" onchange="onCityChange()" required>
+                    <option value="">Chọn thành phố</option>
+                </select>
+                <span asp-validation-for="City" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Street" class="control-label"></label>
-                <input asp-for="Street" class="form-control" />
-                <span asp-validation-for="Street" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Ward" class="control-label"></label>
-                <input asp-for="Ward" class="form-control" />
-                <span asp-validation-for="Ward" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="District" class="control-label"></label>
-                <input asp-for="District" class="form-control" />
+                <label class="control-label">Quận/Huyện</label>
+                <select asp-for=District id="district" class="form-control" onchange="onDistrictChange()" disabled required>
+                    <option value="">Chọn quận/huyện</option>
+                </select>
                 <span asp-validation-for="District" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="City" class="control-label"></label>
-                <input asp-for="City" class="form-control" />
-                <span asp-validation-for="City" class="text-danger"></span>
+                <label class="control-label">Phường/Xã</label>
+                <select asp-for=Ward id="ward" class="form-control" disabled required>
+                    <option value="">Chọn phường/xã</option>
+                </select>
+                <span asp-validation-for="Ward" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label  class="control-label">Đường</label>
+                <select asp-for=Street id="street" class="form-control" disabled required>
+                    <option value="">Chọn đường</option>
+                </select>
+                <span asp-validation-for="Street" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Số nhà</label>
+                <input asp-for="StreetNumber" class="form-control" />
+                <span asp-validation-for="StreetNumber" class="text-danger"></span>
+            
             <div class="form-check">
                 <input asp-for="HasRefrigerator" type="checkbox" class="form-check-input" />
-                <label asp-for="HasRefrigerator" class="form-check-label"></label>
+                <label class="form-check-label">Tủ lạnh</label>
                 <span asp-validation-for="HasRefrigerator" class="text-danger"></span>
             </div>
             <div class="form-check">
                 <input asp-for="HasAirConditioner" type="checkbox" class="form-check-input" />
-                <label asp-for="HasAirConditioner" class="form-check-label"></label>
+                <label class="form-check-label">Máy lạnh</label>
                 <span asp-validation-for="HasAirConditioner" class="text-danger"></span>
             </div>
             <div class="form-check">
                 <input asp-for="HasWasher" type="checkbox" class="form-check-input" />
-                <label asp-for="HasWasher" class="form-check-label"></label>
+                <label class="form-check-label">Máy giặt</label>
                 <span asp-validation-for="HasWasher" class="text-danger"></span>
             </div>
             <div class="form-check">
                 <input asp-for="HasElevator" type="checkbox" class="form-check-input" />
-                <label asp-for="HasElevator" class="form-check-label"></label>
+                <label class="form-check-label">Thang máy</label>
                 <span asp-validation-for="HasElevator" class="text-danger"></span>
             </div>
             <div class="form-check">
                 <input asp-for="HasParking" type="checkbox" class="form-check-input" />
-                <label asp-for="HasParking" class="form-check-label"></label>
+                <label class="form-check-label">Bãi xe</label>
                 <span asp-validation-for="HasParking" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
-                <label asp-for="ViewCount" class="control-label"></label>
-                <input asp-for="ViewCount" class="form-control" />
-                <span asp-validation-for="ViewCount" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                    <input type="submit" value="Create" class="btn btn-primary" /> <a asp-action="Index">Back to List</a>
             </div>
         </form>
+
     </div>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
-<script>
 
-    $(document).on('ready', () => {
+@*<script>
+    function previewImages() {
+        var preview = document.querySelector('#preview');
+        if (this.files) {
+            
+            
+            [].forEach.call(this.files, readAndPreview);
+        }
 
-        $("#files").on('change', function () {
-
-            $(".filearray").empty();
-
-            for (let i = 0; i < this.files.length; ++i) {
-
-                let filereader = new FileReader();
-
-                let $img = jQuery.parseHTML("<img width='150' height='100' src=''>");
-
-                filereader.onload = function () {
-
-                    $img[0].src = this.result;
-
-                };
-
-                filereader.readAsDataURL(this.files[i]);
-
-                $(".filearray").append($img);
-
+        function readAndPreview(file) {
+            // Kiểm tra nếu file không phải là file ảnh thì bỏ qua
+            if (!/\.(jpe?g|png|gif)$/i.test(file.name)) {
+                return alert(file.name + " không phải là file ảnh");
             }
 
-        });
+            var reader = new FileReader();
 
-    });
+            reader.addEventListener("load", function () {
+                var image = new Image();
+                image.height = 100;
+                image.title = file.name;
+                image.src = this.result;
+                preview.appendChild(image);
+            });
 
+            reader.readAsDataURL(file);
+        }
+    }
+
+    document.querySelector('#file-input').addEventListener("change", previewImages);
+</script>*@
+<script>
+    function previewImages() {
+        var preview = document.querySelector('#preview');
+        // Lưu trữ các tên file đã được chọn
+        var selectedFiles = [];
+        if (this.files) {
+            // Xóa tất cả các ảnh đã hiển thị trước đó
+           
+
+            [].forEach.call(this.files, readAndPreview);
+        }
+
+        function readAndPreview(file) {
+            // Kiểm tra nếu file không phải là file ảnh thì bỏ qua
+            if (!/\.(jpe?g|png|gif)$/i.test(file.name)) {
+                return alert(file.name + " không phải là file ảnh");
+            }
+
+            // Kiểm tra xem file đã được chọn trước đó hay chưa
+            if (selectedFiles.includes(file.name)) {
+                return alert(file.name + " đã được chọn trước đó");
+            }
+            // Thêm tên file vào mảng selectedFiles
+            selectedFiles.push(file.name);
+
+            var reader = new FileReader();
+
+            reader.addEventListener("load", function () {
+                var image = new Image();
+                image.height = 100;
+                image.title = file.name;
+                image.src = this.result;
+
+                // Tạo một div để chứa ảnh và nút xóa
+                var container = document.createElement('div');
+                container.className = 'image-container';
+
+                // Thêm ảnh và nút xóa vào div container
+                container.appendChild(image);
+                var removeButton = document.createElement('button');
+                removeButton.innerHTML = 'X';
+                removeButton.className = 'remove-image-button';
+                removeButton.addEventListener('click', function () {
+                    // Xóa ảnh khỏi div preview và cập nhật lại mảng selectedFiles
+                    preview.removeChild(container);
+                    selectedFiles = selectedFiles.filter(function (name) {
+                        return name !== file.name;
+                    });
+                });
+                container.appendChild(removeButton);
+
+                // Thêm div container vào div preview
+                preview.appendChild(container);
+            });
+
+            reader.readAsDataURL(file);
+        }
+    }
+
+    document.querySelector('#file-input').addEventListener("change", previewImages);
 </script>
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+<script src="~/js/navbuttons.js"></script>
+<script src="~/js/getaddresses.js"></script>
+<script src="~/js/getroomtype.js"></script>
+
+
+
 
 @section Scripts {
     @{

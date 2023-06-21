@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -62,6 +63,7 @@ public partial class Room
     public virtual ICollection<RoomReport> RoomReports { get; set; } = new List<RoomReport>();
 
     public virtual RoomType RoomType { get; set; } = null!;
-
+    
     public virtual User User { get; set; } = null!;
+
 }

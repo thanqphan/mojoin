@@ -1,3 +1,29 @@
+#preview img {
+    width: 200px;
+    height: 200px;
+}
+.image-container {
+    position: relative;
+}
+
+.remove-image-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #f00;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    outline: none;
+}
+.remove-image-button:hover {
+        background-color: #c00;
+}
+
 html {
     font-size: 14px;
 }
