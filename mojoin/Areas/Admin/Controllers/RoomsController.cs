@@ -260,13 +260,13 @@ namespace mojoin.Areas.Admin.Controllers
 
                     int index = 1;
 
-                    result = await _context.RoomImages.Where(x => x.RoomId == room.RoomId).ExecuteUpdateAsync(x =>
-                    x.SetProperty(p => p.RoomId, -1));
+                    var images = await _context.RoomImages.Where(x => x.RoomId == room.RoomId).ToListAsync();
+                    images.ForEach(item => _context.RoomImages.Remove(item));
                     await _context.SaveChangesAsync();
 
                     foreach (var file in room.Files)
                     {
-                        var fileName = $"img{room.RoomId}{index++}.{file.FileName.Split('.')[1]}";
+                        var fileName = $"img{room.RoomId}-{index++}.{file.FileName.Split('.')[1]}";
                         var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
                         using (var fileStream = new FileStream(filePath, FileMode.Create))
                         {
