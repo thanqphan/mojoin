@@ -27,8 +27,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.13" />
+    <PackageReference Include="PagedList" Version="1.17.0" />
     <PackageReference Include="PagedList.Core" Version="1.17.4" />
     <PackageReference Include="PagedList.Core.Mvc" Version="3.0.0" />
+    <PackageReference Include="PagedList.Mvc" Version="4.5.0" />
     <PackageReference Include="Select2.js" Version="4.0.13" />
     <PackageReference Include="XAct.Core.PCL" Version="0.0.5014" />
   </ItemGroup>
