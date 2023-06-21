@@ -1,5 +1,8 @@
 ﻿@using System.Security.Claims;
-@model IEnumerable<mojoin.Models.Yeuthich>
+@using X.PagedList
+@using X.PagedList.Mvc.Bootstrap4.Core
+@using X.PagedList.Mvc.Core
+@model X.PagedList.IPagedList<mojoin.Models.Yeuthich>
 
 @{
     ViewData["Title"] = "YeuThich";
@@ -104,4 +107,12 @@
 
     </div>
 </div>
+@Html.PagedListPager((IPagedList)Model, page => Url.Action("YeuThich", new { page }), Bootstrap4PagedListRenderOptions.ClassicPlusFirstAndLast)
+<style>
+    .pagination-container {
+        padding-top: 20px;
+        display: flex;
+        justify-content: center;
+    }
+</style>
 

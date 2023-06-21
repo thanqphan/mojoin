@@ -1,5 +1,7 @@
-﻿@model IEnumerable<mojoin.Models.Room>
-
+﻿@model X.PagedList.IPagedList<mojoin.Models.Room>
+@using X.PagedList
+@using X.PagedList.Mvc.Bootstrap4.Core
+@using X.PagedList.Mvc.Core
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -12,7 +14,7 @@
     <div class="searchbar_top_body">
         <div class="box-search">
             <div class="bs-content">
-                <div class="row" >
+                <div class="row">
                     <div class="col-xs-12 col-sm-2 col-md-1 custom-column">
                         <select id="ddlPostCate" name="CategoryId" class="form-control select2-hidden-accessible font-weight-bolder text-center" tabindex="-1" aria-hidden="true">
                             <option value="0"><i class="text-center"></i>Loại tin</option>
@@ -176,6 +178,7 @@
                     }
                 </div>
             </div>
+
         </div>
     </main>
 </div>
@@ -218,3 +221,13 @@
 
 </script>
 <script src="~/js/_getaddresses.js"></script>
+@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }), Bootstrap4PagedListRenderOptions.ClassicPlusFirstAndLast)
+<style>
+    .pagination-container{
+        padding-top: 20px;
+        display: flex;
+        justify-content: center;
+    }
+</style>
+
+

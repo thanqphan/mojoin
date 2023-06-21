@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Authorization;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using XAct.Users;
+using X.PagedList;
 using mojoin.Extension;
 
 namespace mojoin.Controllers
@@ -22,11 +23,22 @@ namespace mojoin.Controllers
         DbmojoinContext db = new DbmojoinContext();
 
         // GET: Rooms
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            var dbmojoinContext = db.Rooms.Include(r => r.RoomRatings).Include(r => r.RoomReports).Include(r => r.RoomFavorites).Include(r => r.RoomImages).Include(r => r.RoomType);
-            return View(dbmojoinContext.ToList());
+            int pageSize = 13; // Số lượng phần tử trên mỗi trang
+            int pageNumber = (page ?? 1); // Số trang hiện tại (nếu không có, mặc định là 1)
+
+            var dbmojoinContext = db.Rooms
+                .Include(r => r.RoomRatings)
+                .Include(r => r.RoomReports)
+                .Include(r => r.RoomFavorites)
+                .Include(r => r.RoomImages)
+                .Include(r => r.RoomType)
+                .ToPagedList(pageNumber, pageSize);
+
+            return View(dbmojoinContext);
         }
+
         public ActionResult ShowImage(int id)
         {
             var roomImage =db.RoomImages

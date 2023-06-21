@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Net.Http;
 using mojoin.ViewModel;
 using AspNetCoreHero.ToastNotification.Abstractions;
+using X.PagedList;
 
 namespace mojoin.Controllers
 {
@@ -78,11 +79,16 @@ namespace mojoin.Controllers
             return tsl;
         }
         [Route("yeu-thich.html", Name = "CaNhan")]
-        public IActionResult YeuThich()
+        public IActionResult YeuThich(int? page)
         {
+            int pageSize = 5; // Số lượng phần tử trên mỗi trang
+            int pageNumber = page ?? 1; // Số trang hiện tại (nếu không có, mặc định là 1)
+
             var userId = HttpContext.User.FindFirstValue("UserId");
             // Truy vấn danh sách yêu thích từ CSDL
-            var roomFavorites = db.RoomFavorites.Include(r => r.Room).Include(r => r.User)
+            var roomFavorites = db.RoomFavorites
+                .Include(rf => rf.Room)
+                .Include(rf => rf.User)
                 .Where(rf => rf.UserId == int.Parse(userId))
                 .ToList();
 
@@ -104,9 +110,11 @@ namespace mojoin.Controllers
                 Price = rf.Room.Price,
                 Description = rf.Room.Description,
                 CreateDate = rf.Room.CreateDate
-            }).ToList();
+            }).ToList().ToPagedList(pageNumber, pageSize);
+
+
             ViewBag.tongsoluong = roomFavorites.Count();
-            // Truyền danh sách yêu thích sang View
+            // Truyền danh sách yêu thích đã phân trang sang view
             return View(yeuthichList);
         }
         public ActionResult UserPartial(int id)
