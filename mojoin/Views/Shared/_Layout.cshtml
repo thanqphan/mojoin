@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="~/mojoin.styles.css" asp-append-version="true" />
     <link rel="shortcut icon" href="~/Admin_assets/images/logo/favicon.png">
     <script src="~/js/site.js" defer></script>
-    
+
 </head>
 <body ng-app="mojoinApp">
     <div class="mogi-navbar">
@@ -36,10 +36,23 @@
                     string firstName = identity.FindFirst("FirstName")?.Value;
                     string lastName = identity.FindFirst("LastName")?.Value;
                     string userId = identity.FindFirst("UserId")?.Value;
+                    string userAvt = identity.FindFirst("UserAvatar")?.Value;
                     <div class="navbar-user">
                         <div style="display:block;" class="navbar-user-profile">
                             <a href="javascript:void(0)" class="usericon" onclick="toggleUserMenu()">
-                                <span class="avatar ng-binding"><i class="fa fa-user-circle"></i></span>
+                                @if (string.IsNullOrEmpty(userAvt))
+                                {
+                                    <span class="avatar ng-binding">
+                                        <i class="fa fa-user-circle"></i>
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="avatar ng-binding">
+                                        <img src="@userAvt" alt="User Avatar">
+                                    </span>
+                                }
+
                                 <div class="last-name">
                                     <div class="ng-binding">@firstName</div>
                                 </div>
@@ -47,7 +60,18 @@
                             <div id="toggleUser" class="personel-menu" style="display:none;">
                                 <div>
                                     <div class="personel">
-                                        <div class="personal-avatar ng-binding"><i class="fa fa-user-circle"></i></div>
+                                        @if (string.IsNullOrEmpty(userAvt))
+                                        {
+                                            <div class="personal-avatar ng-binding">
+                                                <i class="fa fa-user-circle"></i>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="personal-avatar ng-binding">
+                                                <img src="@userAvt" alt="User Avatar">
+                                            </div>
+                                        }
                                         <div class="info">
                                             <div class="name">
                                                 <div class="info-name">
@@ -68,7 +92,7 @@
                                         </a>
                                     </div>
                                     <div>
-                                        <a href="" rel="nofollow" gtm-event="link" gtm-cat="menu" gtm-act="user-menu-profile">
+                                        <a href="/update-in4.html" rel="nofollow" gtm-event="link" gtm-cat="menu" gtm-act="user-menu-profile">
                                             <span class="main-menu-icon"><svg width="24" height="24"><use xlink:href="/content/mogi.svg#user"></use></svg></span>
                                             <span>Thông tin tài khoản</span>
                                         </a>
@@ -101,7 +125,7 @@
                                 </div>
                                 <div class="action-menu border-top">
                                     <div>
-                                        <a href="" rel="nofollow" gtm-event="link" gtm-cat="menu" gtm-act="user-menu-password">
+                                        <a href="/doi-pass.html" rel="nofollow" gtm-event="link" gtm-cat="menu" gtm-act="user-menu-password">
                                             <span>Thay đổi mật khẩu</span>
                                         </a>
                                     </div>
@@ -293,6 +317,7 @@
                 </div>
             </div>
         </div>
+
     </div>
     <div>
         @RenderBody()

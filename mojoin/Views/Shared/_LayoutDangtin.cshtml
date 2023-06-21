@@ -10,6 +10,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
+    <link rel="shortcut icon" href="~/Admin_assets/images/logo/favicon.png">
 
 </head>
 <body style="" block-ui="main">
@@ -20,6 +21,8 @@
         string firstName = identity.FindFirst("FirstName")?.Value;
         string lastName = identity.FindFirst("LastName")?.Value;
         string userId = identity.FindFirst("UserId")?.Value;
+        string userAvt = identity.FindFirst("UserAvatar")?.Value;
+
     }
     <div ng-app="mojoinApp" ng-strict-di="false" class="ng-scope">
         <div class="mogi-goback">
@@ -76,14 +79,19 @@
                         <li class="open">
                             <span class="first-name dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">@firstName</span>
                             <a href="#" class="avatar dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                @if (!string.IsNullOrEmpty(userAvt))
+                                {
+                                    <img src="@userAvt" alt="User Avatar">
+                                }
                             </a>
+
                             <ul class="dropdown-menu profile-menu">
                                 <li><a href="/alert-search" rel="nofollow"><i class="fa fa-bell"></i>Thông báo &amp; Tìm kiếm</a></li>
-                                <li><a href="/ca-nhan/yeu-thich.html" rel="nofollow"><i class="fa fa-heart"></i>Bất động sản yêu thích</a></li>
+                                <li><a href="/yeu-thich.html" rel="nofollow"><i class="fa fa-heart"></i>Bất động sản yêu thích</a></li>
                                 <li><a href="/profile" rel="nofollow"><i class="fa fa-user"></i>Thông tin cá nhân</a></li>
                                 <li><a href="/nap-tien" rel="nofollow"><i class="fa fa-vcard-o"></i>Nạp tiền</a></li>
                                 <li><a href="/Coupon/CouponList" ng-class="GetActiveClass('/CouponList')"><i class="fa fa-gift"></i>Mã thưởng</a></li>
-                                <li><a href="/change-password.html" rel="nofollow"><i class="fa fa-lock"></i>Thay đổi mật khẩu</a></li>
+                                <li><a href="/doi-pass.html" rel="nofollow"><i class="fa fa-lock"></i>Thay đổi mật khẩu</a></li>
                                 <li class="divider"></li>
                                 <li><a href="/logout.html"><i class="fa fa-sign-out"></i>Thoát</a></li>
                             </ul>

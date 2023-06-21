@@ -5,8 +5,6 @@
     ViewData["Title"] = "YeuThich";
     Layout = "~/Views/Shared/_Layout.cshtml";
     <link href="~/css/yeuthich.css" rel="stylesheet" />
-    mojoin.ViewModel.ChangePasswordViewModel changePassword = new mojoin.ViewModel.ChangePasswordViewModel();
-    
 }
 @{
     var identity = (ClaimsIdentity)User.Identity;
@@ -39,9 +37,9 @@
                 </div>
                 <div class="profile-usermenu clearfix">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="/ca-nhan/yeu-thich.html" rel="nofollow"><i class="fa fa-heart"></i>Tin yêu thích</a></li>
-                        <li class=""><a href="/ca-nhan/thong-tin-ca-nhan" rel="nofollow"><i class="fa fa-address-card"></i>Thông tin cá nhân</a></li>
-                        <li class=""><a href="/ca-nhan/doi-mat-khau" rel="nofollow"><i class="fa fa-lock"></i>Thay đổi mật khẩu</a></li>
+                        <li id="list-fav" class=" active"><a href="/yeu-thich.html" rel="nofollow"><i class="fa fa-heart"></i>Tin yêu thích</a></li>
+                        <li id="in4-user" class=""><a href="/update-in4.html" rel="nofollow"><i class="fa fa-address-card"></i>Thông tin cá nhân</a></li>
+                        <li id="change-pass" class=""><a href="/doi-pass.html" rel="nofollow"><i class="fa fa-lock"></i>Thay đổi mật khẩu</a></li>
                         <li><a href="/logout.html"><i class="fa fa-sign-out f18"></i>Đăng xuất</a></li>
                     </ul>
                 </div>
@@ -103,45 +101,7 @@
             </div>
 
         </div>
-        <div id="profile-user">
 
-        </div>
-        <div id="change-password">
-            @await Html.PartialAsync("_ChangePasswordPartialView", changePassword)
-        </div>
     </div>
 </div>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Ẩn tất cả các div trừ div có id=property ban đầu
-        document.getElementById("profile-user").style.display = "none";
-        document.getElementById("change-password").style.display = "none";
 
-        // Lấy danh sách các thẻ li
-        var navItems = document.querySelectorAll(".nav.navbar-nav li");
-
-        // Xử lý sự kiện click trên các thẻ li
-        navItems.forEach(function (navItem) {
-            navItem.addEventListener("click", function () {
-                // Xóa lớp active của tất cả các thẻ li
-                navItems.forEach(function (item) {
-                    item.classList.remove("active");
-                });
-
-                // Thêm lớp active cho thẻ li được click
-                this.classList.add("active");
-
-                // Ẩn tất cả các div
-                document.getElementById("property").style.display = "none";
-                document.getElementById("profile-user").style.display = "none";
-                document.getElementById("change-password").style.display = "none";
-
-                // Lấy id của div tương ứng với thẻ li được click
-                var selectedDivId = this.querySelector("a").getAttribute("href").substr(1);
-
-                // Hiển thị div tương ứng
-                document.getElementById(selectedDivId).style.display = "block";
-            });
-        });
-    });
-</script>

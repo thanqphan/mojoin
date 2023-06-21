@@ -77,7 +77,7 @@ namespace mojoin.Controllers
             }
             return tsl;
         }
-        [Route("ca-nhan/yeu-thich.html", Name = "CaNhan")]
+        [Route("yeu-thich.html", Name = "CaNhan")]
         public IActionResult YeuThich()
         {
             var userId = HttpContext.User.FindFirstValue("UserId");
@@ -134,8 +134,8 @@ namespace mojoin.Controllers
             ctdh.UserId = int.Parse(taikhoanID);
             db.RoomFavorites.Add(ctdh);
             db.SaveChanges();
-
-            return View();
+            _notyfService.Success("Đã yêu thích!");
+            return RedirectToAction("Details", "Rooms", new { id = id });
         }
         public ActionResult XoaYeuThich(int id)
         {
@@ -156,44 +156,13 @@ namespace mojoin.Controllers
             }
 
             // Chuyển hướng về trang danh sách yêu thích
-            return RedirectToAction("YeuThich");
+            _notyfService.Error("Đã gỡ yêu thích!");
+            return RedirectToAction("Details", "Rooms", new { id = id });
         }
         public ActionResult YeuThichPartial()
         {           
             return View();
         }
-        [HttpPost]
-        public IActionResult ChangePassword(ChangePasswordViewModel model)
-        {
-            try
-            {
-                var taikhoanID = HttpContext.Session.GetString("UserId");
-                if (taikhoanID == null)
-                {
-                    return RedirectToAction("Login", "Account");
-                }
-                if (ModelState.IsValid)
-                {
-                    var taikhoan = db.Users.Find(Convert.ToInt32(taikhoanID));
-                    if (taikhoan == null) return RedirectToAction("Login", "Account");
-                    var pass = (model.PasswordNow.Trim());
-                    {
-                        string passnew = (model.Password.Trim());
-                        taikhoan.Password = passnew;
-                        db.Update(taikhoan);
-                        db.SaveChanges();
-                        _notyfService.Success("Đổi mật khẩu thành công");
-                        return RedirectToAction("Login", "Account");
-                    }
-                }
-            }
-            catch
-            {
-                _notyfService.Success("Thay đổi mật khẩu không thành công");
-                return View();
-            }
-            _notyfService.Success("Thay đổi mật khẩu không thành công");
-            return View();
-        }
+        
     }
 }

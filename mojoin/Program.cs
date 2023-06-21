@@ -1,15 +1,22 @@
-using AspNetCoreHero.ToastNotification;
+﻿using AspNetCoreHero.ToastNotification;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using mojoin.Extension;
 using mojoin.Models;
 using System.Configuration;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
-
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Configuration.AddJsonFile("appsettings.json");
 // Add services to the container.
+builder.Services.Configure<SendGridSettings>(builder.Configuration.GetSection("SendGridSettings"));
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+builder.Services.AddScoped<IEmailService, SendGridEmailService>();
+builder.Services.AddOptions<SendGridSettings>()
+    .Bind(builder.Configuration.GetSection("SendGridSettings"))
+    .ValidateDataAnnotations();
+
+// Đọc cấu hình từ appsettings.json
 builder.Services.AddNotyf(config => { config.DurationInSeconds = 3; config.IsDismissable = true; config.Position = NotyfPosition.TopRight; });
 builder.Services.AddSession();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -52,6 +59,7 @@ app.UseSession();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllerRoute(
