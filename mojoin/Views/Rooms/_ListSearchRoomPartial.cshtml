@@ -1,7 +1,10 @@
-﻿@{
+﻿@using X.PagedList
+@using X.PagedList.Mvc.Bootstrap4.Core
+@using X.PagedList.Mvc.Core
+@{
 
 }
-@model List<Room>
+@model X.PagedList.IPagedList<Room>
 <link href="~/css/sort_room.css" rel="stylesheet" />
 
 <div id="main" class="clearfix" style="">
@@ -99,3 +102,11 @@
     </div>
 
 </div>
+@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }), Bootstrap4PagedListRenderOptions.ClassicPlusFirstAndLast)
+<style>
+    .pagination-container {
+        padding-top: 20px;
+        display: flex;
+        justify-content: center;
+    }
+</style>

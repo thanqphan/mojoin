@@ -13,6 +13,7 @@ using AspNetCoreHero.ToastNotification.Abstractions;
 using XAct.Users;
 using X.PagedList;
 using mojoin.Extension;
+using System.Drawing.Printing;
 
 namespace mojoin.Controllers
 {
@@ -128,19 +129,21 @@ namespace mojoin.Controllers
         }
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult SelectedSearch(string categoryId, string cityId, string districtId, string streetId, string priceId, string areaId)
+        public ActionResult SelectedSearch(int? page, string categoryId, string cityId, string districtId, string streetId, string priceId, string areaId)
         {
-            List<Room> searchResults = PerformSearch(categoryId, cityId, districtId, streetId, priceId, areaId);
+            IPagedList<Room> searchResults = PerformSearch(page, categoryId, cityId, districtId, streetId, priceId, areaId);
             return PartialView("_ListSearchRoomPartial", searchResults);
         }
 
         // Hàm để thực hiện tìm kiếm
-        protected List<Room> PerformSearch(string categoryId, string cityId, string districtId, string streetId, string priceId, string areaId)
+        protected IPagedList<Room> PerformSearch(int? page,string categoryId, string cityId, string districtId, string streetId, string priceId, string areaId)
         {
+            int pageSize = 5; // Số lượng phần tử trên mỗi trang
+            int pageNumber = (page ?? 1); // Số trang hiện tại (nếu không có, mặc định là 1)
             List<Room> searchResults = new List<Room>();
 
             // Lấy danh sách toàn bộ phòng từ CSDL hoặc từ một nguồn dữ liệu khác
-            List<Room> allRooms = db.Rooms.ToList(); // Hàm này cần được thay thế bằng phương thức truy vấn dữ liệu thực tế
+            var allRooms = db.Rooms.ToList().ToPagedList(pageNumber, pageSize); // Hàm này cần được thay thế bằng phương thức truy vấn dữ liệu thực tế
 
             // Duyệt qua từng phòng và áp dụng điều kiện tìm kiếm
             foreach (var room in allRooms)
@@ -199,7 +202,7 @@ namespace mojoin.Controllers
                 searchResults.Add(room);
             }
 
-            return searchResults;
+            return searchResults.ToPagedList(pageNumber, pageSize);
         }
 
         public ActionResult SendMessage()
