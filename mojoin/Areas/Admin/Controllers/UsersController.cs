@@ -168,10 +168,6 @@ namespace mojoin.Areas.Admin.Controllers
             return View(user);
         }
 
-        // POST: Admin/Users/Edit/5
-        // POST: Admin/Staff/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("UserId,RolesId,FirstName,LastName,Phone,Email,Address,Sex,Dateofbirth,Password,ResetPasswordToken,Salt,Avatar,IsActive,InfoZalo,InfoFacebook,GoogleId,SupportUserId,CreateDate")] User user)
@@ -180,23 +176,40 @@ namespace mojoin.Areas.Admin.Controllers
             {
                 try
                 {
+                    // Kiểm tra vai trò của người dùng đang thực hiện chỉnh sửa
+                    var editingUser = await _context.Users.FindAsync(id);
+                    if (editingUser == null)
+                    {
+                        return NotFound();
+                    }
+
+                    // Kiểm tra vai trò của người dùng đang thực hiện chỉnh sửa và người dùng bị chỉnh sửa
+                    var editingUserRole = await _context.Roles.FindAsync(editingUser.RolesId);
+                    var editedUserRole = await _context.Roles.FindAsync(user.RolesId);
+
+                    if (editingUserRole.RoleName == "Admin" && (editedUserRole.RoleName == "Staff" || editedUserRole.RoleName == "User"))
+                    {
+                        _notyfService.Error("Không thể xóa người dùng có vai trò Admin!");
+                        return RedirectToAction(nameof(Index));
+                    }
+
                     int result = await _context.Users.Where(x => x.UserId == user.UserId).ExecuteUpdateAsync(x =>
-                    x.SetProperty(p => p.RolesId, user.RolesId)
-                    .SetProperty(p => p.FirstName, user.FirstName)
-                    .SetProperty(p => p.LastName, user.LastName)
-                    .SetProperty(p => p.Phone, user.Phone)
-                    .SetProperty(p => p.Email, user.Email)
-                    .SetProperty(p => p.Address, user.Address)
-                    .SetProperty(p => p.Sex, user.Sex)
-                    .SetProperty(p => p.Dateofbirth, user.Dateofbirth)
-                    .SetProperty(p => p.Password, user.Password)
-                    .SetProperty(p=>p.ResetPasswordToken,user.ResetPasswordToken)
-                    .SetProperty(p => p.Avatar, user.Avatar)
-                    .SetProperty(p => p.IsActive, user.IsActive)
-                    .SetProperty(p => p.InfoZalo, user.InfoZalo)
-                    .SetProperty(p => p.InfoFacebook, user.InfoFacebook)
-                    .SetProperty(p => p.SupportUserId, user.SupportUserId)
-                    .SetProperty(p => p.CreateDate, DateTime.Now));
+                        x.SetProperty(p => p.RolesId, user.RolesId)
+                        .SetProperty(p => p.FirstName, user.FirstName)
+                        .SetProperty(p => p.LastName, user.LastName)
+                        .SetProperty(p => p.Phone, user.Phone)
+                        .SetProperty(p => p.Email, user.Email)
+                        .SetProperty(p => p.Address, user.Address)
+                        .SetProperty(p => p.Sex, user.Sex)
+                        .SetProperty(p => p.Dateofbirth, user.Dateofbirth)
+                        .SetProperty(p => p.Password, user.Password)
+                        .SetProperty(p => p.ResetPasswordToken, user.ResetPasswordToken)
+                        .SetProperty(p => p.Avatar, user.Avatar)
+                        .SetProperty(p => p.IsActive, user.IsActive)
+                        .SetProperty(p => p.InfoZalo, user.InfoZalo)
+                        .SetProperty(p => p.InfoFacebook, user.InfoFacebook)
+                        .SetProperty(p => p.SupportUserId, user.SupportUserId)
+                        .SetProperty(p => p.CreateDate, DateTime.Now));
 
                     if (result > 0)
                     {
@@ -209,11 +222,13 @@ namespace mojoin.Areas.Admin.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.UserId))
+                    // Kiểm tra xem người dùng có tồn tại không
+                    if (!_context.Users.Any(u => u.UserId == id))
                     {
                         _notyfService.Success("Có lỗi xảy ra!");
                         return NotFound();
                     }
+
                     else
                     {
                         throw;
@@ -221,8 +236,11 @@ namespace mojoin.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RolesId"] = new SelectList(_context.Roles, "RolelD", "RolelD", user.RolesId); return View(user);
+
+            ViewData["RolesId"] = new SelectList(_context.Roles, "RolelD", "RolelD", user.RolesId);
+            return View(user);
         }
+
 
         // GET: Admin/Users/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -249,6 +267,24 @@ namespace mojoin.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            // Kiểm tra quyền của người dùng hiện tại
+            var currentUserRole = _context.Users
+                .Where(u => u.Email == User.Identity.Name)
+                .Select(u => u.RolesId)
+                .FirstOrDefault();
+
+            if (currentUserRole != 1) // Không phải là Admin
+            {
+                // Kiểm tra vai trò của người dùng cần xóa
+                var userToDelete = await _context.Users.FindAsync(id);
+                if (userToDelete.RolesId == 1) // Người dùng cần xóa là Admin
+                {
+                    _notyfService.Error("Bạn không có quyền xóa người dùng này.");
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+
+            // Xóa người dùng
             var user = await _context.Users.FindAsync(id);
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
@@ -256,18 +292,5 @@ namespace mojoin.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserExists(int id)
-        {
-            return _context.Users.Any(e => e.UserId == id);
-        }
-
-        private string GetUniqueFileName(string fileName)
-        {
-            fileName = Path.GetFileName(fileName);
-            return Path.GetFileNameWithoutExtension(fileName)
-                       + "_"
-                       + Guid.NewGuid().ToString().Substring(0, 4)
-                       + Path.GetExtension(fileName);
-        }
     }
 }

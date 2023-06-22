@@ -48,14 +48,15 @@ namespace mojoin.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users
-
-                .FirstOrDefaultAsync(m => m.UserId == id);
+            var user = await _context.Users.FirstOrDefaultAsync(m => m.UserId == id);
             if (user == null)
             {
                 return NotFound();
             }
-
+            var userImages = await _context.Users
+            .Where(ri => ri.UserId == id)
+            .ToListAsync();
+            ViewBag.Users = userImages;
             return View(user);
         }
 
@@ -174,37 +175,30 @@ namespace mojoin.Areas.Admin.Controllers
         // GET: Admin/Staff/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Users == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.Users
-                .Include(u => u.Roles)
-                .FirstOrDefaultAsync(m => m.UserId == id);
+            var user = await _context.Users.FirstOrDefaultAsync(m => m.UserId == id);
             if (user == null)
             {
                 return NotFound();
             }
-
+            var userImages = await _context.Users
+            .Where(ri => ri.UserId == id)
+            .ToListAsync();
+            ViewBag.Users = userImages;
             return View(user);
         }
 
-        // POST: Admin/Staff/Delete/5
+        // POST: Admin/Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-
-            if (_context.Users == null)
-            {
-                return Problem("Entity set 'DbmojoinContext.Roles'  is null.");
-            }
             var user = await _context.Users.FindAsync(id);
-            if (user != null)
-            {
-                _context.Users.Remove(user);
-            }
+            _context.Users.Remove(user);
             await _context.SaveChangesAsync();
             _notyfService.Success("Xóa thành công!");
             return RedirectToAction(nameof(Index));
