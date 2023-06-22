@@ -27,7 +27,8 @@ namespace mojoin.Areas.Admin.Controllers
             _context = context;
             _notyfService = notyfService;
         }
-
+        
+        
         // GET: Admin/Rooms
         /*public async Task<IActionResult> Index()
         {
@@ -402,24 +403,8 @@ namespace mojoin.Areas.Admin.Controllers
 
             return View(room);
         }
-        // POST: Admin/Rooms/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.Rooms == null)
-            {
-                return Problem("Entity set 'DbmojoinContext.Rooms'  is null.");
-            }
-            var room = await _context.Rooms.FindAsync(id);
-            if (room != null)
-            {
-                _context.Rooms.Remove(room);
-            }
-            await _context.SaveChangesAsync();
-            _notyfService.Success("Xóa phòng thành công!");
-            return RedirectToAction(nameof(Index), new { isActive = HttpContext.Session.GetInt32("RoomsParams") });
-        }
+
+
         private bool RoomExists(int id)
         {
             return (_context.Rooms?.Any(e => e.RoomId == id)).GetValueOrDefault();
@@ -511,6 +496,8 @@ namespace mojoin.Areas.Admin.Controllers
             }
             return RedirectToAction("Index");
         }
+
+       
     }
 
 }
