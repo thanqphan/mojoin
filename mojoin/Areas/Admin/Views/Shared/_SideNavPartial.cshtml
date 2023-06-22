@@ -1,4 +1,5 @@
-﻿<div class="side-nav">
+﻿@using System.Security.Claims;
+<div class="side-nav">
     <div class="side-nav-inner">
         <ul class="side-nav-menu scrollable">
             <li class="nav-item dropdown open">
@@ -43,20 +44,38 @@
                     </span>
                 </a>
                 <ul class="dropdown-menu">
+                    @{
+                        var identity = (ClaimsIdentity)User.Identity;
 
-                    <li>
-                        <a asp-area="Admin" asp-controller="Roles" asp-action="Index">Quyền truy cập</a>
-                    </li>
+                        // Lấy giá trị của các đối tượng Claim
+                        string firstName = identity.FindFirst("FirstName")?.Value;
+                        string lastName = identity.FindFirst("LastName")?.Value;
+                        string userId = identity.FindFirst("UserId")?.Value;
+                        string roleAcc = identity.FindFirst("RoleAcc")?.Value;
+                    }
+                    @if(roleAcc == "2")
+                    {
+                        <li>
+                            <a asp-area="Admin" asp-controller="Clients" asp-action="Index">Danh sách Khách hàng</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a asp-area="Admin" asp-controller="Roles" asp-action="Index">Quyền truy cập</a>
+                        </li>
+
+                        <li>
+                            <a asp-area="Admin" asp-controller="Users" asp-action="Index">Danh sách Người dùng</a>
+                        </li>
+                        <li>
+                            <a asp-area="Admin" asp-controller="Staffs" asp-action="Index">Danh sách Nhân viên</a>
+                        </li>
+                        <li>
+                            <a asp-area="Admin" asp-controller="Clients" asp-action="Index">Danh sách Khách hàng</a>
+                        </li>
+                    }
                     
-                    <li>
-                        <a asp-area="Admin" asp-controller="Users" asp-action="Index">Danh sách Người dùng</a>
-                    </li>
-                    <li>
-                        <a asp-area="Admin" asp-controller="Staffs" asp-action="Index">Danh sách Nhân viên</a>
-                    </li>
-                    <li>
-                        <a asp-area="Admin" asp-controller="Clients" asp-action="Index">Danh sách Khách hàng</a>
-                    </li>
                 </ul>
         </ul>
     </div>
