@@ -23,6 +23,11 @@ namespace mojoin.Areas.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             var dbmojoinContext = _context.RoomReports.Include(r => r.Room).Include(r => r.User);
+            List<SelectListItem> lsTrangThai = new List<SelectListItem>();
+            lsTrangThai.Add(new SelectListItem() { Text = "Đã xử lý", Value = "1" });
+            lsTrangThai.Add(new SelectListItem() { Text = "Bài đăng đang chờ xử lý", Value = "0" });
+
+            ViewData["lsTrangThai"] = lsTrangThai;
             return View(await dbmojoinContext.ToListAsync());
         }
 

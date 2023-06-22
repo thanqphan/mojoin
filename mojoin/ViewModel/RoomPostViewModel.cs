@@ -55,5 +55,7 @@ namespace mojoin.ViewModel
         public bool HasParking { get; set; }
 
         public int? ViewCount { get; set; }
+
+        public List<IFormFile> Files { get; set; }
     }
 }
