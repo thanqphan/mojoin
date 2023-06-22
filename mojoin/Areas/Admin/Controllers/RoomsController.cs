@@ -39,8 +39,9 @@ namespace mojoin.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index(int isActive = -1)
         {
+            //lưu giá trị isActive vào session
             HttpContext.Session.SetInt32("RoomsParams", isActive);
-            ViewBag.RoomsParams = isActive;
+            ViewBag.RoomsParams = isActive; //gán isActive vào ViewBag.RoomsParams
             var dbmojoinContext = GetListRoomByActive(isActive);
             ViewData["QuyenAcc"] = new SelectList(_context.Roles, "RoleName", "RoleName");
             List<SelectListItem> lsTrangThai = new List<SelectListItem>();
@@ -58,17 +59,19 @@ namespace mojoin.Areas.Admin.Controllers
             //
             return View(await dbmojoinContext.ToListAsync());
         }
-
+        //Lay danh sach phong tro dựa trên các trạng thái của chúng
         public IQueryable<Room> GetListRoomByActive(int isActive)
         {
             ViewBag.RoomsParams = isActive;
+           
             return isActive == -1 ? _context.Rooms.Include(r => r.RoomType) :
                 _context.Rooms.Include(r => r.RoomType).Where(x => x.IsActive == isActive);
         }
-
+        //hiển thị danh sách các phòng trọ dưới dạng một PartialView trên trang web
         public IActionResult ListRoom(int isActive = -1)
         {
             var dbmojoinContext = GetListRoomByActive(isActive);
+            
             return PartialView(dbmojoinContext.ToListAsync());
         }
 
@@ -79,10 +82,10 @@ namespace mojoin.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
+            // truy vấn chi tiết của một phòng trọ cụ thể từ cơ sở dữ liệu
             var room = await _context.Rooms
                 .Include(r => r.RoomType)
-                .FirstOrDefaultAsync(m => m.RoomId == id);
+                .FirstOrDefaultAsync(m => m.RoomId == id); 
             if (room == null)
             {
                 return NotFound();
@@ -146,15 +149,21 @@ namespace mojoin.Areas.Admin.Controllers
                 int index = 1;
                 foreach (var file in room.Files)
                 {
+                    //tạo ra một tên tệp tin mới cho hình ảnh bằng cách sử dụng mã
                     //var fileName = $"{DateTime.Now.ToString("yyyyMMddHHmmssfff")}{Path.GetFileName(file.FileName)}";
                     var fileName = $"img{roomEntity.RoomId}-{index++}.{file.FileName.Split('.')[1]}";
+                    // Sử dụng Path.Combine kết hợp "wwwroot/images"và fileName ra đường dẫn đầy đủ
                     var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
+
+                    // tệp tin hình ảnh được tải lên đã được sao chép(CopyToAsync) vào tệp tin mới trong thư mục wwwroot / images
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
                         await file.CopyToAsync(fileStream);
                     }
+                    //được thêm vào cơ sở dữ liệu thông qua phương thức AddAsync
                     await _context.RoomImages.AddAsync(new RoomImage
                     {
+                        //chèn giá trị của biến fileName vào chuỗi "/images/{fileName}".
                         RoomId = roomEntity.RoomId,
                         Image = $"/images/{fileName}"
                     });
