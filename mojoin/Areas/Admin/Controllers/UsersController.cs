@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using mojoin.Helper;
@@ -98,6 +99,25 @@ namespace mojoin.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(User tk)
         {
+            if (!ModelState.IsValid)
+            {
+                foreach (var key in ModelState.Keys)
+                {
+                    if (ModelState.TryGetValue(key, out ModelStateEntry entry) && entry.Errors.Any())
+                    {
+                        // Trường có tên là "key" có lỗi validation
+                        var errorMessage = entry.Errors[0].ErrorMessage;
+                        // Xử lý lỗi ở đây
+                    }
+                    else
+                    {
+                        // Trường có tên là "key" không có lỗi validation
+                    }
+                }
+
+                _notyfService.Error("Gửi bài không thành công!");
+                return View(tk);
+            }
             if (ModelState.IsValid)
             {
                 User user = new User
@@ -115,6 +135,7 @@ namespace mojoin.Areas.Admin.Controllers
                     InfoFacebook = tk.InfoFacebook,
                     InfoZalo = tk.InfoZalo,
                     CreateDate = DateTime.Now,
+                    ResetPasswordToken = null,
                 };
                 _context.Add(user);
                 await _context.SaveChangesAsync();
@@ -149,7 +170,7 @@ namespace mojoin.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserId,RolesId,FirstName,LastName,Phone,Email,Address,Sex,Dateofbirth,Password,Salt,Avatar,IsActive,InfoZalo,InfoFacebook,GoogleId,SupportUserId,CreateDate")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("UserId,RolesId,FirstName,LastName,Phone,Email,Address,Sex,Dateofbirth,Password,ResetPasswordToken,Salt,Avatar,IsActive,InfoZalo,InfoFacebook,GoogleId,SupportUserId,CreateDate")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -165,6 +186,7 @@ namespace mojoin.Areas.Admin.Controllers
                     .SetProperty(p => p.Sex, user.Sex)
                     .SetProperty(p => p.Dateofbirth, user.Dateofbirth)
                     .SetProperty(p => p.Password, user.Password)
+                    .SetProperty(p=>p.ResetPasswordToken,user.ResetPasswordToken)
                     .SetProperty(p => p.Avatar, user.Avatar)
                     .SetProperty(p => p.IsActive, user.IsActive)
                     .SetProperty(p => p.InfoZalo, user.InfoZalo)
