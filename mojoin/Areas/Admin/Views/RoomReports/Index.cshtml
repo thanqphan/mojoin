@@ -4,23 +4,32 @@
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
-
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<link href="~/css/jquery.datatables.min.css" rel="stylesheet" />
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="RoomReports" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>BÁO CÁO</a>
+                <span class="breadcrumb-item active">Danh sách báo cáo</span>
+        </nav>
+    </div>
+</div>
+<h3>DANH SÁCH <b>BÁO CÁO</b></h3>
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ReportContent)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsResolved)
-            </th>
+            <th>ID</th>
+            <th>ReportContent</th>
+            
             <th>
                 @Html.DisplayNameFor(model => model.CreateDate)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.IsResolved)
+            </th>*@
+            <th>
+                IsResolved
+                <select class="border-0" id="idReport" name="idReport" title="Chọn trạng thái" style="max-width:20px" asp-items="ViewBag.lsTrangThai">
+                    </select>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Room)
@@ -28,6 +37,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.User)
             </th>
+            <th>Chức năng</th>
             <th></th>
         </tr>
     </thead>
@@ -35,14 +45,30 @@
         @foreach (var item in Model)
         {
             <tr>
+                    <th scope="row">@item.ReportId</th>
                 <td>
                     @Html.DisplayFor(modelItem => item.ReportContent)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsResolved)
-                </td>
+                
                 <td>
                     @Html.DisplayFor(modelItem => item.CreateDate)
+                </td>
+                <td>
+                    @if (item.IsResolved == 1)
+                    {
+                        <div class="d-flex align-items-center">
+                            <div class="badge badge-success badge-dot m-r-10"></div>
+                            <div>Đã xử lý!</div>
+                        </div>
+                    }
+                    else 
+                    {
+                        <div class="d-flex align-items-center">
+                            <div class="badge badge-danger badge-dot m-r-10"></div>
+                            <div>Chưa xữ lý</div>
+                        </div>
+                    }
+                    
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Room.RoomId)
@@ -51,9 +77,11 @@
                     @Html.DisplayFor(modelItem => item.User.UserId)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.ReportId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.ReportId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ReportId">Delete</a>
+                    <li class="list-inline-item">
+                        <a class="btn btn-success  m-r-5" style="display: inline-block; border: 1px solid white; padding: 5px;" onclick="UpdateActiveStatus(@item.RoomId)">Đã xử lý</a>
+                        <a class="btn btn-default  m-r-5" style="display: inline-block; border: 1px solid gray; padding: 5px;" asp-action="Details" asp-route-id="@item.RoomId">Xem chi tiết</a>
+                        
+                    </li>
                 </td>
             </tr>
         }

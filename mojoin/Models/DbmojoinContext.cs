@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using mojoin.Models;
 
 namespace mojoin.Models;
 
@@ -183,6 +182,7 @@ public partial class DbmojoinContext : DbContext
             entity.Property(e => e.Phone)
                 .HasMaxLength(20)
                 .IsUnicode(false);
+            entity.Property(e => e.ResetPasswordToken).IsUnicode(false);
             entity.Property(e => e.RolesId).HasColumnName("RolesID");
             entity.Property(e => e.Salt).IsUnicode(false);
             entity.Property(e => e.Sex).HasMaxLength(10);
@@ -198,6 +198,4 @@ public partial class DbmojoinContext : DbContext
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
-
-    public DbSet<mojoin.Models.Yeuthich>? Yeuthich { get; set; }
 }
