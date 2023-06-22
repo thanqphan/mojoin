@@ -18,9 +18,15 @@ namespace mojoin.Controllers
 {
     public class RoomsController : Controller
     {
-        INotyfService _notyfService { get; }
-        IEmailService _emailService;
-        DbmojoinContext db = new DbmojoinContext();
+        private readonly DbmojoinContext db;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public INotyfService _notyfService { get; }
+        public RoomsController(DbmojoinContext context, INotyfService notyfService, IHttpContextAccessor httpContextAccessor)
+        {
+            db = context;
+            _notyfService = notyfService;
+            _httpContextAccessor = httpContextAccessor;
+        }
 
         // GET: Rooms
         public ActionResult Index(int? page)
@@ -221,10 +227,61 @@ namespace mojoin.Controllers
                 $"/n Đây là thông tin liên hệ của mình email: {email} hoặc liên hệ: {phoneNumber}."+
                 $"/n Mong nhận được phản hồi sớm từ bạn, /n {fullName}.";
 
-            _emailService.SendEmail(userMail, "Đặt lại mật khẩu", emailBody);
-            // Sau khi gửi thành công, bạn có thể chuyển hướng hoặc hiển thị thông báo thành công cho người dùng
+/*            _emailService.SendEmail(userMail, "Đặt lại mật khẩu", emailBody);
+*/            // Sau khi gửi thành công, bạn có thể chuyển hướng hoặc hiển thị thông báo thành công cho người dùng
             _notyfService.Success("Gửi thành công! Người dùng sẽ liên hệ đến bạn sau!");
             return RedirectToAction("SendMessage");
         }
+        [HttpPost]
+        public IActionResult SendReport(string roomId, string userId, List<string> errorContents)
+        {
+            var taikhoanID = HttpContext.Session.GetString("UserId");
+            if (taikhoanID == null || taikhoanID.ToString() == "")
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            int parsedRoomId;
+            int parsedUserId;
+
+            if (!int.TryParse(roomId, out parsedRoomId) || !int.TryParse(userId, out parsedUserId))
+            {
+                // Trả về thông báo lỗi nếu roomId hoặc userId không hợp lệ
+                return BadRequest("RoomId hoặc UserId không hợp lệ");
+            }
+            if (errorContents.Count == 0)
+            {
+                _notyfService.Error("Lỗi báo cáo!");
+
+                // Trả về thông báo nếu danh sách rỗng
+                return RedirectToAction("Details", "Rooms", new { id = parsedRoomId });
+            }
+            // Thực hiện xử lý lưu dữ liệu vào bảng RoomReport
+            foreach (var errorContent in errorContents)
+            {
+                // Tạo một đối tượng RoomReport và lưu các giá trị
+                var roomReport = new RoomReport
+                {
+                    RoomId = parsedRoomId,
+                    UserId = parsedUserId,
+                    ReportContent = errorContent,
+                    IsResolved = 0,
+                    CreateDate = DateTime.Now,
+                };
+
+                db.RoomReports.Add(roomReport);
+                db.SaveChanges();
+
+                _notyfService.Success("Đã gửi báo cáo!");
+                return RedirectToAction("Details", "Rooms", new { id = parsedRoomId });
+            }
+
+            // Trả về kết quả thành công (hoặc thông báo thành công) cho người dùng
+            return Ok("Dữ liệu đã được gửi thành công");
+        }
+
+
+
+
     }
 }
