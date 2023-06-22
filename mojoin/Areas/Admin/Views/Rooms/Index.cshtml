@@ -1,0 +1,132 @@
+﻿
+
+@{
+	ViewData["Title"] = "Index";
+	Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+	<link href="~/admin_assets/css/table.css" rel="stylesheet" />
+
+}
+<style>
+	form {
+		display: inline;
+	}
+</style>
+<link href="~/css/jquery.datatables.min.css" rel="stylesheet" />
+<div class="page-header">
+	<div class="header-sub-title">
+		<nav class="breadcrumb breadcrumb-dash">
+			<a asp-area="Admin" asp-controller="Rooms" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Bài Đăng</a>
+			@if (ViewBag.RoomsParams == -1)
+			{
+				<span class="breadcrumb-item active">Danh sách bài đăng</span>
+			}
+			else
+			{
+				<span class="breadcrumb-item active">Danh sách phê duyệt</span>
+			}
+
+
+		</nav>
+	</div>
+</div>
+
+<div class="col-sm-5">
+	@if (ViewBag.RoomsParams == -1)
+	{
+		<h3>DANH SÁCH <b>BÀI ĐĂNG</b></h3>
+	}
+	else
+	{
+		<h3>DANH SÁCH <b>PHÊ DUYỆT</b></h3>
+	}
+
+</div>
+<div class="card-header">
+	<div class="row">
+		<div class="col-md-8 ">
+		</div>
+		<div class="col-md-4 text-right">
+			<a class="btn btn-success btn-tone m-r-5" asp-action="Create">Create</a>
+		</div>
+	</div>
+</div>
+
+<div class="card-body" id="list-room">
+	@{
+		Html.RenderPartialAsync("ListRoom");
+	}
+</div>
+	</div>
+<script>
+	$("#form-create").validate({
+		errorClass: 'is-invalid',
+		validClass: 'is-valid',
+		rules: {
+			Username: {
+				required: true,
+				minlength: 8
+			},
+			Password: {
+				required: true
+			},
+			ConfirmPassword: {
+				required: true,
+				equalTo: '#password'
+			},
+		}
+	});
+</script>
+@section footer{
+	<script src="~/js/jquery.datatables.min.js"></script>
+	<script>
+		$(document).ready(function () {
+			var table = $('#myTable').DataTable({
+				// ...
+				"columnDefs": [
+					{ "orderable": false, "targets": "_all" }
+				]
+			});
+			$('#myTable tbody').on('mouseenter', 'td', function () {
+				var colIdx = table.cell(this).index().column;
+
+				$(table.cells().nodes()).removeClass('highlight');
+				$(table.column(colIdx).nodes()).addClass('highlight');
+			});
+			// Lấy dữ liệu cho dropdown từ ViewData
+			$('#idRoom').on('change', function () {
+				var selectedValue = $("#idRoom option:selected").text(); // Lấy giá trị đã chọn từ dropdown
+				// Lọc bảng dữ liệu bằng giá trị đã chọn
+				table.column(2).search(selectedValue).draw();
+			});
+			$('#idActive').on('change', function () {
+				var selectedValue = $("#idActive option:selected").text(); // Lấy giá trị đã chọn từ dropdown
+				// Lọc bảng dữ liệu bằng giá trị đã chọn
+				table.column(3).search(selectedValue).draw();
+			});
+
+		});
+
+		function UpdateActiveStatus(id) {
+			$.ajax({
+				url: '@Url.Action("UpdateRoomActive", "Rooms")',
+				type: 'GET',
+				cache: false,
+				data: { roomId: id }
+			}).done(function (result) {
+				$('#list-room').html(result);
+			});
+		}
+
+		function DeleteRoom(id) {
+			$.ajax({
+				url: '@Url.Action("DeleteRoom", "Rooms")',
+				type: 'GET',
+				cache: false,
+				data: { roomId: id }
+			}).done(function (result) {
+				$('#list-room').html(result);
+			});
+		}
+
+	</script>
+	}

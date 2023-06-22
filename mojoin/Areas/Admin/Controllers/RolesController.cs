@@ -53,6 +53,7 @@ namespace mojoin.Areas.Admin.Controllers
         // GET: Admin/Roles/Create
         public IActionResult Create()
         {
+            ViewData["UserId"] = new SelectList(_context.RoomTypes, "RoomTypeId", "RoomTypeId");
             return View();
         }
 

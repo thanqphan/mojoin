@@ -12,7 +12,8 @@
     <link href="~/admin_assets/vendors/datatables/datatables.bootstrap.min.css" rel="stylesheet" />
     <!-- Core css -->
     <link href="~/admin_assets/css/app.min.css" rel="stylesheet">
-    <link href="~/css/site.css" rel="stylesheet" />
+    @*<link href="~/css/site.css" rel="stylesheet" />*@
+    <link href="~/admin_assets/css/site.css" rel="stylesheet" />
     <link href="~/admin_assets/css/admin.css" rel="stylesheet" />
     @RenderSection("header",required: false)
     <script src="~/admin_assets/vendors/jquery/dist/jquery.js"></script>
@@ -231,8 +232,7 @@
 
     <!-- page js -->
 
-    <a href="~/admin_assets/vendors/jquery/dist/jquery.min.map">~/admin_assets/vendors/jquery/dist/jquery.min.map</a>
-    <a href="~/admin_assets/vendors/jquery/dist/jquery.slim.min.map">~/admin_assets/vendors/jquery/dist/jquery.slim.min.map</a>
+
 
     <script src="~/admin_assets/vendors/jquery/dist/jquery.min.js"></script>
     <script src="~/admin_assets/vendors/jquery/dist/jquery.slim.min.js"></script>
@@ -250,6 +250,8 @@
 
     @await Component.InvokeAsync("Notyf")
     @await RenderSectionAsync("Scripts",required: false)
+    @RenderSection("scripts", required: false)
+    @RenderSection("upload", required: false)
 </body>
 
 </html>

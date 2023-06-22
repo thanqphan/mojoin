@@ -24,13 +24,13 @@
                     <div class="col-md-8 ">
                     </div>
                     <div class="col-md-4 text-right">
-                        <a class="btn btn-success btn-tone m-r-5" asp-action="Create">Create</a>
+                        <a class="btn btn-success btn-tone m-r-5" asp-action="Create">Thêm</a>
                     </div>
                 </div>
             </div>
             <div class="card-body">
                 <div class="table-responsive ">
-                    <table class="table table-hover table-bordered border-bottom">
+                    <table id="myTable" class="table table-hover e-commerce-table">
                         <thead>
                             <tr>
                                 <th scope="col">Tên quyền</th>
@@ -45,9 +45,9 @@
                                         @Html.DisplayFor(modelItem => item.RoleName)
                                     </td>
                                     <td>
-                                        <a class="btn btn-secondary btn-tone m-r-5" asp-action="Details" asp-route-id="@item.RolelD">View</a>
-                                        <a class="btn btn-warning btn-tone m-r-5" asp-action="Edit" asp-route-id="@item.RolelD">Edit</a>
-                                        <a class="btn btn-danger btn-tone m-r-5" asp-action="Delete" asp-route-id="@item.RolelD">Delete</a>
+                                        <a class="btn fa fa-eye text-primary" title="Details" asp-action="Details" asp-route-id="@item.RolelD"></a>
+                                        <a class="btn fa fa-edit text-warning" title="Edit" asp-action="Edit" asp-route-id="@item.RolelD"></a>
+                                        <a class="btn fa fa-trash text-danger" title="Delete" asp-action="Delete" asp-route-id="@item.RolelD"></a>
                                     </td>
                                 </tr>
                             }
