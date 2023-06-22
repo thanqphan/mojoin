@@ -94,8 +94,13 @@
                     </tr>
                     <tr>
                         <td>Avatar:</td>
-                        <td>@Model.Avatar</td>
+                        <td>
+                            <div style="width: 100px; height: 100px; overflow: hidden;">
+                                <img src="@Html.DisplayFor(model => model.Avatar)" style="width: 100%; height: auto; margin-top: -25px;" />
+                            </div>
+                        </td>
                     </tr>
+                    
                     <tr>
                         <td>Trạng thái hoạt động:</td>
                         @{

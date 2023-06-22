@@ -83,7 +83,10 @@ namespace mojoin.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
+            var userImages = await _context.Users
+            .Where(ri => ri.UserId == id)
+            .ToListAsync();
+            ViewBag.Users = userImages;
             return View(user);
         }
 
@@ -121,6 +124,7 @@ namespace mojoin.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 User user = new User
+
                 {
                     RolesId = tk.RolesId,
                     FirstName = tk.FirstName,
@@ -233,7 +237,10 @@ namespace mojoin.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
+            var userImages = await _context.Users
+            .Where(ri => ri.UserId == id)
+            .ToListAsync();
+            ViewBag.Users = userImages;
             return View(user);
         }
 

@@ -54,4 +54,5 @@ public partial class User
     public virtual ICollection<RoomReport> RoomReports { get; set; } = new List<RoomReport>();
 
     public virtual ICollection<Room> Rooms { get; set; } = new List<Room>();
+
 }
