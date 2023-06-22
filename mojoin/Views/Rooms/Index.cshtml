@@ -8,8 +8,77 @@
     <script src="~/js/site.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
 }
+<div class="searchbar_top hidden-xs" style="padding-left: 13rem">
+    <div class="searchbar_top_body">
+        <div class="box-search">
+            <div class="bs-content">
+                <div class="row" >
+                    <div class="col-xs-12 col-sm-2 col-md-1 custom-column">
+                        <select id="ddlPostCate" name="CategoryId" class="form-control select2-hidden-accessible font-weight-bolder text-center" tabindex="-1" aria-hidden="true">
+                            <option value="0"><i class="text-center"></i>Loại tin</option>
+                            <option value="1">Cho thuê nhà trọ</option>
+                            <option value="2">Cho thuê căn hộ</option>
+                            <option value="3">Cho thuê nhà trọ chung chủ</option>
+                            <option value="4">Chung cư</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-12 col-sm-2 col-md-2 custom-column">
+                        <select id="city" name="CityId" class="form-control select2-hidden-accessible text-center " onchange="onCityChange()" aria-hidden="true">
+                            <option value="">Tỉnh/Thành phố</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-12 col-sm-2 col-md-2 custom-column">
+                        <select id="district" name="DistrictId" class="form-control select2-hidden-accessible text-center" onchange="onDistrictChange()" tabindex="-1" aria-hidden="true">
+                            <option value="">Quận huyện</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-12 col-sm-2 col-md-2 custom-column">
+                        <select id="street" name="StreetId" class="form-control select2-hidden-accessible text-center" tabindex="-1" aria-hidden="true">
+                            <option value="0">Đường phố</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-12 col-sm-2 col-md-1 custom-column">
+                        <select id="ddlPrice" name="PriceId" style="width:100%" class="form-control text-center">
+                            <option value="-1">Mức giá</option>
+                            <option value="0">Thỏa thuận</option>
+                            <option value="1">Dưới 1 triệu</option>
+                            <option value="2">1 triệu - 2 triệu</option>
+                            <option value="3">2 triệu - 3 triệu</option>
+                            <option value="4">3 triệu - 5 triệu</option>
+                            <option value="5">5 triệu - 7 triệu</option>
+                            <option value="6">7 triệu - 10 triệu</option>
+                            <option value="7">10 triệu - 15 triệu</option>
+                            <option value="8">15 triệu - 20 triệu</option>
+                            <option value="9">Trên 20 triệu</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-12 col-sm-2 col-md-1 custom-column">
+                        <select id="ddlArea" name="AreaId" style="width:100%" class="form-control text-center">
+                            <option value="-1">Diện tích</option>
+                            <option value="0">Chưa xác định</option>
+                            <option value="1">Dưới 20 m2</option>
+                            <option value="2">20 - 30 m2</option>
+                            <option value="3">30 - 50 m2</option>
+                            <option value="4">50 - 60 m2</option>
+                            <option value="5">60 - 70 m2</option>
+                            <option value="6">70 - 80 m2</option>
+                            <option value="7">80 - 90 m2</option>
+                            <option value="8">90 - 100 m2</option>
+                            <option value="9">Trên 100 m2</option>
+                        </select>
+                    </div>
+                    <div class="bs-search col-xs-12 col-sm-2 col-md-2">
+                        <button class="btn btn-sort " id="btnSearch"><i class="fa fa-filter"></i> </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
 <div class="container ct-listing">
-    <main style="padding: 10px 10px 0 0;">
+    <main>
         <div class="no-padding col-md-8 ct-col-8">
             <div class="WrapperScroll_wrapperOverflow__3k3CU">
                 <div class="TrendKeywords_wrapperTrendingKeywords__qYnDr">
@@ -93,71 +162,59 @@
                     </div>
                 </div>
             </div>
-            @*listview*@
-            <div class="list-view">
-                <div>
-                    <div style="display: flex; flex-flow: row wrap;">
-                        @foreach (var item in Model)
-                        {
-                            //so sánh để hiị thị bài đăng được hhieenr thị
-                            if(item.IsActive.Equals(1))
-                            {
-                                <div class="AdItem_item__Ljfcd col-6 col-sm-4">
-                                    <a class="AdItem_wrapperLink__Q_RTw" href="/Rooms/Details/@item.RoomId">
-                                        <div id="viewlist" class="AdThumbnail_thumbnailWrapper__zaKRz">
-                                            <div class="AdThumbnail_thumbnailImg__smtQI " role="button" tabindex="0">
-                                                <span style="box-sizing: border-box; display: block; overflow: hidden; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: absolute; inset: 0px;">
-                                                    <img alt="" src="/Rooms/ShowImage/@item.RoomId" decoding="async" data-nimg="fill" style="position: absolute; inset: 0px; box-sizing: border-box; padding: 0px; border: none; margin: auto; display: block; width: 100px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%;">
-                                                </span>
-                                                <div class="AdThumbnail_imageGroup__nOLEm">
-                                                    <div class="AdThumbnail_imageNum__thXX6">
-                                                        <span class="AdThumbnail_text__XUXVY">@item.RoomImages.Count()</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            @*@{
-                                    Html.RenderPartial("~/Views/YeuThich/YeuThichPartial.cshtml");
-                                    }*@
-                                        </div>
-                                        <div class="AdBody_caption__0FF4E">
-                                            <div class="commonStyle_adTitleGrid__ZQnBY" role="button" tabindex="0">@item.Title</div>
-                                            <span class="AdBody_condition__FwozD"> @item.Area m² </span>
-                                            <div>
-                                                <p class="AdBody_price__kHpmy">@String.Format("{0:#,##0}", item.Price) VNĐ/tháng</p>
-                                                <div class="AdBody_labelWrapper__7gzLO"></div>
-                                            </div>
-                                        </div>
-                                        <div class="AdBody_footer__Xy9cP">
-                                            <a rel="noopener noreferrer" target="_blank">
-                                                <img class="commonStyle_image__6q98n commonStyle_round__zezFa" src="https://static.chotot.com/storage/chotot-icons/svg/user.svg" alt="Thảo" height="16" width="16" srcset="https://static.chotot.com/storage/chotot-icons/svg/user.svg">
-                                            </a>
-                                            <div class="commonStyle_deviderWrapper__mnwnv"></div>
-                                            <div class="AdBody_adItemPostedTime__70d9K">
-                                                <div class="AdBody_sticky__eQ3Xd">
-                                                    <span class="AdBody_stickyIcon__oUuQj"></span>
-                                                    <span class="AdBody_stickyText__q0Ep7"> Tin ưu tiên </span>
-                                                </div>
-                                            </div>
-                                            <div class="commonStyle_deviderWrapper__mnwnv"></div>
-                                            <span class="AdBody_adItemPostedTime__70d9K AdBody_location___gCdn">
-                                                <span class="AdBody_text__FdAzW"> @item.District </span>
-                                            </span>
-                                        </div>
-                                    </a>
-                                </div>
-                            }
-                            
-                        }
-                    </div>
+            <div class="list-active">
+                <div id="mainResults">
+                    @*listview*@
+                    @{
+                        Html.RenderPartialAsync("~/Views/Rooms/_ListRoomPartial.cshtml");
+                    }
+                </div>
+
+                <div id="searchResults" style="display: none;">
+                    @{
+                        Html.RenderPartialAsync("~/Views/Rooms/_ListSearchRoomPartial.cshtml");
+                    }
                 </div>
             </div>
         </div>
-        <div class="col-md-4 d-lg-block d-none ct-col-4 styles_stickyGoogleRight_R7gNB">
-        </div>
     </main>
 </div>
+
+
 <script>
-    
+    document.addEventListener("DOMContentLoaded", function () {
+        var btnSearch = document.getElementById("btnSearch");
+        var mainResults = document.getElementById("mainResults");
+        var searchResults = document.getElementById("searchResults");
+
+        btnSearch.addEventListener("click", function () {
+            // Ẩn phần tử "mainResults"
+            mainResults.style.display = "none";
+            // Hiển thị phần tử "searchResults"
+            searchResults.style.display = "block";
+
+            var categoryId = document.getElementById("ddlPostCate").value;
+            var cityId = document.getElementById("city").value;
+            var districtId = document.getElementById("district").value;
+            var streetId = document.getElementById("street").value;
+            var priceId = document.getElementById("ddlPrice").value;
+            var areaId = document.getElementById("ddlArea").value;
+
+            // Thực hiện yêu cầu AJAX
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    // Cập nhật nội dung của phần tử "searchResults"
+                    searchResults.innerHTML = xhr.responseText;
+                }
+            };
+
+            // Xây dựng URL và gửi yêu cầu GET
+            var url = "/Rooms/SelectedSearch?categoryId=" + categoryId + "&cityId=" + cityId + "&districtId=" + districtId + "&streetId=" + streetId + "&priceId=" + priceId + "&areaId=" + areaId;
+            xhr.open("GET", url, true);
+            xhr.send();
+        });
+    });
+
 </script>
-
-
+<script src="~/js/_getaddresses.js"></script>

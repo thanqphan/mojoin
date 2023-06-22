@@ -1484,15 +1484,13 @@
 
 var citySelect = document.getElementById("city");
 var districtSelect = document.getElementById("district");
-var wardSelect = document.getElementById("ward");
 var streetSelect = document.getElementById("street");
 
-
-
+citySelect.addEventListener("change", onCityChange);
+districtSelect.addEventListener("change", onDistrictChange);
 
 function onCityChange() {
     districtSelect.innerHTML = '<option value="">-- Chọn quận/huyện --</option>';
-    wardSelect.innerHTML = '<option value="">-- Chọn phường/xã --</option>';
     streetSelect.innerHTML = '<option value="">-- Chọn đường --</option>';
 
     var cityIndex = citySelect.selectedIndex - 1;
@@ -1505,32 +1503,17 @@ function onCityChange() {
 }
 
 function onDistrictChange() {
-    wardSelect.innerHTML = '<option value="">-- Chọn phường/xã --</option>';
     streetSelect.innerHTML = '<option value="">-- Chọn đường --</option>';
 
     var cityIndex = citySelect.selectedIndex - 1;
     var districtIndex = districtSelect.selectedIndex - 1;
     if (cityIndex >= 0 && districtIndex >= 0) {
-        populateWards(data.city[cityIndex].district[districtIndex].ward);
-        wardSelect.disabled = false;
         populateStreets(data.city[cityIndex].district[districtIndex].street);
         streetSelect.disabled = false;
     } else {
-        wardSelect.disabled = true;
         streetSelect.disabled = true;
-
     }
 }
-
-function onWardChange() {
-
-    var cityIndex = citySelect.selectedIndex - 1;
-    var districtIndex = districtSelect.selectedIndex - 1;
-    var wardIndex = wardSelect.selectedIndex - 1;
-
-    
-}
-
 
 function populateCities(cities) {
     for (var i = 0; i < cities.length; i++) {
@@ -1549,16 +1532,6 @@ function populateDistricts(districts) {
         option.value = district.name;
         option.text = district.pre + " " + district.name;
         districtSelect.appendChild(option);
-    }
-}
-
-function populateWards(wards) {
-    for (var i = 0; i < wards.length; i++) {
-        var ward = wards[i];
-        var option = document.createElement("option");
-        option.value = ward.name;
-        option.text = ward.pre + " " + ward.name;
-        wardSelect.appendChild(option);
     }
 }
 
