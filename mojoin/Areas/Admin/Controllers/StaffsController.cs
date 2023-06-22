@@ -113,12 +113,11 @@ namespace mojoin.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
-            ViewData["QuyenTruyCap"] = new SelectList(_context.Roles, "RoleId", "RoleName", user.RolesId);
+            ViewData["RolesId"] = new SelectList(_context.Roles, "RolelD", "RolelD", user.RolesId);
             return View(user);
         }
 
-        // POST: Admin/Staff/Edit/5
+        // POST: Admin/Client/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
