@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 
 namespace mojoin.ViewModel
@@ -55,7 +56,7 @@ namespace mojoin.ViewModel
         public bool HasParking { get; set; }
 
         public int? ViewCount { get; set; }
-
+        [ValidateNever]
         public List<IFormFile> Files { get; set; }
     }
 }

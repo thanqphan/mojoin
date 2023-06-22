@@ -384,27 +384,56 @@ namespace mojoin.Areas.Admin.Controllers
         {
             ViewBag.RoomsParams = (int)HttpContext.Session.GetInt32("RoomsParams");
 
-			if (id == null || _context.Rooms == null)
-			{
-				return NotFound();
-			}
+            if (id == null || _context.Rooms == null)
+            {
+                return NotFound();
+            }
 
             var room = await _context.Rooms
                 .Include(r => r.RoomType)
+                .Include(r => r.RoomImages)
                 .FirstOrDefaultAsync(m => m.RoomId == id);
             if (room == null)
             {
                 return NotFound();
             }
-            var roomImages = await _context.RoomImages
-            .Where(ri => ri.RoomId == id)
-            .ToListAsync();
-            ViewBag.RoomImages = roomImages;
 
             return View(room);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Delete(int? id, IFormCollection collection)
+        {
+            int isActive = (int)HttpContext.Session.GetInt32("RoomsParams");
 
+            try
+            {
+                var findRoom = _context.Rooms
+                    .Include(r => r.RoomImages)
+                    .FirstOrDefault(x => x.RoomId == id);
+                if (findRoom != null)
+                {
+                    _context.RoomImages.RemoveRange(findRoom.RoomImages);
+                    _context.Rooms.Remove(findRoom);
+                    _context.SaveChanges();
+
+                    _notyfService.Success("Xóa thành công!");
+                }
+                else
+                {
+                    _notyfService.Error("Xóa thất bại!");
+                }
+
+                var dbmojoinContext = GetListRoomByActive(isActive);
+
+                return RedirectToAction(nameof(Index), new { isActive });
+            }
+            catch
+            {
+                _notyfService.Error("Xóa thất bại!");
+            }
+            return RedirectToAction(nameof(Index), new { isActive });
+        }
         private bool RoomExists(int id)
         {
             return (_context.Rooms?.Any(e => e.RoomId == id)).GetValueOrDefault();
@@ -441,37 +470,6 @@ namespace mojoin.Areas.Admin.Controllers
 			}
 			return RedirectToAction(nameof(Index), new { isActive });
 		}
-
-
-			public IActionResult DeleteRoom(int roomId)
-			{
-				int isActive = (int)HttpContext.Session.GetInt32("RoomsParams");
-
-				try
-				{
-					var findRoom = _context.Rooms.Where(x => x.RoomId == roomId).FirstOrDefault();
-					if (findRoom != null)
-					{
-						findRoom.IsActive = 2;
-						_context.SaveChanges();
-
-						_notyfService.Success("Xóa thành công!");
-					}
-					else
-					{
-						_notyfService.Success("Xóa thất bại!");
-					}
-
-					var dbmojoinContext = GetListRoomByActive(isActive);
-
-                return PartialView("ListRoom", dbmojoinContext);
-            }
-            catch
-            {
-                _notyfService.Success("Xoa thất bại!");
-            }
-            return RedirectToAction(nameof(Index), new { isActive });
-        }
         [HttpPost]
         public ActionResult UploadMultipleImage(List<IFormFile> files)
         {
