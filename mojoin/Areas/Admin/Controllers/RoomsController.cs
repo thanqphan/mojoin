@@ -99,7 +99,7 @@ namespace mojoin.Areas.Admin.Controllers
             return View(room);
         }
 
-		// GET: Admin/Rooms/Create
+		/*// GET: Admin/Rooms/Create
 		public IActionResult Create()
 		{
             ViewData["RoomTypeId"] = new SelectList(_context.RoomTypes, "RoomTypeId", "TypeName");
@@ -118,7 +118,7 @@ namespace mojoin.Areas.Admin.Controllers
                 var roomEntity = new Room
                 {
                     RoomTypeId = room.RoomTypeId,
-                    /*RoomType = roomType.TypeName,*/
+                    *//*RoomType = roomType.TypeName,*//*
                     Title = room.Title,
                     Description = room.Description,
                     Price = room.Price,
@@ -140,7 +140,7 @@ namespace mojoin.Areas.Admin.Controllers
                     UserId = HttpContext.GetUserId(),
                     CreateDate = DateTime.Now
                 };
-                /*var roomType = _context.RoomTypes.Find(room.RoomTypeId);*/
+                *//*var roomType = _context.RoomTypes.Find(room.RoomTypeId);*//*
                 _context.Rooms.Add(roomEntity);
                 await _context.SaveChangesAsync();
                 int index = 1;
@@ -167,7 +167,7 @@ namespace mojoin.Areas.Admin.Controllers
 
             ViewData["RoomTypeId"] = new SelectList(_context.RoomTypes, "RoomTypeId", "TypeName", room.RoomTypeId);
 			return View(room);
-		}
+		}*/
 
         // GET: Admin/Rooms/Edit/5
         //     public async Task<IActionResult> Edit(int? id)
