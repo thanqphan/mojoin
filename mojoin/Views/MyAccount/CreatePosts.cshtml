@@ -15,68 +15,194 @@
 <link href="~/css/createpost.css" rel="stylesheet" />
 <div class="create-post">
     <div class="title-div">
-        <h2>Đăng tin mới</h2>
+        <h2 class="title-element">Đăng tin mới</h2>
     </div>
     <div class="alert-div">
-        <h2>Nếu bạn đã từng đăng tin trên mojoin, hãy sử dụng chức năng ĐẨY TIN / GIA HẠN / NÂNG CẤP VIP trong mục QUẢN LÝ TIN ĐĂNG để làm mới, đẩy tin lên cao thay vì đăng tin mới.<br> Tin đăng trùng nhau sẽ không được duyệt.</h2>
+        <h2 class="title-element">Nếu bạn đã từng đăng tin trên mojoin, hãy sử dụng chức năng ĐẨY TIN / GIA HẠN / NÂNG CẤP VIP trong mục QUẢN LÝ TIN ĐĂNG để làm mới, đẩy tin lên cao thay vì đăng tin mới.<br> Tin đăng trùng nhau sẽ không được duyệt.</h2>
     </div>
-    
+
     <form id="createRoomForm" asp-action="CreatePosts" asp-controller="MyAccount" class="form-horizontal">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        
+
         <input asp-for="UserId" type="hidden" name="UserId" value="@userId" />
-        <div class="row">
-            <div class="col-md-8">
-                <div class="row">
-                    <div class="col-md-12">
+        <div class="dangtin-row">
+            <div class="dangtin-col-md-8">
+                <div class="dangtin-row">
+                    <div class="dangtin-col-md-12">
                         <h2>Địa chỉ cho thuê</h2>
                     </div>
                 </div>
-                <div class="form-group" id="address-div">
-                    <label class="label-item">Tỉnh thành<label class="label-requied">(*)</label>:<br /></label>
-                    <select asp-for="City" id="city" class="address-item" onchange="onCityChange()" name="City" required>
-                        <option value="">Chọn thành phố</option>
-                    </select>
-                    <span asp-validation-for="City" class="text-danger error-message" id="chooseCity-error"></span>
+                <div class="dangtin-row ">
+                    <div class="dangtin-col-md-3">
+                        <div class="dangtin-form-group">
+                            <label class="dangtin-col-form-label">Tỉnh/Thành phố: </label><br />
+                            <select asp-for=City id="city" class="form-control" onchange="onCityChange()" name="City" required
+                                    title="Thành phố" data-val="true" data-val-required="Vui lòng chọn Thành phố!">
+                                <option value="">---Chọn thành phố---</option>
+                            </select>
 
+                            <span asp-validation-for="City" class="text-danger error-message" id="chooseCity-error"></span>
+                        </div>
+                    </div>
+                    <div class="dangtin-col-md-3">
+                        <div class="dangtin-form-group">
+                            <label class="dangtin-col-form-label">Quận/Huyện: </label><br />
+                            <select asp-for=District id="district" class="form-control" onchange="onDistrictChange()" name="District" disabled required
+                                    title="Thành phố" data-val="true" data-val-required="Vui lòng chọn Quận/Huyện!">
+                                <option value="">---Chọn Quận/Huyện---</option>
+                            </select>
 
-                    <label class="label-item">Quận/Huyện<label class="label-requied">(*)</label>:</label>
-                    <select asp-for=District id="district" class="address-item" onchange="onDistrictChange()" name="District" disabled required>
-                        <option value="">Chọn quận/huyện</option>
-                    </select>
-                    <span asp-validation-for="District" class="text-danger error-message" id="chooseDistrict-error"></span>
+                            <span asp-validation-for="District" class="text-danger error-message" id="chooseCity-error"></span>
+                        </div>
+                    </div>
+                    <div class="dangtin-col-md-3">
+                        <div class="dangtin-form-group">
+                            <label class="dangtin-col-form-label">Phường/Xã: </label><br />
+                            <select asp-for=Ward id="ward" class="form-control" name="Ward" disabled required
+                                    title="Thành phố" data-val="true" data-val-required="Vui lòng chọn Phường/Xã!">
+                                <option value="">---Chọn Phường/Xã---</option>
+                            </select>
 
+                            <span asp-validation-for="Ward" class="text-danger error-message" id="chooseCity-error"></span>
+                        </div>
+                    </div>
+                    <div class="dangtin-col-md-3">
+                        <div class="dangtin-form-group">
+                            <label class="dangtin-col-form-label">---Đường:--- </label><br />
+                            <select asp-for=Street id="street" class="form-control" name="Street" disabled required
+                                    title="Thành phố" data-val="true" data-val-required="Vui lòng chọn Đường!">
+                                <option value="">Chọn Đường</option>
+                            </select>
 
-                    <label class="label-item">Phường/Xã<label class="label-requied">(*)</label>:</label>
-                    <select asp-for=Ward id="ward" class="address-item" disabled required name="Ward">
-                        <option value="">Chọn phường/xã</option>
-                    </select>
-                    <span asp-validation-for="Ward" class="text-danger error-message" id="chooseDistrict-error"></span>
-
-
-                    <label class="label-item">Đường<label class="label-requied">(*)</label>:</label>
-                    <select asp-for=Street id="street" class="address-item" disabled required name="Street">
-                        <option value="">Chọn đường</option>
-                    </select>
-                    <span asp-validation-for="Street" class="text-danger error-message" id="chooseStreet-error"></span>
-
-
-                    <label class="label-item">Số nhà:</label>
-                    <input asp-for="StreetNumber" type="text" class="num-address-item" />
-                    <span asp-validation-for="StreetNumber" class="text-danger"></span>
-
+                            <span asp-validation-for="Street" class="text-danger error-message" id="chooseCity-error"></span>
+                        </div>
+                    </div>
                 </div>
+                <div class="dangtin-row ">
+                    <div class="dangtin-col-md-3">
+                        <div class="dangtin-form-group">
+                            <label class="dangtin-col-form-label">
+                                Số nhà:
+                            </label><br />
+                            <input asp-for="StreetNumber" id="num-street" type="text" class="form-control" title="Số nhà" placeholder="Số nhà" />
+                            <span asp-validation-for="StreetNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class=" dangtin-row ">
+                    <div class="dangtin-col-md-12">
+                        <h2>Thông tin mô tả</h2>
+                    </div>
+                </div>
+                <div class="dangtin-row dangtin-form-group">
+                    <label class=" dangtin-col-form-label dangtin-col-md-12">
+                        Loại chuyên mục:
+                    </label><br />
+                    <div class="dangtin-col-md-6">
+                        <select asp-for="RoomTypeId" class="form-control" id="room-type" name="RoomTypeId">
+                            <option value="">Chọn loại phòng</option>
+                            @foreach (var roomType in ViewBag.RoomTypes)
+                            {
+                                <option value="@roomType.RoomTypeId">@roomType.TypeName</option>
+                            }
+                        </select>
+                        <span asp-validation-for="RoomTypeId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="dangtin-row dangtin-form-group">
+                    <label class=" dangtin-col-form-label dangtin-col-md-12">
+                        Tiêu đề:
+                    </label><br />
+                    <div class="dangtin-col-md-11">
+                        <input asp-for="Title" placeholder="Tiêu đề tin đăng" type="text" id="title-room" class="form-control" name="Title" value="" minlength="30" maxlength="120" required="" data-msg-required="Tiêu đề không được để trống" data-msg-minlength="Tiêu đề quá ngắn" data-msg-maxlength="Tiêu đề quá dài" style="width: 100%; />
+                        <span asp-validation-for="Title" class="text-danger error-message" id="fieldTitle-error"></span><br />
+                    </div>
+                </div>
+                <div class="dangtin-row dangtin-form-group">
+                    <label class=" dangtin-col-form-label dangtin-col-md-12">
+                        Nội dung mô tả:
+                    </label><br />
+                    <div class="dangtin-col-md-11">
+                        <textarea asp-for="Description" placeholder="Nôi dung tin đăng" class="form-control" rows="11" name="Description" required style="width: 100%" id="desc-room"></textarea>
+                        <span asp-validation-for="Description" class="text-danger error-message" id="fieldTitle-error"></span><br />
+                    </div>
+                </div>
+                <div class="dangtin-row dangtin-form-group">
+                    <label class=" dangtin-col-form-label dangtin-col-md-12">
+                        Giá cho thuê:
+                    </label><br />
+                    <div class="dangtin-col-md-6">
+                        <div class="dangtin-input-group">
+                            <input asp-for="Price" type="number" class="form-control" name="Price" required id="price-room" />
+                            <div class="dangtin-input-group-append">
+                                <span class="dangtin-input-group-text">VND/Tháng</span>
+                            </div>
+                            <small class="form-text " style="color: #999">Nhập đầy đủ số, ví dụ 1 triệu thì nhập là 1000000</small>
+                            
+                        </div>
+                        <span asp-validation-for="Description" class="text-danger error-message" id="fieldTitle-error"></span><br />
+                    </div>
+                </div>
+                <div class="dangtin-row dangtin-form-group">
+                    <label class=" dangtin-col-form-label dangtin-col-md-12">
+                        Diện tích:
+                    </label><br />
+                    <div class="dangtin-col-md-6">
+                        <div class="dangtin-input-group">
+                            <input asp-for="Area" type="number" class="form-control" name="Area" required id="area-room" />
+                            <div class="dangtin-input-group-append">
+                                <span class="dangtin-input-group-text">m<sup>2</sup></span>
+                            </div>
+
+                        </div>
+                        <span asp-validation-for="Area" class="text-danger error-message" id="fieldTitle-error"></span><br />
+                    </div>
+                </div>
+                <div class=" dangtin-row ">
+                    <div class="dangtin-col-md-12">
+                        <h2>Hình ảnh</h2>
+                    </div>
+                </div>
+                <div class="dangtin-row dangtin-form-group">
+                    <div class="dangtin-col-md-11">
+                        <p>Cập nhật hình ảnh rõ ràng sẽ cho thuê nhanh hơn</p>
+                        <div class="dangtin-form-group" >
+                            <form id="uploadForm" method="post" enctype="multipart/form-data" asp-action="UploadImages" asp-controller="MyAccount">
+                                <div class="form-group" id="uploadimg-div" >
+                                    <div id="image-container" class="image-container">
+                                    </div>
+                                    <div class="upload-buttons"> 
+                                        <label for="file-upload" class="file-button">Chọn ảnh</label>
+                                        <input id="file-upload" name="images" type="file" accept="image/*" multiple style="width: 40%">>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-            <div class="col-md-4">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h3>Địa chỉ cho thuê</h3>
+            <div class="dangtin-col-md-4">
+                <div class="dangtin-row">
+                    <div class="dangtin-col-md-12">
+                        <h2>Địa chỉ cho thuê</h2>
                     </div>
                 </div>
             </div>
         </div>
 
-
+    </form>
+    <form id="uploadForm" method="post" enctype="multipart/form-data" asp-action="UploadImages" asp-controller="MyAccount">
+        <div class="form-group" id="uploadimg-div" style="display:none;">
+            <h2 class="title-div">Ảnh phòng</h2>
+            <div id="image-container" class="image-container">
+            </div>
+            <div class="upload-buttons">
+                <label for="file-upload" class="file-button">Chọn file</label>
+                <input id="file-upload" name="images" type="file" accept="image/*" multiple>
+            </div>
+        </div>
+    </form>
         <div class="form-group" id="type-div">
             <ul class="ul-type-room">
                 <li class="title-div "><h2>Loại phòng</h2></li>
@@ -92,12 +218,7 @@
         </div>
 
         <div class="form-group" id="address-div">
-            <h2 class="title-div">Địa chỉ đăng</h2>
-            <label class="label-item">Tỉnh thành<label class="label-requied">(*)</label>:<br /></label>
-            <select asp-for="City" id="city" class="address-item" onchange="onCityChange()" name="City" required>
-                <option value="">Chọn thành phố</option>
-            </select>
-            <span asp-validation-for="City" class="text-danger error-message" id="chooseCity-error"></span>
+
 
 
             <label class="label-item">Quận/Huyện<label class="label-requied">(*)</label>:</label>
@@ -210,19 +331,8 @@
             <input id="btn-save" type="submit" name="create-post" value="Tạo mới" />
 
         </div>
-        
-    </form>
-    <form id="uploadForm" method="post" enctype="multipart/form-data" asp-action="UploadImages" asp-controller="MyAccount">
-        <div class="form-group" id="uploadimg-div" style="display:none;">
-            <h2 class="title-div">Ảnh phòng</h2>
-            <div id="image-container" class="image-container">
-            </div>
-            <div class="upload-buttons">
-                <label for="file-upload" class="file-button">Chọn file</label>
-                <input id="file-upload" name="images" type="file" accept="image/*" multiple>
-            </div>
-        </div>
-    </form>
+
+   
 </div>
 
 <script>

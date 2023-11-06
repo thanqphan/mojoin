@@ -66,6 +66,7 @@ public partial class DbmojoinContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.Title).HasMaxLength(100);
             entity.Property(e => e.UserId).HasColumnName("UserID");
+            entity.Property(e => e.Video).IsUnicode(false);
             entity.Property(e => e.ViewCount).HasColumnName("view_count");
             entity.Property(e => e.Ward).HasMaxLength(100);
 

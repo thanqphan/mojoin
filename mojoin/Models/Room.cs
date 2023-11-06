@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace mojoin.Models;
@@ -52,6 +51,10 @@ public partial class Room
 
     public int? ViewCount { get; set; }
 
+    public int? DisplayType { get; set; }
+
+    public string? Video { get; set; }
+
     public virtual ICollection<RoomFavorite> RoomFavorites { get; set; } = new List<RoomFavorite>();
 
     public virtual ICollection<RoomImage> RoomImages { get; set; } = new List<RoomImage>();
@@ -59,8 +62,8 @@ public partial class Room
     public virtual ICollection<RoomRating> RoomRatings { get; set; } = new List<RoomRating>();
 
     public virtual ICollection<RoomReport> RoomReports { get; set; } = new List<RoomReport>();
-    [ValidateNever]
+
     public virtual RoomType RoomType { get; set; } = null!;
-    [ValidateNever]
+
     public virtual User User { get; set; } = null!;
 }
