@@ -68,10 +68,10 @@
                     </div>
                     <div class="dangtin-col-md-3">
                         <div class="dangtin-form-group">
-                            <label class="dangtin-col-form-label">---Đường:--- </label><br />
+                            <label class="dangtin-col-form-label">Đường: </label><br />
                             <select asp-for=Street id="street" class="form-control" name="Street" disabled required
                                     title="Thành phố" data-val="true" data-val-required="Vui lòng chọn Đường!">
-                                <option value="">Chọn Đường</option>
+                                <option value="">---Chọn Đường---</option>
                             </select>
 
                             <span asp-validation-for="Street" class="text-danger error-message" id="chooseCity-error"></span>
@@ -179,15 +179,35 @@
                             </form>
                         </div>
                     </div>
-                </div>
+                    
 
-            </div>
-            <div class="dangtin-col-md-4">
-                <div class="dangtin-row">
-                    <div class="dangtin-col-md-12">
-                        <h2>Địa chỉ cho thuê</h2>
+                </div>
+                <div class="dangtin-row dangtin-form-group">
+                    <label class=" dangtin-col-form-label dangtin-col-md-12">
+                        Video
+                    </label><br />
+                    <div class="dangtin-col-md-11">
+                        <input asp-for="Video" placeholder="Link YouTube" type="text" id="video-room" class="form-control" style="width: 100%; name="Video" value="" />
+                        <span asp-validation-for="Video" class="text-danger error-message" id="fieldTitle-error"></span><br />
                     </div>
                 </div>
+            </div>
+            <div class="dangtin-col-md-4">
+                <div class="dangtin-card">
+                    <div class="dangtin-card-body">
+                        <h4 class="dangtin-card-title">
+                            Lưu ý khi đăng tin
+                        </h4>
+                        <ul>
+                            <li style="list-style-type: square; margin-left: 15px;     padding-left: 1rem;">Nội dung phải viết bằng tiếng Việt có dấu</li>
+                            <li style="list-style-type: square; margin-left: 15px;    padding-left: 1rem;">Tiêu đề tin không dài quá 100 kí tự</li>
+                            <li style="list-style-type: square; margin-left: 15px;    padding-left: 1rem;">Các bạn nên điền đầy đủ thông tin vào các mục để tin đăng có hiệu quả hơn.</li>
+                            <li style="list-style-type: square; margin-left: 15px;    padding-left: 1rem;">Để tăng độ tin cậy và tin rao được nhiều người quan tâm hơn, hãy sửa vị trí tin rao của bạn trên bản đồ bằng cách kéo icon tới đúng vị trí của tin rao.</li>
+                            <li style="list-style-type: square; margin-left: 15px;    padding-left: 1rem;">Tin đăng có hình ảnh rõ ràng sẽ được xem và gọi gấp nhiều lần so với tin rao không có ảnh. Hãy đăng ảnh để được giao dịch nhanh chóng!</li>
+                        </ul>
+                    </div>
+                </div>
+
             </div>
         </div>
 

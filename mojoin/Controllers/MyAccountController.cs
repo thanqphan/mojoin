@@ -244,6 +244,8 @@ namespace mojoin.Controllers
                     HasRefrigerator = room.HasRefrigerator,
                     HasWasher = room.HasWasher,
                     ViewCount = 1,
+                    Video=room.Video,
+                    DisplayType = 0,
                 };
 
                 _context.Add(user);

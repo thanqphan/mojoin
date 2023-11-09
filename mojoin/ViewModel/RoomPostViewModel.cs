@@ -56,6 +56,10 @@ namespace mojoin.ViewModel
 
         public int? ViewCount { get; set; }
 
+        public int? DisplayType { get; set; }
+
+        public string? Video { get; set; }
+
         public List<IFormFile> Files { get; set; }
     }
 }
