@@ -7,6 +7,7 @@
         margin: 0.8rem 2rem;
     }
 }
+
 .dangtin-row {
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: transparent;
@@ -95,8 +96,8 @@
         min-height: 1px;
         padding-right: 15px;
         padding-left: 15px;
-        flex: 0 0 66.666667%;
-        max-width: 66.666667%;
+        flex: 0 0 56.666667%;
+        max-width: 56.666667%;
     }
 
     .dangtin-col-md-11 {
@@ -142,7 +143,7 @@
         width: 100%;
         min-height: 1px;
         padding-right: 15px;
-        flex: 0 0 66.666667%;
+        flex: 0 0 97.666667%;
         max-width: 100%;
     }
 
@@ -190,8 +191,8 @@
         min-height: 1px;
         padding-right: 15px;
         padding-left: 15px;
-        flex: 0 0 33.333333%;
-        max-width: 33.333333%;
+        flex: 0 0 43.333333%;
+        max-width: 43.333333%;
     }
 
     .dangtin-col-md-12 {
@@ -608,8 +609,257 @@
             border-radius: 8px; // Bo tròn góc 10px
             padding: 0.4rem
         }
+
+        #num-room .form-control {
+            @extend .form-control; // Kế thừa các thuộc tính của .form-control trong Bootstrap
+
+            background-color: #fff; // Đặt màu nền trắng
+            border-radius: 8px; // Bo tròn góc 10px
+            padding: 0.4rem;
+        }
+
+        .dangtin-num-item-sm {
+            -webkit-text-size-adjust: 100%;
+            -webkit-tap-highlight-color: transparent;
+            --blue: #007bff;
+            --indigo: #6610f2;
+            --purple: #6f42c1;
+            --pink: #e83e8c;
+            --red: #dc3545;
+            --orange: #fd7e14;
+            --yellow: #ffc107;
+            --green: #28a745;
+            --teal: #20c997;
+            --cyan: #17a2b8;
+            --white: #fff;
+            --gray: #6c757d;
+            --gray-dark: #343a40;
+            --primary: #007bff;
+            --secondary: #6c757d;
+            --success: #28a745;
+            --info: #17a2b8;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --breakpoint-xs: 0;
+            --breakpoint-sm: 576px;
+            --breakpoint-md: 768px;
+            --breakpoint-lg: 992px;
+            --breakpoint-xl: 1200px;
+            --font-family-sans-serif: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+            --font-family-monospace: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+            margin: 0;
+            font: inherit;
+            color: inherit;
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 0.4rem;
+            width: 60%;
+        }
+    }
+
+    .dangtin-form-group-check {
+        -webkit-text-size-adjust: 100%;
+        -webkit-tap-highlight-color: transparent;
+        --blue: #007bff;
+        --indigo: #6610f2;
+        --purple: #6f42c1;
+        --pink: #e83e8c;
+        --red: #dc3545;
+        --orange: #fd7e14;
+        --yellow: #ffc107;
+        --green: #28a745;
+        --teal: #20c997;
+        --cyan: #17a2b8;
+        --white: #fff;
+        --gray: #6c757d;
+        --gray-dark: #343a40;
+        --primary: #007bff;
+        --secondary: #6c757d;
+        --success: #28a745;
+        --info: #17a2b8;
+        --warning: #ffc107;
+        --danger: #dc3545;
+        --light: #f8f9fa;
+        --dark: #343a40;
+        --breakpoint-xs: 0;
+        --breakpoint-sm: 576px;
+        --breakpoint-md: 768px;
+        --breakpoint-lg: 992px;
+        --breakpoint-xl: 1200px;
+        --font-family-sans-serif: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+        --font-family-monospace: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+        text-align: left;
+        color: #000;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        display: inline-block;
+        border: 1px solid #000;
+        font: inherit;
+        vertical-align: baseline;
+        margin-bottom: 0rem;
+        margin-top: 1rem;
+        border-radius: 10px;
+
+        .dangtin-col-form-label-check {
+            -webkit-text-size-adjust: 100%;
+            -webkit-tap-highlight-color: transparent;
+            --blue: #007bff;
+            --indigo: #6610f2;
+            --purple: #6f42c1;
+            --pink: #e83e8c;
+            --red: #dc3545;
+            --orange: #fd7e14;
+            --yellow: #ffc107;
+            --green: #28a745;
+            --teal: #20c997;
+            --cyan: #17a2b8;
+            --white: #fff;
+            --gray: #6c757d;
+            --gray-dark: #343a40;
+            --primary: #007bff;
+            --secondary: #6c757d;
+            --success: #28a745;
+            --info: #17a2b8;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --breakpoint-xs: 0;
+            --breakpoint-sm: 576px;
+            --breakpoint-md: 768px;
+            --breakpoint-lg: 992px;
+            --breakpoint-xl: 1200px;
+            --font-family-sans-serif: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+            --font-family-monospace: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+            text-align: left;
+            color: #000;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font: inherit;
+            vertical-align: baseline;
+            display: inline-block;
+            padding-top: calc(.375rem + 1px);
+            margin-bottom: 0;
+            font-size: inherit;
+            line-height: 1.5;
+            font-weight: bold;
+            padding-bottom: 3px;
+            margin-left: 1rem;
+        }
+
+        .dangtin-check-item-sm {
+            -webkit-text-size-adjust: 100%;
+            -webkit-tap-highlight-color: transparent;
+            --blue: #007bff;
+            --indigo: #6610f2;
+            --purple: #6f42c1;
+            --pink: #e83e8c;
+            --red: #dc3545;
+            --orange: #fd7e14;
+            --yellow: #ffc107;
+            --green: #28a745;
+            --teal: #20c997;
+            --cyan: #17a2b8;
+            --white: #fff;
+            --gray: #6c757d;
+            --gray-dark: #343a40;
+            --primary: #007bff;
+            --secondary: #6c757d;
+            --success: #28a745;
+            --info: #17a2b8;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --breakpoint-xs: 0;
+            --breakpoint-sm: 576px;
+            --breakpoint-md: 768px;
+            --breakpoint-lg: 992px;
+            --breakpoint-xl: 1200px;
+            --font-family-sans-serif: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+            --font-family-monospace: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+            margin: 0;
+            font: inherit;
+            color: inherit;
+            background-color: #fff;
+            border-radius: 50%;
+            padding: 0.4rem;
+            width: 15px;
+            height: 15px;
+            border: 1px solid #28a745; /* Màu xanh lục, có thể thay đổi tùy ý */
+            outline: none;
+            cursor: pointer;
+            margin-right: 1rem;
+        }
+
+        .dangtin-check-item-sm:checked {
+            background-color: greenyellow; /* Màu xanh lục, có thể thay đổi tùy ý */
+        }
+    }
+
+    .dangtin-btn-success {
+        -webkit-text-size-adjust: 100%;
+        -webkit-tap-highlight-color: transparent;
+        --blue: #007bff;
+        --indigo: #6610f2;
+        --purple: #6f42c1;
+        --pink: #e83e8c;
+        --red: #dc3545;
+        --orange: #fd7e14;
+        --yellow: #ffc107;
+        --green: #28a745;
+        --teal: #20c997;
+        --cyan: #17a2b8;
+        --white: #fff;
+        --gray: #6c757d;
+        --gray-dark: #343a40;
+        --primary: #007bff;
+        --secondary: #6c757d;
+        --success: #28a745;
+        --info: #17a2b8;
+        --warning: #ffc107;
+        --danger: #dc3545;
+        --light: #f8f9fa;
+        --dark: #343a40;
+        --breakpoint-xs: 0;
+        --breakpoint-sm: 576px;
+        --breakpoint-md: 768px;
+        --breakpoint-lg: 992px;
+        --breakpoint-xl: 1200px;
+        --font-family-sans-serif: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+        --font-family-monospace: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+        box-sizing: border-box;
+        margin: 0;
+        font-family: inherit;
+        overflow: visible;
+        text-transform: none;
+        -webkit-appearance: button;
+        font-weight: 400;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        user-select: none;
+        border: 1px solid transparent;
+        transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        color: #fff;
+        background-color: #28a745;
+        border-color: #28a745;
+        padding: .5rem 1rem;
+        font-size: 1.25rem;
+        line-height: 1.5;
+        border-radius: .3rem;
+        display: block;
+        width: 100%;
+        margin-bottom: 3rem !important;
+        cursor: pointer;
     }
 }
+
 .dangtin-card {
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: transparent;
@@ -648,7 +898,6 @@
     font: inherit;
     vertical-align: baseline;
     position: relative;
-    display: flex;
     flex-direction: column;
     min-width: 0;
     word-wrap: break-word;
@@ -753,6 +1002,7 @@
         margin-bottom: .75rem;
     }
 }
+
 .dangtin-input-group {
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: transparent;
@@ -893,9 +1143,11 @@
         border-bottom-left-radius: 0;
     }
 }
+
 .ul-type-room {
     padding: 1rem 2rem 1rem;
 }
+
 .form-group {
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: transparent;
@@ -1149,7 +1401,7 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
-    margin-bottom:1rem;
+    margin-bottom: 1rem;
 }
 
 .image-preview {
@@ -1210,7 +1462,6 @@
 }
 
 .error-message {
-    padding-left: 1rem;
+    padding-left: 0rem;
     color: red;
-    font-weight: bold;
 }

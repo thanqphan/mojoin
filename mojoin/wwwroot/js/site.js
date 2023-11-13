@@ -22,10 +22,10 @@
 //    yeuthich.call(SaveAd_saveAdWrapper___sBMh);
 //});
 //yeu thich
-document.getElementById("viewlist").addEventListener("click", function (event) {
+/*document.getElementById("viewlist").addEventListener("click", function (event) {
     event.preventDefault()
 });
-
+*/
 function createYeuthichHandler(roomId) {
     const localStorageKey = "saved_ads";
     let savedAds = JSON.parse(localStorage.getItem(localStorageKey)) || {};
