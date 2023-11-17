@@ -23,7 +23,7 @@
         <h2 class="title-element">Nếu bạn đã từng đăng tin trên mojoin, hãy sử dụng chức năng ĐẨY TIN / GIA HẠN / NÂNG CẤP VIP trong mục QUẢN LÝ TIN ĐĂNG để làm mới, đẩy tin lên cao thay vì đăng tin mới.<br> Tin đăng trùng nhau sẽ không được duyệt.</h2>
     </div>
 
-    <form id="createRoomForm" asp-action="CreatePosts" enctype="multipart/form-data" asp-controller="MyAccount" class="form-horizontal">
+    <form id="createRoomForm" asp-action="CreatePosts"  asp-controller="MyAccount" class="form-horizontal">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <input asp-for="UserId" type="hidden" name="UserId" value="@userId" />
@@ -240,22 +240,20 @@
                 <div class="dangtin-row dangtin-form-group">
                     <div class="dangtin-col-md-11">
                         <p>Cập nhật hình ảnh rõ ràng sẽ cho thuê nhanh hơn</p>
-                        <div class="dangtin-form-group">
-                            <form id="uploadForm" method="post" enctype="multipart/form-data" asp-action="UploadImages" asp-controller="MyAccount">
-                                <div class="form-group" id="uploadimg-div">
-                                    <div id="image-container" class="image-container">
-                                    </div>
-                                    <div class="upload-buttons">
-                                        <label for="file-upload" class="file-button">Chọn ảnh</label>
-                                        <input id="file-upload" name="images" type="file" accept="image/*" multiple style="width: 40%">>
-                                    </div>
+                        <div class="dangtin-form-group" id="uploadSection">
+                            <div class="form-group" id="uploadimg-div">
+                                <div id="image-container" class="image-container">
+
                                 </div>
-                            </form>
+                                <div class="upload-buttons">
+                                    <label class="file-button">Chọn ảnh</label>
+                                    <input id="file-upload" name="images" type="file" accept="image/*" multiple style="width: 40%">
+                                </div>
+                            </div>
                         </div>
                     </div>
-
-
                 </div>
+
                 <div class="dangtin-row dangtin-form-group">
                     <label class=" dangtin-col-form-label dangtin-col-md-12">
                         Video
@@ -293,57 +291,82 @@
         
     </form>
  </div>   
+<!-- Đoạn script trong file HTML -->
 @*<script>
-    document.getElementById("createRoomForm").addEventListener("submit", function (event) {
-        event.preventDefault(); // Ngăn chặn submit form mặc định
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("createRoomForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Ngăn chặn submit form mặc định
 
-        // Thực hiện submit form "CreatePosts"
-        var createPostsForm = document.getElementById("createRoomForm");
-        var createPostsFormData = new FormData(createPostsForm);
-        var createPostsRequest = new XMLHttpRequest();
-        createPostsRequest.open(createPostsForm.method, createPostsForm.action);
-        createPostsRequest.send(createPostsFormData);
+            // Thực hiện submit form "CreatePosts"
+            var createPostsForm = document.getElementById("createRoomForm");
+            var createPostsFormData = new FormData(createPostsForm);
+            var createPostsRequest = new XMLHttpRequest();
+            createPostsRequest.open(createPostsForm.method, createPostsForm.action);
+            createPostsRequest.send(createPostsFormData);
 
-        createPostsRequest.onload = function () {
-            // Kiểm tra nếu "CreatePosts" thành công
-            if (createPostsRequest.status === 200) {
-                // Thực hiện submit form "UploadImages"
-                var uploadForm = document.getElementById("uploadForm");
-                var uploadFormData = new FormData(uploadForm);
-                var uploadRequest = new XMLHttpRequest();
-                uploadRequest.open(uploadForm.method, uploadForm.action);
-                uploadRequest.send(uploadFormData);
+            createPostsRequest.onload = function () {
+                // Kiểm tra nếu "CreatePosts" thành công
+                if (createPostsRequest.status === 200) {
+                    // Thực hiện các bước cần thiết sau khi "CreatePosts" thành công
 
-                uploadRequest.onload = function () {
-                    // Kiểm tra nếu "UploadImages" thành công
-                    if (uploadRequest.status === 200) {
-                        // Chuyển hướng đến trang Index của MyAccountController
-                        var url = '@Url.RouteUrl("QuanLiTin")';
-                        // Chuyển hướng đến URL đã lấy
-                        window.location.href = url;
-                    } else {
-                        // Xử lý lỗi khi submit form "UploadImages"
+                    // Thực hiện submit form "UploadImages"
+                    var uploadForm = document.getElementById("uploadForm");
+                    var uploadFormData = new FormData(); // Tạo FormData mới
+                    var images = document.getElementById("file-upload").files;
+
+                    // Thêm từng ảnh vào FormData
+                    for (var i = 0; i < images.length; i++) {
+                        uploadFormData.append("images", images[i], images[i].name);
                     }
-                }
-            } else {
-                // Xử lý lỗi khi submit form "CreatePosts"
-            }
-        }
 
+                    var uploadRequest = new XMLHttpRequest();
+                    uploadRequest.open(uploadForm.method, uploadForm.action);
+                    uploadRequest.send(uploadFormData);
+
+                    uploadRequest.onload = function () {
+                        // Kiểm tra nếu "UploadImages" thành công
+                        if (uploadRequest.status === 200) {
+                            // Chuyển hướng đến trang Index của MyAccountController
+                            var url = '@Url.RouteUrl("QuanLiTin")';
+                            // Chuyển hướng đến URL đã lấy
+                            window.location.href = url;
+                        } else {
+                            // Xử lý lỗi khi submit form "UploadImages"
+                        }
+                    };
+                } else {
+                    // Xử lý lỗi khi submit form "CreatePosts"
+                }
+            };
+        });
     });
 
+
 </script>*@
+
 <script>
     $(document).ready(function () {
-        // Lắng nghe sự kiện khi nhấn nút "Tiếp tục"
         $('#createRoomForm').on('submit', function (e) {
-            e.preventDefault(); // Chặn sự kiện mặc định của form
+            e.preventDefault();
+
+            // Lấy tất cả các files từ input có id="file-upload"
+            var files = $('#file-upload')[0].files;
+
+            // Tạo một đối tượng FormData
+            var formData = new FormData(this);
+
+            // Thêm files vào FormData
+            for (var i = 0; i < files.length; i++) {
+                formData.append('images[]', files[i]);
+            }
 
             // Gửi dữ liệu đến action CreatePosts bằng AJAX
             $.ajax({
                 type: 'POST',
                 url: '/dang-bai.html',
-                data: $('#createRoomForm').serialize(), // Gửi dữ liệu từ form
+                data: formData,
+                contentType: false,
+                processData: false,
                 success: function (data) {
                     // Kiểm tra xem action CreatePosts có thành công hay không
                     if (data.success) {
@@ -351,11 +374,14 @@
                         $.ajax({
                             type: 'POST',
                             url: '/MyAccount/UploadImages',
-                            data: $('#uploadForm').serialize(), // Gửi dữ liệu từ form UploadImages
+                            data: formData,
+                            contentType: false,
+                            processData: false,
                             success: function (uploadData) {
                                 // Xử lý kết quả từ action UploadImages
                                 if (uploadData.success) {
                                     alert('Đã tạo bài đăng và tải ảnh thành công!');
+                                    window.location.href = '/quan-li-tin.html';
                                 } else {
                                     alert('Tạo bài đăng thành công, nhưng tải ảnh không thành công!');
                                 }
@@ -374,6 +400,9 @@
             });
         });
     });
+
+
+
 </script>
 <script>
     // Lắng nghe sự kiện khi có hình ảnh được chọn

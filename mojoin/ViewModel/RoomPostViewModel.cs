@@ -60,6 +60,6 @@ namespace mojoin.ViewModel
 
         public string? Video { get; set; }
 
-        public List<IFormFile> Files { get; set; }
+        public List<IFormFile>? Files { get; set; }
     }
 }
