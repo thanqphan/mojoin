@@ -258,6 +258,9 @@ namespace mojoin.Controllers
                 // Các logic xử lý khác của action CreatePosts
                 _notyfService.Success("Gửi bài thành công!");
 
+                /*var taikhoan = _context.Users.Find(Convert.ToInt32(user.UserId));
+                var staff = _context.Users.FirstOrDefault(u => u.UserId == taikhoan.UserId);
+                staff.SupportUserId;*/
 
                 // Trả về kết quả JSON để sử dụng trong JavaScript
                 return Json(new { success = true, roomId });
