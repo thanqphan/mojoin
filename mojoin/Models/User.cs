@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace mojoin.Models;
@@ -44,7 +43,8 @@ public partial class User
 
     public DateTime? CreateDate { get; set; }
 
-    [ValidateNever]
+    public double? Balance { get; set; }
+
     public virtual Role Roles { get; set; } = null!;
 
     public virtual ICollection<RoomFavorite> RoomFavorites { get; set; } = new List<RoomFavorite>();
@@ -55,4 +55,7 @@ public partial class User
 
     public virtual ICollection<Room> Rooms { get; set; } = new List<Room>();
 
+    public virtual ICollection<TransactionHistory> TransactionHistories { get; set; } = new List<TransactionHistory>();
+
+    public virtual ICollection<UserPackage> UserPackages { get; set; } = new List<UserPackage>();
 }

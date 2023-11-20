@@ -1,0 +1,59 @@
+﻿@using System.Security.Claims;
+@{
+    ViewData["Title"] = "Home Page";
+    var postUrl = "tich-hop-thanh-toan-momo-voi-asp-net-core-7d5e4hP";
+}
+@{
+    var identity = (ClaimsIdentity)User.Identity;
+
+    // Lấy giá trị của các đối tượng Claim
+    string firstName = identity.FindFirst("FirstName")?.Value;
+    string lastName = identity.FindFirst("LastName")?.Value;
+    string userId = identity.FindFirst("UserId")?.Value;
+    string userPhone = identity.FindFirst("UserPhone")?.Value;
+    string userAvt = identity.FindFirst("UserAvatar")?.Value;
+}
+<div class="text-center">
+    <h1 class="display-4">Thanh toán Momo với .NET Core, C# | ProG Coder</h1>
+    <p>Xem thêm nhiều bài viết hay tại <a target="_blank" href="https://progcoder.com">ProG Coder</a>.</p>
+    <p><a target="_blank" href="https://www.progcoder.com/p/@postUrl">Hướng dẫn chi tiết</a>.</p>
+
+    <div class="container">
+        <form action="/PaymentMomo/CreatePaymentUrl" id="frmCreateOrder" method="POST">
+            <div class="form-group">
+                <label for="FullName">Tên khách hàng</label>
+                <input class="form-control"
+                       id="FullName"
+                       name="FullName"
+                       type="text"
+                       value="@lastName@firstName">
+            </div>
+            <br />
+            <div class="form-group">
+                <label for="Amount">Số tiền</label>
+                <input class="form-control"
+                       id="Amount"
+                       name="Amount"
+                       type="text"
+                       value="50000">
+            </div>
+            <br />
+            <div class="form-group">
+                <label for="Note">Nội dung thanh toán</label>
+                <textarea class="form-control"
+                          cols="20"
+                          id="Note"
+                          name="Note"
+                          rows="2">@lastName@firstName Chuyen tien</textarea>
+            </div>
+            <br />
+            <button type="submit" class="btn btn-primary">Thanh toán (Checkout)</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+    });
+</script>
