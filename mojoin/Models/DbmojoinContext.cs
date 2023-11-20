@@ -15,6 +15,10 @@ public partial class DbmojoinContext : DbContext
     {
     }
 
+    public virtual DbSet<Package> Packages { get; set; }
+
+    public virtual DbSet<PackageDetail> PackageDetails { get; set; }
+
     public virtual DbSet<Role> Roles { get; set; }
 
     public virtual DbSet<Room> Rooms { get; set; }
@@ -29,7 +33,11 @@ public partial class DbmojoinContext : DbContext
 
     public virtual DbSet<RoomType> RoomTypes { get; set; }
 
+    public virtual DbSet<TransactionHistory> TransactionHistories { get; set; }
+
     public virtual DbSet<User> Users { get; set; }
+
+    public virtual DbSet<UserPackage> UserPackages { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
@@ -37,6 +45,30 @@ public partial class DbmojoinContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Package>(entity =>
+        {
+            entity.ToTable("Package");
+
+            entity.Property(e => e.PackageId)
+                .ValueGeneratedNever()
+                .HasColumnName("PackageID");
+            entity.Property(e => e.PackageType).HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<PackageDetail>(entity =>
+        {
+            entity.ToTable("PackageDetail");
+
+            entity.Property(e => e.PackageDetailId)
+                .ValueGeneratedNever()
+                .HasColumnName("PackageDetailID");
+            entity.Property(e => e.PackageId).HasColumnName("PackageID");
+
+            entity.HasOne(d => d.Package).WithMany(p => p.PackageDetails)
+                .HasForeignKey(d => d.PackageId)
+                .HasConstraintName("FK_PackageDetail_Package");
+        });
+
         modelBuilder.Entity<Role>(entity =>
         {
             entity.HasKey(e => e.RolelD);
@@ -160,6 +192,26 @@ public partial class DbmojoinContext : DbContext
             entity.Property(e => e.TypeName).HasMaxLength(50);
         });
 
+        modelBuilder.Entity<TransactionHistory>(entity =>
+        {
+            entity.HasKey(e => e.TransactionId);
+
+            entity.ToTable("TransactionHistory");
+
+            entity.Property(e => e.TransactionId)
+                .ValueGeneratedNever()
+                .HasColumnName("TransactionID");
+            entity.Property(e => e.PaymentMethod).HasMaxLength(50);
+            entity.Property(e => e.TransactionDate).HasColumnType("datetime");
+            entity.Property(e => e.TransactionReference).IsUnicode(false);
+            entity.Property(e => e.TransactionType).HasMaxLength(50);
+            entity.Property(e => e.UserId).HasColumnName("UserID");
+
+            entity.HasOne(d => d.User).WithMany(p => p.TransactionHistories)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK_TransactionHistory_Users");
+        });
+
         modelBuilder.Entity<User>(entity =>
         {
             entity.Property(e => e.UserId).HasColumnName("UserID");
@@ -193,6 +245,37 @@ public partial class DbmojoinContext : DbContext
                 .HasForeignKey(d => d.RolesId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Users_Roles");
+        });
+
+        modelBuilder.Entity<UserPackage>(entity =>
+        {
+            entity.ToTable("UserPackage");
+
+            entity.Property(e => e.UserPackageId)
+                .ValueGeneratedNever()
+                .HasColumnName("UserPackageID");
+            entity.Property(e => e.EndDate).HasColumnType("datetime");
+            entity.Property(e => e.PackageDetailId).HasColumnName("PackageDetailID");
+            entity.Property(e => e.RoomId).HasColumnName("RoomID");
+            entity.Property(e => e.StartDate).HasColumnType("datetime");
+            entity.Property(e => e.TransactionId).HasColumnName("TransactionID");
+            entity.Property(e => e.UserId).HasColumnName("UserID");
+
+            entity.HasOne(d => d.PackageDetail).WithMany(p => p.UserPackages)
+                .HasForeignKey(d => d.PackageDetailId)
+                .HasConstraintName("FK_UserPackage_PackageDetail");
+
+            entity.HasOne(d => d.Room).WithMany(p => p.UserPackages)
+                .HasForeignKey(d => d.RoomId)
+                .HasConstraintName("FK_UserPackage_Rooms");
+
+            entity.HasOne(d => d.Transaction).WithMany(p => p.UserPackages)
+                .HasForeignKey(d => d.TransactionId)
+                .HasConstraintName("FK_UserPackage_TransactionHistory");
+
+            entity.HasOne(d => d.User).WithMany(p => p.UserPackages)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK_UserPackage_Users");
         });
 
         OnModelCreatingPartial(modelBuilder);

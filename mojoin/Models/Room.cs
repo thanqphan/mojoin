@@ -66,4 +66,6 @@ public partial class Room
     public virtual RoomType RoomType { get; set; } = null!;
 
     public virtual User User { get; set; } = null!;
+
+    public virtual ICollection<UserPackage> UserPackages { get; set; } = new List<UserPackage>();
 }

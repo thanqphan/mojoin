@@ -43,6 +43,8 @@ public partial class User
 
     public DateTime? CreateDate { get; set; }
 
+    public int? Balance { get; set; }
+
     public virtual Role Roles { get; set; } = null!;
 
     public virtual ICollection<RoomFavorite> RoomFavorites { get; set; } = new List<RoomFavorite>();
@@ -52,4 +54,8 @@ public partial class User
     public virtual ICollection<RoomReport> RoomReports { get; set; } = new List<RoomReport>();
 
     public virtual ICollection<Room> Rooms { get; set; } = new List<Room>();
+
+    public virtual ICollection<TransactionHistory> TransactionHistories { get; set; } = new List<TransactionHistory>();
+
+    public virtual ICollection<UserPackage> UserPackages { get; set; } = new List<UserPackage>();
 }

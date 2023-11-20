@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using mojoin.Models;
 using mojoin.ViewModel;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
+using XAct;
 using XAct.Library.Settings;
 using XAct.Users;
 
@@ -219,7 +221,8 @@ namespace mojoin.Controllers
                     _notyfService.Error("Gửi bài không thành công!");
                     return View(room);
                 }
-
+                string videoUrl = (room.Video).ToString();
+                string in_videoUrl = Regex.Replace(videoUrl, "/watch\\?v=", "/embed/");
                 Room user = new Room
                 {
                     RoomTypeId = room.RoomTypeId,
@@ -244,7 +247,7 @@ namespace mojoin.Controllers
                     HasRefrigerator = room.HasRefrigerator,
                     HasWasher = room.HasWasher,
                     ViewCount = 1,
-                    Video = room.Video,
+                    Video = in_videoUrl,
                     DisplayType = 0,
                 };
 

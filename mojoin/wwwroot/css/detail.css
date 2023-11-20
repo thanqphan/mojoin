@@ -79,6 +79,9 @@ img {
     width: 100%;
     flex: 1 0 100%;
     user-select: none;
+    display: flex;
+    justify-content:center;
+    align-items: center;
 }
 /*slide img va thong tin nguoi dang*/
 #mogi-page-content {
@@ -126,7 +129,7 @@ img {
         display: block;
         float: right;
         position: sticky;
-        top: 60px;
+        top: 8rem;
         
     }
 } 
