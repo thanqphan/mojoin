@@ -26,9 +26,9 @@
             @*<th>
                 @Html.DisplayNameFor(model => model.IsResolved)
             </th>*@
-            <th>
-                IsResolved
-                <select class="border-0" id="idReport" name="idReport" title="Chọn trạng thái" style="max-width:20px" asp-items="ViewBag.lsTrangThai">
+            <th style="width: 120px;">
+                Trạng thái
+                <select id="idReport" name="idReport" title="Chọn trạng thái" style="max-width: 10px" asp-items="ViewBag.lsTrangThai">
                     </select>
             </th>
             <th>
@@ -78,8 +78,8 @@
                 </td>
                 <td>
                     <li class="list-inline-item">
-                        <a class="btn btn-success  m-r-5" style="display: inline-block; border: 1px solid white; padding: 5px;" onclick="UpdateActiveStatus(@item.RoomId)">Đã xử lý</a>
-                        <a class="btn btn-default  m-r-5" style="display: inline-block; border: 1px solid gray; padding: 5px;" asp-action="Details" asp-route-id="@item.RoomId">Xem chi tiết</a>
+                        <a class="btn btn-success  m-r-5" style="display: inline-block; border: 1px solid white; padding: 5px;" onclick="UpdateActiveStatus(@item.RoomId)">Đã liên hệ</a>
+                        <a class="btn btn-default  m-r-5" style="display: inline-block; border: 1px solid gray; padding: 5px;" asp-controller="Rooms" asp-action="Details" asp-route-id="@item.RoomId">Xem chi tiết</a>
                         
                     </li>
                 </td>

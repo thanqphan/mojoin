@@ -166,6 +166,7 @@
 						<svg width="24" height="24"><use xlink:href="/content/mogi.svg#envelop-icon"></use></svg>
 						<span class="hidden-xs">Gửi tin nhắn</span>
 					</a>
+					
 
 					@*<div id="messageForm" class="hiddenPopup">
 					<form asp-action="SendMessage" id="messageForm">
@@ -213,6 +214,28 @@
 		</div>
 	</div>
 </div>
+<div id="message" class="modal fade ng-scope in" style="display: none;">
+						<div class="modal-dialog" style="padding-top: 10%;">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+									<span class="modal-title">Liên hệ môi giới</span>
+								</div>
+								<div class="modal-body" style="">
+									<form novalidate="" name="messageToAgent" class="agent-form clearfix ng-pristine ng-invalid ng-invalid-required ng-valid-maxlength ng-valid-pattern">
+										<input autocomplete="off" class="agent-input ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required ng-valid-maxlength" data-val="true" data-val-maxlength="“Họ &amp; Tên” có chiều dài tối đa là 150 ký tự." data-val-maxlength-max="150" data-val-required="Vui lòng nhập “Họ &amp; Tên”." id="SenderName" name="SenderName" placeholder="Họ &amp; Tên" required="required" type="text" value="">
+										<!-- ngIf: messageToAgent.SenderName.$touched || messageToAgent.$submitted -->
+										<input autocomplete="off" class="agent-input ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required ng-valid-pattern ng-valid-maxlength" data-val="true" data-val-maxlength="“Số điện thoại” có chiều dài tối đa là 10 ký tự." data-val-maxlength-max="10" data-val-regex="“Số điện thoại” không hợp lệ." data-val-regex-pattern="^(02|03|05|07|08|09)[0-9]{8}$" data-val-required="Vui lòng nhập “Số điện thoại”." id="SenderMobile" name="SenderMobile" pattern="^(02|03|05|07|08|09)[0-9]{8}$" placeholder="Số điện thoại" required="required" type="text" value="">
+										<!-- ngIf: messageToAgent.SenderMobile.$touched || messageToAgent.$submitted -->
+										<input autocomplete="off" class="agent-input ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required ng-valid-pattern" data-val="true" data-val-regex="&quot;Email&quot; nhập vào không hợp lệ"  data-val-required="Vui lòng nhập “Email”." id="SenderEmail" name="SenderEmail" ng-model="UserInbox.SenderEmail" placeholder="Email" required="required" type="text" value="">
+										<!-- ngIf: messageToAgent.SenderEmail.$touched || messageToAgent.$submitted -->
+										<input class="btn-sm btn-primary send" type="submit" value="Gửi" id="sendmessage" gtm-event="all" gtm-cat="detail" gtm-act="contact">
+										<input class="btn-sm btn-clear closed" type="button" value="Bỏ qua" data-dismiss="modal">
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWTx7bREpM5B6JKdbzOvMW-RRlhkukmVE&callback=initMap" async defer></script>
 <script>
 	function initMap() {
@@ -286,7 +309,38 @@
 			$('#report-abuse').submit();
 		});
 	});
+</script>
+@*send message script*@
+<script>
+	// Lấy phần tử với id="sendMessageLink"
+	var sendMessageLink = document.getElementById("sendMessageLink");
 
+	// Lấy phần tử với id="message"
+	var messageModal = document.getElementById("message");
+
+	// Gán sự kiện click cho sendMessageLink
+	sendMessageLink.addEventListener("click", function () {
+		// Hiển thị phần tử message
+		messageModal.style.display = "block";
+	});
+
+	// Lấy phần tử có class="close" trong messageModal
+	var closeButton = messageModal.querySelector(".close");
+
+	// Gán sự kiện click cho closeButton
+	closeButton.addEventListener("click", function () {
+		// Ẩn phần tử message
+		messageModal.style.display = "none";
+	});
+
+	// Lấy phần tử có class="btn-clear" trong messageModal
+	var clearButton = messageModal.querySelector(".btn-clear");
+
+	// Gán sự kiện click cho clearButton
+	clearButton.addEventListener("click", function () {
+		// Ẩn phần tử message
+		messageModal.style.display = "none";
+	});
 
 </script>
 
@@ -344,6 +398,7 @@
 		}
 	})
 </script>*@
+
 
 
 
