@@ -295,9 +295,27 @@ namespace mojoin.Controllers
 
                     // Gửi email chứa liên kết đặt lại mật khẩu
                     string resetUrl = Url.Action("ResetPassword", "Account", new { token = resetToken }, Request.Scheme);
-                    string emailBody = $"Vui lòng nhấp vào liên kết sau để đặt lại mật khẩu: {resetUrl}";
+                    string emailBody = $@"
+                        <html>
+                        <head>
+                            <title>[Motel to Join] Đặt lại mật khẩu</title>
+                        </head>
+                        <body>
+                            <div style='font-family: 'Arial', sans-serif; max-width: 600px; margin: 0 auto;'>
+                                <h2>[Motel to Join] Đặt lại mật khẩu</h2>
+                                <p>Chào bạn {user.FirstName} {user.LastName},</p>
+                                <p>Chúng tôi đã nhận được yêu cầu đặt lại mật khẩu từ bạn. Để hoàn tất quá trình, vui lòng nhấp vào liên kết dưới đây:</p>
+                                <a href='{resetUrl}' style='display: inline-block; padding: 10px 20px; background-color: #3bacb6; color: #fff; text-decoration: none; border-radius: 5px;'>Liên kết đặt lại mật khẩu</a>
+                                <p>Nếu bạn không thực hiện yêu cầu này, bạn có thể bỏ qua email này. Liên kết sẽ hết hạn trong một khoảng thời gian ngắn.</p>
+                                <p>Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi!</p>
+                                <p>Trân trọng,<br>Đội ngũ hỗ trợ Motel to Join</p>
+                            </div>
+                        </body>
+                        </html>
+                    ";
 
-                    _emailService.SendEmail(user.Email, "Đặt lại mật khẩu", emailBody);
+                    // Gửi email
+                    _emailService.SendEmail(user.Email, "[Motel to Join] Đặt lại mật khẩu", emailBody);
 
                     _notyfService.Success("Email đặt lại mật khẩu đã được gửi. Vui lòng kiểm tra hộp thư đến của bạn.");
 

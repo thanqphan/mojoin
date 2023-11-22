@@ -19,6 +19,8 @@
 	// Lấy giá trị của các đối tượng Claim
 	string userId = identity.FindFirst("UserId")?.Value;
 	string userAvt = identity.FindFirst("UserAvatar")?.Value;
+	int count = 0;
+	int index = 0;
 }
 <div id="mogi-page-content" class="mg-property-listing ng-scope">
 
@@ -27,11 +29,14 @@
 		<div class="property-detail-main">
 			<div class="main-intro">
 				<!-- Gallery-->
+
+
+
 				@{
 					Html.RenderPartialAsync("~/Views/Rooms/GetRoomImages.cshtml", Model.RoomImages);
 				}
 				<!--End Gallery-->
-			</div>
+			</div> 
 			<div class="main-info">
 				<div class="title">
 					<h1>@Model.Title</h1>
@@ -339,7 +344,60 @@
 
 </script>
 
+@*<script>
+	window.addEventListener("load", function () {
+		const slider = this.document.querySelector(".slider");
+		const sliderMain = this.document.querySelector(".slider-main");
+		const sliderItems = this.document.querySelectorAll(".slider-item");
+		const nextBtn = this.document.querySelector(".slider-next");
+		const prevBtn = this.document.querySelector(".slider-prev");
+		const dotItems = this.document.querySelectorAll(".slider-dot-item");
+		const sliderItemWidth = sliderItems[0].offsetWidth;
+		const slidesLength = sliderItems.length;
+		const count = this.document.querySelector(".countpage");
+		//document.querySelector("span").innerText = `${index + 1}/${slidesLength}`;
+		let postionX = 0;
+		let index = 0;
+		nextBtn.addEventListener("click", function () {
+			handleChangeSlide(1);
+		});
+		prevBtn.addEventListener("click", function () {
+			handleChangeSlide(-1);
+		});
+		[...dotItems].forEach(item => item.addEventListener("click", function (e) {
+			const slideIndex = parseInt(e.target.dataset.index);
+			[...dotItems].forEach(el => el.classList.remove("active"));
+			e.target.classList.add("active");
+			index = slideIndex;
+			postionX = -1 * index * sliderItemWidth;
+			sliderMain.style = `transform: translateX(${postionX}px)`;
+		}));
+		function handleChangeSlide(direction) {
+			if (direction == 1) {
+				if (index >= slidesLength - 1) {
+					index = slidesLength - 1;
+					return;
+				}
+				postionX = postionX - sliderItemWidth;
+				sliderMain.style = `transform: translateX(${postionX}px)`;
+				console.log(index);
+				index++;
+				count.innerHTML = `${index + 1}/${slidesLength}`;
+			} else if (direction == -1) {
+				if (index <= 0) {
+					index = 0;
+					return;
+				}
+				postionX = postionX + sliderItemWidth;
+				sliderMain.style = `transform: translateX(${postionX}px)`;
+				console.log("prev slide");
+				index--;
+				count.innerHTML = `${index + 1}/${slidesLength}`;
+			}
 
+		}
+	})
+</script>*@
 
 
 

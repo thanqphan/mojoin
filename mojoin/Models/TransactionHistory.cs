@@ -11,6 +11,7 @@ public partial class TransactionHistory
 
     public string? TransactionType { get; set; }
 
+    public int? Amount { get; set; }
     public double? Amount { get; set; }
 
     public DateTime? TransactionDate { get; set; }

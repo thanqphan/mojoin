@@ -12,196 +12,396 @@
     string lastName = identity.FindFirst("LastName")?.Value;
     string userId = identity.FindFirst("UserId")?.Value;
 }
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <link href="~/css/createpost.css" rel="stylesheet" />
 <div class="create-post">
-    <form id="createRoomForm" asp-action="CreatePosts" asp-controller="MyAccount">
+    <div class="title-div">
+        <h2 class="title-element">Đăng tin mới</h2>
+    </div>
+    <div class="alert-div">
+        <h2 class="title-element">Nếu bạn đã từng đăng tin trên mojoin, hãy sử dụng chức năng ĐẨY TIN / GIA HẠN / NÂNG CẤP VIP trong mục QUẢN LÝ TIN ĐĂNG để làm mới, đẩy tin lên cao thay vì đăng tin mới.<br> Tin đăng trùng nhau sẽ không được duyệt.</h2>
+    </div>
+
+    <form id="createRoomForm" asp-action="CreatePosts"  asp-controller="MyAccount" class="form-horizontal">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="navigation-buttons">
-            <button id="btn-prev" class="fa fa-arrow-left" type="button" onclick="prevDiv()"></button>
-            <button id="btn-next" class="fa fa-arrow-right" type="button" onclick="nextDiv()"></button>
-            <input id="btn-save" type="submit" name="create-post" value="Tạo mới" />
 
-        </div>
         <input asp-for="UserId" type="hidden" name="UserId" value="@userId" />
-        <div class="form-group" id="type-div">
-            <ul class="ul-type-room">
-                <li class="title-div "><h2>Loại phòng</h2></li>
-                @foreach (var roomType in ViewBag.RoomTypes)
-                {
-                    <li class="type-item" data-room-type-id="@roomType.RoomTypeId">
-                        <span class="type-name">@roomType.TypeName</span>
-                    </li>
+        <div class="dangtin-row">
+            <div class="dangtin-col-md-8">
+                <div class="dangtin-row">
+                    <div class="dangtin-col-md-12">
+                        <h2>Địa chỉ cho thuê</h2>
+                    </div>
+                </div>
+                <div class="dangtin-row ">
+                    <div class="dangtin-col-md-3">
+                        <div class="dangtin-form-group">
+                            <label class="dangtin-col-form-label">Tỉnh/Thành phố: </label><br />
+                            <select asp-for=City id="city" class="form-control" onchange="onCityChange()" name="City" required
+                                    title="Thành phố" data-val="true" data-val-required="Vui lòng chọn Thành phố!">
+                                <option value="">---Chọn thành phố---</option>
+                            </select>
+
+                            <span asp-validation-for="City" class="text-danger error-message" id="chooseCity-error"></span>
+                        </div>
+                    </div>
+                    <div class="dangtin-col-md-3">
+                        <div class="dangtin-form-group">
+                            <label class="dangtin-col-form-label">Quận/Huyện: </label><br />
+                            <select asp-for=District id="district" class="form-control" onchange="onDistrictChange()" name="District" disabled required
+                                    title="Thành phố" data-val="true" data-val-required="Vui lòng chọn Quận/Huyện!">
+                                <option value="">---Chọn Quận/Huyện---</option>
+                            </select>
+
+                            <span asp-validation-for="District" class="text-danger error-message" id="chooseCity-error"></span>
+                        </div>
+                    </div>
+                    <div class="dangtin-col-md-3">
+                        <div class="dangtin-form-group">
+                            <label class="dangtin-col-form-label">Phường/Xã: </label><br />
+                            <select asp-for=Ward id="ward" class="form-control" name="Ward" disabled required
+                                    title="Thành phố" data-val="true" data-val-required="Vui lòng chọn Phường/Xã!">
+                                <option value="">---Chọn Phường/Xã---</option>
+                            </select>
+
+                            <span asp-validation-for="Ward" class="text-danger error-message" id="chooseCity-error"></span>
+                        </div>
+                    </div>
+                    <div class="dangtin-col-md-3">
+                        <div class="dangtin-form-group">
+                            <label class="dangtin-col-form-label">Đường: </label><br />
+                            <select asp-for=Street id="street" class="form-control" name="Street" disabled required
+                                    title="Thành phố" data-val="true" data-val-required="Vui lòng chọn Đường!">
+                                <option value="">---Chọn Đường---</option>
+                            </select>
+
+                            <span asp-validation-for="Street" class="text-danger error-message" id="chooseCity-error"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="dangtin-row ">
+                    <div class="dangtin-col-md-3">
+                        <div class="dangtin-form-group">
+                            <label class="dangtin-col-form-label">
+                                Số nhà:
+                            </label><br />
+                            <input asp-for="StreetNumber" id="num-street" type="text" name="SoNha" class="form-control" title="Số nhà" placeholder="Số nhà" />
+                            <span asp-validation-for="StreetNumber" id="street-num-error" class="text-danger error-message"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class=" dangtin-row ">
+                    <div class="dangtin-col-md-12">
+                        <h2>Thông tin mô tả</h2>
+                    </div>
+                </div>
+                <div class="dangtin-row dangtin-form-group">
+                    <label class=" dangtin-col-form-label dangtin-col-md-12">
+                        Loại chuyên mục:
+                    </label><br />
+                    <div class="dangtin-col-md-6">
+                        <select asp-for="RoomTypeId" class="form-control" id="room-type" name="RoomTypeId">
+                            <option value="">Chọn loại phòng</option>
+                            @foreach (var roomType in ViewBag.RoomTypes)
+                            {
+                                <option value="@roomType.RoomTypeId">@roomType.TypeName</option>
+                            }
+                        </select>
+                        <span asp-validation-for="RoomTypeId" class="text-danger" id="room-type-error"></span>
+                    </div>
+                </div>
+                <div class="dangtin-row dangtin-form-group">
+                    <label class=" dangtin-col-form-label dangtin-col-md-12">
+                        Tiêu đề:
+                    </label><br />
+                    <div class="dangtin-col-md-11">
+                        <input asp-for="Title" placeholder="Tiêu đề tin đăng" type="text" id="title-room" class="form-control" name="Title" value="" style="width: 100%; minlength="30" maxlength="120" required="" data-msg-required="Tiêu đề không được để trống" data-msg-minlength="Tiêu đề quá ngắn" data-msg-maxlength="Tiêu đề quá dài" />
+                        <span asp-validation-for="Title" class="text-danger error-message" id="fieldTitle-error"></span><br />
+                    </div>
+                </div>
+                <div class="dangtin-row dangtin-form-group">
+                    <label class=" dangtin-col-form-label dangtin-col-md-12">
+                        Nội dung mô tả:
+                    </label><br />
+                    <div class="dangtin-col-md-11">
+                        <textarea asp-for="Description" placeholder="Nôi dung tin đăng" class="form-control" rows="11" name="Description" required style="width: 100%" id="desc-room"></textarea>
+                        <span asp-validation-for="Description" class="text-danger error-message" id="fieldDescription-error"></span><br />
+                    </div>
+                </div>
+                <div class="dangtin-row dangtin-form-group">
+                    <label class=" dangtin-col-form-label dangtin-col-md-12">
+                        Giá cho thuê:
+                    </label><br />
+                    <div class="dangtin-col-md-6">
+                        <div class="dangtin-input-group">
+                            <input asp-for="Price" type="number" class="form-control" name="Price" required id="price-room" />
+                            <div class="dangtin-input-group-append">
+                                <span class="dangtin-input-group-text">VND/Tháng</span>
+                            </div>
+                            <small class="form-text " style="color: #999">Nhập đầy đủ số, ví dụ 1 triệu thì nhập là 1000000</small>
+
+                        </div>
+                        <span asp-validation-for="Price" class="text-danger error-message" id="fieldPrice-error"></span><br />
+                    </div>
+                </div>
+                <div class="dangtin-row dangtin-form-group">
+                    <label class=" dangtin-col-form-label dangtin-col-md-12">
+                        Diện tích:
+                    </label><br />
+                    <div class="dangtin-col-md-6">
+                        <div class="dangtin-input-group">
+                            <input asp-for="Area" type="number" class="form-control" name="Area" required id="area-room" />
+                            <div class="dangtin-input-group-append">
+                                <span class="dangtin-input-group-text">m<sup>2</sup></span>
+                            </div>
+
+                        </div>
+                        <span asp-validation-for="Area" class="text-danger error-message" id="fieldArea-error"></span><br />
+                    </div>
+                </div>
+                <div class="dangtin-row">
+                    <div class="dangtin-col-md-12">
+                        <h2>Thông tin chi tiết</h2>
+                    </div>
+                </div>
+                <div class="dangtin-row">
+                    <div class="dangtin-col-md-3">
+                        <div class="dangtin-form-group">
+                            <label class="dangtin-col-form-label">Số phòng ngủ: </label><br />
+                            <select asp-for="NumRooms" id="num-room" class="dangtin-num-item-sm" required>
+                                <option value="" disabled selected hidden>Số phòng ngủ</option>
+                                <option value=1 selected>1</option>
+                                <option value=2>2</option>
+                                <option value=3>3</option>
+                                <option value=4>4</option>
+                            </select>
+
+                            <span asp-validation-for="NumRooms" class="text-danger error-message" id="chooseNumRoom-error"></span>
+                        </div>
+                    </div>
+                    <div class="dangtin-col-md-3">
+                        <div class="dangtin-form-group">
+                            <label class="dangtin-col-form-label">Số nhà vệ sinh: </label><br />
+                            <select asp-for="NumBathrooms" id="num-wc-room" class="dangtin-num-item-sm" required>
+                                <option value="" disabled selected hidden>Số phòng ngủ</option>
+                                <option value=1 selected>1</option>
+                                <option value=2>2</option>
+                                <option value=3>3</option>
+                                <option value=4>4</option>
+                            </select>
+
+                            <span asp-validation-for="NumBathrooms" class="text-danger error-message" id="chooseNumBath-error"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class=" dangtin-row ">
+                    <div class="dangtin-col-md-3">
+                        <div class="dangtin-form-group-check">
+                            <label class="dangtin-col-form-label-check">Tủ lạnh: </label>
+                            <input asp-for="HasRefrigerator" type="checkbox" class="dangtin-check-item-sm" />
+                            <span asp-validation-for="HasRefrigerator" class="text-danger error-message" id="chooseHasRefrigerator-error"></span>
+                        </div>
+                    </div>
+                    <div class="dangtin-col-md-3">
+                        <div class="dangtin-form-group-check">
+                            <label class="dangtin-col-form-label-check">Máy lạnh: </label>
+                            <input asp-for="HasAirConditioner" type="checkbox" class="dangtin-check-item-sm" />
+                            <span asp-validation-for="HasAirConditioner" class="text-danger error-message" id="chooseHasAirConditioner-error"></span>
+                        </div>
+                    </div>
+                    <div class="dangtin-col-md-3">
+                        <div class="dangtin-form-group-check">
+                            <label class="dangtin-col-form-label-check">Máy giặt: </label>
+                            <input asp-for="HasWasher" type="checkbox" class="dangtin-check-item-sm" />
+                            <span asp-validation-for="HasWasher" class="text-danger error-message" id="chooseHasWasher-error"></span>
+                        </div>
+                    </div>
+                    <div class="dangtin-col-md-3">
+                        <div class="dangtin-form-group-check">
+                            <label class="dangtin-col-form-label-check">Thang máy: </label>
+                            <input asp-for="HasElevator" type="checkbox" class="dangtin-check-item-sm" />
+                            <span asp-validation-for="HasElevator" class="text-danger error-message" id="chooseHasElevator-error"></span>
+                        </div>
+                    </div>
+                    <div class="dangtin-col-md-3">
+                        <div class="dangtin-form-group-check">
+                            <label class="dangtin-col-form-label-check">Bãi xe: </label>
+                            <input asp-for="HasParking" type="checkbox" class="dangtin-check-item-sm" />
+                            <span asp-validation-for="HasParking" class="text-danger error-message" id="chooseHasParking-error"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class=" dangtin-row ">
+                    <div class="dangtin-col-md-12">
+                        <h2>Hình ảnh</h2>
+                    </div>
+                </div>
+                <div class="dangtin-row dangtin-form-group">
+                    <div class="dangtin-col-md-11">
+                        <p>Cập nhật hình ảnh rõ ràng sẽ cho thuê nhanh hơn</p>
+                        <div class="dangtin-form-group" id="uploadSection">
+                            <div class="form-group" id="uploadimg-div">
+                                <div id="image-container" class="image-container">
+
+                                </div>
+                                <div class="upload-buttons">
+                                    <label class="file-button">Chọn ảnh</label>
+                                    <input id="file-upload" name="images" type="file" accept="image/*" multiple style="width: 40%">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dangtin-row dangtin-form-group">
+                    <label class=" dangtin-col-form-label dangtin-col-md-12">
+                        Video
+                    </label><br />
+                    <div class="dangtin-col-md-11">
+                        <input asp-for="Video" placeholder="Link YouTube" type="text" id="video-room" class="form-control" style="width: 100%;" name="Video" value="" />
+                        <span asp-validation-for="Video" class="text-danger error-message" id="fieldVideo-error"></span><br />
+                    </div>
+                </div>
+                <div class="dangtin-form-group dangtin-row dangtin-mt-5">
+                    <div class="dangtin-col-md-11" style="width:120%">
+                        <button type="submit" class=" dangtin-btn-success" style="width:110%">Tiếp tục</button>
+                    </div>
+                </div>
+            </div>
+            <div class="dangtin-col-md-4">
+                <div class="dangtin-card">
+                    <div class="dangtin-card-body">
+                        <h4 class="dangtin-card-title">
+                            Lưu ý khi đăng tin
+                        </h4>
+                        <ul>
+                            <li style="list-style-type: square; margin-left: 15px;     padding-left: 1rem;">Nội dung phải viết bằng tiếng Việt có dấu</li>
+                            <li style="list-style-type: square; margin-left: 15px;    padding-left: 1rem;">Tiêu đề tin không dài quá 100 kí tự</li>
+                            <li style="list-style-type: square; margin-left: 15px;    padding-left: 1rem;">Các bạn nên điền đầy đủ thông tin vào các mục để tin đăng có hiệu quả hơn.</li>
+                            <li style="list-style-type: square; margin-left: 15px;    padding-left: 1rem;">Để tăng độ tin cậy và tin rao được nhiều người quan tâm hơn, hãy sửa vị trí tin rao của bạn trên bản đồ bằng cách kéo icon tới đúng vị trí của tin rao.</li>
+                            <li style="list-style-type: square; margin-left: 15px;    padding-left: 1rem;">Tin đăng có hình ảnh rõ ràng sẽ được xem và gọi gấp nhiều lần so với tin rao không có ảnh. Hãy đăng ảnh để được giao dịch nhanh chóng!</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+        
+    </form>
+ </div>   
+<!-- Đoạn script trong file HTML -->
+@*<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("createRoomForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Ngăn chặn submit form mặc định
+
+            // Thực hiện submit form "CreatePosts"
+            var createPostsForm = document.getElementById("createRoomForm");
+            var createPostsFormData = new FormData(createPostsForm);
+            var createPostsRequest = new XMLHttpRequest();
+            createPostsRequest.open(createPostsForm.method, createPostsForm.action);
+            createPostsRequest.send(createPostsFormData);
+
+            createPostsRequest.onload = function () {
+                // Kiểm tra nếu "CreatePosts" thành công
+                if (createPostsRequest.status === 200) {
+                    // Thực hiện các bước cần thiết sau khi "CreatePosts" thành công
+
+                    // Thực hiện submit form "UploadImages"
+                    var uploadForm = document.getElementById("uploadForm");
+                    var uploadFormData = new FormData(); // Tạo FormData mới
+                    var images = document.getElementById("file-upload").files;
+
+                    // Thêm từng ảnh vào FormData
+                    for (var i = 0; i < images.length; i++) {
+                        uploadFormData.append("images", images[i], images[i].name);
+                    }
+
+                    var uploadRequest = new XMLHttpRequest();
+                    uploadRequest.open(uploadForm.method, uploadForm.action);
+                    uploadRequest.send(uploadFormData);
+
+                    uploadRequest.onload = function () {
+                        // Kiểm tra nếu "UploadImages" thành công
+                        if (uploadRequest.status === 200) {
+                            // Chuyển hướng đến trang Index của MyAccountController
+                            var url = '@Url.RouteUrl("QuanLiTin")';
+                            // Chuyển hướng đến URL đã lấy
+                            window.location.href = url;
+                        } else {
+                            // Xử lý lỗi khi submit form "UploadImages"
+                        }
+                    };
+                } else {
+                    // Xử lý lỗi khi submit form "CreatePosts"
                 }
-            </ul>
-            <input asp-for="RoomTypeId" type="hidden" name="RoomTypeId" id="room-type-id" value="@Model?.RoomTypeId" />
-            <span asp-validation-for="RoomTypeId" class="text-danger"></span>
-        </div>
-
-        <div class="form-group" id="address-div" style="display:none;">
-            <h2 class="title-div">Địa chỉ đăng</h2>
-            <label class="label-item">Tỉnh thành<label class="label-requied">(*)</label>:<br /></label>
-            <select asp-for="City" id="city" class="address-item" onchange="onCityChange()" name="City" required>
-                <option value="">Chọn thành phố</option>
-            </select>
-            <span asp-validation-for="City" class="text-danger error-message" id="chooseCity-error"></span>
+            };
+        });
+    });
 
 
-            <label class="label-item">Quận/Huyện<label class="label-requied">(*)</label>:</label>
-            <select asp-for=District id="district" class="address-item" onchange="onDistrictChange()" name="District" disabled required>
-                <option value="">Chọn quận/huyện</option>
-            </select>
-            <span asp-validation-for="District" class="text-danger error-message" id="chooseDistrict-error"></span>
-
-
-            <label class="label-item">Phường/Xã<label class="label-requied">(*)</label>:</label>
-            <select asp-for=Ward id="ward" class="address-item" disabled required name="Ward">
-                <option value="">Chọn phường/xã</option>
-            </select>
-            <span asp-validation-for="Ward" class="text-danger error-message" id="chooseDistrict-error"></span>
-
-
-            <label class="label-item">Đường<label class="label-requied">(*)</label>:</label>
-            <select asp-for=Street id="street" class="address-item" disabled required name="Street">
-                <option value="">Chọn đường</option>
-            </select>
-            <span asp-validation-for="Street" class="text-danger error-message" id="chooseStreet-error"></span>
-
-
-            <label class="label-item">Số nhà:</label>
-            <input asp-for="StreetNumber" type="text" class="num-address-item" />
-            <span asp-validation-for="StreetNumber" class="text-danger"></span>
-
-        </div>
-
-        <div class="form-group" id="price-div" style="display:none;">
-            <h2 class="title-div">Diện tích và giá</h2>
-            <label class="label-item">Diện tích sử dụng<label class="label-requied">(*)</label>:</label>
-            <div class="input-group">
-                <input asp-for="Area" type="number" class="num-item " name="Area" required />
-                <span class="input-addon">m<sup>2</sup></span>
-            </div>
-            <span asp-validation-for="Area" class="text-danger error-message" id="fieldArea-error"></span><br />
-            <label class="label-item">Giá<label class="label-requied">(*)</label>:</label>
-            <div class="input-group">
-                <input asp-for="Price" type="number" class="num-item " name="Price" required />
-                <span class="input-addon">VND/Tháng</span>
-            </div>
-            <span asp-validation-for="Price" class="text-danger error-message" id="fieldPrice-error"></span>
-        </div>
-
-        <div class="form-group" id="info-div" style="display:none;">
-            <h2 class="title-div">Tiêu đề</h2>
-            <label class="label-item">Tiêu đề<label class="label-requied">(*)</label>:</label>
-            <div class="input-group">
-                <input asp-for="Title" type="text" class="title-post" required name="Title" />
-            </div>
-            <span asp-validation-for="Title" class="text-danger error-message" id="fieldTitle-error"></span><br />
-            <label class="label-item">Mô tả<label class="label-requied">(*)</label>:</label>
-            <div class="input-group">
-                <textarea asp-for="Description" class="about-post" rows="11" name="Description" required></textarea>
-            </div>
-            <span asp-validation-for="Description" class="text-danger error-message" id="fieldDescription-error"></span>
-        </div>
-        <div class="form-group " id="info1-div" style="display:none;">
-
-            <h2 class="title-div">Thông tin chi tiết</h2>
-            <label class="label-item-sm">Số phòng ngủ<label class="label-requied">(*)</label>:</label>
-            <div class="input-group">
-                <select asp-for="NumRooms" id="" class="num-item-sm" required>
-                    <option value="" disabled selected hidden>Số phòng ngủ</option>
-                    <option value=1 selected>1</option>
-                    <option value=2>2</option>
-                    <option value=3>3</option>
-                    <option value=4>4</option>
-                </select>
-
-            </div>
-            <span asp-validation-for="NumRooms" class="text-danger"></span>
-            <label class="label-item-sm">Số phòng vệ<label class="label-requied">(*)</label>:</label>
-            <div class="input-group">
-                <select asp-for="NumBathrooms" id="" class="num-item-sm" required>
-                    <option value="" disabled selected hidden>Số phòng vệ sinh</option>
-                    <option value=1 selected>1</option>
-                    <option value=2>2</option>
-                    <option value=3>3</option>
-                    <option value=4>4</option>
-                </select>
-            </div>
-            <span asp-validation-for="NumBathrooms" class="text-danger"></span>
-
-            <div class="input-group">
-                <input asp-for="HasRefrigerator" type="checkbox" class="checkbox-item" />
-                <label class="label-item-min">Tủ lạnh</label>
-            </div>
-            <div class="input-group">
-                <input asp-for="HasAirConditioner" type="checkbox" class="checkbox-item" />
-                <label class="label-item-min">Máy lạnh</label>
-            </div>
-            <div class="input-group">
-                <input asp-for="HasWasher" type="checkbox" class="checkbox-item" />
-                <label class="label-item-min">Máy giặt</label>
-            </div>
-            <div class="input-group">
-                <input asp-for="HasElevator" type="checkbox" class="checkbox-item" />
-                <label class="label-item-min">Thang máy</label>
-            </div>
-            <div class="input-group">
-                <input asp-for="HasParking" type="checkbox" class="checkbox-item">
-                <label class="label-item-min">Bãi xe</label>
-            </div>
-        </div>
-    </form>
-    <form id="uploadForm" method="post" enctype="multipart/form-data" asp-action="UploadImages" asp-controller="MyAccount">
-        <div class="form-group" id="uploadimg-div" style="display:none;">
-            <h2 class="title-div">Ảnh phòng</h2>
-            <div id="image-container" class="image-container">
-            </div>
-            <div class="upload-buttons">
-                <label for="file-upload" class="file-button">Chọn file</label>
-                <input id="file-upload" name="images" type="file" accept="image/*" multiple>
-            </div>
-        </div>
-    </form>
-</div>
+</script>*@
 
 <script>
-    document.getElementById("createRoomForm").addEventListener("submit", function (event) {
-        event.preventDefault(); // Ngăn chặn submit form mặc định
+    $(document).ready(function () {
+        $('#createRoomForm').on('submit', function (e) {
+            e.preventDefault();
 
-        // Thực hiện submit form "CreatePosts"
-        var createPostsForm = document.getElementById("createRoomForm");
-        var createPostsFormData = new FormData(createPostsForm);
-        var createPostsRequest = new XMLHttpRequest();
-        createPostsRequest.open(createPostsForm.method, createPostsForm.action);
-        createPostsRequest.send(createPostsFormData);
+            // Lấy tất cả các files từ input có id="file-upload"
+            var files = $('#file-upload')[0].files;
 
-        createPostsRequest.onload = function () {
-            // Kiểm tra nếu "CreatePosts" thành công
-            if (createPostsRequest.status === 200) {
-                // Thực hiện submit form "UploadImages"
-                var uploadForm = document.getElementById("uploadForm");
-                var uploadFormData = new FormData(uploadForm);
-                var uploadRequest = new XMLHttpRequest();
-                uploadRequest.open(uploadForm.method, uploadForm.action);
-                uploadRequest.send(uploadFormData);
+            // Tạo một đối tượng FormData
+            var formData = new FormData(this);
 
-                uploadRequest.onload = function () {
-                    // Kiểm tra nếu "UploadImages" thành công
-                    if (uploadRequest.status === 200) {
-                        // Chuyển hướng đến trang Index của MyAccountController
-                        var url = '@Url.RouteUrl("QuanLiTin")';
-                        // Chuyển hướng đến URL đã lấy
-                        window.location.href = url;
-                    } else {
-                        // Xử lý lỗi khi submit form "UploadImages"
-                    }
-                }
-            } else {
-                // Xử lý lỗi khi submit form "CreatePosts"
+            // Thêm files vào FormData
+            for (var i = 0; i < files.length; i++) {
+                formData.append('images[]', files[i]);
             }
-        }
 
+            // Gửi dữ liệu đến action CreatePosts bằng AJAX
+            $.ajax({
+                type: 'POST',
+                url: '/dang-bai.html',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    // Kiểm tra xem action CreatePosts có thành công hay không
+                    if (data.success) {
+                        // Nếu thành công, tiếp tục gửi dữ liệu đến action UploadImages
+                        $.ajax({
+                            type: 'POST',
+                            url: '/MyAccount/UploadImages',
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            success: function (uploadData) {
+                                // Xử lý kết quả từ action UploadImages
+                                if (uploadData.success) {
+                                    alert('Đã tạo bài đăng và tải ảnh thành công!');
+                                    window.location.href = '/quan-li-tin.html';
+                                } else {
+                                    alert('Tạo bài đăng thành công, nhưng tải ảnh không thành công!');
+                                }
+                            },
+                            error: function () {
+                                alert('Đã xảy ra lỗi khi tải ảnh!');
+                            }
+                        });
+                    } else {
+                        alert('Đã xảy ra lỗi khi tạo bài đăng!');
+                    }
+                },
+                error: function () {
+                    alert('Đã xảy ra lỗi khi tạo bài đăng!');
+                }
+            });
+        });
     });
+
+
 
 </script>
 <script>
@@ -253,12 +453,12 @@
 </script>
 
 
+
 <script>
     function uploadImages() {
         // Lấy các giá trị của form và thực hiện tác vụ tải lên bằng AJAX hoặc gửi form đến action UploadImages
         var formData = new FormData(document.getElementById('uploadForm'));
-        var formData = new FormData(document.getElementById('uploadForm'));
-        formData.append("images", file);
+
         $.ajax({
             url: '/MyAccount/UploadImages',
             type: 'POST',
@@ -271,15 +471,16 @@
             },
             error: function (xhr, status, error) {
                 // Xử lý lỗi
-                alert('Tải lên thành công!');
+                alert('Đã xảy ra lỗi khi tải lên: ' + error);
             }
         });
     }
 </script>
 
 
-<script src="~/js/navbuttons.js"></script>
+
+
 <script src="~/js/getaddresses.js"></script>
 <script src="~/js/getroomtype.js"></script>
-
+<script src="~/js/dangtin_regex.js"></script>
 

@@ -9,7 +9,7 @@ public partial class Package
 
     public string? PackageType { get; set; }
 
-    public double? Price { get; set; }
+    public int? Price { get; set; }
 
     public virtual ICollection<PackageDetail> PackageDetails { get; set; } = new List<PackageDetail>();
 }

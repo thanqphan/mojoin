@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using mojoin.Models;
 using mojoin.ViewModel;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
+using XAct;
 using XAct.Library.Settings;
 using XAct.Users;
 
@@ -219,7 +221,8 @@ namespace mojoin.Controllers
                     _notyfService.Error("Gửi bài không thành công!");
                     return View(room);
                 }
-
+                string videoUrl = (room.Video).ToString();
+                string in_videoUrl = Regex.Replace(videoUrl, "/watch\\?v=", "/embed/");
                 Room user = new Room
                 {
                     RoomTypeId = room.RoomTypeId,
@@ -244,6 +247,8 @@ namespace mojoin.Controllers
                     HasRefrigerator = room.HasRefrigerator,
                     HasWasher = room.HasWasher,
                     ViewCount = 1,
+                    Video = in_videoUrl,
+                    DisplayType = 0,
                 };
 
                 _context.Add(user);
@@ -255,15 +260,21 @@ namespace mojoin.Controllers
 
                 // Các logic xử lý khác của action CreatePosts
                 _notyfService.Success("Gửi bài thành công!");
-                // Chuyển hướng đến action UploadImages và truyền roomId qua route data
-                return RedirectToRoute("QuanLiTin");
+
+                /*var taikhoan = _context.Users.Find(Convert.ToInt32(user.UserId));
+                var staff = _context.Users.FirstOrDefault(u => u.UserId == taikhoan.UserId);
+                staff.SupportUserId;*/
+
+                // Trả về kết quả JSON để sử dụng trong JavaScript
+                return Json(new { success = true, roomId });
             }
             catch
             {
                 _notyfService.Error("Gửi bài không thành công!");
-                return View(room);
+                return Json(new { success = false, message = "Đã xảy ra lỗi khi tạo bài đăng!" });
             }
         }
+
         [HttpPost]
         public async Task<IActionResult> UploadImage(IFormFile imageFile)
         {
@@ -293,15 +304,18 @@ namespace mojoin.Controllers
         [HttpPost]
         public async Task<IActionResult> UploadImages(List<IFormFile> images)
         {
-            int roomId = Convert.ToInt32(TempData["RoomId"]);            // Lấy ra ID của phòng từ TempData
+            int roomId = Convert.ToInt32(TempData["RoomId"]); // Lấy ra ID của phòng từ TempData
             try
             {
                 foreach (var image in images)
                 {
+                    // Tạo một tên mới cho ảnh bằng cách thêm mã phòng vào trước tên ảnh
+                    var imageName = roomId + "_" + image.FileName;
+
                     // Xử lý tệp ảnh, ví dụ: lưu trữ ảnh trong thư mục "wwwroot/Images" của dự án
                     if (image.Length > 0)
                     {
-                        var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", image.FileName);
+                        var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", imageName);
                         using (var fileStream = new FileStream(imagePath, FileMode.Create))
                         {
                             await image.CopyToAsync(fileStream);
@@ -311,7 +325,7 @@ namespace mojoin.Controllers
                         var imageModel = new RoomImage
                         {
                             RoomId = roomId,
-                            Image = Url.Content("~/images/" + image.FileName)
+                            Image = Url.Content("~/images/" + imageName)
                         };
 
                         // Sử dụng đối tượng DbContext để thêm bản ghi mới vào bảng ảnh
@@ -323,14 +337,15 @@ namespace mojoin.Controllers
                 TempData["SuccessMessage"] = "Đã gửi bài thành công";
 
                 // Hoàn thành quá trình tải lên và chuyển hướng hoặc trả về thông báo thành công
-                return RedirectToRoute("QuanLiTin");
+                return Json(new { success = true, roomId });
             }
             catch
             {
                 _notyfService.Error("Upload không thành công!");
-                return RedirectToAction("CreatePosts");
+                return Json(new { success = false, message = "Đã xảy ra lỗi khi tạo bài đăng!" });
             }
         }
+
     }
 
 }
