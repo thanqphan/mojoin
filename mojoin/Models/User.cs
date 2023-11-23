@@ -43,7 +43,7 @@ public partial class User
 
     public DateTime? CreateDate { get; set; }
 
-    public int? Balance { get; set; }
+    public double? Balance { get; set; }
 
     public virtual Role Roles { get; set; } = null!;
 
