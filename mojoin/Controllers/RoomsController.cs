@@ -129,6 +129,12 @@ namespace mojoin.Controllers
         }
         [AllowAnonymous]
         [HttpGet]
+        public IActionResult RoomRent()
+        {
+            return View();
+        }
+        [AllowAnonymous]
+        [HttpGet]
         public ActionResult SelectedSearch(int? page, string categoryId, string cityId, string districtId, string streetId, string priceId, string areaId)
         {
             IPagedList<Room> searchResults = PerformSearch(page, categoryId, cityId, districtId, streetId, priceId, areaId);
