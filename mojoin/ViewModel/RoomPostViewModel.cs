@@ -56,7 +56,11 @@ namespace mojoin.ViewModel
         public bool HasParking { get; set; }
 
         public int? ViewCount { get; set; }
-        [ValidateNever]
-        public List<IFormFile> Files { get; set; }
+
+        public int? DisplayType { get; set; }
+
+        public string? Video { get; set; }
+
+        public List<IFormFile>? Files { get; set; }
     }
 }
