@@ -11,7 +11,7 @@ public partial class TransactionHistory
 
     public string? TransactionType { get; set; }
 
-    public int? Amount { get; set; }
+    public double? Amount { get; set; }
 
     public DateTime? TransactionDate { get; set; }
 
@@ -19,9 +19,9 @@ public partial class TransactionHistory
 
     public string? TransactionReference { get; set; }
 
-    public int? PromotionAmount { get; set; }
+    public double? PromotionAmount { get; set; }
 
-    public int? ReceivedAmount { get; set; }
+    public double? ReceivedAmount { get; set; }
 
     public string? Note { get; set; }
 
