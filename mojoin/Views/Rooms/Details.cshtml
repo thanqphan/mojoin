@@ -3,289 +3,316 @@
 @model mojoin.Models.Room
 
 @{
-	ViewData["Title"] = "Details";
-	Layout = "~/Views/Shared/_Layout.cshtml";
-	<link href="~/css/detail.css" rel="stylesheet" />
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-	<script src="~/lib/jquery/dist/jquery.min.js"></script>
-	<script src="~/lib/jquery/dist/jquery.js"></script>
-	//<script src="~/js/site.js" defer></script>
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link href="~/css/detail.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    //<script src="~/js/site.js" defer></script>
 }
 @{
-	var identity = (ClaimsIdentity)User.Identity;
+    var identity = (ClaimsIdentity)User.Identity;
 
-	// Lấy giá trị của các đối tượng Claim
-	string userId = identity.FindFirst("UserId")?.Value;
-	string userAvt = identity.FindFirst("UserAvatar")?.Value;
-	int count = 0;
-	int index = 0;
+    // Lấy giá trị của các đối tượng Claim
+    string userId = identity.FindFirst("UserId")?.Value;
+    string userAvt = identity.FindFirst("UserAvatar")?.Value;
+    int count = 0;
+    int index = 0;
 }
 <div id="mogi-page-content" class="mg-property-listing ng-scope">
 
-	<div class="property-detail clearfix">
+    <div class="property-detail clearfix">
 
-		<div class="property-detail-main">
-			<div class="main-intro">
-				<!-- Gallery-->
+        <div class="property-detail-main">
+            <div class="main-intro">
+                <!-- Gallery-->
+                @{
+                    Html.RenderPartialAsync("~/Views/Rooms/GetRoomImages.cshtml", Model.RoomImages);
+                }
+                <!--End Gallery-->
+            </div>
+            <div class="main-info">
+                <div class="title">
+                    <h1>
+                        @if (@Model.DisplayType == 1)
+                        {
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                <i class="fas fa-star text-warning"></i>
+                            }
+                        }
+                        else if (@Model.DisplayType == 2)
+                        {
+                            @for (int i = 1; i <= 4; i++)
+                            {
+                                <i class="fas fa-star text-warning"></i>
+                            }
+                        }
+                        else if (@Model.DisplayType == 3)
+                        {
+                            @for (int i = 1; i <= 3; i++)
+                            {
+                                <i class="fas fa-star text-warning"></i>
+                            }
+                        }
+                        else if (@Model.DisplayType == 4)
+                        {
+                            @for (int i = 1; i <= 2; i++)
+                            {
+                                <i class="fas fa-star text-warning"></i>
+                            }
+                        }
+                        @Model.Title
+                    </h1>
+                </div>
+                <div class="address"> @Model.Street, @Model.Ward, @Model.District, @Model.City</div>
+                <div class="price">@String.Format("{0:#,##0}", Model.Price) VNĐ</div>
+                <!--Social and favorite-->
+                <!--Thong tin chinh-->
+                <h2 class="info-title">Thông tin chính</h2>
+                <div class="info-attrs clearfix">
+                    <div class="info-attr clearfix">
+                        <span>Diện tích sử dụng</span>
+                        <span>@Model.Area m<sup>2</sup></span>
+                    </div>
 
 
+                    <div class="info-attr clearfix">
+                        <span>Phòng ngủ</span>
+                        <span>@Model.NumRooms</span>
+                    </div>
 
-				@{
-					Html.RenderPartialAsync("~/Views/Rooms/GetRoomImages.cshtml", Model.RoomImages);
-				}
-				<!--End Gallery-->
-			</div> 
-			<div class="main-info">
-				<div class="title">
-					<h1>@Model.Title</h1>
-				</div>
-				<div class="address"> @Model.Street, @Model.Ward, @Model.District, @Model.City</div>
-				<div class="price">@String.Format("{0:#,##0}", Model.Price) VNĐ</div>
-				<!--Social and favorite-->
-				<!--Thong tin chinh-->
-				<h2 class="info-title">Thông tin chính</h2>
-				<div class="info-attrs clearfix">
-					<div class="info-attr clearfix">
-						<span>Diện tích sử dụng</span>
-						<span>@Model.Area m<sup>2</sup></span>
-					</div>
+                    <div class="info-attr clearfix">
+                        <span>Nhà tắm</span>
+                        <span>@Model.NumBathrooms</span>
+                    </div>
 
+                    <div class="info-attr clearfix">
+                        <span>Pháp lý</span>
+                        <span>Không xác định</span>
+                    </div>
+                    <div class="info-attr clearfix">
+                        <span>Ngày đăng</span>
+                        <span>@String.Format("{0:dd/MM/yyyy}", Model.CreateDate)</span>
+                    </div>
+                    <div class="info-attr clearfix">
+                        <span>Mã phòng</span>
+                        <span>@Model.RoomId</span>
+                    </div>
+                </div>
+                <!--Gioi thieu-->
+                <h2 class="info-title">Giới thiệu</h2>
+                <div class="info-content-body">@Model.Description</div>
+                <!--bao vi pham-->
+                <div class="report" data-toggle="modal" data-target="#report" ng-click="Report.Open()" id="21650127" gtm-event="all" gtm-cat="detail" gtm-act="report">
+                    <span>Báo vi phạm</span><i class="fa fa-exclamation-triangle"></i>
+                </div>
+                <div id="report" class="modal fade ng-scope in" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <span class="modal-title">Báo vi phạm</span>
+                            </div>
+                            <div class="modal-body noselect">
+                                <form asp-action="SendReport" id="report-abuse" class="report-abuse ng-pristine ng-valid" name="report" novalidate="" method="post">
+                                    <!-- Các trường ẩn -->
+                                    <input asp-for="RoomId" type="hidden" name="roomId" value="@Model.RoomId" />
+                                    <input asp-for="UserId" type="hidden" name="userId" value="@userId" />
+                                    <ul>
+                                        <li>
+                                            <input type="checkbox" class="error-checkbox" name="errorContents" value="Nội dung tin không đúng (giá, diện tích, mô tả, ...)" />
+                                            <span class="ng-binding ng-scope fa-square-o">Nội dung tin không đúng (giá, diện tích, mô tả, ...)</span>
+                                        </li>
+                                        <li>
+                                            <input type="checkbox" class="error-checkbox" name="errorContents" value="Địa chỉ của bất động sản không đúng" />
+                                            <span class="ng-binding ng-scope fa-square-o">Địa chỉ của bất động sản không đúng</span>
+                                        </li>
+                                        <li>
+                                            <input type="checkbox" class="error-checkbox" name="errorContents" value="Ảnh không đúng với thực tế" />
+                                            <span class="ng-binding ng-scope fa-square-o">Ảnh không đúng với thực tế</span>
+                                        </li>
+                                        <li>
+                                            <input type="checkbox" class="error-checkbox" name="errorContents" value="Tin không có thật" />
+                                            <span class="ng-binding ng-scope fa-square-o">Tin không có thật</span>
+                                        </li>
+                                        <!-- Các phần tử li khác -->
+                                    </ul>
 
-					<div class="info-attr clearfix">
-						<span>Phòng ngủ</span>
-						<span>@Model.NumRooms</span>
-					</div>
+                                    <div class="command">
+                                        <input id="sendreport" class="btn-sm btn-primary send" type="submit" value="Gửi">
+                                        <input class="btn-sm btn-clear closed" type="button" value="Bỏ qua" data-dismiss="modal">
+                                    </div>
+                                </form>
 
-					<div class="info-attr clearfix">
-						<span>Nhà tắm</span>
-						<span>@Model.NumBathrooms</span>
-					</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Agent-->
+                <div class="agent-info">
+                    <img src="@ViewBag.Avt" width="16" height="16" style="display:inline-block" />
+                    <div class="agent-name">
+                        <a href="">@ViewBag.Ho @ViewBag.Ten</a>
 
-					<div class="info-attr clearfix">
-						<span>Pháp lý</span>
-						<span>Không xác định</span>
-					</div>
-					<div class="info-attr clearfix">
-						<span>Ngày đăng</span>
-						<span>@String.Format("{0:dd/MM/yyyy}", Model.CreateDate)</span>
-					</div>
-					<div class="info-attr clearfix">
-						<span>Mã phòng</span>
-						<span>@Model.RoomId</span>
-					</div>
-				</div>
-				<!--Gioi thieu-->
-				<h2 class="info-title">Giới thiệu</h2>
-				<div class="info-content-body">@Model.Description</div>
-				<!--bao vi pham-->
-				<div class="report" data-toggle="modal" data-target="#report" ng-click="Report.Open()" id="21650127" gtm-event="all" gtm-cat="detail" gtm-act="report">
-					<span>Báo vi phạm</span><i class="fa fa-exclamation-triangle"></i>
-				</div>
-				<div id="report" class="modal fade ng-scope in" style="display: none;">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-								<span class="modal-title">Báo vi phạm</span>
-							</div>
-							<div class="modal-body noselect">
-								<form asp-action="SendReport" id="report-abuse" class="report-abuse ng-pristine ng-valid" name="report" novalidate="" method="post">
-									<!-- Các trường ẩn -->
-									<input asp-for="RoomId" type="hidden" name="roomId" value="@Model.RoomId" />
-									<input asp-for="UserId" type="hidden" name="userId" value="@userId" />
-									<ul>
-										<li>
-											<input type="checkbox" class="error-checkbox" name="errorContents" value="Nội dung tin không đúng (giá, diện tích, mô tả, ...)" />
-											<span class="ng-binding ng-scope fa-square-o">Nội dung tin không đúng (giá, diện tích, mô tả, ...)</span>
-										</li>
-										<li>
-											<input type="checkbox" class="error-checkbox" name="errorContents" value="Địa chỉ của bất động sản không đúng" />
-											<span class="ng-binding ng-scope fa-square-o">Địa chỉ của bất động sản không đúng</span>
-										</li>
-										<li>
-											<input type="checkbox" class="error-checkbox" name="errorContents" value="Ảnh không đúng với thực tế" />
-											<span class="ng-binding ng-scope fa-square-o">Ảnh không đúng với thực tế</span>
-										</li>
-										<li>
-											<input type="checkbox" class="error-checkbox" name="errorContents" value="Tin không có thật" />
-											<span class="ng-binding ng-scope fa-square-o">Tin không có thật</span>
-										</li>
-										<!-- Các phần tử li khác -->
-									</ul>
+                        <svg width="18" height="18"><use xlink:href="/content/mogi.svg#check-circle-o"></use></svg>
+                    </div>
+                    <div class="agent-date">Đã tham gia: @String.Format("{0:dd/MM/yyyy}", ViewBag.NgayThamGia)</div>
+                </div>
+                <h2 class="info-title">Tiện ích xung quanh</h2>
+                <div id="map" style="width: 100%; height: 400px;"></div>
 
-									<div class="command">
-										<input id="sendreport" class="btn-sm btn-primary send" type="submit" value="Gửi">
-										<input class="btn-sm btn-clear closed" type="button" value="Bỏ qua" data-dismiss="modal">
-									</div>
-								</form>
+            </div>
+        </div>
 
-							</div>
-						</div>
-					</div>
-				</div>
-				<!--Agent-->
-				<div class="agent-info">
-					<img src="@ViewBag.Avt" width="16" height="16" style="display:inline-block" />
-					<div class="agent-name">
-						<a href="">@ViewBag.Ho @ViewBag.Ten</a>
+        <div class="side-bar">
+            <div class="agent-widget widget">
+                <div class="agent-info">
+                    @if (!string.IsNullOrEmpty(userAvt))
+                    {
+                        <img src="@ViewBag.Avt" width="16" height="16" style="display:inline-block" />
+                    }
+                    else
+                    {
+                        <img src="~/images/avatar.png" width="16" height="16" style="display:inline-block" />
+                    }
+                    <div class="agent-name">
+                        <a href="">@ViewBag.Ho @ViewBag.Ten</a>
+                    </div>
+                    <div class="agent-date">Đã tham gia: @String.Format("{0:dd/MM/yyyy}", ViewBag.NgayThamGia)</div>
+                </div>
+                <div class="agent-contact clearfix">
+                    <a href="#">
+                        <img src="~/images/phoneicon.png" width="16" height="16" style="display:inline-block" />
+                        <span class="ng-binding">@ViewBag.SDT</span>
+                    </a>
+                    <a href="#" id="sendMessageLink">
+                        <svg width="24" height="24"><use xlink:href="/content/mogi.svg#envelop-icon"></use></svg>
+                        <span class="hidden-xs">Gửi tin nhắn</span>
+                    </a>
 
-						<svg width="18" height="18"><use xlink:href="/content/mogi.svg#check-circle-o"></use></svg>
-					</div>
-					<div class="agent-date">Đã tham gia: @String.Format("{0:dd/MM/yyyy}", ViewBag.NgayThamGia)</div>
-				</div>
-				<h2 class="info-title">Tiện ích xung quanh</h2>
-				<div id="map" style="width: 100%; height: 400px;"></div>
+                    @*<div id="messageForm" class="hiddenPopup">
+                    <form asp-action="SendMessage" id="messageForm">
+                    <input type="hidden" name="usermail" value="@ViewBag.Mail" />
+                    <!-- Trường họ tên -->
+                    <input type="text" name="fullName" placeholder="Họ tên">
 
-			</div>
-		</div>
+                    <!-- Trường địa chỉ email -->
+                    <input type="email" name="email" placeholder="Địa chỉ email">
 
-		<div class="side-bar">
-			<div class="agent-widget widget">
-				<div class="agent-info">
-					@if (!string.IsNullOrEmpty(userAvt))
-					{
-						<img src="@ViewBag.Avt" width="16" height="16" style="display:inline-block" />
-					}
-					else
-					{
-						<img src="~/images/avatar.png" width="16" height="16" style="display:inline-block" />
-					}
-					<div class="agent-name">
-						<a href="">@ViewBag.Ho @ViewBag.Ten</a>
-					</div>
-					<div class="agent-date">Đã tham gia: @String.Format("{0:dd/MM/yyyy}", ViewBag.NgayThamGia)</div>
-				</div>
-				<div class="agent-contact clearfix">
-					<a href="#">
-						<img src="~/images/phoneicon.png" width="16" height="16" style="display:inline-block" />
-						<span class="ng-binding">@ViewBag.SDT</span>
-					</a>
-					<a href="#" id="sendMessageLink">
-						<svg width="24" height="24"><use xlink:href="/content/mogi.svg#envelop-icon"></use></svg>
-						<span class="hidden-xs">Gửi tin nhắn</span>
-					</a>
+                    <!-- Trường số điện thoại -->
+                    <input type="tel" name="phoneNumber" placeholder="Số điện thoại">
 
-					@*<div id="messageForm" class="hiddenPopup">
-					<form asp-action="SendMessage" id="messageForm">
-					<input type="hidden" name="usermail" value="@ViewBag.Mail" />
-					<!-- Trường họ tên -->
-					<input type="text" name="fullName" placeholder="Họ tên">
+                    <!-- Nút Submit -->
+                    <button type="submit">Gửi</button>
+                    </form>
+                    </div>*@
+                </div>
+            </div>
 
-					<!-- Trường địa chỉ email -->
-					<input type="email" name="email" placeholder="Địa chỉ email">
-
-					<!-- Trường số điện thoại -->
-					<input type="tel" name="phoneNumber" placeholder="Số điện thoại">
-
-					<!-- Nút Submit -->
-					<button type="submit">Gửi</button>
-					</form>
-					</div>*@
-				</div>
-			</div>
-
-			<div @*id="viewlist"*@ class="agent-command-widget">
-				@*@{
-				Html.RenderPartial("~/Views/YeuThich/YeuThichPartial.cshtml");
-				}*@
-				<div class="DatMua" style="display: inline-block; justify-content: flex-end">
-					@if (ViewBag.IsYeuThich)
-					{
-						<div class="SaveAd_saveAdWrapper___sBMh AdItem_saveAd__3prt2 ">
-							<a href="@Url.Action("XoaYeuThich", "YeuThich", new { id = Model.RoomId })" id="btn_save_ad" onclick="" type="button" class="SaveAd_btnSavedAd__jwoYd ">
-								<img id="img_save_ad" height="20" width="20" src="https://static.chotot.com/storage/icons/saveAd/save-ad-active.svg" alt="like" loading="lazy" data-saved="false">
-							</a>
-						</div>
-						@*                <a title="Xóa khỏi yêu thích" class="btn-add-cat btn btn-outline-secondary fa fa-heart text-danger" href="@Url.Action("XoaYeuThich", "YeuThich", new { id = Model.RoomId })"></a>*@
-					}
-					else
-					{
-						<div class="SaveAd_saveAdWrapper___sBMh AdItem_saveAd__3prt2 ">
-							<a href="@Url.Action("LuuYeuThich", "YeuThich", new { id = Model.RoomId })" id="btn_save_ad" onclick="" type="button" class="SaveAd_btnSavedAd__jwoYd ">
-								<img id="img_save_ad" height="20" width="20" src="https://static.chotot.com/storage/icons/saveAd/save-ad.svg" alt="like" loading="lazy" data-saved="false">
-							</a>
-						</div>
-					}
-				</div>
-			</div>
-		</div>
-	</div>
+            <div @*id="viewlist"*@ class="agent-command-widget">
+                @*@{
+                Html.RenderPartial("~/Views/YeuThich/YeuThichPartial.cshtml");
+                }*@
+                <div class="DatMua" style="display: inline-block; justify-content: flex-end">
+                    @if (ViewBag.IsYeuThich)
+                    {
+                        <div class="SaveAd_saveAdWrapper___sBMh AdItem_saveAd__3prt2 ">
+                            <a href="@Url.Action("XoaYeuThich", "YeuThich", new { id = Model.RoomId })" id="btn_save_ad" onclick="" type="button" class="SaveAd_btnSavedAd__jwoYd ">
+                                <img id="img_save_ad" height="20" width="20" src="https://static.chotot.com/storage/icons/saveAd/save-ad-active.svg" alt="like" loading="lazy" data-saved="false">
+                            </a>
+                        </div>
+                        @*                <a title="Xóa khỏi yêu thích" class="btn-add-cat btn btn-outline-secondary fa fa-heart text-danger" href="@Url.Action("XoaYeuThich", "YeuThich", new { id = Model.RoomId })"></a>*@
+                    }
+                    else
+                    {
+                        <div class="SaveAd_saveAdWrapper___sBMh AdItem_saveAd__3prt2 ">
+                            <a href="@Url.Action("LuuYeuThich", "YeuThich", new { id = Model.RoomId })" id="btn_save_ad" onclick="" type="button" class="SaveAd_btnSavedAd__jwoYd ">
+                                <img id="img_save_ad" height="20" width="20" src="https://static.chotot.com/storage/icons/saveAd/save-ad.svg" alt="like" loading="lazy" data-saved="false">
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWTx7bREpM5B6JKdbzOvMW-RRlhkukmVE&callback=initMap" async defer></script>
 <script>
-	function initMap() {
-		var map = new google.maps.Map(document.getElementById('map'), {
-			zoom: 12,
-			center: { lat: 10.123, lng: 20.456 } // Thay thế bằng tọa độ lat-lng mong muốn
-		});
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 12,
+            center: { lat: 10.123, lng: 20.456 } // Thay thế bằng tọa độ lat-lng mong muốn
+        });
 
-		var address = "";
+        var address = "";
 
-		if ("@Model.StreetNumber") {
-			address += "@Model.StreetNumber, ";
-		}
+        if ("@Model.StreetNumber") {
+            address += "@Model.StreetNumber, ";
+        }
 
-		address += "@Model.Street, @Model.Ward, @Model.District, @Model.City";
+        address += "@Model.Street, @Model.Ward, @Model.District, @Model.City";
 
-		var geocoder = new google.maps.Geocoder();
-		geocoder.geocode({ address: address }, function (results, status) {
-			if (status === google.maps.GeocoderStatus.OK) {
-				map.setCenter(results[0].geometry.location);
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ address: address }, function (results, status) {
+            if (status === google.maps.GeocoderStatus.OK) {
+                map.setCenter(results[0].geometry.location);
 
-				var marker = new google.maps.Marker({
-					map: map,
-					position: results[0].geometry.location
-				});
-			} else {
-				alert('Geocode was not successful for the following reason: ' + status);
-			}
-		});
-	}
+                var marker = new google.maps.Marker({
+                    map: map,
+                    position: results[0].geometry.location
+                });
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    }
 </script>
 <script>
-	document.addEventListener('DOMContentLoaded', function () {
-		// Lấy tham chiếu đến các phần tử cần sử dụng
-		var reportTrigger = document.querySelector('.report');
-		var closeButton = document.querySelector('.modal-header .close');
-		var dismissButton = document.querySelector('.btn-clear');
-		var reportModal = document.querySelector('#report');
+    document.addEventListener('DOMContentLoaded', function () {
+        // Lấy tham chiếu đến các phần tử cần sử dụng
+        var reportTrigger = document.querySelector('.report');
+        var closeButton = document.querySelector('.modal-header .close');
+        var dismissButton = document.querySelector('.btn-clear');
+        var reportModal = document.querySelector('#report');
 
-		// Xử lý sự kiện click vào nút "Báo vi phạm"
-		reportTrigger.addEventListener('click', function () {
-			reportModal.style.display = 'block'; // Hiển thị cửa sổ modal
-		});
+        // Xử lý sự kiện click vào nút "Báo vi phạm"
+        reportTrigger.addEventListener('click', function () {
+            reportModal.style.display = 'block'; // Hiển thị cửa sổ modal
+        });
 
-		// Xử lý sự kiện click vào nút "Bỏ qua"
-		closeButton.addEventListener('click', function () {
-			reportModal.style.display = 'none'; // Ẩn cửa sổ modal
-		});
+        // Xử lý sự kiện click vào nút "Bỏ qua"
+        closeButton.addEventListener('click', function () {
+            reportModal.style.display = 'none'; // Ẩn cửa sổ modal
+        });
 
-		// Xử lý sự kiện click vào nút "Bỏ qua" trong cửa sổ modal
-		dismissButton.addEventListener('click', function () {
-			reportModal.style.display = 'none'; // Ẩn cửa sổ modal
-		});
-	});
+        // Xử lý sự kiện click vào nút "Bỏ qua" trong cửa sổ modal
+        dismissButton.addEventListener('click', function () {
+            reportModal.style.display = 'none'; // Ẩn cửa sổ modal
+        });
+    });
 </script>
 <script>
-	$(document).ready(function () {
-		$('#sendreport').click(function (e) {
-			e.preventDefault(); // Ngăn chặn hành vi mặc định của form (gửi đi và làm tải lại trang)
+    $(document).ready(function () {
+        $('#sendreport').click(function (e) {
+            e.preventDefault(); // Ngăn chặn hành vi mặc định của form (gửi đi và làm tải lại trang)
 
-			// Lấy giá trị của các ô checkbox đã được chọn
-			var selectedValues = [];
-			$('input.error-checkbox:checked').each(function () {
-				selectedValues.push($(this).val());
-			});
+            // Lấy giá trị của các ô checkbox đã được chọn
+            var selectedValues = [];
+            $('input.error-checkbox:checked').each(function () {
+                selectedValues.push($(this).val());
+            });
 
-			// Gán giá trị đã chọn vào một trường ẩn trong form
-			$('input[name="errorContents"]').val(selectedValues.join(','));
+            // Gán giá trị đã chọn vào một trường ẩn trong form
+            $('input[name="errorContents"]').val(selectedValues.join(','));
 
-			// Gửi form đến action SendReport
-			$('#report-abuse').submit();
-		});
-	});
+            // Gửi form đến action SendReport
+            $('#report-abuse').submit();
+        });
+    });
 
 
 </script>

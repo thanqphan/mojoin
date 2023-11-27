@@ -60,6 +60,7 @@
     color: #222;
     text-decoration: none !important;
     cursor: pointer;
+    font-weight: bold ;
 }
 .prop-title {
     -webkit-text-size-adjust: 100%;
