@@ -9,7 +9,15 @@
     margin: 0;
     margin-top: 12px;
     list-style: none;
+    border: 1px solid #dedede;
+    border-radius: 8px;
+    padding: 10px; /* Tạo padding cho phần tử props */
 }
+
+    .props li {
+        margin-bottom: 10px;
+    }
+
 .prop-img {
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -22,7 +30,9 @@
     position: relative;
     border-radius: 8px;
     width: 220px;
+    padding-left: 1rem;
 }
+
     .prop-img > img {
         -webkit-text-size-adjust: 100%;
         -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -38,18 +48,20 @@
         border-radius: 8px;
         height: 165px;
     }
-    .prop-info {
-        -webkit-text-size-adjust: 100%;
-        -webkit-tap-highlight-color: rgba(0,0,0,0);
-        font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif !important;
-        font-size: 14px;
-        color: #262637;
-        list-style: none;
-        box-sizing: border-box;
-        float: left;
-        width: calc(100% - 220px);
-        padding-left: 18px;
-    }
+
+.prop-info {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif !important;
+    font-size: 14px;
+    color: #262637;
+    list-style: none;
+    box-sizing: border-box;
+    float: left;
+    width: calc(100% - 220px);
+    padding-left: 18px;
+}
+
 .link-overlay {
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -60,8 +72,9 @@
     color: #222;
     text-decoration: none !important;
     cursor: pointer;
-    font-weight: bold ;
+    font-weight: bold;
 }
+
 .prop-title {
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -79,6 +92,7 @@
     line-height: 22px;
     max-height: 44px;
 }
+
 .prop-addr {
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -91,6 +105,7 @@
     font-size: 14px;
     line-height: 21px;
 }
+
 .prop-attr {
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -105,6 +120,7 @@
     font-size: 15px;
     line-height: 22px;
 }
+
     .prop-attr > li {
         -webkit-text-size-adjust: 100%;
         -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -120,26 +136,27 @@
     }
 
 .props > li {
-    border-top: 1px solid #e6ecf0;
     padding: 16px 0;
     position: relative;
     width: 100%;
     display: table;
     clear: both;
 }
-    .price {
-        -webkit-text-size-adjust: 100%;
-        -webkit-tap-highlight-color: rgba(0,0,0,0);
-        font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif !important;
-        list-style: none;
-        box-sizing: border-box;
-        font-weight: 700;
-        color: #0499a8;
-        margin-top: 8px;
-        font-size: 18px;
-        line-height: 27px;
-        height: 27px;
-    }
+
+.price {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif !important;
+    list-style: none;
+    box-sizing: border-box;
+    font-weight: 700;
+    color: #0499a8;
+    margin-top: 8px;
+    font-size: 18px;
+    line-height: 27px;
+    height: 27px;
+}
+
 .prop-extra {
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -157,6 +174,7 @@
     right: 0;
     bottom: 16px;
 }
+
 .prop-created {
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -167,6 +185,7 @@
     font-size: 14px;
     line-height: 20px;
 }
+
 .prop-favorite {
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -185,4 +204,46 @@
     position: absolute;
     top: 0;
     right: 0;
+}
+
+.display-room-1 {
+    border-top: 1px solid red;
+    border-bottom: 1px solid red;
+    background-color: #ff000017;
+    height: 250px; /* Điều chỉnh chiều cao của phần tử li */
+}
+
+    .display-room-1 .prop-img {
+        margin-right: 20px; /* Tạo khoảng trống bên phải của phần tử prop-img */
+    }
+
+        .display-room-1 .prop-img img {
+            max-width: 200%;
+            height: 290px;
+            width: 300px;
+        }
+
+    .display-room-1 .prop-info {
+        width: calc(100% - 322px);
+        padding-left: 100px;
+    }
+    .display-room-1 .prop-extra {
+        width: calc(100% - 322px);
+    }
+.display-room-3 {
+    border-top: 1.5px solid orange;
+    border-bottom: 1.5px solid orange;
+    background-color: #fff9f3;
+}
+
+.display-room-2 {
+    border-top: 1.5px solid #eb57af;
+    border-bottom: 1.5px solid #eb57af;
+    background-color: #eb57af17;
+}
+
+.display-room-4 {
+    border-top: 1.5px solid yellow;
+    border-bottom: 1.5px solid yellow;
+    background-color: #fff9f3;
 }

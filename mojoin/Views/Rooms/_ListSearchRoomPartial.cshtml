@@ -3,29 +3,7 @@
 @using X.PagedList.Mvc.Core
 @model X.PagedList.IPagedList<Room>
 <link href="~/css/sort_room.css" rel="stylesheet" />
-<style>
-    .display-room-1 {
-        border-top: 2px solid red;
-        border-bottom: 2px solid red;
-        background-color: #ffdddd;
-    }
 
-    .display-room-2 {
-        border-top: 2px solid orange;
-        border-bottom: 2px solid orange;
-    }
-
-    .display-room-3 {
-        border-top: 2px solid pink;
-        border-bottom: 2px solid pink;
-    }
-
-    .display-room-4 {
-        border-top: 2px solid yellow;
-        border-bottom: 2px solid yellow;
-    }
-
-</style>
 <div id="main" class="clearfix" style="">
     <div id="property" class="clearfix">
         <div class="summary clearfix line">
@@ -52,6 +30,7 @@
                                     {
                                         <i class="fas fa-star text-warning"></i>
                                     }
+                                    <br />
                                 }
                                 else if (item.DisplayType == 2)
                                 {
