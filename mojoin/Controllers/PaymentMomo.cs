@@ -7,11 +7,16 @@ using System.Security.Cryptography;
 using System.Text;
 using ProGCoder_MomoAPI.Models.Order;
 using Microsoft.AspNetCore.Authorization;
+using XAct.Library.Settings;
+using XAct.Users;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace mojoin.Controllers
 {
     public class PaymentMomo : Controller
     {
+        DbmojoinContext db = new DbmojoinContext();
         private IMomoService _momoService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         public PaymentMomo(IMomoService momoService, IHttpContextAccessor httpContextAccessor)
@@ -43,6 +48,24 @@ namespace mojoin.Controllers
             var response = _momoService.PaymentExecuteAsync(HttpContext.Request.Query);
             return View(response);
         }
-
+        public IActionResult NaptienLayout()
+        {
+            var userId = HttpContext.User.FindFirstValue("UserId");
+            var transactionHistory = db.TransactionHistories
+                .Include(rf => rf.User)
+                .Where(rf => rf.UserId == int.Parse(userId))
+                .ToList();
+                
+            return View(transactionHistory);
+        }
+        public IActionResult Lichsunaptien()
+        {
+            var userId = HttpContext.User.FindFirstValue("UserId");
+            var transactionHistory = db.TransactionHistories
+                .Include(rf => rf.User)
+                .Where(rf => rf.UserId == int.Parse(userId))
+                .ToList();
+            return View(transactionHistory);
+        }
     }
 }

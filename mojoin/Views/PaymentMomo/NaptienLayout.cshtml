@@ -1,0 +1,106 @@
+﻿@using System.Security.Claims;
+@model IEnumerable<mojoin.Models.TransactionHistory>
+@inject DbmojoinContext dbContext
+@{
+    ViewData["Title"] = "NaptienLayout";
+    Layout = "~/Views/Shared/_LayoutDangtin.cshtml";
+    <link href="~/css/giadichvu.css" rel="stylesheet" />
+    <link href="~/css/Naptien.css" rel="stylesheet" />
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+}
+@{
+    var identity = (ClaimsIdentity)User.Identity;
+
+    // Lấy giá trị của các đối tượng Claim
+    string firstName = identity.FindFirst("FirstName")?.Value;
+    string lastName = identity.FindFirst("LastName")?.Value;
+    string userId = identity.FindFirst("UserId")?.Value; 
+    string money = identity.FindFirst("Amount")?.Value;
+}
+<main id="main">
+    <div class="row">
+        <div class="section" style="padding: 0; border: 0; margin-bottom: 100px;">
+            <div class="section-title big" style="text-align: center; margin-bottom: 50px;">Phương thức thanh toán</div>
+            <div class="col-md-3 d-none d-md-block">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div>Số dư tài khoản</div>
+                        <h3 class="heading" style="margin-top: 0; margin-bottom: 0; color: #28a745;"><strong>@String.Format("{0:#,##0}", Model.Sum(th => th.Amount)) đ</strong></h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9 section-content">
+                <div class="row addfund_method_list clearfix">
+                    <div class="col-md-3" style="margin-bottom: 25px;">
+                        <div class="method_item">
+                            <a href="https://phongtro123.com/quan-ly/nap-tien/chuyen-khoan.html">
+                                <div class="method_item_icon"><img src="https://phongtro123.com/images/bank-transfer.png" alt="Chuyển khoản trực tiếp" title="Chuyển khoản trực tiếp"></div>
+                                <div class="method_item_name">Chuyển khoản</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="margin-bottom: 25px;">
+                        <div class="method_item">
+                            <a href="https://phongtro123.com/quan-ly/nap-tien/atm-internet-banking.html">
+                                <div class="method_item_icon"><img src="https://phongtro123.com/images/payment-method.svg" alt="Nạp tiền bằng ATM Internet Banking" title="Nạp tiền bằng Internet Banking"></div>
+                                <div class="method_item_name">Thẻ ATM Internet Banking</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="margin-bottom: 25px;">
+                        <div class="method_item">
+                            <a href="https://phongtro123.com/quan-ly/nap-tien/the-tin-dung.html">
+                                <div class="method_item_icon"><img src="https://phongtro123.com/images/credit-card.png" alt="Nạp tiền bằng thẻ tín dụng quốc tế" title="Nạp tiền bằng thẻ tín dụng quốc tế"></div>
+                                <div class="method_item_name">Thẻ tín dụng quốc tế</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="margin-bottom: 25px;">
+                        <div class="method_item">
+                            <a href="https://phongtro123.com/quan-ly/nap-tien/tien-mat.html">
+                                <div class="method_item_icon"><img src="https://phongtro123.com/images/cash.svg" alt="Nạp tiền bằng tiền mặt" title="Nạp tiền bằng tiền mặt"></div>
+                                <div class="method_item_name">Tiền mặt</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="margin-bottom: 25px;">
+                        <div class="method_item">
+                            <a href="/PaymentMomo/Index">
+                                <div class="method_item_icon"><img src="https://phongtro123.com/images/momo.png" alt="Nạp tiền bằng MOMO" title="Nạp tiền bằng MOMO"></div>
+                                <div class="method_item_name">MOMO</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="margin-bottom: 25px;">
+                        <div class="method_item">
+                            <a href="https://phongtro123.com/quan-ly/nap-tien/zalopay.html">
+                                <div class="method_item_icon"><img src="https://phongtro123.com/images/zalopay.png" alt="Nạp tiền bằng ZaloPay" title="Nạp tiền bằng ZaloPay"></div>
+                                <div class="method_item_name">ZaloPay</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="margin-bottom: 25px;">
+                        <div class="method_item">
+                            <a href="https://phongtro123.com/quan-ly/nap-tien/cua-hang-tien-loi.html">
+                                <div class="method_item_icon"><img src="https://phongtro123.com/images/online-store.svg" alt="Điểm giao dịch, cửa hàng tiện lợi" title="Điểm giao dịch, cửa hàng tiện lợi"></div>
+                                <div class="method_item_name">Điểm giao dịch, cửa hàng tiện lợi</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="margin-bottom: 25px;">
+                        <div class="method_item">
+                            <a href="https://phongtro123.com/quan-ly/nap-tien/qr-code.html">
+                                <div class="method_item_icon"><img src="https://phongtro123.com/images/qr-code.png" alt="Quét mã QRCode" title="Quét mã QRCode"></div>
+                                <div class="method_item_name">Quét mã QRCode</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+
+

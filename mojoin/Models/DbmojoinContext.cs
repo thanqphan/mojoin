@@ -49,9 +49,7 @@ public partial class DbmojoinContext : DbContext
         {
             entity.ToTable("Package");
 
-            entity.Property(e => e.PackageId)
-                .ValueGeneratedNever()
-                .HasColumnName("PackageID");
+            entity.Property(e => e.PackageId).HasColumnName("PackageID");
             entity.Property(e => e.PackageType).HasMaxLength(50);
         });
 
@@ -59,9 +57,7 @@ public partial class DbmojoinContext : DbContext
         {
             entity.ToTable("PackageDetail");
 
-            entity.Property(e => e.PackageDetailId)
-                .ValueGeneratedNever()
-                .HasColumnName("PackageDetailID");
+            entity.Property(e => e.PackageDetailId).HasColumnName("PackageDetailID");
             entity.Property(e => e.PackageId).HasColumnName("PackageID");
 
             entity.HasOne(d => d.Package).WithMany(p => p.PackageDetails)
@@ -198,9 +194,7 @@ public partial class DbmojoinContext : DbContext
 
             entity.ToTable("TransactionHistory");
 
-            entity.Property(e => e.TransactionId)
-                .ValueGeneratedNever()
-                .HasColumnName("TransactionID");
+            entity.Property(e => e.TransactionId).HasColumnName("TransactionID");
             entity.Property(e => e.PaymentMethod).HasMaxLength(50);
             entity.Property(e => e.TransactionDate).HasColumnType("datetime");
             entity.Property(e => e.TransactionReference).IsUnicode(false);
@@ -251,9 +245,7 @@ public partial class DbmojoinContext : DbContext
         {
             entity.ToTable("UserPackage");
 
-            entity.Property(e => e.UserPackageId)
-                .ValueGeneratedNever()
-                .HasColumnName("UserPackageID");
+            entity.Property(e => e.UserPackageId).HasColumnName("UserPackageID");
             entity.Property(e => e.EndDate).HasColumnType("datetime");
             entity.Property(e => e.PackageDetailId).HasColumnName("PackageDetailID");
             entity.Property(e => e.RoomId).HasColumnName("RoomID");
