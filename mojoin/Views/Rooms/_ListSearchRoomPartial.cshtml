@@ -6,13 +6,48 @@
 }
 @model X.PagedList.IPagedList<Room>
 <link href="~/css/sort_room.css" rel="stylesheet" />
+<style>
+    .props li {
+        margin: 10px;
+        padding: 10px;
+        border-left: 1px solid #ccc;
+        border-right: 1px solid #ccc;
+        transition: background-color 0.3s, color 0.3s;
+    }
 
+        .props li a {
+            font-weight: normal;
+        }
+
+            .props li a:hover {
+                font-weight: bold;
+            }
+
+        .props li.display-type-1 {
+            background-color: #ffcccc;
+            font-size: 1.2em;
+        }
+
+        .props li.display-type-2 {
+            background-color: #ffd699;
+            font-size: 1.2em;
+        }
+
+        .props li.display-type-3 {
+            background-color: #fcc;
+        }
+
+        .props li.display-type-4 {
+            background-color: #fffae5;
+        }
+
+        .props li:not(:last-child) {
+            border-bottom: 1px solid #ccc;
+        }
+</style>
 <div id="main" class="clearfix" style="">
     <div id="property" class="clearfix">
         <div class="summary clearfix line">
-            @*<div class="summary-tab" style="">
-            <h4><a class="to-uppper" data-toggle="pill" href="">Bán <span class="counter ng-binding">(0)</span></a></h4>
-            </div>*@
             <div class="summary-tab active" style="">
                 <h4><a class="to-uppper" data-toggle="pill" href="">Kết quả tìm kiếm<span class="counter ng-binding"> </span></a></h4>
             </div>
@@ -22,7 +57,7 @@
             {
                 @foreach (var item in Model)
                 {
-                    <li>
+                    <li class="display-type-@item.DisplayType">
                         <div class="prop-img">
                             <img src="/Rooms/ShowImage/@item.RoomId">
                         </div>
@@ -49,59 +84,10 @@
             {
                 <p>Không tìm thấy kết quả phù hợp.</p>
             }
-
         </ul>
-        @*<div id="property-items" class="tab-content">
-            <div id="rent-list" class="" style="">
-                @if (Model != null && Model.Count > 0)
-                {
-                    @foreach (var item in Model)
-                    {
-                        <div class="property-item clearfix" id="@item.UserId">
-                            <div class="property-header clearfix">
-                                <div class="property-image">
-                                    <img src="/Rooms/ShowImage/@item.RoomId">
-                                </div>
-                                <div class="property-price">@String.Format("{0:#,##0}", @item.Price) VNĐ</div>
-                            </div>
-                            <div class="property-content clearfix">
-                                <div class="property-info clearfix">
-                                    <div class="title clearfix">
-                                        <a href="/Rooms/Details/@item.RoomId" class="link-overlay">
-                                            @item.Title
-                                        </a>
-                                    </div>
-                                    <div class="property-address clearfix">
-
-                                        @item.StreetNumber @item.Street, @item.District, @item.City
-                                    </div>
-
-                                    <div class="property-utility clearfix">
-                                        <div class="property-utility">
-                                            <span><i class="fa fa-bed"></i>@item.NumRooms</span>
-                                            <span class="bathroom"><i class="fa fa-bath"></i>@item.NumBathrooms</span>
-                                            <span><i class="icon icon-acreage"></i>@item.Area m<sup>2</sup></span>
-                                        </div>
-                                    </div>
-                                    <div class="property-summary">
-                                        @item.Description
-                                    </div>
-                                </div>
-                                <div class="posted-date clearfix ">Ngày đăng:@String.Format("{0:dd/MM/yyyy}", @item.CreateDate)</div>
-                            </div>
-                        </div>
-                    }
-                }
-                else
-                {
-                    <p>Không tìm thấy kết quả phù hợp.</p>
-                }
-            </div>
-        </div>*@
-
     </div>
-
 </div>
+
 @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }), Bootstrap4PagedListRenderOptions.ClassicPlusFirstAndLast)
 <style>
     .pagination-container {
