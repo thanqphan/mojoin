@@ -13,4 +13,5 @@ public class MomoCreatePaymentResponseModel
     public string QrCodeUrl { get; set; }
     public string Deeplink { get; set; }
     public string DeeplinkWebInApp { get; set; }
+    public string Status { get; internal set; }
 }

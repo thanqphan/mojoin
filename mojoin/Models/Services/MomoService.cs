@@ -63,19 +63,44 @@ public class MomoService : IMomoService
         request.AddParameter("application/json", JsonConvert.SerializeObject(requestData), ParameterType.RequestBody);
 
         var response = await client.ExecuteAsync(request);
-
+        // Lấy trạng thái từ phản hồi JSON của Momo
+        var momoResponse = JsonConvert.DeserializeObject<MomoCreatePaymentResponseModel>(response.Content);
+        var momoStatus = momoResponse?.Status;
         // Nếu thanh toán thành công, lưu thông tin đơn hàng vào cơ sở dữ liệu
-        if (response.StatusCode == HttpStatusCode.OK)
+        if (momoStatus == "0")
+        {
+            var taikhoanID = _httpContextAccessor.HttpContext.Session.GetString("UserId");
+            User user = new User();
+            var order = new TransactionHistory
+            {
+                
+                UserId = int.Parse(taikhoanID),
+                PaymentMethod = "MoMo",
+                TransactionReference = model.TransactionReference,
+                Amount = model.Amount ,
+                Note = model.Note,               
+                Status = 1
+                               
+                // Các trường khác của đối tượng Order nếu cần
+            };
+
+            // Lưu vào cơ sở dữ liệu
+            _dbmojoinContext.TransactionHistories.Add(order);
+            await _dbmojoinContext.SaveChangesAsync();
+        }
+        else
         {
             var taikhoanID = _httpContextAccessor.HttpContext.Session.GetString("UserId");
             var order = new TransactionHistory
-            {               
-              //  User = model.User.FirstName,
+            {
+                //  User = model.User.FirstName,
                 UserId = int.Parse(taikhoanID),
                 PaymentMethod = "MoMo",
                 TransactionReference = model.TransactionReference,
                 Amount = model.Amount,
-                Note = model.Note
+                Note = model.Note,
+                Status = 0
+
                 // Các trường khác của đối tượng Order nếu cần
             };
 
