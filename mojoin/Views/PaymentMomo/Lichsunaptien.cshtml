@@ -1,19 +1,12 @@
-﻿
+﻿@model IEnumerable<mojoin.Models.TransactionHistory>
 @{
     ViewData["Title"] = "Lichsunaptien";
     Layout = "~/Views/Shared/_LayoutDangtin.cshtml";
     <link href="~/css/lichsunaptien.css" rel="stylesheet" />
 }
-
-@* <div class="container-fluid">
-    <div class="row">        
-        <main role="main" class="ml-sm-auto col-lg-10">           
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-                <h1 class="h2">Lịch sử nạp tiền</h1>
-            </div> *@
-
             <div class="table-responsive">
                 <table class="table table-bordered table-striped" cellspacing="0" width="100%">
+                    <h1>Lịch sử nạp tiền</h1>
                     <thead>
                         <tr>
                             <th class="nowrap">Ngày nạp</th>
@@ -27,33 +20,35 @@
                         </tr>
                     </thead>
                     <tbody>
+            @foreach(var item in Model)
+            {
+                <tr>
+                    <td>@item.TransactionDate</td>
+                    <td>@item.TransactionReference</td>
+                    <td>
+                        @item.PaymentMethod
+                    </td>
+                    <td>@String.Format("{0:#,##0}", @item.Amount)</td>
+                    <td>@item.PromotionAmount</td>
+                    <td>
+                        @item.ReceivedAmount
+                    </td>
 
-                        <tr>
-                            <td>20:20 23/11/2023</td>
-                            <td>PT12323112023202003</td>
-                            <td>
-                                MOMO
-                            </td>
-                            <td>50.000</td>
-                            <td>0</td>
-                            <td>
-                                0
-                            </td>
+                    @if(item.Status.Equals(1)){
+                        <td align="center"><img src="~/images/checked.png" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-circle" style="width: 16px; height: 16px; color: red;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12" y2="16"></line></td>
+                        <td>Nạp tiền thành công</td>
+                    }
+                    else
+                    {
+                        <td align="center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-circle" style="width: 16px; height: 16px; color: red;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12" y2="16"></line></svg></td>
+                        <td>Nạp tiền không thành công, Đơn hàng đã bị huỷ bỏ</td>
+                    }
+                    
+                </tr>
+            }
 
-
-                            <td align="center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-circle" style="width: 16px; height: 16px; color: red;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12" y2="16"></line></svg></td>
-                            <td>Nạp tiền không thành công, Lỗi: #49, Đơn hàng đã bị huỷ bỏ</td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
-            <!-- pagination -->
-            <!-- end pagination -->
 
-
-            <br><br>
-
-@*         </main>
-    </div>
-</div> *@
 
