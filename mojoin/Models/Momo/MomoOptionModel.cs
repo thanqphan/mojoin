@@ -9,4 +9,5 @@ public class MomoOptionModel
     public string NotifyUrl { get; set; }
     public string PartnerCode { get; set; }
     public string RequestType { get; set; }
+    public string Status { get; set; }
 }

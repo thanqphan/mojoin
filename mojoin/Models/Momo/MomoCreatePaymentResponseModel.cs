@@ -2,6 +2,7 @@ namespace mojoin.Models.Momo;
 
 public class MomoCreatePaymentResponseModel
 {
+    public string Status { get; set; }
     public string RequestId { get; set; }
     public int ErrorCode { get; set; }
     public string OrderId { get; set; }
@@ -13,5 +14,5 @@ public class MomoCreatePaymentResponseModel
     public string QrCodeUrl { get; set; }
     public string Deeplink { get; set; }
     public string DeeplinkWebInApp { get; set; }
-    public string Status { get; internal set; }
+    
 }
