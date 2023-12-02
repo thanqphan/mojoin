@@ -1,50 +1,9 @@
 ﻿@using X.PagedList
 @using X.PagedList.Mvc.Bootstrap4.Core
 @using X.PagedList.Mvc.Core
-@{
-
-}
 @model X.PagedList.IPagedList<Room>
 <link href="~/css/sort_room.css" rel="stylesheet" />
-<style>
-    .props li {
-        margin: 10px;
-        padding: 10px;
-        border-left: 1px solid #ccc;
-        border-right: 1px solid #ccc;
-        transition: background-color 0.3s, color 0.3s;
-    }
 
-        .props li a {
-            font-weight: normal;
-        }
-
-            .props li a:hover {
-                font-weight: bold;
-            }
-
-        .props li.display-type-1 {
-            background-color: #ffcccc;
-            font-size: 1.2em;
-        }
-
-        .props li.display-type-2 {
-            background-color: #ffd699;
-            font-size: 1.2em;
-        }
-
-        .props li.display-type-3 {
-            background-color: #fcc;
-        }
-
-        .props li.display-type-4 {
-            background-color: #fffae5;
-        }
-
-        .props li:not(:last-child) {
-            border-bottom: 1px solid #ccc;
-        }
-</style>
 <div id="main" class="clearfix" style="">
     <div id="property" class="clearfix">
         <div class="summary clearfix line">
@@ -57,12 +16,44 @@
             {
                 @foreach (var item in Model)
                 {
-                    <li class="display-type-@item.DisplayType">
+                    <li class="display-room-@item.DisplayType">
                         <div class="prop-img">
                             <img src="/Rooms/ShowImage/@item.RoomId">
                         </div>
                         <div class="prop-info">
+                            
                             <a href="/Rooms/Details/@item.RoomId" class="link-overlay">
+
+                                @if (item.DisplayType == 1)
+                                {
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        <i class="fas fa-star text-warning"></i>
+                                    }
+                                    <br />
+                                }
+                                else if (item.DisplayType == 2)
+                                {
+                                    @for (int i = 1; i <= 4; i++)
+                                    {
+                                        <i class="fas fa-star text-warning"></i>
+                                    }
+                                }
+                                else if (item.DisplayType == 3)
+                                {
+                                    @for (int i = 1; i <= 3; i++)
+                                    {
+                                        <i class="fas fa-star text-warning"></i>
+                                    }
+                                }
+                                else if (item.DisplayType == 4)
+                                {
+                                    @for (int i = 1; i <= 2; i++)
+                                    {
+                                        <i class="fas fa-star text-warning"></i>
+                                    }
+                                }
+                                
                                 @item.Title
                             </a>
                             <div class="prop-addr">@item.StreetNumber Đường @item.Street, Quận @item.District, @item.City</div>
@@ -74,10 +65,10 @@
                             <div class="price">@String.Format("{0:#,##0}", @item.Price) VNĐ</div>
                         </div>
                         <div class="prop-extra">
-                            <div class="prop-created">Ngày đăng:@String.Format("{0:dd/MM/yyyy}", @item.CreateDate)</div>
+                            <div class="prop-created">Ngày đăng: @String.Format("{0:dd/MM/yyyy}", @item.CreateDate)</div>
                         </div>
                     </li>
-                    <br />
+                   
                 }
             }
             else
@@ -87,6 +78,7 @@
         </ul>
     </div>
 </div>
+
 
 @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }), Bootstrap4PagedListRenderOptions.ClassicPlusFirstAndLast)
 <style>

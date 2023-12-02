@@ -3,70 +3,38 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_LayoutDangtin.cshtml";
-    <link href="~/css/postmanagement.css" rel="stylesheet" />
 }
-
-<div class="post-manage">
-    <h2 class="title-div">Quản lý tin</h2>
-    <div class="property-tabs" id="">
-        <ul class="noselect">
-            <li id="active-select" class="select-post active" onclick="toggleTab('active')">
-                Đang đăng
-                <span class="num-post">(@ViewBag.dangdang)</span>
-            </li>
-            <li id="wait-select" class="select-post" onclick="toggleTab('wait')">
-                Đang chờ
-                <span class="num-post">(@ViewBag.dangcho)</span>
-            </li>
-            <li id="err-select" class="select-post" onclick="toggleTab('err')">
-                Tin lỗi
-                <span class="num-post">(@ViewBag.tinloi)</span>
-            </li>
-        </ul>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<link href="~/css/createpost.css" rel="stylesheet" />
+<div class="create-post">
+    <div class="title-div">
+        <h2 class="title-element">Quản lý tin</h2>
     </div>
-    <div class="property-list" id="">
-        <div id="active-list" class="tab-content active">
-            @{
-                    Html.RenderPartialAsync("~/Views/MyAccount/IndexPartial.cshtml");
-            }
+    <div class="btn-toolbar mb-2 mb-md-0" bis_skin_checked="1">
+        <div class="dropdown mr-1" bis_skin_checked="1">
+            <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Lọc theo loại VIP
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" bis_skin_checked="1" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 27px, 0px);">
+                <a class="dropdown-item" href="https://phongtro123.com/quan-ly/tin-dang.html?status=all&amp;package=vip50">Tin Hot</a>
+                <a class="dropdown-item" href="https://phongtro123.com/quan-ly/tin-dang.html?status=all&amp;package=vip30">Tin VIP 30</a>
+                <a class="dropdown-item" href="https://phongtro123.com/quan-ly/tin-dang.html?status=all&amp;package=vip20">Tin VIP 20</a>
+                <a class="dropdown-item" href="https://phongtro123.com/quan-ly/tin-dang.html?status=all&amp;package=vip10">Tin VIP 10</a>
+                <a class="dropdown-item" href="https://phongtro123.com/quan-ly/tin-dang.html?status=all&amp;package=normal">Tin thường</a>
+            </div>
         </div>
-        <div id="wait-list" class="tab-content">
-            @{
-                Html.RenderPartialAsync("~/Views/MyAccount/IndexPartial0.cshtml");
-            }
+        <div class="dropdown mr-1" bis_skin_checked="1">
+            <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Lọc theo trạng thái
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" bis_skin_checked="1" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 27px, 0px);">
+                <a class="dropdown-item" href="https://phongtro123.com/quan-ly/tin-dang.html?status=publish&amp;package=normal">Tin đang hiển thị</a>
+                <a class="dropdown-item" href="https://phongtro123.com/quan-ly/tin-dang.html?status=expired&amp;package=normal">Tin hết hạn</a>
+                <a class="dropdown-item" href="https://phongtro123.com/quan-ly/tin-dang.html?status=hidden&amp;package=normal">Tin đang ẩn</a>
+            </div>
         </div>
-        <div id="err-list" class="tab-content">
-            @{
-                Html.RenderPartialAsync("~/Views/MyAccount/IndexPartial2.cshtml");
-            }
-        </div>
+        <a class="btn btn-danger btn-sm d-none d-md-block" href="https://phongtro123.com/quan-ly/dang-tin-moi.html">Đăng tin mới</a>
+        <div class="d-lg-none" style="width: 100%;" bis_skin_checked="1"><a class="btn btn-danger btn-block mt-3" href="https://phongtro123.com/quan-ly/dang-tin-moi.html">Đăng tin mới</a></div>
     </div>
 </div>
-<script>
-    window.addEventListener('load', function () {
-        var activeList = document.getElementById('active-list');
-        activeList.style.display = 'block';
-    });
-
-    function toggleTab(tabId) {
-        // Ẩn tất cả các tab-content và xóa lớp CSS "active" khỏi các select-post và tab-content
-        var tabContents = document.getElementsByClassName("tab-content");
-        for (var i = 0; i < tabContents.length; i++) {
-            tabContents[i].style.display = "none";
-        }
-
-        var selectPosts = document.getElementsByClassName("select-post");
-        for (var i = 0; i < selectPosts.length; i++) {
-            selectPosts[i].classList.remove("active");
-        }
-
-        // Hiển thị tab-content và thêm lớp CSS "active" cho select-post tương ứng với tab được chọn
-        var selectedTab = document.getElementById(tabId + "-list");
-        selectedTab.style.display = "block";
-
-        var selectedPost = document.getElementById(tabId + "-select");
-        selectedPost.classList.add("active");
-    }
-</script>
-    
 
