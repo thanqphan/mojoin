@@ -9,6 +9,7 @@ using RestSharp;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 using ProGCoder_MomoAPI.Models.Order;
+using XAct.Library.Settings;
 
 namespace mojoin.Services;
 
@@ -24,7 +25,11 @@ public class MomoService : IMomoService
         _dbmojoinContext = dbmojoinContext ?? throw new ArgumentNullException(nameof(dbmojoinContext));
         _httpContextAccessor = httpContextAccessor;
     }
-
+    public class PaymentResponse
+    {
+        public string PayUrl { get; set; }
+        public string Note { get; set; }
+    }
     public async Task<MomoCreatePaymentResponseModel> CreatePaymentAsync(TransactionHistory model)
     {
         // Tạo OrderId từ Timestamp
@@ -56,34 +61,14 @@ public class MomoService : IMomoService
             amount = model.Amount.ToString(),
             orderInfo = model.Note,
             requestId = model.TransactionReference,
-            extraData = "",
+            extraData = "",         
             signature = signature
         };
 
         request.AddParameter("application/json", JsonConvert.SerializeObject(requestData), ParameterType.RequestBody);
-
         var response = await client.ExecuteAsync(request);
 
-        // Nếu thanh toán thành công, lưu thông tin đơn hàng vào cơ sở dữ liệu
-        if (response.StatusCode == HttpStatusCode.OK)
-        {
-            var taikhoanID = _httpContextAccessor.HttpContext.Session.GetString("UserId");
-            var order = new TransactionHistory
-            {               
-              //  User = model.User.FirstName,
-                UserId = int.Parse(taikhoanID),
-                PaymentMethod = "MoMo",
-                TransactionReference = model.TransactionReference,
-                Amount = model.Amount,
-                Note = model.Note
-                // Các trường khác của đối tượng Order nếu cần
-            };
-
-            // Lưu vào cơ sở dữ liệu
-            _dbmojoinContext.TransactionHistories.Add(order);
-            await _dbmojoinContext.SaveChangesAsync();
-        }
-
+        //return responseModel;
         return JsonConvert.DeserializeObject<MomoCreatePaymentResponseModel>(response.Content);
     }
 
@@ -93,10 +78,13 @@ public class MomoService : IMomoService
         var amount = collection.First(s => s.Key == "amount").Value;
         var orderInfo = collection.First(s => s.Key == "orderInfo").Value;
         var orderId = collection.First(s => s.Key == "orderId").Value;
+        var message = collection.First(s => s.Key == "message").Value;
+        //var localmessage = collection.First(s => s.Key == "localmessage").Value;
         return new MomoExecuteResponseModel()
         {
             Amount = amount,
             MoMoId = orderId,
+            Message = message,
             OrderInfo = orderInfo
         };
     }
