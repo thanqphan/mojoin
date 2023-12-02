@@ -144,7 +144,7 @@ namespace mojoin.Controllers
         // Hàm để thực hiện tìm kiếm
         protected IPagedList<Room> PerformSearch(int? page,string categoryId, string cityId, string districtId, string streetId, string priceId, string areaId)
         {
-            int pageSize = 5; // Số lượng phần tử trên mỗi trang
+            int pageSize = 10; // Số lượng phần tử trên mỗi trang
             int pageNumber = (page ?? 1); // Số trang hiện tại (nếu không có, mặc định là 1)
             List<Room> searchResults = new List<Room>();
 
@@ -160,7 +160,7 @@ namespace mojoin.Controllers
                 }
 
                 // So sánh categoryId với RoomTypeId
-                if (!string.IsNullOrEmpty(categoryId) && categoryId != "0" && room.RoomTypeId != int.Parse(categoryId))
+                if (!string.IsNullOrEmpty(categoryId) && room.RoomTypeId != int.Parse(categoryId))
                     continue; // Bỏ qua phòng không khớp điều kiện
 
                 // Kiểm tra các điều kiện lọc và chỉ áp dụng nếu có giá trị
