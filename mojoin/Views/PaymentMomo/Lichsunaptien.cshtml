@@ -31,7 +31,7 @@
                     <td>@String.Format("{0:#,##0}", @item.Amount)</td>
                     <td>@item.PromotionAmount</td>
                     <td>
-                        @item.ReceivedAmount
+                        @String.Format("{0:#,##0}", @item.ReceivedAmount)
                     </td>
 
                     @if(item.Status.Equals(1)){
