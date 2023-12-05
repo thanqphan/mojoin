@@ -5,6 +5,7 @@
 	Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 	<link href="~/admin_assets/css/table.css" rel="stylesheet" />
 
+
 }
 <style>
 	form {
@@ -40,15 +41,6 @@
 		<h3>DANH SÁCH <b>PHÊ DUYỆT</b></h3>
 	}
 
-</div>
-<div class="card-header">
-	<div class="row">
-		<div class="col-md-8 ">
-		</div>
-		<div class="col-md-4 text-right">
-			<a class="btn btn-success btn-tone m-r-5" asp-action="Create">Thêm</a>
-		</div>
-	</div>
 </div>
 
 <div class="card-body" id="list-room">
@@ -106,27 +98,76 @@
 
 		});
 
-		function UpdateActiveStatus(id) {
+		function UpdateActiveStatus(roomId) {
 			$.ajax({
-				url: '@Url.Action("UpdateRoomActive", "Rooms")',
-				type: 'GET',
-				cache: false,
-				data: { roomId: id }
-			}).done(function (result) {
-				$('#list-room').html(result);
+				url: '/UpdateActiveStatus',
+				type: 'POST',
+				data: { roomId: roomId },
+				success: function (response) {
+					if (response.success) {
+						var registerUrl = response.registerUrl;
+						SendActiveMail(registerUrl, true);
+
+						// Hiển thị thông báo duyệt bài thành công
+						$('#statusMessage').text('Duyệt bài thành công');
+						$('#statusMessage').css('color', 'green');
+					}
+				},
+				error: function (xhr) {
+					// Xử lý lỗi (nếu có)
+				}
 			});
 		}
 
-		function DeleteRoom(id) {
+		function SendActiveMail(registerUrl, isActice) {
 			$.ajax({
-				url: '@Url.Action("DeleteRoom", "Rooms")',
-				type: 'GET',
-				cache: false,
-				data: { roomId: id }
-			}).done(function (result) {
-				$('#list-room').html(result);
+				url: '/SendActiveMail',
+				type: 'POST',
+				data: { toMail: toMail, registerUrl: registerUrl },
+				success: function (response) {
+					if (response.success) {
+						// Hiển thị thông báo gửi email thông báo đăng bài thành công
+						$('#statusMessage').text('Gửi email thông báo đăng bài thành công');
+						$('#statusMessage').css('color', 'green');
+					}
+				},
+				error: function (xhr) {
+					// Xử lý lỗi (nếu có)
+				}
 			});
 		}
+		function RejectRoom(roomId) {
+			// Hiển thị yêu cầu nhập nội dung từ chối
+			$('#statusMessage').text('Vui lòng nhập nội dung từ chối:');
+			$('#statusMessage').css('color', 'red');
+			$('#rejectionReason').show();
+
+			// Gọi hàm gửi email từ chối bài khi người dùng nhấp vào nút "Từ chối"
+			$('#rejectionReason').on('keypress', function (e) {
+				if (e.which === 13) {
+					var rejectionReason = $('#rejectionReason').val();
+					SendRejectMail(roomId, rejectionReason);
+				}
+			});
+		}
+		function SendRejectMail(roomId, rejectionReason) {
+			$.ajax({
+				url: '/SendRejectMail',
+				type: 'POST',
+				data: { roomId: roomId, rejectionReason: rejectionReason },
+				success: function (response) {
+					if (response.success) {
+						// Hiển thị thông báo gửi email từ chối thành công
+						$('#statusMessage').text('Gửi email từ chối thành công');
+						$('#statusMessage').css('color', 'green');
+					}
+				},
+				error: function (xhr) {
+					// Xử lý lỗi (nếu có)
+				}
+			});
+		}
+
 
 	</script>
 	}
