@@ -12,6 +12,9 @@ using System.Security.Claims;
 using XAct.Library.Settings;
 using XAct.Users;
 using System.Web;
+using System.Net;
+using System.Net.Mail;
+using Microsoft.Extensions.Hosting.Internal;
 
 
 namespace mojoin.Areas.Admin.Controllers
@@ -99,207 +102,9 @@ namespace mojoin.Areas.Admin.Controllers
             return View(room);
         }
 
-		/*// GET: Admin/Rooms/Create
-		public IActionResult Create()
-		{
-            ViewData["RoomTypeId"] = new SelectList(_context.RoomTypes, "RoomTypeId", "TypeName");
-			return View();
-		}
+		
 
-        // POST: Admin/Rooms/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RoomId,RoomTypeId,Title,Description,Price,Area,NumRooms,NumBathrooms,CreateDate,LastUpdate,IsActive,StreetNumber,Street,Ward,District,City,HasRefrigerator,HasAirConditioner,HasWasher,HasElevator,HasParking,ViewCount,Files")] RoomPostViewModel room)
-        {
-            if (ModelState.IsValid)
-            {
-                var roomEntity = new Room
-                {
-                    RoomTypeId = room.RoomTypeId,
-                    *//*RoomType = roomType.TypeName,*//*
-                    Title = room.Title,
-                    Description = room.Description,
-                    Price = room.Price,
-                    Area = room.Area,
-                    NumRooms = room.NumRooms,
-                    NumBathrooms = room.NumBathrooms,
-                    IsActive = 0, // mặc định khởi tạo mới = 0
-                    StreetNumber = room.StreetNumber,
-                    Street = room.Street,
-                    Ward = room.Ward,
-                    District = room.District,
-                    City = room.City,
-                    HasRefrigerator = room.HasRefrigerator,
-                    HasAirConditioner = room.HasAirConditioner,
-                    HasWasher = room.HasWasher,
-                    HasElevator = room.HasElevator,
-                    HasParking = room.HasParking,
-                    ViewCount = room.ViewCount,
-                    UserId = HttpContext.GetUserId(),
-                    CreateDate = DateTime.Now
-                };
-                *//*var roomType = _context.RoomTypes.Find(room.RoomTypeId);*//*
-                _context.Rooms.Add(roomEntity);
-                await _context.SaveChangesAsync();
-                int index = 1;
-                foreach (var file in room.Files)
-                {
-                    //var fileName = $"{DateTime.Now.ToString("yyyyMMddHHmmssfff")}{Path.GetFileName(file.FileName)}";
-                    var fileName = $"img{roomEntity.RoomId}-{index++}.{file.FileName.Split('.')[1]}";
-                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await file.CopyToAsync(fileStream);
-                    }
-                    await _context.RoomImages.AddAsync(new RoomImage
-                    {
-                        RoomId = roomEntity.RoomId,
-                        Image = $"/images/{fileName}"
-                    });
-                }
-
-                await _context.SaveChangesAsync();
-                _notyfService.Success("Tạo phòng thành công!");
-                return RedirectToAction(nameof(Index), new { isActive = HttpContext.Session.GetInt32("RoomsParams") });
-            }
-
-            ViewData["RoomTypeId"] = new SelectList(_context.RoomTypes, "RoomTypeId", "TypeName", room.RoomTypeId);
-			return View(room);
-		}*/
-
-        // GET: Admin/Rooms/Edit/5
-        //     public async Task<IActionResult> Edit(int? id)
-        //     {
-        //         if (id == null || _context.Rooms == null)
-        //         {
-        //             return NotFound();
-        //         }
-
-        //         var room = await _context.Rooms.FindAsync(id);
-        //         if (room == null)
-        //         {
-        //             return NotFound();
-        //         }
-        //var roomimage = await _context.RoomImages.ToListAsync();
-        //         var viewModel = new RoomPostViewModel
-        //         {
-        //             RoomId = room.RoomId,
-        //	RoomTypeId = room.RoomTypeId,
-        //	Title = room.Title,
-        //             Description = room.Description,
-        //             Price   = room.Price,
-        //             Area    = room.Area,
-        //             NumRooms = room.NumRooms,
-        //             NumBathrooms    = room.NumBathrooms,
-        //             LastUpdate = DateTime.Now,
-        //             IsActive = room.IsActive,
-        //             StreetNumber= room.StreetNumber,
-        //             Street  = room.Street,
-        //             Ward = room.Ward,
-        //             District= room.District,
-        //             City= room.City,
-        //	HasRefrigerator = room.HasRefrigerator,
-        //	HasAirConditioner = room.HasAirConditioner,
-        //	HasWasher = room.HasWasher,
-        //	HasElevator = room.HasElevator,
-        //	HasParking = room.HasParking,
-        //	ViewCount = room.ViewCount,
-        //};
-        //ViewData["RoomTypeId"] = new SelectList(_context.RoomTypes, "RoomTypeId", "TypeName", room.RoomTypeId);
-        //         return View(viewModel);
-        //     }
-
-        //     // POST: Admin/Rooms/Edit/5
-        //     // To protect from overposting attacks, enable the specific properties you want to bind to.
-        //     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //     [HttpPost]
-        //     [ValidateAntiForgeryToken]
-        //     public async Task<IActionResult> Edit(int id, [Bind("RoomId,RoomTypeId,Title,Description,Price,Area,NumRooms,NumBathrooms,CreateDate,LastUpdate,IsActive,StreetNumber,Street,Ward,District,City,HasRefrigerator,HasAirConditioner,HasWasher,HasElevator,HasParking,ViewCount,Files")] RoomPostViewModel room)
-        //     {
-        //         if (id != room.RoomId)
-        //         {
-        //             return NotFound();
-        //         }
-        //         if (ModelState.IsValid)
-        //         {
-        //             try
-        //             {
-        //                 int result = await _context.Rooms.Where(x => x.RoomId == room.RoomId).ExecuteUpdateAsync(x =>
-        //                 x.SetProperty(p => p.RoomTypeId, room.RoomTypeId)
-        //                 .SetProperty(p => p.Title, room.Title)
-        //                 .SetProperty(p => p.Description, room.Description)
-        //                 .SetProperty(p => p.Price, room.Price)
-        //                 .SetProperty(p => p.Area, room.Area)
-        //                 .SetProperty(p => p.NumRooms, room.NumRooms)
-        //                 .SetProperty(p => p.NumBathrooms, room.NumBathrooms)
-        //                 .SetProperty(p => p.LastUpdate, DateTime.Now)
-        //                 .SetProperty(p => p.IsActive, room.IsActive)
-        //                 .SetProperty(p => p.StreetNumber, room.StreetNumber)
-        //                 .SetProperty(p => p.Street, room.Street)
-        //                 .SetProperty(p => p.Ward, room.Ward)
-        //                 .SetProperty(p => p.District, room.District)
-        //                 .SetProperty(p => p.City, room.City)
-        //                 .SetProperty(p => p.HasRefrigerator, room.HasRefrigerator)
-        //                 .SetProperty(p => p.HasAirConditioner, room.HasAirConditioner)
-        //                 .SetProperty(p => p.HasWasher, room.HasWasher)
-        //                 .SetProperty(p => p.HasElevator, room.HasElevator)
-        //                 .SetProperty(p => p.HasParking, room.HasParking)
-        //                 .SetProperty(p => p.ViewCount, room.ViewCount));
-
-        //                 if (result > 0)
-        //                 {
-        //                     _notyfService.Success("Cập nhật phòng thành công!");
-        //                 }
-        //                 else
-        //                 {
-        //                     _notyfService.Success("Không tìm thấy room tương ứng!");
-        //                 }
-
-        //                 await _context.SaveChangesAsync();
-
-        //                 int index = 1;
-
-        //                 var images = await _context.RoomImages.Where(x => x.RoomId == room.RoomId).ToListAsync();
-        //                 images.ForEach(item => _context.RoomImages.Remove(item));
-        //                 await _context.SaveChangesAsync();
-
-        //                 foreach (var file in room.Files)
-        //                 {
-        //                     var fileName = $"img{room.RoomId}-{index++}.{file.FileName.Split('.')[1]}";
-        //                     var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
-        //                     using (var fileStream = new FileStream(filePath, FileMode.Create))
-        //                     {
-        //                         await file.CopyToAsync(fileStream);
-        //                     }
-
-        //                     await _context.RoomImages.AddAsync(new RoomImage
-        //                     {
-        //                         RoomId = room.RoomId,
-        //                         Image = $"/images/{fileName}"
-        //                     });
-        //                 }
-        //                 await _context.SaveChangesAsync();
-        //             }
-        //             catch (DbUpdateConcurrencyException)
-        //             {
-        //                 if (!RoomExists(room.RoomId))
-        //                 {
-        //                     _notyfService.Success("Có lỗi xảy ra!");
-        //                     return NotFound();
-        //                 }
-        //                 else
-        //                 {
-        //                     throw;
-        //                 }
-        //             }
-        //             return RedirectToAction(nameof(Index), new { isActive = HttpContext.Session.GetInt32("RoomsParams") });
-        //         }
-
-        //         ViewData["RoomTypeId"] = new SelectList(_context.RoomTypes, "RoomTypeId", "TypeName", room.RoomTypeId);
-        //         return View(room);
-        //     }
+       
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Rooms == null)
@@ -494,8 +299,56 @@ namespace mojoin.Areas.Admin.Controllers
             }
             return RedirectToAction("Index");
         }
+		public static bool SendActiceMail(string toMail, string registerUrl)
+		{
+			try
+			{
+				using (MailMessage mail = new MailMessage())
+				{
+					mail.From = new MailAddress("trucnganhuynh001@gmail.com");
+					mail.To.Add(toMail);
+					mail.Subject = "Đăng bài thành công!";
+					mail.Body = GetWebPageContent(registerUrl, true);
+					mail.IsBodyHtml= true;
 
-       
-    }
+					using (SmtpClient smtp = new SmtpClient("smtp.gmail.com",587)) 
+					{
+						smtp.UseDefaultCredentials = false;
+						smtp.Credentials = new NetworkCredential("trucnganhuynh001@gmail.com", "oosj iioc clci kotz");
+						smtp.EnableSsl = true;
+						smtp.Send(mail);
+
+					}
+				}
+				return true;
+			}catch(SmtpException ex)
+			{
+
+			}catch(Exception ex)
+			{
+
+			}
+			return false;
+		}
+		private static string GetWebPageContent(string registerUrl, bool isActice = true)
+		{
+			string bodyMsg = string.Empty;
+			if (isActice)
+			{
+				StreamReader objStreamReader = new StreamReader("D:\\DACN\\source\\mojoin\\Content\\templates\\ActiceEmailTemplate.html");
+				bodyMsg = objStreamReader.ReadToEnd();
+				bodyMsg = bodyMsg.Replace("##registerUrl##", registerUrl);
+			}
+			else
+			{
+				StreamReader objStreamReader = new StreamReader("D:\\DACN\\source\\mojoin\\Content\\templates\\ResetEmailTemplate.html");
+				bodyMsg = objStreamReader.ReadToEnd();
+				bodyMsg = bodyMsg.Replace("##newPassword##", registerUrl);
+			}
+
+			return bodyMsg;
+		}
+
+	}
 
 }
