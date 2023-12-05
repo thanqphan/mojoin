@@ -32,47 +32,40 @@ namespace mojoin.Controllers
         [Route("quan-li-tin.html", Name = "QuanLiTin")]
         public IActionResult Index()
         {
-            if (TempData != null && TempData.ContainsKey("SuccessMessage") && !string.IsNullOrEmpty(TempData["SuccessMessage"].ToString()))
+            // Get current user's ID
+            var userId = HttpContext.User.FindFirstValue("UserId");
+
+            // Eager load related entities using Include()
+            var roomFavorites = _context.Rooms
+                .Include(r => r.User)
+                .Include(r => r.UserPackages)
+                .Include(r => r.RoomImages)
+                .Where(r => r.UserId == int.Parse(userId))
+                .ToList();
+
+            // Create a collection to hold the PostManagementViewModel
+            var viewModels = new List<PostManagementViewModel>();
+
+            // Iterate through each room favorite and add it to the collection
+            foreach (var roomFavorite in roomFavorites)
             {
-                string successMessage = TempData["SuccessMessage"] as string;
-                _notyfService.Success(successMessage);
+                var viewModel = new PostManagementViewModel();
+                viewModel.RoomId = roomFavorite.RoomId;
+                viewModel.UserId = roomFavorite.UserId;
+                viewModel.RoomTypeId = roomFavorite.RoomTypeId;
+                viewModel.Title = roomFavorite.Title;
+                viewModel.Price = roomFavorite.Price;
+                viewModel.IsActive = roomFavorite.IsActive;
+                viewModel.DisplayType = roomFavorite.DisplayType;
+                viewModel.UserPackages = roomFavorite.UserPackages;
+                viewModel.RoomImages = roomFavorite.RoomImages;
+
+                viewModels.Add(viewModel);
             }
 
-            var userId = HttpContext.User.FindFirstValue("UserId");
-            var roomFavorites = _context.Rooms.Include(r => r.User)
-               .Where(rf => rf.UserId == int.Parse(userId)).ToList();
-            ViewBag.dangdang = roomFavorites.Where(rf => rf.IsActive == 1).Count();
-            ViewBag.dangcho = roomFavorites.Where(rf => rf.IsActive == 0).Count();
-            ViewBag.tinloi = roomFavorites.Where(rf => rf.IsActive == 2).Count();
-            return View(roomFavorites);
+            return View(viewModels);
         }
-        public ActionResult IndexPartial()
-        {
-            var userId = HttpContext.User.FindFirstValue("UserId");
-            var roomFavorites = _context.Rooms.Include(r => r.User)
-               .Where(rf => rf.UserId == int.Parse(userId))
-               .ToList();
-            ViewBag.tongsoluong = roomFavorites.Count();
-            return View(roomFavorites);
-        }
-        public ActionResult IndexPartial0()
-        {
-            var userId = HttpContext.User.FindFirstValue("UserId");
-            var roomFavorites = _context.Rooms.Include(r => r.User)
-               .Where(rf => rf.UserId == int.Parse(userId))
-               .ToList();
-            ViewBag.tongsoluong = roomFavorites.Count();
-            return View(roomFavorites);
-        }
-        public ActionResult IndexPartial2()
-        {
-            var userId = HttpContext.User.FindFirstValue("UserId");
-            var roomFavorites = _context.Rooms.Include(r => r.User)
-               .Where(rf => rf.UserId == int.Parse(userId))
-               .ToList();
-            ViewBag.tongsoluong = roomFavorites.Count();
-            return View(roomFavorites);
-        }
+
         [HttpGet]
         [Route("doi-pass.html", Name = "DoiPassword")]
         public IActionResult ChangePassword()

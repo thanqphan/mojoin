@@ -17,7 +17,7 @@ public partial class DbmojoinContext : DbContext
 
     public virtual DbSet<Package> Packages { get; set; }
 
-    public virtual DbSet<PackageDetail> PackageDetails { get; set; }
+    public virtual DbSet<PackageType> PackageTypes { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
 
@@ -50,19 +50,20 @@ public partial class DbmojoinContext : DbContext
             entity.ToTable("Package");
 
             entity.Property(e => e.PackageId).HasColumnName("PackageID");
-            entity.Property(e => e.PackageType).HasMaxLength(50);
+            entity.Property(e => e.PackageName).HasMaxLength(50);
+            entity.Property(e => e.PackageTypeId).HasColumnName("PackageTypeID");
+
+            entity.HasOne(d => d.PackageType).WithMany(p => p.Packages)
+                .HasForeignKey(d => d.PackageTypeId)
+                .HasConstraintName("FK_Package_PackageType");
         });
 
-        modelBuilder.Entity<PackageDetail>(entity =>
+        modelBuilder.Entity<PackageType>(entity =>
         {
-            entity.ToTable("PackageDetail");
+            entity.ToTable("PackageType");
 
-            entity.Property(e => e.PackageDetailId).HasColumnName("PackageDetailID");
-            entity.Property(e => e.PackageId).HasColumnName("PackageID");
-
-            entity.HasOne(d => d.Package).WithMany(p => p.PackageDetails)
-                .HasForeignKey(d => d.PackageId)
-                .HasConstraintName("FK_PackageDetail_Package");
+            entity.Property(e => e.PackageTypeId).HasColumnName("PackageTypeID");
+            entity.Property(e => e.PackageTypeName).HasMaxLength(50);
         });
 
         modelBuilder.Entity<Role>(entity =>
@@ -247,15 +248,15 @@ public partial class DbmojoinContext : DbContext
 
             entity.Property(e => e.UserPackageId).HasColumnName("UserPackageID");
             entity.Property(e => e.EndDate).HasColumnType("datetime");
-            entity.Property(e => e.PackageDetailId).HasColumnName("PackageDetailID");
+            entity.Property(e => e.PackageId).HasColumnName("PackageID");
             entity.Property(e => e.RoomId).HasColumnName("RoomID");
             entity.Property(e => e.StartDate).HasColumnType("datetime");
             entity.Property(e => e.TransactionId).HasColumnName("TransactionID");
             entity.Property(e => e.UserId).HasColumnName("UserID");
 
-            entity.HasOne(d => d.PackageDetail).WithMany(p => p.UserPackages)
-                .HasForeignKey(d => d.PackageDetailId)
-                .HasConstraintName("FK_UserPackage_PackageDetail");
+            entity.HasOne(d => d.Package).WithMany(p => p.UserPackages)
+                .HasForeignKey(d => d.PackageId)
+                .HasConstraintName("FK_UserPackage_Package");
 
             entity.HasOne(d => d.Room).WithMany(p => p.UserPackages)
                 .HasForeignKey(d => d.RoomId)
