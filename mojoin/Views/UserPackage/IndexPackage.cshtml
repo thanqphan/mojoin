@@ -1,0 +1,129 @@
+﻿@using System.Security.Claims;
+@model mojoin.ViewModel.UserPackageTransactionViewModel;
+@{
+    ViewData["Title"] = "IndexPackage";
+    Layout = "~/Views/Shared/_LayoutDangtin.cshtml";
+}
+
+@{
+    var identity = (ClaimsIdentity)User.Identity;
+
+    // Lấy giá trị của các đối tượng Claim
+    string firstName = identity.FindFirst("FirstName")?.Value;
+    string lastName = identity.FindFirst("LastName")?.Value;
+    string userId = identity.FindFirst("UserId")?.Value;
+}
+<link href="~/css/createpost.css" rel="stylesheet" />
+
+<div class="create-post">
+    <div class="title-div">
+        <h2 class="title-element">Thanh toán tin</h2>
+    </div>
+    <div class="alert-div">
+        <h2 class="title-element">Nếu bạn đã từng đăng tin trên mojoin, hãy sử dụng chức năng ĐẨY TIN / GIA HẠN / NÂNG CẤP VIP trong mục QUẢN LÝ TIN ĐĂNG để làm mới, đẩy tin lên cao thay vì đăng tin mới.<br> Tin đăng trùng nhau sẽ không được duyệt.</h2>
+    </div>
+
+    <form id="paymentPostForm" asp-action="PaymentPost" asp-controller="UserPackage" class="form-horizontal">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <input asp-for="UserID" type="hidden" name="UserId" value="@userId" />
+        <div class="dangtin-row">
+            <div class="dangtin-col-md-8">
+                <div class="dangtin-row">
+                    <div class="dangtin-col-md-4">
+                        <div class="form-control">
+                            <label class="dangtin-col-form-label">Gói thời gian</label>
+                            <select name="TypePackage" class="form-control" id="typeTimePost" >
+                                <option value="" disabled selected>Gói thời gian</option>
+                                <option value="1">Ngày</option>
+                                <option value="2">Tuần</option>
+                                <option value="3">Tháng</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="dangtin-col-md-4">
+                        <div class="form-control">
+                            <label class="dangtin-col-form-label">Chọn loại tin</label>
+                            <select asp-for="PackageId" name="PackageId" class="form-control" id="typePackagePost">
+                                <option value="" disabled selected>Chọn loại tin</option>
+                                <option value="1" data-type="day">VIP thường(2.000đ/ngày)</option>
+                                
+                            </select>
+                        </div>
+                    </div>
+                    <div class="dangtin-col-md-4">
+                        <div class="form-control">
+                            <label class="dangtin-col-form-label" id="numPackage">Số ngày</label>
+                            <select asp-for="Duration" name="Duration" class="form-control" id="durationPackage">
+
+                                @for(int i = 5; i <= 90; i++)
+                                {
+                                    <option value="@i" data-type="day">@i ngày </option>
+                                }
+                                @for (int i = 0; i <= 10; i++)
+                                {
+                                    <option value="@i" data-type="week">@i tuần</option>
+                                }
+                                @for (int i = 0; i <= 12; i++)
+                                {
+                                    <option value="@i" data-type="month">@i tháng</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dangtin-col-md-4">
+                <div class="dangtin-card">
+                    <div class="dangtin-card-body">
+                        <h4 class="dangtin-card-title">
+                            Lưu ý khi đăng tin
+                        </h4>
+                        <ul>
+                            <li style="list-style-type: square; margin-left: 15px;     padding-left: 1rem;">Nội dung phải viết bằng tiếng Việt có dấu</li>
+                            <li style="list-style-type: square; margin-left: 15px;    padding-left: 1rem;">Tiêu đề tin không dài quá 100 kí tự</li>
+                            <li style="list-style-type: square; margin-left: 15px;    padding-left: 1rem;">Các bạn nên điền đầy đủ thông tin vào các mục để tin đăng có hiệu quả hơn.</li>
+                            <li style="list-style-type: square; margin-left: 15px;    padding-left: 1rem;">Để tăng độ tin cậy và tin rao được nhiều người quan tâm hơn, hãy sửa vị trí tin rao của bạn trên bản đồ bằng cách kéo icon tới đúng vị trí của tin rao.</li>
+                            <li style="list-style-type: square; margin-left: 15px;    padding-left: 1rem;">Tin đăng có hình ảnh rõ ràng sẽ được xem và gọi gấp nhiều lần so với tin rao không có ảnh. Hãy đăng ảnh để được giao dịch nhanh chóng!</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="dangtin-card-title">
+            Chọn phương thức thanh toán
+        </div>
+        <div class="form-group">
+            <div class="form-check">
+                <input asp-for="TransactionType" type="radio" name="payment_method" id="payment_from_account" value="account" class="form-check-input">
+                <label for="payment_from_account" class="form-check-label">
+                    Trừ tiền trong tài khoản Phongtro123 (Bạn đang có: TK Chính 0)
+                    <p style="color: red;" class="js-note-outofmoney">Số tiền trong tài khoản của bạn không đủ để thực hiện thanh toán, vui lòng <a href="https://phongtro123.com/quan-ly/nap-tien.html">nạp thêm</a> hoặc chọn phương thức khác bên dưới</p>
+                </label>
+            </div>
+            <div class="form-check js-payment-item js-payment-momo mb-2" bis_skin_checked="1">
+                <input asp-for="TransactionType" type="radio" name="payment_method" id="payment_from_momo" value="momo" class="form-check-input">
+                <label for="payment_from_momo" class="form-check-label">
+                    Thanh toán qua ví điện tử MOMO
+                    <span class="dangtin-icon-momo" style="display: block;">
+                        <img src="~/images/momo_icon.png" />
+                    </span>
+                </label>
+            </div>
+            <div class="form-check js-payment-item js-payment-momo mb-2" bis_skin_checked="1">
+                <input asp-for="TransactionType" type="radio" name="payment_method" id="payment_from_vnpay" value="vnpay" class="form-check-input">
+                <label for="payment_from_momo" class="form-check-label">
+                    Thanh toán qua ví điện tử VNPAY
+                    <span class="dangtin-icon-momo" style="display: block;">
+                        <img src="~/images/vnpay_icon.png" />
+                    </span>
+                </label>
+                <p>Số tiền chuyển khoản: <span style="color: red;" class="js-package-grand-total"></span></p>
+                <input asp-for="Amount" type="hidden" name="Amount" value="" />
+            </div>
+        </div>
+    </form>
+    
+</div>
+
