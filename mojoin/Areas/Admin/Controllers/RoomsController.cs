@@ -246,7 +246,7 @@ namespace mojoin.Areas.Admin.Controllers
 
 
 
-		public IActionResult UpdateRoomActive(int roomId)
+		/*public IActionResult UpdateRoomActive(int roomId)
 		{
 			int isActive = (int)HttpContext.Session.GetInt32("RoomsParams");
 
@@ -276,7 +276,101 @@ namespace mojoin.Areas.Admin.Controllers
 			return RedirectToAction(nameof(Index), new { isActive });
 		}
         [HttpPost]
-        public ActionResult UploadMultipleImage(List<IFormFile> files)
+		public IActionResult DeleteRoom(int roomId)
+		{
+			int isActive = (int)HttpContext.Session.GetInt32("RoomsParams");
+
+			try
+			{
+				var findRoom = _context.Rooms.Where(x => x.RoomId == roomId).FirstOrDefault();
+				if (findRoom != null)
+				{
+					findRoom.IsActive = 2;
+					_context.SaveChanges();
+
+					_notyfService.Success("Xóa thành công!");
+				}
+				else
+				{
+					_notyfService.Success("Xóa thất bại!");
+				}
+
+				var dbmojoinContext = GetListRoomByActive(isActive);
+
+				return PartialView("ListRoom", dbmojoinContext);
+			}
+			catch
+			{
+				_notyfService.Success("Xoa thất bại!");
+			}
+			return RedirectToAction(nameof(Index), new { isActive });
+		}
+		[HttpPost]*/
+		public IActionResult UpdateRoomActive(int roomId)
+		{
+			int isActive = (int)HttpContext.Session.GetInt32("RoomsParams");
+
+			try
+			{
+				var findRoom = _context.Rooms.Where(x => x.RoomId == roomId).FirstOrDefault();
+				if (findRoom != null)
+				{
+					findRoom.IsActive = 1;
+					_context.SaveChanges();
+
+					_notyfService.Success("Cập nhật thành công!");
+
+					SendActiveMail(findRoom.RoomId, findRoom.IsActive, findRoom.UserId);
+				}
+				else
+				{
+					_notyfService.Success("Cập nhật thất bại!");
+				}
+
+				var dbmojoinContext = GetListRoomByActive(isActive);
+
+				return PartialView("ListRoom", dbmojoinContext);
+			}
+			catch
+			{
+				_notyfService.Success("Cập nhật thất bại!");
+			}
+			return RedirectToAction(nameof(Index), new { isActive });
+		}
+		
+		public IActionResult DeleteRoom(int roomId)
+		{
+			int isActive = (int)HttpContext.Session.GetInt32("RoomsParams");
+
+			try
+			{
+				var findRoom = _context.Rooms.Where(x => x.RoomId == roomId).FirstOrDefault();
+				if (findRoom != null)
+				{
+					findRoom.IsActive = 2;
+					_context.SaveChanges();
+
+					_notyfService.Success("Xóa thành công!");
+
+					SendActiveMail(findRoom.RoomId, findRoom.IsActive, findRoom.UserId);
+				}
+				else
+				{
+					_notyfService.Success("Xóa thất bại!");
+				}
+
+				var dbmojoinContext = GetListRoomByActive(isActive);
+
+				return PartialView("ListRoom", dbmojoinContext);
+			}
+			catch
+			{
+				_notyfService.Success("Xoa thất bại!");
+			}
+			return RedirectToAction(nameof(Index), new { isActive });
+		}
+		[HttpPost]
+		public ActionResult UploadMultipleImage(List<IFormFile> files)
         {
             foreach (var file in files)
             {
@@ -299,19 +393,53 @@ namespace mojoin.Areas.Admin.Controllers
             }
             return RedirectToAction("Index");
         }
-		public static bool SendActiceMail(string toMail, string registerUrl)
+
+		public bool SendActiveMail(int roomId, int? isAcctive, int userId)
 		{
 			try
 			{
+				if(isAcctive == null)
+				{
+					return false;
+				}
+
+				string emailTittle = string.Empty;
+				string tempaltePatch = string.Empty;
+				switch (isAcctive)
+				{
+					case 1: // da duyet
+						emailTittle = "[NoReply] Bài đăng của bạn đã được phê duyệt";
+						tempaltePatch = @"Content\templates\ActiceEmailTemplate.html";
+						break;
+					case 2: // chua duyet
+						emailTittle = "[NoReply] Bài đăng của bạn đã bị từ chối";
+						tempaltePatch = @"Content\templates\ResetEmailTemplate.html";
+						break;
+					default:
+						// khong phai trang thai can xu ly
+						return false;
+				}
+
+				var user = _context.Users.Where(x => x.UserId == userId).FirstOrDefault();
+				// khong tim duoc user tuong ung || khong xac dinh duoc email, chua dang ky email ....
+				if (user == null || string.IsNullOrEmpty(user.Email))
+				{
+					return false;
+				}
+
+				// doc tempalte
+				StreamReader objStreamReader = new StreamReader(tempaltePatch);
+
+				// send email
 				using (MailMessage mail = new MailMessage())
 				{
 					mail.From = new MailAddress("trucnganhuynh001@gmail.com");
-					mail.To.Add(toMail);
-					mail.Subject = "Đăng bài thành công!";
-					mail.Body = GetWebPageContent(registerUrl, true);
-					mail.IsBodyHtml= true;
+					mail.To.Add(user.Email);
+					mail.Subject = emailTittle;
+					mail.Body = objStreamReader.ReadToEnd();
+					mail.IsBodyHtml = true;
 
-					using (SmtpClient smtp = new SmtpClient("smtp.gmail.com",587)) 
+					using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
 					{
 						smtp.UseDefaultCredentials = false;
 						smtp.Credentials = new NetworkCredential("trucnganhuynh001@gmail.com", "oosj iioc clci kotz");
@@ -321,32 +449,16 @@ namespace mojoin.Areas.Admin.Controllers
 					}
 				}
 				return true;
-			}catch(SmtpException ex)
+			}
+			catch (SmtpException ex)
 			{
-
-			}catch(Exception ex)
+				_notyfService.Error("Send email cho người dùng thất bại!");
+			}
+			catch (Exception ex)
 			{
-
+				_notyfService.Error("Phát sinh ngoại lệ khi xử lý tạo email!");
 			}
 			return false;
-		}
-		private static string GetWebPageContent(string registerUrl, bool isActice = true)
-		{
-			string bodyMsg = string.Empty;
-			if (isActice)
-			{
-				StreamReader objStreamReader = new StreamReader("D:\\DACN\\source\\mojoin\\Content\\templates\\ActiceEmailTemplate.html");
-				bodyMsg = objStreamReader.ReadToEnd();
-				bodyMsg = bodyMsg.Replace("##registerUrl##", registerUrl);
-			}
-			else
-			{
-				StreamReader objStreamReader = new StreamReader("D:\\DACN\\source\\mojoin\\Content\\templates\\ResetEmailTemplate.html");
-				bodyMsg = objStreamReader.ReadToEnd();
-				bodyMsg = bodyMsg.Replace("##newPassword##", registerUrl);
-			}
-
-			return bodyMsg;
 		}
 
 	}
