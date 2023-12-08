@@ -1,4 +1,5 @@
 ﻿@using System.Security.Claims;
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,8 +26,7 @@
                 @*<a class="" href="/gia-nha-dat" gtm-event="link" gtm-cat="menu" gtm-act="top-menu">Giá nhà đất</a>*@
                 <a class="" href="/hoi-dap" gtm-event="link" gtm-cat="menu" gtm-act="top-menu">Hỏi đáp</a>
                 <a class="" href="/Home/Giadichvu" gtm-event="link" gtm-cat="menu" gtm-act="top-menu">Bảng giá dịch vụ</a>
-                @*<a class="" href="/tim-moi-gioi" gtm-event="link" gtm-cat="menu" gtm-act="top-menu">Môi giới</a>
-                <a class="" href="/du-an" gtm-event="link" gtm-cat="menu" gtm-act="top-menu">Dự án</a>*@
+                @* <a class="" href="/PaymentMomo/NaptienLayout" gtm-event="link" gtm-cat="menu" gtm-act="top-menu">Số dư:@String.Format("{0:#,##0}", Model.Where(th => th.Status == 1).Sum(th => th.Amount)) đ</a> *@
 
                 @if (User.Identity.IsAuthenticated)
                 {
@@ -82,9 +82,10 @@
                                                     <svg width="18" height="18"><use></use></svg>
                                                 </span>
                                             </div>
-                                        </div>
+                                        </div>                                        
                                     </div>
                                 </div>
+                                
                                 <div class="main-menu border-top">
                                     <div>
                                         <a href="/quan-li-tin.html" rel="nofollow" gtm-event="link" gtm-cat="menu" gtm-act="user-menu-managed-post">
@@ -152,7 +153,7 @@
                         </div><!-- end ngIf: Profile.isAuth() -->
                         <a class="navbar-user-posting" href="/dang-bai.html" gtm-event="link" gtm-cat="posting" gtm-act="add-posting">Đăng tin</a>
                     </div>
-                }
+                }               
                 else
                 {
                     <a class="hidden-xs ng-scope" ng-if="!Profile.isAuth()" id="menu-signin" href="/login.html" gtm-event="link" gtm-cat="menu" gtm-act="user-signin">Đăng nhập</a>
@@ -299,6 +300,7 @@
                 </div>
                 <div id="mogi-slide-overlay" ng-click="closeSlideMenu()"></div>
             </div>
+            
         </div>
         <div class="aw__s1nklpnj" color="#fff" style="--s1nklpnj-0:#fff; --s1nklpnj-1:86px;">
             <div class="aw__l1cnvd95">

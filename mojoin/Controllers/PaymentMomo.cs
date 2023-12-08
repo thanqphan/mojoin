@@ -27,6 +27,7 @@ namespace mojoin.Controllers
         private IMomoService _momoService;
         public INotyfService _notyfService { get; }
         private readonly IHttpContextAccessor _httpContextAccessor;
+        
         public PaymentMomo(IOptions<MomoOptionModel> options, INotyfService notyfService, IMomoService momoService, IHttpContextAccessor httpContextAccessor)
         {
             _momoService = momoService;
@@ -53,7 +54,7 @@ namespace mojoin.Controllers
         }
 
         [HttpGet]
-        public IActionResult PaymentCallBack(TransactionHistory model)
+        public async Task<IActionResult> PaymentCallBack(TransactionHistory model)
         {
             // Tạo OrderId từ Timestamp
             model.TransactionReference = DateTime.UtcNow.Ticks.ToString();
@@ -61,33 +62,44 @@ namespace mojoin.Controllers
             //lấy thông tin trả về của momo
             var response = _momoService.PaymentExecuteAsync(HttpContext.Request.Query);
 
-            
+
+
             // Kiểm tra trạng thái thanh toán
             if (response.Message == "Success")
             {
-                // Thanh toán thành công, thực hiện các hành động tương ứng
-                
-                var order = new TransactionHistory
+                using (var context = new DbmojoinContext()) 
                 {
-                    UserId = int.Parse(taikhoanID),
-                    PaymentMethod = "MoMo",
-                    TransactionReference = model.TransactionReference,
-                    Amount = model.Amount,
-                    Note = response.OrderInfo,
-                    TransactionType = "Nạp tiền",
-                    TransactionDate = DateTime.Now,
-                    PromotionAmount = 0,
-                    ReceivedAmount = model.Amount,
-                    Status = 1
-                    // Các trường khác của đối tượng Order nếu cần
-                };
+                    var user = await context.Users.FindAsync(int.Parse(taikhoanID));
+                    var order = new TransactionHistory
+                    {
+                        UserId = int.Parse(taikhoanID),
+                        PaymentMethod = "MoMo",
+                        TransactionReference = model.TransactionReference,
+                        Amount = model.Amount,
+                        Note = response.OrderInfo,
+                        TransactionType = "Nạp tiền",
+                        TransactionDate = DateTime.Now,
+                        PromotionAmount = 0,
+                        ReceivedAmount = model.Amount,
+                        Status = 1
+                        // Các trường khác của đối tượng Order nếu cần
+                    };
 
-                // Lưu vào cơ sở dữ liệu
-                db.TransactionHistories.Add(order);
-                db.SaveChangesAsync();
-                _notyfService.Success("Giao dịch thành công");
-                // Chuyển hướng đến trang thành công hoặc hiển thị thông báo thành công
-                //return Redirect("/PaymentMomo/PaymentCallBack");
+                    context.TransactionHistories.Add(order);
+                    await context.SaveChangesAsync();
+                    _notyfService.Success("Giao dịch thành công");
+
+                    var userValue = await context.Users.FindAsync(int.Parse(taikhoanID));
+                    if (userValue != null)
+                    {
+                        // Tính toán số tiền mới
+                        userValue.Balance = userValue.Balance + model.Amount;
+
+                        // Cập nhật lại User trong cơ sở dữ liệu
+                        context.Users.Update(userValue);
+                        await context.SaveChangesAsync();
+                    }
+                }
             }
             else
             {

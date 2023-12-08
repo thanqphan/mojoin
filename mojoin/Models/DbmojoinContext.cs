@@ -17,7 +17,7 @@ public partial class DbmojoinContext : DbContext
 
     public virtual DbSet<Package> Packages { get; set; }
 
-    public virtual DbSet<PackageDetail> PackageDetails { get; set; }
+    public virtual DbSet<PackageType> PackageTypes { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
 
@@ -41,7 +41,7 @@ public partial class DbmojoinContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=LAPTOP-P4D3L99G; Database=dbmojoin2;Trusted_Connection=SSPI;Encrypt=false;TrustServerCertificate=true");
+        => optionsBuilder.UseSqlServer("Server=LAPTOP-P4D3L99G; Database=dbmojoin3;Trusted_Connection=SSPI;Encrypt=false;TrustServerCertificate=true");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -50,19 +50,20 @@ public partial class DbmojoinContext : DbContext
             entity.ToTable("Package");
 
             entity.Property(e => e.PackageId).HasColumnName("PackageID");
-            entity.Property(e => e.PackageType).HasMaxLength(50);
+            entity.Property(e => e.PackageName).HasMaxLength(200);
+            entity.Property(e => e.PackageTypeId).HasColumnName("PackageTypeID");
+
+            entity.HasOne(d => d.PackageType).WithMany(p => p.Packages)
+                .HasForeignKey(d => d.PackageTypeId)
+                .HasConstraintName("FK_Package_PackageType");
         });
 
-        modelBuilder.Entity<PackageDetail>(entity =>
+        modelBuilder.Entity<PackageType>(entity =>
         {
-            entity.ToTable("PackageDetail");
+            entity.ToTable("PackageType");
 
-            entity.Property(e => e.PackageDetailId).HasColumnName("PackageDetailID");
-            entity.Property(e => e.PackageId).HasColumnName("PackageID");
-
-            entity.HasOne(d => d.Package).WithMany(p => p.PackageDetails)
-                .HasForeignKey(d => d.PackageId)
-                .HasConstraintName("FK_PackageDetail_Package");
+            entity.Property(e => e.PackageTypeId).HasColumnName("PackageTypeID");
+            entity.Property(e => e.PackageTypeName).HasMaxLength(50);
         });
 
         modelBuilder.Entity<Role>(entity =>
@@ -247,15 +248,15 @@ public partial class DbmojoinContext : DbContext
 
             entity.Property(e => e.UserPackageId).HasColumnName("UserPackageID");
             entity.Property(e => e.EndDate).HasColumnType("datetime");
-            entity.Property(e => e.PackageDetailId).HasColumnName("PackageDetailID");
+            entity.Property(e => e.PackageId).HasColumnName("PackageID");
             entity.Property(e => e.RoomId).HasColumnName("RoomID");
             entity.Property(e => e.StartDate).HasColumnType("datetime");
             entity.Property(e => e.TransactionId).HasColumnName("TransactionID");
             entity.Property(e => e.UserId).HasColumnName("UserID");
 
-            entity.HasOne(d => d.PackageDetail).WithMany(p => p.UserPackages)
-                .HasForeignKey(d => d.PackageDetailId)
-                .HasConstraintName("FK_UserPackage_PackageDetail");
+            entity.HasOne(d => d.Package).WithMany(p => p.UserPackages)
+                .HasForeignKey(d => d.PackageId)
+                .HasConstraintName("FK_UserPackage_Package");
 
             entity.HasOne(d => d.Room).WithMany(p => p.UserPackages)
                 .HasForeignKey(d => d.RoomId)

@@ -9,7 +9,7 @@ public partial class UserPackage
 
     public int? UserId { get; set; }
 
-    public int? PackageDetailId { get; set; }
+    public int? PackageId { get; set; }
 
     public int? RoomId { get; set; }
 
@@ -19,7 +19,9 @@ public partial class UserPackage
 
     public DateTime? EndDate { get; set; }
 
-    public virtual PackageDetail? PackageDetail { get; set; }
+    public int? Duration { get; set; }
+
+    public virtual Package? Package { get; set; }
 
     public virtual Room? Room { get; set; }
 
