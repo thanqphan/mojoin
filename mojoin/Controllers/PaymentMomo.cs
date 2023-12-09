@@ -141,6 +141,7 @@ namespace mojoin.Controllers
             var transactionHistory = db.TransactionHistories
                 .Include(rf => rf.User)
                 .Where(rf => rf.UserId == int.Parse(userId))
+                .OrderByDescending(rf => rf.TransactionDate)
                 .ToList();
             return View(transactionHistory);
         }
