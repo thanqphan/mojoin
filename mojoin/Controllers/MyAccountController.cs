@@ -247,9 +247,11 @@ namespace mojoin.Controllers
                 _context.Add(user);
                 await _context.SaveChangesAsync();
                 int roomId = user.RoomId; // Thực hiện tạo mới roomId
+                string roomTitle=user.Title;
 
                 // Lưu roomId vào TempData để sử dụng trong action UploadImages
                 TempData["RoomId"] = roomId;
+                TempData["RoomTitle"]=roomTitle;
 
                 // Các logic xử lý khác của action CreatePosts
                 _notyfService.Success("Gửi bài thành công!");
@@ -259,7 +261,7 @@ namespace mojoin.Controllers
                 staff.SupportUserId;*/
 
                 // Trả về kết quả JSON để sử dụng trong JavaScript
-                return Json(new { success = true, roomId });
+                return Json(new { success = true, roomId, roomTitle });
             }
             catch
             {
@@ -298,6 +300,7 @@ namespace mojoin.Controllers
         public async Task<IActionResult> UploadImages(List<IFormFile> images)
         {
             int roomId = Convert.ToInt32(TempData["RoomId"]); // Lấy ra ID của phòng từ TempData
+            string roomTitle = TempData["RoomTitle"] as string;
             try
             {
                 foreach (var image in images)
@@ -328,9 +331,9 @@ namespace mojoin.Controllers
                 }
                 _notyfService.Success("Gửi bài thành công!");
                 TempData["SuccessMessage"] = "Đã gửi bài thành công";
-
+                TempData["RoomTitle"] = roomTitle;
                 // Hoàn thành quá trình tải lên và chuyển hướng hoặc trả về thông báo thành công
-                return Json(new { success = true, roomId });
+                return Json(new { success = true, roomId, roomTitle });
             }
             catch
             {

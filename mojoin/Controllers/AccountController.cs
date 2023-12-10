@@ -209,7 +209,8 @@ namespace mojoin.Controllers
                             new Claim("RoleAcc",user.RolesId.ToString()),
                             new Claim("UserId", user.UserId.ToString()),
                             new Claim("UserPhone",user.Phone.ToString()),
-                            new Claim("UserAvt",user.Avatar.ToString())
+                            new Claim("UserAvt",user.Avatar.ToString()),
+                            new Claim("Balance",user.Balance.ToString())
                         };
                         ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "login");
                         ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);

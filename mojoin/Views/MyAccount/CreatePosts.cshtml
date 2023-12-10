@@ -291,58 +291,6 @@
         
     </form>
  </div>   
-<!-- Đoạn script trong file HTML -->
-@*<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        document.getElementById("createRoomForm").addEventListener("submit", function (event) {
-            event.preventDefault(); // Ngăn chặn submit form mặc định
-
-            // Thực hiện submit form "CreatePosts"
-            var createPostsForm = document.getElementById("createRoomForm");
-            var createPostsFormData = new FormData(createPostsForm);
-            var createPostsRequest = new XMLHttpRequest();
-            createPostsRequest.open(createPostsForm.method, createPostsForm.action);
-            createPostsRequest.send(createPostsFormData);
-
-            createPostsRequest.onload = function () {
-                // Kiểm tra nếu "CreatePosts" thành công
-                if (createPostsRequest.status === 200) {
-                    // Thực hiện các bước cần thiết sau khi "CreatePosts" thành công
-
-                    // Thực hiện submit form "UploadImages"
-                    var uploadForm = document.getElementById("uploadForm");
-                    var uploadFormData = new FormData(); // Tạo FormData mới
-                    var images = document.getElementById("file-upload").files;
-
-                    // Thêm từng ảnh vào FormData
-                    for (var i = 0; i < images.length; i++) {
-                        uploadFormData.append("images", images[i], images[i].name);
-                    }
-
-                    var uploadRequest = new XMLHttpRequest();
-                    uploadRequest.open(uploadForm.method, uploadForm.action);
-                    uploadRequest.send(uploadFormData);
-
-                    uploadRequest.onload = function () {
-                        // Kiểm tra nếu "UploadImages" thành công
-                        if (uploadRequest.status === 200) {
-                            // Chuyển hướng đến trang Index của MyAccountController
-                            var url = '@Url.RouteUrl("QuanLiTin")';
-                            // Chuyển hướng đến URL đã lấy
-                            window.location.href = url;
-                        } else {
-                            // Xử lý lỗi khi submit form "UploadImages"
-                        }
-                    };
-                } else {
-                    // Xử lý lỗi khi submit form "CreatePosts"
-                }
-            };
-        });
-    });
-
-
-</script>*@
 
 <script>
     $(document).ready(function () {
@@ -381,7 +329,7 @@
                                 // Xử lý kết quả từ action UploadImages
                                 if (uploadData.success) {
                                     alert('Đã tạo bài đăng và tải ảnh thành công!');
-                                    window.location.href = '/quan-li-tin.html';
+                                    window.location.href = '/thanh-toan-dang-bai.html';
                                 } else {
                                     alert('Tạo bài đăng thành công, nhưng tải ảnh không thành công!');
                                 }
@@ -453,7 +401,7 @@
 </script>
 
 
-
+@*
 <script>
     function uploadImages() {
         // Lấy các giá trị của form và thực hiện tác vụ tải lên bằng AJAX hoặc gửi form đến action UploadImages
@@ -475,7 +423,7 @@
             }
         });
     }
-</script>
+</script>*@
 
 
 
