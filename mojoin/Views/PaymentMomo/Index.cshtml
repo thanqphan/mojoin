@@ -19,8 +19,8 @@
     <div class="container">
         <form action="/PaymentMomo/CreatePaymentUrl" id="frmCreateOrder" method="POST">
             <div class="form-group">
-                <label for="FullName">Tên khách hàng</label>
-                <input class="form-control"
+                <label  for="FullName">Tên khách hàng</label>
+                <input readonly class="form-control"
                        id="FullName"
                        name="FullName"
                        type="text"
@@ -29,16 +29,23 @@
             <br />
             <div class="form-group">
                 <label for="Amount">Số tiền</label>
-                <input class="form-control"
+                @* <input class="form-control"
                        id="Amount"
                        name="Amount"
                        type="text"
-                       value="50000">
+                       value="50000"> *@
+                <select name="Amount" id="Amount" class="form-control">
+                    <option value="10.000">10.000</option>
+                    <option value="50.000">50.000</option>
+                    <option value="100.000">100.000</option>
+                    <option value="200.000">200.000</option>
+                    <option value="500.000">500.000</option>
+                </select>
             </div>
             <br />
             <div class="form-group">
                 <label for="Note">Nội dung thanh toán</label>
-                <textarea class="form-control"
+                <textarea required class="form-control"
                           cols="20"
                           id="Note"
                           name="Note"

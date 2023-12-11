@@ -67,7 +67,7 @@ namespace mojoin.Controllers
             // Kiểm tra trạng thái thanh toán
             if (response.Message == "Success")
             {
-                using (var context = new DbmojoinContext()) 
+                using (var context = new DbmojoinContext())
                 {
                     var user = await context.Users.FindAsync(int.Parse(taikhoanID));
                     var order = new TransactionHistory
@@ -140,7 +140,7 @@ namespace mojoin.Controllers
             var userId = HttpContext.User.FindFirstValue("UserId");
             var transactionHistory = db.TransactionHistories
                 .Include(rf => rf.User)
-                .Where(rf => rf.UserId == int.Parse(userId))
+                .Where(rf => rf.UserId == int.Parse(userId) && rf.TransactionType == "Nạp tiền")
                 .OrderByDescending(rf => rf.TransactionDate)
                 .ToList();
             return View(transactionHistory);
