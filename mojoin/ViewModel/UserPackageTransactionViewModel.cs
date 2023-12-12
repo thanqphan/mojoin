@@ -4,12 +4,12 @@
     {
         public int UserID { get; set; }
         public string ?TransactionType { get; set; }
-        public decimal ?Amount { get; set; }
+        public double? Amount { get; set; }
         public DateTime ?TransactionDate { get; set; }
         public string ?PaymentMethod { get; set; }
         public string ?TransactionReference { get; set; }
-        public decimal ?PromotionAmount { get; set; }
-        public decimal ?ReceivedAmount { get; set; }
+        public double ?PromotionAmount { get; set; }
+        public double? ReceivedAmount { get; set; }
         public string ?Note { get; set; }
         public string ?Status { get; set; }
 

@@ -332,6 +332,7 @@ namespace mojoin.Controllers
                 _notyfService.Success("Gửi bài thành công!");
                 TempData["SuccessMessage"] = "Đã gửi bài thành công";
                 TempData["RoomTitle"] = roomTitle;
+                TempData["RoomId"] = roomId;
                 // Hoàn thành quá trình tải lên và chuyển hướng hoặc trả về thông báo thành công
                 return Json(new { success = true, roomId, roomTitle });
             }

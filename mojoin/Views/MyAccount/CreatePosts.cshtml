@@ -12,7 +12,6 @@
     string lastName = identity.FindFirst("LastName")?.Value;
     string userId = identity.FindFirst("UserId")?.Value;
 }
-
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <link href="~/css/createpost.css" rel="stylesheet" />
 <div class="create-post">
@@ -399,31 +398,6 @@
         return imagePreview;
     }
 </script>
-
-
-@*
-<script>
-    function uploadImages() {
-        // Lấy các giá trị của form và thực hiện tác vụ tải lên bằng AJAX hoặc gửi form đến action UploadImages
-        var formData = new FormData(document.getElementById('uploadForm'));
-
-        $.ajax({
-            url: '/MyAccount/UploadImages',
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (response) {
-                // Xử lý kết quả thành công
-                alert('Tải lên thành công!');
-            },
-            error: function (xhr, status, error) {
-                // Xử lý lỗi
-                alert('Đã xảy ra lỗi khi tải lên: ' + error);
-            }
-        });
-    }
-</script>*@
 
 
 

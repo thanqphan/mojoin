@@ -13,6 +13,8 @@ public partial class Package
 
     public int? PackageTypeId { get; set; }
 
+    public int? Viptype { get; set; }
+
     public virtual PackageType? PackageType { get; set; }
 
     public virtual ICollection<UserPackage> UserPackages { get; set; } = new List<UserPackage>();
