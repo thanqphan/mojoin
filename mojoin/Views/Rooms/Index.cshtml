@@ -143,7 +143,7 @@
 </div>
 <div class="container ct-listing" style="margin-top:-3rem">
     <main>
-        <div class="no-padding col-md-8 ct-col-8">
+        <div class="no-padding col-md-8 ct-col-8" style="float: left;width: 60%;">
             <div class="WrapperScroll_wrapperOverflow__3k3CU">
                 <div class="TrendKeywords_wrapperTrendingKeywords__qYnDr">
                     <div class="TrendKeywords_itemKeyword__dPXYt">
@@ -242,9 +242,11 @@
             </div>
 
         </div>
-        <div class="col-md-4 ct-col-4">
+        @{
+            Html.RenderPartialAsync("~/Views/Rooms/ListRoomNew.cshtml");
+        }
+            
 
-        </div>
     </main>
 </div>
 
@@ -285,6 +287,9 @@
     });
 
 </script>
+<footer>
+
+</footer>
 <script src="~/js/_getaddresses.js"></script>
 
 

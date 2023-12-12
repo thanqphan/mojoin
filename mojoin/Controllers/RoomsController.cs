@@ -120,6 +120,15 @@ namespace mojoin.Controllers
 /*            ViewBag.UserFullName = room.UserFullName;
 */            return View(room);
         }
+        public IActionResult ListRoomNew()
+        {
+            var latestRooms = db.Rooms
+                .OrderByDescending(r => r.CreateDate)
+                .Take(10)
+                .ToList();
+
+            return View(latestRooms);
+        }
         public ActionResult Search(string keyword)
         {
 
