@@ -41,6 +41,7 @@ namespace mojoin.Controllers
                 .Include(r => r.UserPackages)
                 .Include(r => r.RoomImages)
                 .Where(r => r.UserId == int.Parse(userId))
+                .OrderByDescending(r => r.CreateDate)  // Sắp xếp theo ngày giảm dần
                 .ToList();
 
             // Create a collection to hold the PostManagementViewModel
@@ -65,6 +66,7 @@ namespace mojoin.Controllers
 
             return View(viewModels);
         }
+
 
         [HttpGet]
         [Route("doi-pass.html", Name = "DoiPassword")]
@@ -268,6 +270,66 @@ namespace mojoin.Controllers
                 _notyfService.Error("Gửi bài không thành công!");
                 return Json(new { success = false, message = "Đã xảy ra lỗi khi tạo bài đăng!" });
             }
+        }
+        [HttpGet]
+        [Route("sua-dang-bai.html", Name = "SuaBai")]
+        public async Task<IActionResult> EditPostAsync(int? id)
+        {
+            if (id == null || _context.Rooms == null)
+            {
+                return NotFound();
+            }
+
+            var room = await _context.Rooms.FindAsync(id);
+            if (room == null)
+            {
+                return NotFound();
+            }
+            var roomTypes = _context.RoomTypes.ToList();
+            ViewBag.RoomTypes = roomTypes;
+            return View(room);
+        }
+        [HttpPost]
+        [Route("sua-dang-bai.html", Name = "SuaBai")]
+        public IActionResult EditPost(int id, RoomPostViewModel room)
+        {
+            // Lấy thông tin bài đăng cần sửa từ database
+            var roomToEdit = _context.Rooms.Find(id);
+
+            if (roomToEdit == null)
+            {
+                // Nếu không tìm thấy bài đăng, trả về trang 404 hoặc trang thông báo lỗi
+                return NotFound();
+            }
+
+            // Tạo một đối tượng RoomPostViewModel để chứa thông tin bài đăng
+            var roomViewModel = new RoomPostViewModel
+            {
+                // Fill dữ liệu từ bài đăng cần sửa vào ViewModel
+                Title = roomToEdit.Title,
+                Description = roomToEdit.Description,
+                Price = roomToEdit.Price,
+                Area = roomToEdit.Area,
+                NumRooms = roomToEdit.NumRooms,
+                NumBathrooms = roomToEdit.NumBathrooms,
+                StreetNumber = roomToEdit.StreetNumber,
+                Street = roomToEdit.Street,
+                Ward = roomToEdit.Ward,
+                District = roomToEdit.District,
+                City = roomToEdit.City,
+                HasAirConditioner = roomToEdit.HasAirConditioner,
+                HasElevator = roomToEdit.HasElevator,
+                HasParking = roomToEdit.HasParking,
+                HasRefrigerator = roomToEdit.HasRefrigerator,
+                HasWasher = roomToEdit.HasWasher,
+                Video = roomToEdit.Video,
+            };
+
+            // Đưa danh sách RoomTypes vào ViewBag để sử dụng trong DropdownList
+            ViewBag.RoomTypes = _context.RoomTypes.ToList();
+
+            // Trả về view với dữ liệu ViewModel để hiển thị form sửa bài đăng
+            return View(roomViewModel);
         }
 
         [HttpPost]

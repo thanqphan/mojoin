@@ -111,9 +111,7 @@ namespace mojoin.Controllers
                         _context.Add(userPackage);
                         await _context.SaveChangesAsync(); // Lưu thông tin gói tin
 
-                        var package = _context.Packages
-        .Where(p => p.PackageId == userPackageTrans.PackageID)
-        .FirstOrDefault();
+                        var package = _context.Packages.Where(p => p.PackageId == userPackageTrans.PackageID).FirstOrDefault();
                         int ?vipType = package.Viptype;
                         var roomPost = _context.Rooms.Find(Convert.ToInt32(userPackageTrans.RoomID));
                         {
