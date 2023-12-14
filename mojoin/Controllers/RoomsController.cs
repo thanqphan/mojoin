@@ -32,7 +32,7 @@ namespace mojoin.Controllers
         // GET: Rooms
         public ActionResult Index(int? page)
         {
-            int pageSize = 13; // Số lượng phần tử trên mỗi trang
+            int pageSize = 12; // Số lượng phần tử trên mỗi trang
             int pageNumber = (page ?? 1); // Số trang hiện tại (nếu không có, mặc định là 1)
 
             var dbmojoinContext = db.Rooms
@@ -41,6 +41,8 @@ namespace mojoin.Controllers
                 .Include(r => r.RoomFavorites)
                 .Include(r => r.RoomImages)
                 .Include(r => r.RoomType)
+                .Where(r => r.IsActive == 1)
+                .OrderByDescending(r => r.CreateDate)
                 .ToPagedList(pageNumber, pageSize);
 
             return View(dbmojoinContext);
@@ -123,6 +125,7 @@ namespace mojoin.Controllers
         public IActionResult ListRoomNew()
         {
             var latestRooms = db.Rooms
+                .Where(r => r.IsActive == 1)
                 .OrderByDescending(r => r.CreateDate)
                 .Take(10)
                 .ToList();
