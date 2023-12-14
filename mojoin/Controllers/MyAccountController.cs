@@ -60,6 +60,13 @@ namespace mojoin.Controllers
                 viewModel.DisplayType = roomFavorite.DisplayType;
                 viewModel.UserPackages = roomFavorite.UserPackages;
                 viewModel.RoomImages = roomFavorite.RoomImages;
+                viewModel.StreetNumber= roomFavorite.StreetNumber;
+                viewModel.City = roomFavorite.City;
+                viewModel.Street = roomFavorite.Street;
+                viewModel.Ward = roomFavorite.Ward;
+                viewModel.District= roomFavorite.District;
+                viewModel.ViewCount = roomFavorite.ViewCount;
+                viewModel.LastUpdate= roomFavorite.LastUpdate;
 
                 viewModels.Add(viewModel);
             }
@@ -249,11 +256,11 @@ namespace mojoin.Controllers
                 _context.Add(user);
                 await _context.SaveChangesAsync();
                 int roomId = user.RoomId; // Thực hiện tạo mới roomId
-                string roomTitle=user.Title;
+                string roomTitle = user.Title;
 
                 // Lưu roomId vào TempData để sử dụng trong action UploadImages
                 TempData["RoomId"] = roomId;
-                TempData["RoomTitle"]=roomTitle;
+                TempData["RoomTitle"] = roomTitle;
 
                 // Các logic xử lý khác của action CreatePosts
                 _notyfService.Success("Gửi bài thành công!");
@@ -272,65 +279,129 @@ namespace mojoin.Controllers
             }
         }
         [HttpGet]
-        [Route("sua-dang-bai.html", Name = "SuaBai")]
-        public async Task<IActionResult> EditPostAsync(int? id)
+        [Route("sua-bai.html/{roomId}", Name = "SuaBai")]
+        public IActionResult EditPost(int roomId)
         {
-            if (id == null || _context.Rooms == null)
-            {
-                return NotFound();
-            }
+            // Lấy thông tin bài đăng từ database
+            var room = _context.Rooms.Find(roomId);
 
-            var room = await _context.Rooms.FindAsync(id);
             if (room == null)
             {
-                return NotFound();
-            }
-            var roomTypes = _context.RoomTypes.ToList();
-            ViewBag.RoomTypes = roomTypes;
-            return View(room);
-        }
-        [HttpPost]
-        [Route("sua-dang-bai.html", Name = "SuaBai")]
-        public IActionResult EditPost(int id, RoomPostViewModel room)
-        {
-            // Lấy thông tin bài đăng cần sửa từ database
-            var roomToEdit = _context.Rooms.Find(id);
-
-            if (roomToEdit == null)
-            {
-                // Nếu không tìm thấy bài đăng, trả về trang 404 hoặc trang thông báo lỗi
+                // Trường hợp không tìm thấy bài đăng
                 return NotFound();
             }
 
-            // Tạo một đối tượng RoomPostViewModel để chứa thông tin bài đăng
+            // Chuyển đổi thông tin bài đăng sang RoomPostViewModel
             var roomViewModel = new RoomPostViewModel
             {
-                // Fill dữ liệu từ bài đăng cần sửa vào ViewModel
-                Title = roomToEdit.Title,
-                Description = roomToEdit.Description,
-                Price = roomToEdit.Price,
-                Area = roomToEdit.Area,
-                NumRooms = roomToEdit.NumRooms,
-                NumBathrooms = roomToEdit.NumBathrooms,
-                StreetNumber = roomToEdit.StreetNumber,
-                Street = roomToEdit.Street,
-                Ward = roomToEdit.Ward,
-                District = roomToEdit.District,
-                City = roomToEdit.City,
-                HasAirConditioner = roomToEdit.HasAirConditioner,
-                HasElevator = roomToEdit.HasElevator,
-                HasParking = roomToEdit.HasParking,
-                HasRefrigerator = roomToEdit.HasRefrigerator,
-                HasWasher = roomToEdit.HasWasher,
-                Video = roomToEdit.Video,
+                // Map các trường từ Room sang RoomPostViewModel
+                RoomId = roomId,
+                RoomTypeId = room.RoomTypeId,
+                UserId = room.UserId,
+                Title = room.Title,
+                Description = room.Description,
+                Price = room.Price,
+                Area = room.Area,
+                NumRooms = room.NumRooms,
+                NumBathrooms = room.NumBathrooms,
+                StreetNumber = room.StreetNumber,
+                Street = room.Street,
+                Ward = room.Ward,
+                District = room.District,
+                City = room.City,
+                HasAirConditioner = room.HasAirConditioner,
+                HasElevator = room.HasElevator,
+                HasParking = room.HasParking,
+                HasRefrigerator = room.HasRefrigerator,
+                HasWasher = room.HasWasher,
+                Video = room.Video,
             };
 
-            // Đưa danh sách RoomTypes vào ViewBag để sử dụng trong DropdownList
+            // Đưa thông tin RoomType vào ViewBag để sử dụng trong dropdownlist
             ViewBag.RoomTypes = _context.RoomTypes.ToList();
 
-            // Trả về view với dữ liệu ViewModel để hiển thị form sửa bài đăng
-            return View(roomViewModel);
+            // Trả về view chỉnh sửa với dữ liệu của bài đăng
+            return View("EditPost", roomViewModel);
         }
+
+        [HttpPost]
+        [Route("sua-bai.html/{roomId}", Name = "SuaBai")]
+        public async Task<IActionResult> EditPost(int roomId, RoomPostViewModel room)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    // Nếu model không hợp lệ, trả về view chỉnh sửa với dữ liệu hiện tại
+                    ViewBag.RoomTypes = _context.RoomTypes.ToList();
+                    return View("EditPost", room);
+                }
+
+                // Lấy thông tin bài đăng từ database
+                var existingRoom = _context.Rooms.Find(roomId);
+
+                if (existingRoom == null)
+                {
+                    // Trường hợp không tìm thấy bài đăng
+                    return NotFound();
+                }
+
+                // Cập nhật thông tin bài đăng từ dữ liệu mới
+                existingRoom.RoomTypeId = room.RoomTypeId;
+                existingRoom.UserId = room.UserId;
+                existingRoom.Title = room.Title;
+                existingRoom.Description = room.Description;
+                existingRoom.Price = room.Price;
+                existingRoom.Area = room.Area;
+                existingRoom.NumRooms = room.NumRooms;
+                existingRoom.NumBathrooms = room.NumBathrooms;
+                existingRoom.StreetNumber = room.StreetNumber;
+                existingRoom.Street = room.Street;
+                existingRoom.Ward = room.Ward;
+                existingRoom.District = room.District;
+                existingRoom.City = room.City;
+                existingRoom.HasAirConditioner = room.HasAirConditioner;
+                existingRoom.HasElevator = room.HasElevator;
+                existingRoom.HasParking = room.HasParking;
+                existingRoom.HasRefrigerator = room.HasRefrigerator;
+                existingRoom.HasWasher = room.HasWasher;
+                existingRoom.Video = room.Video;
+
+                // Cập nhật ngày chỉnh sửa
+                existingRoom.LastUpdate = DateTime.Now;
+                if (existingRoom.IsActive == 1)
+                {
+                    existingRoom.IsActive = 4;
+                }
+
+
+                // Lưu thay đổi vào database
+                _context.Update(existingRoom);
+                await _context.SaveChangesAsync();
+
+                int roomIdEdit = existingRoom.RoomId; // Thực hiện tạo mới roomId
+                string roomTitle = existingRoom.Title;
+
+                // Lưu roomId vào TempData để sử dụng trong action UploadImages
+                TempData["RoomId"] = roomIdEdit;
+                TempData["RoomTitle"] = roomTitle;
+
+                // Các logic xử lý khác của action CreatePosts
+                _notyfService.Success("Gửi bài thành công!");
+
+
+
+                // Trả về kết quả JSON để sử dụng trong JavaScript
+                return Json(new { success = true, roomId, roomTitle });
+            }
+            // Validate model
+            catch
+            {
+                _notyfService.Error("Sửa bài không thành công!");
+                return Json(new { success = false, message = "Đã xảy ra lỗi khi sửa bài đăng!" });
+            }
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> UploadImage(IFormFile imageFile)
