@@ -135,6 +135,28 @@
 				}
 			});
 		}*@
+		//	function UpdateActiveStatus(id) {
+		//		$.ajax({
+		//			url: '@Url.Action("UpdateRoomActive", "Rooms")',
+		//			type: 'GET',
+		//			cache: false,
+		//			data: { roomId: id }
+		//		}).done(function (result) {
+		//			$('#list-room').html(result);
+		//		});
+		//	}
+
+		//function DeleteRoom(id) {
+		//	$.ajax({
+		//		url: '@Url.Action("DeleteRoom", "Rooms")',
+		//		type: 'GET',
+		//		cache: false,
+		//		data: { roomId: id }
+		//	}).done(function (result) {
+		//		$('#list-room').html(result);
+		//	});
+		//}
+
 			function UpdateActiveStatus(id) {
 				$.ajax({
 					url: '@Url.Action("UpdateRoomActive", "Rooms")',
@@ -143,6 +165,9 @@
 					data: { roomId: id }
 				}).done(function (result) {
 					$('#list-room').html(result);
+					toastr.success('Tin được duyệt thành công!');
+				}).fail(function () {
+					toastr.error('Tin được duyệt thất bại!');
 				});
 			}
 
@@ -154,48 +179,11 @@
 				data: { roomId: id }
 			}).done(function (result) {
 				$('#list-room').html(result);
+				toastr.success('Từ chối duyệt thành công!');
+			}).fail(function () {
+				toastr.error('Từ chối duyệt thất bại!');
 			});
 		}
-		//function SendActiveMail(roomId) {
-		//	$.ajax({
-		//		url: '/SendActiveMail',
-		//		type: 'POST',
-		//		data: { roomId: roomId },
-		//		success: function (response) {
-		//			if (response.success) {
-		//				// Hiển thị thông báo gửi email thông báo đăng bài thành công
-		//				$('#statusMessage').text('Gửi email thông báo đăng bài thành công');
-		//				$('#statusMessage').css('color', 'green');
-		//			} else {
-		//				// Hiển thị thông báo lỗi gửi email
-		//				$('#statusMessage').text(response.message);
-		//				$('#statusMessage').css('color', 'red');
-		//			}
-		//		},
-		//		error: function (xhr) {
-		//			// Xử lý lỗi (nếu có)
-		//		}
-		//	});
-		//}
-
-		//function SendRejectMail(roomId, rejectionReason) {
-		//	$.ajax({
-		//		url: '/SendRejectMail',
-		//		type: 'POST',
-		//		data: { roomId: roomId, rejectionReason: rejectionReason },
-		//		success: function (response) {
-		//			if (response.success) {
-		//				// Hiển thị thông báo gửi email từ chối thành công
-		//				$('#statusMessage').text('Gửi email từ chối thành công');
-		//				$('#statusMessage').css('color', 'green');
-		//			}
-		//		},
-		//		error: function (xhr) {
-		//			// Xử lý lỗi (nếu có)
-		//		}
-		//	});
-		//}
-
 
 	</script>
 	}

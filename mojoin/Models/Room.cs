@@ -54,8 +54,9 @@ public partial class Room
     public int? DisplayType { get; set; }
 
     public string? Video { get; set; }
+	
 
-    public virtual ICollection<RoomFavorite> RoomFavorites { get; set; } = new List<RoomFavorite>();
+	public virtual ICollection<RoomFavorite> RoomFavorites { get; set; } = new List<RoomFavorite>();
 
     public virtual ICollection<RoomImage> RoomImages { get; set; } = new List<RoomImage>();
 

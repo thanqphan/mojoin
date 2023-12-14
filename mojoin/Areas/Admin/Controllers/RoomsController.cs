@@ -24,7 +24,7 @@ namespace mojoin.Areas.Admin.Controllers
     public class RoomsController : Controller
     {
         private readonly DbmojoinContext _context;
-        public INotyfService _notyfService { get; }
+        public INotyfService _notyfService { get; set; }
         public RoomsController(DbmojoinContext context, INotyfService notyfService)
         {
             _context = context;
@@ -318,13 +318,15 @@ namespace mojoin.Areas.Admin.Controllers
 					findRoom.IsActive = 1;
 					_context.SaveChanges();
 
-					_notyfService.Success("Cập nhật thành công!");
+					_notyfService.Success("Tin được duyệt thành công!");
 
 					SendActiveMail(findRoom.RoomId, findRoom.IsActive, findRoom.UserId);
+
+					
 				}
 				else
 				{
-					_notyfService.Success("Cập nhật thất bại!");
+					_notyfService.Success("Tin được duyệt thất bại!");
 				}
 
 				var dbmojoinContext = GetListRoomByActive(isActive);
@@ -333,7 +335,7 @@ namespace mojoin.Areas.Admin.Controllers
 			}
 			catch
 			{
-				_notyfService.Success("Cập nhật thất bại!");
+				_notyfService.Error("Tin được duyệt thất bại!");
 			}
 			return RedirectToAction(nameof(Index), new { isActive });
 		}
@@ -350,13 +352,13 @@ namespace mojoin.Areas.Admin.Controllers
 					findRoom.IsActive = 2;
 					_context.SaveChanges();
 
-					_notyfService.Success("Xóa thành công!");
+					_notyfService.Success("Từ chối duyệt thành công!");
 
 					SendActiveMail(findRoom.RoomId, findRoom.IsActive, findRoom.UserId);
 				}
 				else
 				{
-					_notyfService.Success("Xóa thất bại!");
+					_notyfService.Success("Từ chối duyệt thất bại!");
 				}
 
 				var dbmojoinContext = GetListRoomByActive(isActive);
@@ -365,7 +367,7 @@ namespace mojoin.Areas.Admin.Controllers
 			}
 			catch
 			{
-				_notyfService.Success("Xoa thất bại!");
+				_notyfService.Success("Từ chối duyệt thất bại!");
 			}
 			return RedirectToAction(nameof(Index), new { isActive });
 		}
