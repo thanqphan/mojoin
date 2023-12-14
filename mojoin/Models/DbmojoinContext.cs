@@ -52,6 +52,7 @@ public partial class DbmojoinContext : DbContext
             entity.Property(e => e.PackageId).HasColumnName("PackageID");
             entity.Property(e => e.PackageName).HasMaxLength(200);
             entity.Property(e => e.PackageTypeId).HasColumnName("PackageTypeID");
+            entity.Property(e => e.Viptype).HasColumnName("VIPType");
 
             entity.HasOne(d => d.PackageType).WithMany(p => p.Packages)
                 .HasForeignKey(d => d.PackageTypeId)

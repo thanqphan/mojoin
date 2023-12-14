@@ -256,12 +256,15 @@
         var btnSearch = document.getElementById("btnSearch");
         var mainResults = document.getElementById("mainResults");
         var searchResults = document.getElementById("searchResults");
+        var carousel = document.getElementById("carouselExampleAutoplaying");
 
         btnSearch.addEventListener("click", function () {
             // Ẩn phần tử "mainResults"
+            carousel.style.display="none";
             mainResults.style.display = "none";
             // Hiển thị phần tử "searchResults"
             searchResults.style.display = "block";
+
 
             var categoryId = document.getElementById("ddlPostCate").value;
             var cityId = document.getElementById("city").value;
