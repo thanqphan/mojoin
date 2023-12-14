@@ -32,7 +32,7 @@ namespace mojoin.Controllers
         // GET: Rooms
         public ActionResult Index(int? page)
         {
-            int pageSize = 14; // Số lượng phần tử trên mỗi trang
+            int pageSize = 13; // Số lượng phần tử trên mỗi trang
             int pageNumber = (page ?? 1); // Số trang hiện tại (nếu không có, mặc định là 1)
 
             var dbmojoinContext = db.Rooms
