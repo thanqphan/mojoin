@@ -60,6 +60,7 @@
         </div>
     </div>
 </div>
+
 @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }), Bootstrap4PagedListRenderOptions.ClassicPlusFirstAndLast)
 <style>
     .pagination-container {

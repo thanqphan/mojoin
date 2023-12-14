@@ -959,3 +959,157 @@ button, input {
 .custom-column {
     margin-right: 10px; /* Khoảng cách bên phải */
 }
+/*right-main*/
+#aside {
+    float: right;
+    width: 355px;
+    margin-top: 5rem;
+
+}
+.section {
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #dedede;
+    border-radius: 8px;
+}
+    .section .section-header {
+        margin-top: 0;
+        margin-bottom: 15px;
+    }
+li, ol, ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.post-listing.aside .post-item {
+    padding: 10px 0;
+    margin: 0;
+    border: 0;
+    border-bottom: 1px solid #eee;
+}
+
+.post-listing .post-item.normal {
+    border-color: #ddd !important;
+    z-index: 1;
+}
+
+.post-listing .post-item {
+    display: flex;
+    padding: 15px 0;
+    border-top: 1px solid #ddd;
+    margin: 0;
+    background-color: #fff;
+    z-index: 0;
+    position: relative;
+}
+.post-listing.aside .post-item a {
+    display: flex;
+}
+
+a {
+    color: #1266dd;
+    text-decoration: none;
+}
+
+a {
+    background-color: transparent;
+}
+.post-listing.aside .post-item figure {
+    width: 65px;
+    height: 65px;
+}
+
+.post-listing .post-item figure {
+    /*width: 170px;
+    height: 160px;*/
+    position: relative;
+    overflow: initial;
+}
+
+figure {
+    margin: 0;
+    border-radius: 5px;
+    /*overflow: hidden;*/
+    background-color: #f1f1f1;
+}
+.post-listing .post-item figure img.lazy_done {
+    opacity: 1;
+}
+
+.post-listing .post-item figure img {
+    -o-transition: .3s;
+    transition: .3s;
+    /* opacity: 0; */
+}
+
+figure img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 3px;
+}
+
+img {
+    border-style: none;
+}
+.post-listing .post-item .post-meta {
+    margin-left: 15px;
+    -ms-flex: 1;
+    flex: 1;
+    position: relative;
+}
+.section .section-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 0;
+    padding: 0;
+}
+.post-listing.aside .post-item .post-price {
+    font-size: 1rem;
+    margin-bottom: 0;
+}
+
+.post-listing .post-item .post-price {
+    /* font-size: 1.2rem; */
+    font-weight: 700;
+    color: #16c784;
+}
+.post-listing .post-item .post-acreage, .post-listing .post-item .post-location, .post-listing .post-item .post-price, .post-listing .post-item .post-summary, .post-listing .post-item .post-time {
+    float: left;
+    margin-right: 20px;
+    /* color: #333; */
+    line-height: 19px;
+}
+.post-listing.aside .post-item .post-time {
+    font-size: .9rem;
+    margin-bottom: 0;
+}
+
+.post-listing .post-item .post-time {
+    float: right;
+    margin-right: 0;
+    color: #aaa;
+    line-height: 19px;
+    /* font-size: .9rem; */
+}
+.post-listing.aside .post-item .post-title {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.3;
+}
+
+.post-listing .post-item .post-title {
+    /* font-size: 1rem; */
+    /* line-height: 1.5; */
+    /* font-weight: 700; */
+    display: block;
+    white-space: normal;
+    margin: 0 0 10px;
+}

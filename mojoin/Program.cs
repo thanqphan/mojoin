@@ -1,4 +1,5 @@
 ﻿using AspNetCoreHero.ToastNotification;
+using CodeMegaVNPay.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using mojoin.Extension;
@@ -13,6 +14,8 @@ builder.Configuration.AddJsonFile("appsettings.json");
 // Add services to the container.
 builder.Services.Configure<MomoOptionModel>(builder.Configuration.GetSection("MomoAPI"));
 builder.Services.AddScoped<IMomoService, MomoService>();
+builder.Services.Configure<PaymentResponseModel>(builder.Configuration.GetSection("VnPayAPI"));
+builder.Services.AddScoped<IVnPayService, VnPayService>();
 builder.Services.Configure<SendGridSettings>(builder.Configuration.GetSection("SendGridSettings"));
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddScoped<IEmailService, SendGridEmailService>();
