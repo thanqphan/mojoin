@@ -114,16 +114,11 @@
 							else
 							@if (ViewBag.RoomsParams == 0)
 							{
-								@*<li class="list-inline-item">
-									<a class="btn btn-success m-r-5" style="display: inline-block; border: 1px solid white; padding: 5px;" onclick="UpdateActiveStatus('@item.RoomId')">Duyệt bài</a>
-									<a class="btn btn-danger m-r-5" style="display: inline-block; border: 1px solid white; padding: 5px;" onclick="DeleteRoom('@item.RoomId')">Từ chối</a>
-									<a class="btn btn-default  m-r-5" style="display: inline-block; border: 1px solid gray; padding: 5px;" asp-action="Details" asp-route-id="@item.RoomId">Xem chi tiết</a>
-									<span id="statusMessage"></span>
-									<input type="text" id="rejectionReason" style="display: none;" placeholder="Nhập nội dung từ chối">
-								</li>*@
+								
 								<li class="list-inline-item">
 									<a class="btn btn-success  m-r-5" style="display: inline-block; border: 1px solid white; padding: 5px;" onclick="UpdateActiveStatus(@item.RoomId)">Duyệt bài</a>
 									<a class="btn btn-default  m-r-5" style="display: inline-block; border: 1px solid gray; padding: 5px;" asp-action="Details" asp-route-id="@item.RoomId">Xem chi tiết</a>
+
 									<a class="btn btn-danger m-r-5" style="display: inline-block; border: 1px solid white; padding: 5px;" onclick="DeleteRoom(@item.RoomId)">Từ chối</a>
 								</li>
 							}
@@ -135,4 +130,5 @@
 		</tbody>
 	</table>
 </div>
+
 @await Component.InvokeAsync("Notyf")

@@ -98,65 +98,6 @@
 
 		});
 
-		@*function UpdateActiveStatus(roomId) {
-			$.ajax({
-				url: '/UpdateActiveStatus',
-				type: 'POST',
-				data: { roomId: roomId },
-				success: function (response) {
-					if (response.success) {
-						// Gửi email thông qua hàm SendActiveMail
-						SendActiveMail(roomId);
-
-						// Hiển thị thông báo duyệt bài thành công
-						$('#statusMessage').text('Duyệt bài thành công');
-						$('#statusMessage').css('color', 'green');
-					}
-				},
-				error: function (xhr) {
-					// Xử lý lỗi (nếu có)
-				}
-			});
-		}
-
-		function DeleteRoom(roomId) {
-			// Hiển thị yêu cầu nhập nội dung từ chối
-			$('#statusMessage').text('Vui lòng nhập nội dung từ chối:');
-			$('#statusMessage').css('color', 'red');
-			$('#rejectionReason').show();
-
-			// Gửi hàm gửi email từ chối bài khi người dùng nhấp vào nút "Từ chối"
-			$('#rejectionReason').on('keypress', function (e) {
-				if (e.which === 13) {
-					var rejectionReason = $('#rejectionReason').val();
-
-					// Gửi email thông qua hàm SendRejectMail
-					SendRejectMail(roomId, rejectionReason);
-				}
-			});
-		}*@
-		//	function UpdateActiveStatus(id) {
-		//		$.ajax({
-		//			url: '@Url.Action("UpdateRoomActive", "Rooms")',
-		//			type: 'GET',
-		//			cache: false,
-		//			data: { roomId: id }
-		//		}).done(function (result) {
-		//			$('#list-room').html(result);
-		//		});
-		//	}
-
-		//function DeleteRoom(id) {
-		//	$.ajax({
-		//		url: '@Url.Action("DeleteRoom", "Rooms")',
-		//		type: 'GET',
-		//		cache: false,
-		//		data: { roomId: id }
-		//	}).done(function (result) {
-		//		$('#list-room').html(result);
-		//	});
-		//}
-
 			function UpdateActiveStatus(id) {
 				$.ajax({
 					url: '@Url.Action("UpdateRoomActive", "Rooms")',
@@ -183,6 +124,7 @@
 			}).fail(function () {
 				toastr.error('Từ chối duyệt thất bại!');
 			});
+
 		}
 
 	</script>

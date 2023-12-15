@@ -1,0 +1,21 @@
+﻿
+/* details.css */
+
+.carousel-item img,
+.carousel-item iframe {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.carousel-inner,
+.embed-responsive {
+    width: 100%;
+    height: 100%;
+}
+
+    .embed-responsive iframe {
+        width: 100%;
+        height: 100%;
+        aspect-ratio: 16 / 9;
+    }
