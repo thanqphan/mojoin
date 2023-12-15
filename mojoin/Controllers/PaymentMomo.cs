@@ -58,7 +58,7 @@ namespace mojoin.Controllers
         {
             // Tạo OrderId từ Timestamp
             model.TransactionReference = DateTime.UtcNow.Ticks.ToString();
-            var taikhoanID = _httpContextAccessor.HttpContext.Session.GetString("UserId");
+            var taikhoanID = HttpContext.User.FindFirstValue("UserId");
             //lấy thông tin trả về của momo
             var response = _momoService.PaymentExecuteAsync(HttpContext.Request.Query);
 
@@ -89,16 +89,16 @@ namespace mojoin.Controllers
                     await context.SaveChangesAsync();
                     _notyfService.Success("Giao dịch thành công");
 
-                    //var userValue = await context.Users.FindAsync(int.Parse(taikhoanID));
-                    //if (userValue != null)
-                    //{
-                    //    // Tính toán số tiền mới
-                    //    userValue.Balance = userValue.Balance + model.Amount;
+                    var userValue = await context.Users.FindAsync(int.Parse(taikhoanID));
+                    if (userValue != null)
+                    {
+                        // Tính toán số tiền mới
+                        userValue.Balance = userValue.Balance + model.Amount;
 
-                    //    // Cập nhật lại User trong cơ sở dữ liệu
-                    //    context.Users.Update(userValue);
-                    //    await context.SaveChangesAsync();
-                    //}
+                        // Cập nhật lại User trong cơ sở dữ liệu
+                        context.Users.Update(userValue);
+                        await context.SaveChangesAsync();
+                    }
                 }
             }
             else
@@ -133,18 +133,18 @@ namespace mojoin.Controllers
                 .Where(rf => rf.UserId == int.Parse(userId))
                 .ToList();
             // Tính tổng số tiền từ danh sách TransactionHistories
-            double? totalAmount = transactionHistory.Where(th => th.Status == 1).Sum(th => th.Amount);
+            //double? totalAmount = transactionHistory.Where(th => th.Status == 1 ).Sum(th => th.Amount);
 
-            // Cập nhật Balance trong User
-            var user = db.Users.Find(int.Parse(userId));
-            if (user != null)
-            {
-                user.Balance = totalAmount;
-                db.SaveChanges();
-            }
+            //// Cập nhật Balance trong User
+            //var user = db.Users.Find(int.Parse(userId));
+            //if (user != null)
+            //{
+            //    user.Balance = totalAmount;
+            //    db.SaveChanges();
+            //}
 
-            // Gán giá trị vào ViewBag
-            ViewBag.SoTien = totalAmount;
+            //// Gán giá trị vào ViewBag
+            //ViewBag.SoTien = totalAmount;
             return View(transactionHistory);
         }
         public IActionResult Lichsunaptien()
