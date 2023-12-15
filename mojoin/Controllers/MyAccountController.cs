@@ -32,47 +32,49 @@ namespace mojoin.Controllers
         [Route("quan-li-tin.html", Name = "QuanLiTin")]
         public IActionResult Index()
         {
-            if (TempData != null && TempData.ContainsKey("SuccessMessage") && !string.IsNullOrEmpty(TempData["SuccessMessage"].ToString()))
+            // Get current user's ID
+            var userId = HttpContext.User.FindFirstValue("UserId");
+
+            // Eager load related entities using Include()
+            var roomFavorites = _context.Rooms
+                .Include(r => r.User)
+                .Include(r => r.UserPackages)
+                .Include(r => r.RoomImages)
+                .Where(r => r.UserId == int.Parse(userId))
+                .OrderByDescending(r => r.CreateDate)  // Sắp xếp theo ngày giảm dần
+                .ToList();
+
+            // Create a collection to hold the PostManagementViewModel
+            var viewModels = new List<PostManagementViewModel>();
+
+            // Iterate through each room favorite and add it to the collection
+            foreach (var roomFavorite in roomFavorites)
             {
-                string successMessage = TempData["SuccessMessage"] as string;
-                _notyfService.Success(successMessage);
+                var viewModel = new PostManagementViewModel();
+                viewModel.RoomId = roomFavorite.RoomId;
+                viewModel.UserId = roomFavorite.UserId;
+                viewModel.RoomTypeId = roomFavorite.RoomTypeId;
+                viewModel.Title = roomFavorite.Title;
+                viewModel.Price = roomFavorite.Price;
+                viewModel.IsActive = roomFavorite.IsActive;
+                viewModel.DisplayType = roomFavorite.DisplayType;
+                viewModel.UserPackages = roomFavorite.UserPackages;
+                viewModel.RoomImages = roomFavorite.RoomImages;
+                viewModel.StreetNumber = roomFavorite.StreetNumber;
+                viewModel.City = roomFavorite.City;
+                viewModel.Street = roomFavorite.Street;
+                viewModel.Ward = roomFavorite.Ward;
+                viewModel.District = roomFavorite.District;
+                viewModel.ViewCount = roomFavorite.ViewCount;
+                viewModel.LastUpdate = roomFavorite.LastUpdate;
+
+                viewModels.Add(viewModel);
             }
 
-            var userId = HttpContext.User.FindFirstValue("UserId");
-            var roomFavorites = _context.Rooms.Include(r => r.User)
-               .Where(rf => rf.UserId == int.Parse(userId)).ToList();
-            ViewBag.dangdang = roomFavorites.Where(rf => rf.IsActive == 1).Count();
-            ViewBag.dangcho = roomFavorites.Where(rf => rf.IsActive == 0).Count();
-            ViewBag.tinloi = roomFavorites.Where(rf => rf.IsActive == 2).Count();
-            return View(roomFavorites);
+            return View(viewModels);
         }
-        public ActionResult IndexPartial()
-        {
-            var userId = HttpContext.User.FindFirstValue("UserId");
-            var roomFavorites = _context.Rooms.Include(r => r.User)
-               .Where(rf => rf.UserId == int.Parse(userId))
-               .ToList();
-            ViewBag.tongsoluong = roomFavorites.Count();
-            return View(roomFavorites);
-        }
-        public ActionResult IndexPartial0()
-        {
-            var userId = HttpContext.User.FindFirstValue("UserId");
-            var roomFavorites = _context.Rooms.Include(r => r.User)
-               .Where(rf => rf.UserId == int.Parse(userId))
-               .ToList();
-            ViewBag.tongsoluong = roomFavorites.Count();
-            return View(roomFavorites);
-        }
-        public ActionResult IndexPartial2()
-        {
-            var userId = HttpContext.User.FindFirstValue("UserId");
-            var roomFavorites = _context.Rooms.Include(r => r.User)
-               .Where(rf => rf.UserId == int.Parse(userId))
-               .ToList();
-            ViewBag.tongsoluong = roomFavorites.Count();
-            return View(roomFavorites);
-        }
+
+
         [HttpGet]
         [Route("doi-pass.html", Name = "DoiPassword")]
         public IActionResult ChangePassword()
@@ -221,8 +223,9 @@ namespace mojoin.Controllers
                     _notyfService.Error("Gửi bài không thành công!");
                     return View(room);
                 }
-                string videoUrl = (room.Video).ToString();
-                string in_videoUrl = Regex.Replace(videoUrl, "/watch\\?v=", "/embed/");
+                string videoUrl = room.Video != null ? room.Video.ToString() : "";
+                string in_videoUrl = string.IsNullOrEmpty(videoUrl) ? "" : Regex.Replace(videoUrl, "/watch\\?v=", "/embed/");
+
                 Room user = new Room
                 {
                     RoomTypeId = room.RoomTypeId,
@@ -254,9 +257,11 @@ namespace mojoin.Controllers
                 _context.Add(user);
                 await _context.SaveChangesAsync();
                 int roomId = user.RoomId; // Thực hiện tạo mới roomId
+                string roomTitle = user.Title;
 
                 // Lưu roomId vào TempData để sử dụng trong action UploadImages
                 TempData["RoomId"] = roomId;
+                TempData["RoomTitle"] = roomTitle;
 
                 // Các logic xử lý khác của action CreatePosts
                 _notyfService.Success("Gửi bài thành công!");
@@ -266,7 +271,7 @@ namespace mojoin.Controllers
                 staff.SupportUserId;*/
 
                 // Trả về kết quả JSON để sử dụng trong JavaScript
-                return Json(new { success = true, roomId });
+                return Json(new { success = true, roomId, roomTitle });
             }
             catch
             {
@@ -274,6 +279,130 @@ namespace mojoin.Controllers
                 return Json(new { success = false, message = "Đã xảy ra lỗi khi tạo bài đăng!" });
             }
         }
+        [HttpGet]
+        [Route("sua-bai.html/{roomId}", Name = "SuaBai")]
+        public IActionResult EditPost(int roomId)
+        {
+            // Lấy thông tin bài đăng từ database
+            var room = _context.Rooms.Find(roomId);
+
+            if (room == null)
+            {
+                // Trường hợp không tìm thấy bài đăng
+                return NotFound();
+            }
+
+            // Chuyển đổi thông tin bài đăng sang RoomPostViewModel
+            var roomViewModel = new RoomPostViewModel
+            {
+                // Map các trường từ Room sang RoomPostViewModel
+                RoomId = roomId,
+                RoomTypeId = room.RoomTypeId,
+                UserId = room.UserId,
+                Title = room.Title,
+                Description = room.Description,
+                Price = room.Price,
+                Area = room.Area,
+                NumRooms = room.NumRooms,
+                NumBathrooms = room.NumBathrooms,
+                StreetNumber = room.StreetNumber,
+                Street = room.Street,
+                Ward = room.Ward,
+                District = room.District,
+                City = room.City,
+                HasAirConditioner = room.HasAirConditioner,
+                HasElevator = room.HasElevator,
+                HasParking = room.HasParking,
+                HasRefrigerator = room.HasRefrigerator,
+                HasWasher = room.HasWasher,
+                Video = room.Video,
+            };
+
+            // Đưa thông tin RoomType vào ViewBag để sử dụng trong dropdownlist
+            ViewBag.RoomTypes = _context.RoomTypes.ToList();
+
+            // Trả về view chỉnh sửa với dữ liệu của bài đăng
+            return View("EditPost", roomViewModel);
+        }
+
+        [HttpPost]
+        [Route("sua-bai.html/{roomId}", Name = "SuaBai")]
+        public async Task<IActionResult> EditPost(int roomId, RoomPostViewModel room)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    // Nếu model không hợp lệ, trả về view chỉnh sửa với dữ liệu hiện tại
+                    ViewBag.RoomTypes = _context.RoomTypes.ToList();
+                    return View("EditPost", room);
+                }
+
+                // Lấy thông tin bài đăng từ database
+                var existingRoom = _context.Rooms.Find(roomId);
+
+                if (existingRoom == null)
+                {
+                    // Trường hợp không tìm thấy bài đăng
+                    return NotFound();
+                }
+
+                // Cập nhật thông tin bài đăng từ dữ liệu mới
+                existingRoom.RoomTypeId = room.RoomTypeId;
+                existingRoom.UserId = room.UserId;
+                existingRoom.Title = room.Title;
+                existingRoom.Description = room.Description;
+                existingRoom.Price = room.Price;
+                existingRoom.Area = room.Area;
+                existingRoom.NumRooms = room.NumRooms;
+                existingRoom.NumBathrooms = room.NumBathrooms;
+                existingRoom.StreetNumber = room.StreetNumber;
+                existingRoom.Street = room.Street;
+                existingRoom.Ward = room.Ward;
+                existingRoom.District = room.District;
+                existingRoom.City = room.City;
+                existingRoom.HasAirConditioner = room.HasAirConditioner;
+                existingRoom.HasElevator = room.HasElevator;
+                existingRoom.HasParking = room.HasParking;
+                existingRoom.HasRefrigerator = room.HasRefrigerator;
+                existingRoom.HasWasher = room.HasWasher;
+                existingRoom.Video = room.Video;
+
+                // Cập nhật ngày chỉnh sửa
+                existingRoom.LastUpdate = DateTime.Now;
+                if (existingRoom.IsActive == 1)
+                {
+                    existingRoom.IsActive = 4;
+                }
+
+
+                // Lưu thay đổi vào database
+                _context.Update(existingRoom);
+                await _context.SaveChangesAsync();
+
+                int roomIdEdit = existingRoom.RoomId; // Thực hiện tạo mới roomId
+                string roomTitle = existingRoom.Title;
+
+                // Lưu roomId vào TempData để sử dụng trong action UploadImages
+                TempData["RoomId"] = roomIdEdit;
+                TempData["RoomTitle"] = roomTitle;
+
+                // Các logic xử lý khác của action CreatePosts
+                _notyfService.Success("Gửi bài thành công!");
+
+
+
+                // Trả về kết quả JSON để sử dụng trong JavaScript
+                return Json(new { success = true, roomId, roomTitle });
+            }
+            // Validate model
+            catch
+            {
+                _notyfService.Error("Sửa bài không thành công!");
+                return Json(new { success = false, message = "Đã xảy ra lỗi khi sửa bài đăng!" });
+            }
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> UploadImage(IFormFile imageFile)
@@ -305,6 +434,7 @@ namespace mojoin.Controllers
         public async Task<IActionResult> UploadImages(List<IFormFile> images)
         {
             int roomId = Convert.ToInt32(TempData["RoomId"]); // Lấy ra ID của phòng từ TempData
+            string roomTitle = TempData["RoomTitle"] as string;
             try
             {
                 foreach (var image in images)
@@ -335,9 +465,10 @@ namespace mojoin.Controllers
                 }
                 _notyfService.Success("Gửi bài thành công!");
                 TempData["SuccessMessage"] = "Đã gửi bài thành công";
-
+                TempData["RoomTitle"] = roomTitle;
+                TempData["RoomId"] = roomId;
                 // Hoàn thành quá trình tải lên và chuyển hướng hoặc trả về thông báo thành công
-                return Json(new { success = true, roomId });
+                return Json(new { success = true, roomId, roomTitle });
             }
             catch
             {

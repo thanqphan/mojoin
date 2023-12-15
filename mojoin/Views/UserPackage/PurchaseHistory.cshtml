@@ -1,0 +1,63 @@
+﻿@model IEnumerable<mojoin.Models.TransactionHistory>
+@{
+    ViewData["Title"] = "PurchaseHistory";
+    Layout = "~/Views/Shared/_LayoutDangtin.cshtml";
+    <link href="~/css/lichsunaptien.css" rel="stylesheet" />
+}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped" cellspacing="0" width="100%">
+        <h1>Lịch sử mua gói tin</h1>
+        <thead>
+            <tr>
+                <th class="nowrap">Thời gian</th>
+                <th class="nowrap">Loại hoạt động</th>
+                <th class="nowrap">Mã tin đăng</th>
+                <th class="nowrap">Loại tin</th>
+                <th class="nowrap">Khuyến mãi</th>
+                <th class="nowrap">Phí</th>
+                <th class="nowrap">Trạng thái</th>
+                <th class="nowrap">Ghi chú</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.TransactionDate</td>
+                    <td>@item.TransactionType</td>
+                    <td>
+                        @foreach (var userPackage in item.UserPackages)
+                        {
+                            <span>#@userPackage.RoomId</span>
+                        }
+                    </td>
+                    <td>
+                        @foreach (var userPackage in item.UserPackages)
+                        {
+                            <span>@userPackage.Package.PackageName</span>
+                        }
+                    </td>
+                    <td>@item.PromotionAmount</td>
+                    <td>
+                        @String.Format("{0:#,##0}", @item.Amount)
+                    </td>
+
+                    @if (item.Status.Equals(1))
+                    {
+                        <td align="center"><img src="~/images/checked.png" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-circle" style="width: 16px; height: 16px; color: red;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12" y2="16"></line></td>
+                        <td>Nạp tiền thành công</td>
+                    }
+                    else
+                    {
+                        <td align="center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-circle" style="width: 16px; height: 16px; color: red;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12" y2="16"></line></svg></td>
+                        <td>Nạp tiền không thành công, Đơn hàng đã bị huỷ bỏ</td>
+                    }
+
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+

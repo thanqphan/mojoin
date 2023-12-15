@@ -47,6 +47,27 @@ namespace mojoin.Controllers
 
             return View(dbmojoinContext);
         }
+        [Route("danh-sach-tin.html", Name = "DanhSachTin")]
+        public ActionResult ListPosts(int? page)
+        {
+            int pageSize = 20; // Số lượng phần tử trên mỗi trang
+            int pageNumber = (page ?? 1); // Số trang hiện tại (nếu không có, mặc định là 1)
+
+            var dbmojoinContext = db.Rooms
+                .Include(r => r.RoomRatings)
+                .Include(r => r.RoomReports)
+                .Include(r => r.RoomFavorites)
+                .Include(r => r.RoomImages)
+                .Include(r => r.RoomType)
+                .Where(r => r.IsActive == 1 || r.IsActive == 2)  
+                .OrderBy(r => r.IsActive == 1 ? 0 : 1)  
+                .ThenBy(r => r.DisplayType)  
+                .ThenByDescending(r => r.CreateDate)  
+                .ToPagedList(pageNumber, pageSize);
+
+
+            return View(dbmojoinContext);
+        }
 
         public ActionResult ShowImage(int id)
         {
@@ -156,7 +177,7 @@ namespace mojoin.Controllers
         // Hàm để thực hiện tìm kiếm
         protected IPagedList<Room> PerformSearch(int? page,string categoryId, string cityId, string districtId, string streetId, string priceId, string areaId)
         {
-            int pageSize = 10; // Số lượng phần tử trên mỗi trang
+            int pageSize = 20; // Số lượng phần tử trên mỗi trang
             int pageNumber = (page ?? 1); // Số trang hiện tại (nếu không có, mặc định là 1)
             List<Room> searchResults = new List<Room>();
 
@@ -219,6 +240,7 @@ namespace mojoin.Controllers
                 // Nếu phòng vượt qua tất cả các điều kiện, thì thêm vào danh sách kết quả tìm kiếm
                 searchResults.Add(room);
             }
+            searchResults = searchResults.OrderBy(r => r.DisplayType).ThenByDescending(r => r.CreateDate).ToList();
 
             return searchResults.ToPagedList(pageNumber, pageSize);
         }

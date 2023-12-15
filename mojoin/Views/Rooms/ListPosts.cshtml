@@ -1,0 +1,253 @@
+﻿@model IEnumerable<mojoin.Models.Room>
+@{
+    ViewData["Title"] = "Danh sách tin mới";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link href="~/css/trangchu.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+    <script src="~/js/site.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
+
+}
+<style>
+    .custom-column {
+        flex: 1;
+        margin-right: 10px;
+        position: relative;
+    }
+
+        .custom-column select {
+            border-radius: 10px;
+        }
+
+        .custom-column:last-child {
+            margin-right: 0;
+        }
+
+    .box-search {
+        display: flex;
+        border: 1px solid ##d0d6e;
+        border-radius: 10px;
+        overflow: hidden;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+    }
+
+    .bs-content {
+        flex: 1;
+        padding: 10px;
+    }
+
+    .form-control {
+        width: 100%;
+    }
+
+    .carousel-img {
+        width: 100%;
+        height: 450px; /* Đặt chiều cao mong muốn cho ảnh */
+        object-fit: cover; /* Đảm bảo ảnh bao phủ toàn bộ không gian được chọn */
+        border-radius: 20px;
+    }
+
+    #carouselExampleAutoplaying {
+        padding: 0rem 3rem 1rem;
+    }
+</style>
+<div class="searchbar_top hidden-xs" style="display: flex; justify-content:center; align-items:center ;margin-top:-1rem">
+    <div class="searchbar_top_body">
+        <div class="box-search">
+            <div class="bs-content">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-2 col-md-1 custom-column">
+                        <select id="ddlPostCate" name="CategoryId" class="form-control select2-hidden-accessible font-weight-bolder text-center" tabindex="-1" aria-hidden="true">
+                            <option value="0"><i class="text-center"></i>Loại tin</option>
+                            <option value="1">Cho thuê nhà trọ</option>
+                            <option value="2">Cho thuê căn hộ</option>
+                            <option value="3">Cho thuê nhà trọ chung chủ</option>
+                            <option value="4">Chung cư</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-12 col-sm-2 col-md-1 custom-column">
+                        <select id="city" name="CityId" class="form-control select2-hidden-accessible text-center " onchange="onCityChange()" aria-hidden="true">
+                            <option value="">Tỉnh/Thành phố</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-12 col-sm-2 col-md-2 custom-column">
+                        <select id="district" name="DistrictId" class="form-control select2-hidden-accessible text-center" onchange="onDistrictChange()" tabindex="-1" aria-hidden="true">
+                            <option value="">Quận huyện</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-12 col-sm-2 col-md-2 custom-column">
+                        <select id="street" name="StreetId" class="form-control select2-hidden-accessible text-center" tabindex="-1" aria-hidden="true">
+                            <option value="0">Đường phố</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-12 col-sm-2 col-md-1 custom-column">
+                        <select id="ddlPrice" name="PriceId" style="width:100%" class="form-control text-center">
+                            <option value="-1">Mức giá</option>
+                            <option value="0">Thỏa thuận</option>
+                            <option value="1">Dưới 1 triệu</option>
+                            <option value="2">1 triệu - 2 triệu</option>
+                            <option value="3">2 triệu - 3 triệu</option>
+                            <option value="4">3 triệu - 5 triệu</option>
+                            <option value="5">5 triệu - 7 triệu</option>
+                            <option value="6">7 triệu - 10 triệu</option>
+                            <option value="7">10 triệu - 15 triệu</option>
+                            <option value="8">15 triệu - 20 triệu</option>
+                            <option value="9">Trên 20 triệu</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-12 col-sm-2 col-md-1 custom-column">
+                        <select id="ddlArea" name="AreaId" style="width:100%" class="form-control text-center">
+                            <option value="-1">Diện tích</option>
+                            <option value="0">Chưa xác định</option>
+                            <option value="1">Dưới 20 m2</option>
+                            <option value="2">20 - 30 m2</option>
+                            <option value="3">30 - 50 m2</option>
+                            <option value="4">50 - 60 m2</option>
+                            <option value="5">60 - 70 m2</option>
+                            <option value="6">70 - 80 m2</option>
+                            <option value="7">80 - 90 m2</option>
+                            <option value="8">90 - 100 m2</option>
+                            <option value="9">Trên 100 m2</option>
+                        </select>
+                    </div>
+                    <div class="bs-search col-xs-12 col-sm-2 col-md-1">
+                        <button class="btn btn-sort " id="btnSearch"><i class="fa fa-filter"></i> </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<div class="container ct-listing" style="margin-top:-3rem">
+    <main>
+        <div class="no-padding col-md-8 ct-col-8">
+            <div class="WrapperScroll_wrapperOverflow__3k3CU">
+                <div class="TrendKeywords_wrapperTrendingKeywords__qYnDr">
+                    <div class="TrendKeywords_itemKeyword__dPXYt">
+                        <a class="TrendKeywords_text__Ey_be" style="color:#fe9900;width:130px" href="/tags/phong-tro-sinh-vien-gia-re-tphcm">Phòng trọ sinh viên giá rẻ TPHCM</a>
+                    </div>
+                    <div class="TrendKeywords_itemKeyword__dPXYt">
+                        <a class="TrendKeywords_text__Ey_be" style="color:#38699f;width:130px" href="/thue-phong-tro-quan-tan-binh-tp-ho-chi-minh">Cho Thuê Phòng Trọ Quận Tân Bình</a>
+                    </div>
+                    <div class="TrendKeywords_itemKeyword__dPXYt">
+                        <a class="TrendKeywords_text__Ey_be" style="color:#589f39;width:130px" href="/thue-phong-tro-quan-go-vap-tp-ho-chi-minh">Cho Thuê Phòng Trọ Quận Gò Vấp</a>
+                    </div>
+                    <div class="TrendKeywords_itemKeyword__dPXYt">
+                        <a class="TrendKeywords_text__Ey_be" style="color:#0094a3;width:130px" href="/thue-phong-tro-quan-10-tp-ho-chi-minh">Cho Thuê Phòng Trọ Quận 10</a>
+                    </div>
+                    <div class="TrendKeywords_itemKeyword__dPXYt">
+                        <a class="TrendKeywords_text__Ey_be" style="color:#d0021b;width:94px" href="/thue-phong-tro-quan-7-tp-ho-chi-minh">Cho Thuê Phòng Trọ Quận 7</a>
+                    </div>
+                    <div class="TrendKeywords_itemKeyword__dPXYt">
+                        <a class="TrendKeywords_text__Ey_be" style="color:#fe9900;width:94px" href="/thue-phong-tro-quan-binh-thanh-tp-ho-chi-minh">Thuê phòng trọ Bình Thạnh</a>
+                    </div>
+                    <div class="TrendKeywords_itemKeyword__dPXYt">
+                        <a class="TrendKeywords_text__Ey_be" style="color:#38699f;width:130px" href="/tags/phong-tro-duoi-2-trieu-tphcm">Phòng trọ dưới 2 triệu TPHCM</a>
+                    </div>
+                    <div class="TrendKeywords_itemKeyword__dPXYt">
+                        <a class="TrendKeywords_text__Ey_be" style="color:#589f39;width:94px" href="/thue-phong-tro-quan-3-tp-ho-chi-minh">Cho Thuê Phòng Trọ Quận 3</a>
+                    </div>
+                    <div class="TrendKeywords_itemKeyword__dPXYt">
+                        <a class="TrendKeywords_text__Ey_be" style="color:#0094a3;width:130px" href="/thue-phong-tro-quan-phu-nhuan-tp-ho-chi-minh">Cho Thuê Phòng Trọ Quận Phú Nhuận</a>
+                    </div>
+                    <div class="TrendKeywords_itemKeyword__dPXYt">
+                        <a class="TrendKeywords_text__Ey_be" style="color:#d0021b;width:130px" href="/tags/tim-phong-tro-gia-re-duoi-1-trieu">Phòng trọ giá rẻ dưới 1 triệu</a>
+                    </div>
+                </div>
+                <i class="WrapperScroll_iconPrev__H2ypM WrapperScroll_iconPrevActive__R0fFy" id="prevButton" tabindex="0" role="button" aria-label="Prev"></i>
+                <i class="WrapperScroll_iconNext__IiL_D WrapperScroll_iconNextActive__QZW9s" id="nextButton" tabindex="0" role="button" aria-label="Next" style="overflow-x: auto;"></i>
+            </div>
+            <div class="OrderFilter_orderFilter__VEcKg">
+                <div class="OrderFilter_infoAds__kWxt5 pull-left">
+                    <a href="/thue-phong-tro-tp-ho-chi-minh" title="Tất cả">
+                        <div class="OrderFilter_elementInfo__tNarq OrderFilter_elementInfoActive__SDG7T OrderFilter_elementInfoPTY__O00vt" tabindex="0" role="button">
+                            <span>Tất cả</span>
+                        </div>
+                    </a>
+                    <a href="/thue-phong-tro-tp-ho-chi-minh?page=1&amp;f=p" title="Cá nhân" rel="nofollow">
+                        <div class="OrderFilter_elementInfo__tNarq  OrderFilter_elementInfoPTY__O00vt" tabindex="0" role="button">
+                            <span>Cá nhân</span>
+                        </div>
+                    </a>
+                    <a href="/thue-phong-tro-tp-ho-chi-minh?page=1&amp;f=c" title="Môi giới" rel="nofollow">
+                        <div class="OrderFilter_elementInfo__tNarq  OrderFilter_elementInfoPTY__O00vt" tabindex="0" role="button">
+                            <span>Môi giới</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="OrderFilter_sortAds__Kbf8H pull-right hidden-xs">
+                    <div class="OrderFilter_wrapperDropDown__fD9WI">
+                        <button onclick="hamDropdown()" type="button" class="btn btn-lg btn-default OrderFilter_filterBtn__IPPxZ" tabindex="0">
+                            <span>Tin mới trước</span>
+                            <span class="Caret_caret__fdXPX">
+
+                            </span>
+                        </button>
+                    </div>
+                    <div class="OrderFilter_menu__7rEUX">
+                        <a href="/thue-phong-tro-tp-ho-chi-minh?page=1&amp;sp=0">
+                            <span role="button" tabindex="0">
+                                Tin mới trước
+                                <img alt="check" src="https://static.chotot.com/storage/NHA_CDN_PRODUCTION/3c6e3ac29fa3fa71af06b4affff76fd2.svg">
+                            </span>
+                        </a>
+                        <div class="devider">
+                        </div>
+                        <a href="/thue-phong-tro-tp-ho-chi-minh?page=1&amp;sp=1">
+                            <span role="button" tabindex="0">Giá thấp trước</span>
+                        </a>
+                    </div>
+                    <div class="ViewMode_viewMode__K_RUF">
+                        <button type="button" aria-label="Dạng danh sách" class="ViewMode_listMode__3X_o8" title="Dạng danh sách">
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="list-active">
+                <div id="searchResults" >
+                    @{
+                        Html.RenderPartialAsync("~/Views/Rooms/_ListSearchRoomPartial.cshtml");
+                    }
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-4 ct-col-4">
+        </div>
+    </main>
+</div>
+<script src="~/js/_getaddresses.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var btnSearch = document.getElementById("btnSearch");
+
+        btnSearch.addEventListener("click", function () {
+
+
+            var categoryId = document.getElementById("ddlPostCate").value;
+            var cityId = document.getElementById("city").value;
+            var districtId = document.getElementById("district").value;
+            var streetId = document.getElementById("street").value;
+            var priceId = document.getElementById("ddlPrice").value;
+            var areaId = document.getElementById("ddlArea").value;
+
+            // Thực hiện yêu cầu AJAX
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    // Cập nhật nội dung của phần tử "searchResults"
+                    searchResults.innerHTML = xhr.responseText;
+                }
+            };
+
+            // Xây dựng URL và gửi yêu cầu GET
+            var url = "/Rooms/SelectedSearch?categoryId=" + categoryId + "&cityId=" + cityId + "&districtId=" + districtId + "&streetId=" + streetId + "&priceId=" + priceId + "&areaId=" + areaId;
+            xhr.open("GET", url, true);
+            xhr.send();
+        });
+    });
+
+</script>
+
