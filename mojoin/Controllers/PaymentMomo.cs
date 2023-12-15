@@ -132,19 +132,14 @@ namespace mojoin.Controllers
                 .Include(rf => rf.User)
                 .Where(rf => rf.UserId == int.Parse(userId))
                 .ToList();
-            // Tính tổng số tiền từ danh sách TransactionHistories
-            //double? totalAmount = transactionHistory.Where(th => th.Status == 1 ).Sum(th => th.Amount);
+            //Tính tổng số tiền từ danh sách TransactionHistories
+            double? totalAmount = transactionHistory.Where(th => th.Status == 1).Sum(th => th.Amount);
 
-            //// Cập nhật Balance trong User
-            //var user = db.Users.Find(int.Parse(userId));
-            //if (user != null)
-            //{
-            //    user.Balance = totalAmount;
-            //    db.SaveChanges();
-            //}
+            // Cập nhật Balance trong User
+            var user = db.Users.Find(int.Parse(userId));
 
-            //// Gán giá trị vào ViewBag
-            //ViewBag.SoTien = totalAmount;
+            // Gán giá trị vào ViewBag
+            ViewBag.SoTien = user.Balance;
             return View(transactionHistory);
         }
         public IActionResult Lichsunaptien()
