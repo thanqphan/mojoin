@@ -15,6 +15,17 @@ namespace mojoin.ViewModel
         public double? Price { get; set; }
         public int? IsActive { get; set; }
         public int? DisplayType { get; set; }
+        public string? StreetNumber { get; set; }
+
+        public string? Street { get; set; }
+
+        public string? Ward { get; set; }
+
+        public string? District { get; set; }
+
+        public string? City { get; set; }
+        public int? ViewCount { get; set; }
+        public DateTime? LastUpdate { get; set; }
         public ICollection<UserPackage> UserPackages { get; set; }
         public ICollection<RoomImage> RoomImages { get; set; }
     }

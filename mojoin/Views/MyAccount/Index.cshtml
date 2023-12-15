@@ -24,7 +24,7 @@
                 <option value="2">VIP1</option>
                 <option value="3">VIP2</option>
                 <option value="4">VIP3</option>
-                <option value="0">Tin thường</option>
+                <option value="5">Tin thường</option>
             </select>
         </div>
 
@@ -47,7 +47,7 @@
     </div>
     <div class="table-responsive" style="width:100%">
         <table class="table table-bordered table-striped" cellspacing="0" width="100%">
-            <thead >
+            <thead>
                 <tr>
                     <th class="nowrap">Mã tin</th>
                     <th class="nowrap">Ảnh đại diện</th>
@@ -60,35 +60,84 @@
                     <th class="nowrap">Ghi chú</th>
                 </tr>
             </thead>
-            <tbody style="background-color: #f2f2f2">
+            <tbody style="background-color: #ffffff">
                 @foreach (var item in Model)
                 {
                     <tr class="vip-type-post-@item.DisplayType act-type-post-@item.IsActive">
                         <td style="vertical-align: middle;">#@item.RoomId</td>
                         <td style="vertical-align: middle;">
-                            <a href="/Rooms/Details/@item.RoomId" class="link-overlay">
-                                @foreach (var imageRoom in item.RoomImages.ToList())
+
+                            @foreach (var imageRoom in item.RoomImages.ToList())
+                            {
+                                if (imageRoom == item.RoomImages.FirstOrDefault())
                                 {
-                                    if (imageRoom == item.RoomImages.FirstOrDefault())
-                                    {
-                                        <img src="@imageRoom.Image" style="height: 250px;" />
-                                    }
+                                    <img src="@imageRoom.Image" style="height: 250px;" />
                                 }
-                            </a>
-                            
+                            }
+
 
                         </td>
-                        <td style="vertical-align: middle;">@item.Title</td>
+                        <td style="vertical-align: middle;">
+                            @if (item.RoomTypeId == 1)
+                            {
+                                <span class="detail-post-type">Nhà trọ</span>
+                            }
+                            else if (item.RoomTypeId == 2)
+                            {
+                                <span class="detail-post-type">Căn hộ</span>
+                            }
+                            else if (item.RoomTypeId == 3)
+                            {
+                                <span class="detail-post-type">Nhà trọ chung chủ</span>
+                            }
+                            else
+                            {
+                                <span class="detail-post-type">Chung cư</span>
+                            }
+                            <a href="/Rooms/Details/@item.RoomId" class="detail-post">@item.Title</a><br>
+                            <span style="font-size: 0.8rem; font-weight: bold;">Địa chỉ: </span>
+                            <span>@item.StreetNumber @item.Street, Phường @item.Ward, @item.District, @item.City</span><br>
+                            <a class="btn btn-detail-post fa fa-edit " href="/sua-bai.html/@item.RoomId"> Sửa tin</a><br>
+                            <span>Lượt hiển thị: @item.ViewCount</span><br>
+                            @if (item != null)
+                            {
+                                <span style="color: #999;" id="lastUpdateSpan">Cập nhật gần nhất: @item.LastUpdate.Value.ToString("HH:mm dd/MM/yyyy")</span>
+
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function () {
+                                        var lastUpdate = new Date('@item.LastUpdate'); // Chuyển đổi chuỗi ngày thành đối tượng Date
+
+                                        var today = new Date();
+                                        var yesterday = new Date();
+                                        yesterday.setDate(yesterday.getDate() - 1);
+
+                                        var lastUpdateSpan = document.getElementById('lastUpdateSpan');
+
+                                        if (isSameDay(lastUpdate, today)) {
+                                            lastUpdateSpan.innerText = 'Cập nhật gần nhất: Hôm nay';
+                                        } else if (isSameDay(lastUpdate, yesterday)) {
+                                            lastUpdateSpan.innerText = 'Cập nhật gần nhất: Hôm qua';
+                                        }
+                                    });
+
+                                    // Hàm kiểm tra xem hai đối tượng Date có phải cùng một ngày hay không
+                                    function isSameDay(date1, date2) {
+                                        return date1.toISOString().split('T')[0] === date2.toISOString().split('T')[0];
+                                    }
+                                </script>
+                            }
+
+                        </td>
 
                         <td style="vertical-align: middle;">@String.Format("{0:#,##0}", @item.Price)</td>
                         <td style="vertical-align: middle;">
-                            @if (item.DisplayType == 0)
+                            @if (item.DisplayType == 5)
                             {
-                                <span>Tin thường</span>
+                                <span>Thường</span>
                             }
                             else if (item.DisplayType == 1)
                             {
-                                <span>VIP nổi bật</span>
+                                <span>Nổi bật</span>
                             }
                             else if (item.DisplayType == 2)
                             {
@@ -135,34 +184,34 @@
                         @if (item.IsActive.Equals(1))
                         {
                             <td align="center" style="vertical-align: middle;"><img src="~/images/man_verify.png" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-circle" style="width: 20px; height: 20px; color: red;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12" y2="16"></line></td>
-                            
+
                         }
                         else if (item.IsActive.Equals(2))
                         {
                             <td align="center" style="vertical-align: middle;"><img src="~/images/man_clock.png" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-circle" style="width: 16px; height: 16px; color: red;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12" y2="16"></line></td>
-                            
+
                         }
                         else if (item.IsActive.Equals(3))
                         {
                             <td align="center" style="vertical-align: middle;"><img src="~/images/man_hidden.png" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-circle" style="width: 16px; height: 16px; color: red;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12" y2="16"></line></td>
-                            
+
                         }
                         else if (item.IsActive.Equals(4))
                         {
                             <td align="center" style="vertical-align: middle;"><img src="~/images/man_checked.png" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-circle" style="width: 16px; height: 16px; color: red;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12" y2="16"></line></td>
-                            
+
                         }
                         else if (item.IsActive.Equals(5))
                         {
                             <td align="center" style="vertical-align: middle;"><img src="~/images/man_warning.png" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-circle" style="width: 16px; height: 16px; color: red;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12" y2="16"></line></td>
-                            
+
                         }
                         else
                         {
                             <td align="center" style="vertical-align: middle;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-circle" style="width: 16px; height: 16px; color: red;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12" y2="16"></line></svg></td>
-                            
+
                         }
-                        
+
                         @if (item.IsActive.Equals(1))
                         {
                             <td align="left" style="vertical-align: middle;">Đang hiển thị - Duyệt </td>
