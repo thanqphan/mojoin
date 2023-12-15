@@ -25,7 +25,7 @@
                 <div class="card mb-3">
                     <div class="card-body">
                         <div>Số dư tài khoản</div>
-                        <h3 class="heading" style="margin-top: 0; margin-bottom: 0; color: #28a745;"><strong>@String.Format("{0:#,##0}", ViewBag.SoTien) đ</strong></h3>
+                        <h3 class="heading" style="margin-top: 0; margin-bottom: 0; color: #28a745;"><strong>@String.Format("{0:#,##0}", Model.Where(th => th.Status == 1).Sum(th => th.Amount)) đ</strong></h3>
                     </div>
                 </div>
             </div>
