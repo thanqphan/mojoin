@@ -86,27 +86,6 @@
                             <p style="color: red; display:none;" id="js-note-outofmoney">Số tiền trong tài khoản của bạn không đủ để thực hiện thanh toán, vui lòng <a href="https://phongtro123.com/quan-ly/nap-tien.html">nạp thêm</a> hoặc chọn phương thức khác bên dưới</p>
                         </label>
                     </div>
-
-                    <div class="form-check js-payment-item js-payment-momo mb-2" bis_skin_checked="1">
-                        <input asp-for="TransactionType" type="radio" name="payment_method" id="payment_from_momo" value="momo" class="form-check-input">
-                        <label for="payment_from_momo" class="form-check-label">
-                            Thanh toán qua ví điện tử MOMO
-                            <span class="dangtin-icon-momo" style="display: block;">
-                                <img src="~/images/momo_icon.png" />
-                            </span>
-                        </label>
-                    </div>
-                    <div class="form-check js-payment-item js-payment-momo mb-2" bis_skin_checked="1">
-                        <input asp-for="TransactionType" type="radio" name="payment_method" id="payment_from_vnpay" value="vnpay" class="form-check-input">
-                        <label for="payment_from_momo" class="form-check-label">
-                            Thanh toán qua ví điện tử VNPAY
-                            <span class="dangtin-icon-momo" style="display: block;">
-                                <img src="~/images/vnpay_icon.png" />
-                            </span>
-                        </label>
-                        <input id="amountPackage" asp-for="Amount" type="hidden" name="Amount" value="" />
-                        <input asp-for="EndDate" id="endDate" type="hidden" name="EndDate" />
-                    </div>
                 </div>
                 <div class=" dangtin-mt-3" bis_skin_checked="1">
                     <a href="/quan-li-tin.html" type="button" class=" dangtin-btn-gray dangtin-col-md-4" style="margin-right:2rem; margin-left:.6rem;">Quay lại</a>
