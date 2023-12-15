@@ -21,12 +21,9 @@
             </div>
 
             <div class="navbar-menu">
-                @*<a class="" href="/mua-nha-dat" gtm-event="link" gtm-cat="menu" gtm-act="top-menu">Tìm mua</a>*@
-                <a class="" href="/Rooms/Index" gtm-event="link" gtm-cat="menu" gtm-act="top-menu">Tìm thuê</a>
-                @*<a class="" href="/gia-nha-dat" gtm-event="link" gtm-cat="menu" gtm-act="top-menu">Giá nhà đất</a>*@
-                <a class="" href="/hoi-dap" gtm-event="link" gtm-cat="menu" gtm-act="top-menu">Hỏi đáp</a>
-                <a class="" href="/Home/Giadichvu" gtm-event="link" gtm-cat="menu" gtm-act="top-menu">Bảng giá dịch vụ</a>
-                @* <a class="" href="/PaymentMomo/NaptienLayout" gtm-event="link" gtm-cat="menu" gtm-act="top-menu">Số dư:@String.Format("{0:#,##0}", Model.Where(th => th.Status == 1).Sum(th => th.Amount)) đ</a> *@
+                <a class="" href="/danh-sach-tin.html" gtm-event="link" gtm-cat="menu" gtm-act="top-menu">Tìm thuê</a>
+                <a class="" href="/gia-nha-dat" gtm-event="link" gtm-cat="menu" gtm-act="top-menu">Tin tức</a>
+                <a class="" href="/hoi-dap" gtm-event="link" gtm-cat="menu" gtm-act="top-menu">Bảng giá dịch vụ</a>
 
                 @if (User.Identity.IsAuthenticated)
                 {

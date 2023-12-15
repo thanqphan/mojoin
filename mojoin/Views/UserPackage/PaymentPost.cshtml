@@ -87,9 +87,11 @@
                         </label>
                     </div>
                 </div>
+                <input id="amountPackage" asp-for="Amount" type="hidden" name="Amount" value="" />
+                <input asp-for="EndDate" id="endDate" type="hidden" name="EndDate" />
                 <div class=" dangtin-mt-3" bis_skin_checked="1">
                     <a href="/quan-li-tin.html" type="button" class=" dangtin-btn-gray dangtin-col-md-4" style="margin-right:2rem; margin-left:.6rem;">Quay lại</a>
-                    <button type="submit" class=" dangtin-btn-primary dangtin-col-md-6 " style="pointer-events: none;">
+                    <button type="submit" class=" dangtin-btn-primary dangtin-col-md-6 " id="btnThanhToan" style="pointer-events:none">
                         Thanh toán:
                         <span style="margin-left: 5px;" class="js-package-grand-total" id="packageTotal">0 VNĐ</span>
                     </button>
@@ -138,8 +140,10 @@
         // So sánh số tiền hiện có với tổng tiền gói
         if (isNaN(totalPrice) || isNaN(userBalance) || userBalance < totalPrice) {
             $('#js-note-outofmoney').show();
+            $('#btnThanhToan').css('pointer-events','none')
         } else {
             $('#js-note-outofmoney').hide();
+            $('#btnThanhToan').css('pointer-events', 'auto')
         }
     });
 </script>
