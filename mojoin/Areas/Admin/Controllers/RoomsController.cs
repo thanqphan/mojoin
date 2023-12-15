@@ -244,68 +244,6 @@ namespace mojoin.Areas.Admin.Controllers
             return (_context.Rooms?.Any(e => e.RoomId == id)).GetValueOrDefault();
         }
 
-
-
-		/*public IActionResult UpdateRoomActive(int roomId)
-		{
-			int isActive = (int)HttpContext.Session.GetInt32("RoomsParams");
-
-			try
-			{
-				var findRoom = _context.Rooms.Where(x => x.RoomId == roomId).FirstOrDefault();
-				if (findRoom != null)
-				{
-                    findRoom.IsActive = 1;
-					_context.SaveChanges();
-
-					_notyfService.Success("Cập nhật thành công!");
-				}
-				else
-				{
-					_notyfService.Success("Cập nhật thất bại!");
-				}
-
-				var dbmojoinContext = GetListRoomByActive(isActive);
-
-				return PartialView("ListRoom", dbmojoinContext);
-			}
-			catch
-			{
-				_notyfService.Success("Cập nhật thất bại!");
-			}
-			return RedirectToAction(nameof(Index), new { isActive });
-		}
-        [HttpPost]
-		public IActionResult DeleteRoom(int roomId)
-		{
-			int isActive = (int)HttpContext.Session.GetInt32("RoomsParams");
-
-			try
-			{
-				var findRoom = _context.Rooms.Where(x => x.RoomId == roomId).FirstOrDefault();
-				if (findRoom != null)
-				{
-					findRoom.IsActive = 2;
-					_context.SaveChanges();
-
-					_notyfService.Success("Xóa thành công!");
-				}
-				else
-				{
-					_notyfService.Success("Xóa thất bại!");
-				}
-
-				var dbmojoinContext = GetListRoomByActive(isActive);
-
-				return PartialView("ListRoom", dbmojoinContext);
-			}
-			catch
-			{
-				_notyfService.Success("Xoa thất bại!");
-			}
-			return RedirectToAction(nameof(Index), new { isActive });
-		}
-		[HttpPost]*/
 		public IActionResult UpdateRoomActive(int roomId)
 		{
 			int isActive = (int)HttpContext.Session.GetInt32("RoomsParams");

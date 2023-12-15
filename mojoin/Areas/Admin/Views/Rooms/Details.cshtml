@@ -6,6 +6,7 @@
     int count = 0;
     int index = 0;
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
 }
 <div class="page-header">
     <div class="header-sub-title">
@@ -69,32 +70,16 @@
 
                 <dt class="col-sm-4">Được xem:</dt>
                 <dd class="col-sm-8">@Html.DisplayFor(model => model.ViewCount) lượt</dd>
+
+                <dt class="col-sm-4">Người đăng:</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.User.LastName), @Html.DisplayFor(model => model.User.FirstName)</dd>
+
             </dl>
         </div>
-        @*<div class="col-md-6">
-            <hr />
-            <div class="row">
-                <div class="slider-item">
-                    @if (!string.IsNullOrEmpty(Model.Video))
-                    {
-                        <!-- Đây là phần hiển thị video,có thể sử dụng thẻ iframe cho YouTube -->
-                        <iframe style="width: 100% ;height:50% " src="@Model.Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                    }
-                    else
-                    {
-                        foreach (var item in Model.RoomImages)
-                        {
-                            count++;
-                            
-                                <img src="@item.Image" class="img-fluid" />
-                  
-                        }
-                    }
-                </div>
-            </div>
-        </div>*@
         <div class="col-md-6">
+            <h4 class="font-weight-bold">Hình ảnh & Video</h4>
             <hr />
+           
             <div id="carouselExample" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     @if (!string.IsNullOrEmpty(Model.Video))
@@ -126,9 +111,12 @@
     </div>
     <div class="row mt-4">
         <div class="col-md-12">
-            <a href="#" onclick="goBack()" class="btn btn-secondary ml-3">Quay lại danh sách</a>
+            <a href="#" onclick="goBack()" class="btn btn-secondary ml-3">
+                <i class="fas fa-arrow-left"></i>
+            </a>
         </div>
     </div>
+
 </div>
 @section Scripts {
     <script>
@@ -137,3 +125,4 @@
         }
     </script>
 }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-hbY57w12JzfuTJDLR6YNVVXjjsPcRH4L+gkBS3Si2zcgwS+3JM49PoZ8aJTR8Qv+bXeA0p8B+y4Pz+UYrNEqZ7A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
