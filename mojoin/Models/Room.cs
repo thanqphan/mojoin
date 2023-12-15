@@ -55,7 +55,7 @@ public partial class Room
 
     public string? Video { get; set; }
 	
-    public string? RejectionReason { get; set; }
+    //public string? RejectionReason { get; set; }
 
 	public virtual ICollection<RoomFavorite> RoomFavorites { get; set; } = new List<RoomFavorite>();
 
