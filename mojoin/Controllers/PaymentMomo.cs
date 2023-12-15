@@ -38,7 +38,7 @@ namespace mojoin.Controllers
 
         public IActionResult Index()
         {
-            var taikhoanID = _httpContextAccessor.HttpContext.Session.GetString("UserId");
+            var taikhoanID = HttpContext.User.FindFirstValue("UserId");
             if (taikhoanID == null || taikhoanID.ToString() == "")
             {
                 return RedirectToAction("Login", "Account");
