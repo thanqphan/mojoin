@@ -175,7 +175,7 @@ namespace mojoin.Controllers
             // Duyệt qua từng phòng và áp dụng điều kiện tìm kiếm
             foreach (var room in allRooms)
             {
-                if (room.IsActive != 1)
+                if (room.IsActive != 1 && room.IsActive != 4)
                 {
                     continue; // Bỏ qua phòng không khớp điều kiện
                 }
