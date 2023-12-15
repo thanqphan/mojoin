@@ -89,7 +89,7 @@
                 </div>
                 <div class=" dangtin-mt-3" bis_skin_checked="1">
                     <a href="/quan-li-tin.html" type="button" class=" dangtin-btn-gray dangtin-col-md-4" style="margin-right:2rem; margin-left:.6rem;">Quay lại</a>
-                    <button type="submit" class=" dangtin-btn-primary dangtin-col-md-6 " id="btnThanhToan">
+                    <button type="submit" class=" dangtin-btn-primary dangtin-col-md-6 " id="btnThanhToan" style="pointer-events:none">
                         Thanh toán:
                         <span style="margin-left: 5px;" class="js-package-grand-total" id="packageTotal">0 VNĐ</span>
                     </button>
@@ -141,6 +141,7 @@
             $('#btnThanhToan').css('pointer-events','none')
         } else {
             $('#js-note-outofmoney').hide();
+            $('#btnThanhToan').css('pointer-events', 'auto')
         }
     });
 </script>
