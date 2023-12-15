@@ -60,13 +60,13 @@ namespace mojoin.Controllers
                 viewModel.DisplayType = roomFavorite.DisplayType;
                 viewModel.UserPackages = roomFavorite.UserPackages;
                 viewModel.RoomImages = roomFavorite.RoomImages;
-                viewModel.StreetNumber= roomFavorite.StreetNumber;
+                viewModel.StreetNumber = roomFavorite.StreetNumber;
                 viewModel.City = roomFavorite.City;
                 viewModel.Street = roomFavorite.Street;
                 viewModel.Ward = roomFavorite.Ward;
-                viewModel.District= roomFavorite.District;
+                viewModel.District = roomFavorite.District;
                 viewModel.ViewCount = roomFavorite.ViewCount;
-                viewModel.LastUpdate= roomFavorite.LastUpdate;
+                viewModel.LastUpdate = roomFavorite.LastUpdate;
 
                 viewModels.Add(viewModel);
             }
@@ -223,8 +223,9 @@ namespace mojoin.Controllers
                     _notyfService.Error("Gửi bài không thành công!");
                     return View(room);
                 }
-                string videoUrl = (room.Video).ToString();
-                string in_videoUrl = Regex.Replace(videoUrl, "/watch\\?v=", "/embed/");
+                string videoUrl = room.Video != null ? room.Video.ToString() : "";
+                string in_videoUrl = string.IsNullOrEmpty(videoUrl) ? "" : Regex.Replace(videoUrl, "/watch\\?v=", "/embed/");
+
                 Room user = new Room
                 {
                     RoomTypeId = room.RoomTypeId,

@@ -24,7 +24,7 @@
                 <option value="2">VIP1</option>
                 <option value="3">VIP2</option>
                 <option value="4">VIP3</option>
-                <option value="0">Tin thường</option>
+                <option value="5">Tin thường</option>
             </select>
         </div>
 
@@ -131,7 +131,7 @@
 
                         <td style="vertical-align: middle;">@String.Format("{0:#,##0}", @item.Price)</td>
                         <td style="vertical-align: middle;">
-                            @if (item.DisplayType == 0)
+                            @if (item.DisplayType == 5)
                             {
                                 <span>Thường</span>
                             }

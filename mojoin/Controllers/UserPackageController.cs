@@ -2,11 +2,14 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.EntityFrameworkCore;
 using mojoin.Extension;
 using mojoin.Models;
 using mojoin.ViewModel;
+using System.Security.Claims;
 using System.Text.RegularExpressions;
 using XAct;
+using XAct.Library.Settings;
 using XAct.Users;
 
 namespace mojoin.Controllers
@@ -112,7 +115,7 @@ namespace mojoin.Controllers
                         await _context.SaveChangesAsync(); // Lưu thông tin gói tin
 
                         var package = _context.Packages.Where(p => p.PackageId == userPackageTrans.PackageID).FirstOrDefault();
-                        int ?vipType = package.Viptype;
+                        int? vipType = package.Viptype;
                         var roomPost = _context.Rooms.Find(Convert.ToInt32(userPackageTrans.RoomID));
                         {
                             roomPost.IsActive = 4;
@@ -143,8 +146,19 @@ namespace mojoin.Controllers
                 _notyfService.Error("Gửi bài không thành công!");
                 return Json(new { success = false, message = "Đã xảy ra lỗi khi tạo bài đăng!" });
             }
-            return View();
         }
-
+        [Route("lich-su-mua-goi.html", Name = "LichSuMuaGoi")]
+        public IActionResult PurchaseHistory()
+        {
+            var userId = HttpContext.User.FindFirstValue("UserId");
+            var transactionHistory = _context.TransactionHistories
+                .Include(rf => rf.User)
+                .Include(rf => rf.UserPackages)
+                    .ThenInclude(up => up.Package)  // Bao gồm thông tin từ bảng Package
+                .Where(rf => rf.UserId == int.Parse(userId) && rf.TransactionType == "Mua gói tin")
+                .OrderByDescending(rf => rf.TransactionDate)
+                .ToList();
+            return View(transactionHistory);
+        }
     }
 }

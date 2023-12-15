@@ -1,12 +1,12 @@
 ﻿@model IEnumerable<mojoin.Models.Room>
-
 @{
-    ViewData["Title"] = "mojoin";
+    ViewData["Title"] = "Danh sách tin mới";
     Layout = "~/Views/Shared/_Layout.cshtml";
     <link href="~/css/trangchu.css" rel="stylesheet" />
     <link href="~/css/site.css" rel="stylesheet" />
     <script src="~/js/site.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
+
 }
 <style>
     .custom-column {
@@ -16,7 +16,7 @@
     }
 
         .custom-column select {
-            border-radius:10px;
+            border-radius: 10px;
         }
 
         .custom-column:last-child {
@@ -47,31 +47,10 @@
         border-radius: 20px;
     }
 
-    #carouselExampleAutoplaying{
+    #carouselExampleAutoplaying {
         padding: 0rem 3rem 1rem;
     }
 </style>
-<div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel" style="margin-top:-2rem" >
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img src="~/images/Black & Yellow Modern Black Friday Sale Outdoor Banner.png" class="d-block w-100 carousel-img" alt="...">
-        </div>
-        <div class="carousel-item">
-            <img src="~/images/Green and White Modern Furniture Banner Landscape.png" class="d-block w-100 carousel-img" alt="...">
-        </div>
-        <div class="carousel-item">
-            <img src="~/images/Home Decor Minimalist Room Aesthetic Banner .png" class="d-block w-100 carousel-img" alt="...">
-        </div>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
-</div>
 <div class="searchbar_top hidden-xs" style="display: flex; justify-content:center; align-items:center ;margin-top:-1rem">
     <div class="searchbar_top_body">
         <div class="box-search">
@@ -227,14 +206,7 @@
                 </div>
             </div>
             <div class="list-active">
-                <div id="mainResults">
-                    @*listview*@
-                    @{
-                        Html.RenderPartialAsync("~/Views/Rooms/_ListRoomPartial.cshtml");
-                    }
-                </div>
-
-                <div id="searchResults" style="display: none;">
+                <div id="searchResults" >
                     @{
                         Html.RenderPartialAsync("~/Views/Rooms/_ListSearchRoomPartial.cshtml");
                     }
@@ -243,25 +215,15 @@
 
         </div>
         <div class="col-md-4 ct-col-4">
-
         </div>
     </main>
 </div>
-
-
- <script>
+<script src="~/js/_getaddresses.js"></script>
+<script>
     document.addEventListener("DOMContentLoaded", function () {
         var btnSearch = document.getElementById("btnSearch");
-        var mainResults = document.getElementById("mainResults");
-        var searchResults = document.getElementById("searchResults");
-        var carousel = document.getElementById("carouselExampleAutoplaying");
 
         btnSearch.addEventListener("click", function () {
-            // Ẩn phần tử "mainResults"
-            carousel.style.display="none";
-            mainResults.style.display = "none";
-            // Hiển thị phần tử "searchResults"
-            searchResults.style.display = "block";
 
 
             var categoryId = document.getElementById("ddlPostCate").value;
@@ -288,7 +250,4 @@
     });
 
 </script>
-<script src="~/js/_getaddresses.js"></script>
-
-
 
