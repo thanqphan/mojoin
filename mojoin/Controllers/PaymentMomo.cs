@@ -38,7 +38,7 @@ namespace mojoin.Controllers
 
         public IActionResult Index()
         {
-            var taikhoanID = _httpContextAccessor.HttpContext.Session.GetString("UserId");
+            var taikhoanID = HttpContext.User.FindFirstValue("UserId");
             if (taikhoanID == null || taikhoanID.ToString() == "")
             {
                 return RedirectToAction("Login", "Account");
@@ -58,7 +58,7 @@ namespace mojoin.Controllers
         {
             // Tạo OrderId từ Timestamp
             model.TransactionReference = DateTime.UtcNow.Ticks.ToString();
-            var taikhoanID = _httpContextAccessor.HttpContext.Session.GetString("UserId");
+            var taikhoanID = HttpContext.User.FindFirstValue("UserId");
             //lấy thông tin trả về của momo
             var response = _momoService.PaymentExecuteAsync(HttpContext.Request.Query);
 
@@ -67,7 +67,7 @@ namespace mojoin.Controllers
             // Kiểm tra trạng thái thanh toán
             if (response.Message == "Success")
             {
-                using (var context = new DbmojoinContext())
+                using (var context =  db)
                 {
                     var user = await context.Users.FindAsync(int.Parse(taikhoanID));
                     var order = new TransactionHistory
@@ -132,7 +132,14 @@ namespace mojoin.Controllers
                 .Include(rf => rf.User)
                 .Where(rf => rf.UserId == int.Parse(userId))
                 .ToList();
-                
+            //Tính tổng số tiền từ danh sách TransactionHistories
+            double? totalAmount = transactionHistory.Where(th => th.Status == 1).Sum(th => th.Amount);
+
+            // Cập nhật Balance trong User
+            var user = db.Users.Find(int.Parse(userId));
+
+            // Gán giá trị vào ViewBag
+            ViewBag.SoTien = user.Balance;
             return View(transactionHistory);
         }
         public IActionResult Lichsunaptien()

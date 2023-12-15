@@ -127,7 +127,7 @@ namespace mojoin.Controllers
         }
         public ActionResult LuuYeuThich(int id)
         {
-            var taikhoanID = _httpContextAccessor.HttpContext.Session.GetString("UserId");
+            var taikhoanID = HttpContext.User.FindFirstValue("UserId");
             if (taikhoanID == null || taikhoanID.ToString() == "")
             {
                 return RedirectToAction("Login", "Account");
@@ -147,7 +147,7 @@ namespace mojoin.Controllers
         }
         public ActionResult XoaYeuThich(int id)
         {
-            var taikhoanID = _httpContextAccessor.HttpContext.Session.GetString("UserId");
+            var taikhoanID = HttpContext.User.FindFirstValue("UserId");
             if (taikhoanID == null || taikhoanID.ToString() == "")
             {
                 return RedirectToAction("Login", "Account");

@@ -240,15 +240,6 @@ namespace mojoin.Controllers
 
                         return RedirectToAction("Index", "MyAccount");
                     }
-
-                    /*if (string.IsNullOrEmpty(returnUrl))
-					{
-						return RedirectToAction("Index", "MyAccount");
-					}
-					else
-					{
-						return Redirect(returnUrl);
-					}*/
                 }
             }
             catch

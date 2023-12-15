@@ -12,7 +12,9 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.js"></script>
     //<script src="~/js/site.js" defer></script>
+
 }
+
 @{
     var identity = (ClaimsIdentity)User.Identity;
 
@@ -237,8 +239,12 @@
 						</div>
 					}
 				</div>
-			</div>
+			</div>            
 		</div>
+            @{
+                Html.RenderPartialAsync("~/Views/Rooms/ListRoomNew.cshtml");
+            }
+
 	</div>
 </div>
 <div id="message" class="modal fade ng-scope in" style="display: none;">

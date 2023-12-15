@@ -74,24 +74,30 @@
     cursor: pointer;
     font-weight: bold;
 }
-
-.prop-title {
-    -webkit-text-size-adjust: 100%;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
-    list-style: none;
-    cursor: pointer;
-    box-sizing: border-box;
-    font-family: inherit;
-    margin: 0;
-    padding: 0;
-    color: #3c4146;
-    font-weight: 600;
-    overflow: hidden;
-    padding-right: 32px;
-    font-size: 15px;
-    line-height: 22px;
-    max-height: 44px;
+.display-room-1 .prop-info {
+    width: 60%;
+    padding-left: 100px;
 }
+    .display-room-1 .prop-info .link-overlay{
+        font-size: 18px;
+    }
+    .prop-title {
+        -webkit-text-size-adjust: 100%;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+        list-style: none;
+        cursor: pointer;
+        box-sizing: border-box;
+        font-family: inherit;
+        margin: 0;
+        padding: 0;
+        color: #3c4146;
+        font-weight: 600;
+        overflow: hidden;
+        padding-right: 32px;
+        font-size: 15px;
+        line-height: 22px;
+        max-height: 44px;
+    }
 
 .prop-addr {
     -webkit-text-size-adjust: 100%;
@@ -223,10 +229,6 @@
             width: 300px;
         }
 
-    .display-room-1 .prop-info {
-        width: calc(100% - 322px);
-        padding-left: 100px;
-    }
     .display-room-1 .prop-extra {
         width: calc(100% - 322px);
     }

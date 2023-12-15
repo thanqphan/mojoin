@@ -1490,8 +1490,8 @@ citySelect.addEventListener("change", onCityChange);
 districtSelect.addEventListener("change", onDistrictChange);
 
 function onCityChange() {
-    districtSelect.innerHTML = '<option value="">-- Chọn quận/huyện --</option>';
-    streetSelect.innerHTML = '<option value="">-- Chọn đường --</option>';
+    districtSelect.innerHTML = '<option value="">Quận/huyện</option>';
+    streetSelect.innerHTML = '<option value="">Đường phố</option>';
 
     var cityIndex = citySelect.selectedIndex - 1;
     if (cityIndex >= 0) {
@@ -1503,7 +1503,7 @@ function onCityChange() {
 }
 
 function onDistrictChange() {
-    streetSelect.innerHTML = '<option value="">-- Chọn đường --</option>';
+    streetSelect.innerHTML = '<option value="">Đường phố</option>';
 
     var cityIndex = citySelect.selectedIndex - 1;
     var districtIndex = districtSelect.selectedIndex - 1;
