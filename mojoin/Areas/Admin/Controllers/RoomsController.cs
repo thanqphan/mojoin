@@ -205,6 +205,7 @@ namespace mojoin.Areas.Admin.Controllers
             var room = await _context.Rooms
                 .Include(r => r.RoomType)
                 .Include(r => r.RoomImages)
+                .Include(r => r.UserPackages)
                 .FirstOrDefaultAsync(m => m.RoomId == id);
             if (room == null)
             {
@@ -221,8 +222,49 @@ namespace mojoin.Areas.Admin.Controllers
 
             try
             {
+                var findRoom = await _context.Rooms
+                    .Include(r => r.RoomImages)
+                    .Include(r => r.UserPackages)
+                    .FirstOrDefaultAsync(x => x.RoomId == id);
+
+                if (findRoom != null)
+                {
+                    if (findRoom.UserPackages != null && findRoom.UserPackages.Any())
+                    {
+                        _context.UserPackages.RemoveRange(findRoom.UserPackages);
+                    }
+
+                    _context.RoomImages.RemoveRange(findRoom.RoomImages);
+                    _context.Rooms.Remove(findRoom);
+                    await _context.SaveChangesAsync();
+
+                    _notyfService.Success("Xóa thành công!");
+                }
+                else
+                {
+                    _notyfService.Error("Xóa thất bại!");
+                }
+
+                var dbmojoinContext = GetListRoomByActive(isActive);
+
+                return RedirectToAction(nameof(Index), new { isActive });
+            }
+            catch
+            {
+                _notyfService.Error("Xóa thất bại!");
+            }
+
+            return RedirectToAction(nameof(Index), new { isActive });
+        }
+        /*public async Task<IActionResult> Delete(int? id, IFormCollection collection)
+        {
+            int isActive = (int)HttpContext.Session.GetInt32("RoomsParams");
+
+            try
+            {
                 var findRoom = _context.Rooms
                     .Include(r => r.RoomImages)
+                    .Include(r => r.UserPackages)
                     .FirstOrDefault(x => x.RoomId == id);
                 if (findRoom != null)
                 {
@@ -246,7 +288,7 @@ namespace mojoin.Areas.Admin.Controllers
                 _notyfService.Error("Xóa thất bại!");
             }
             return RedirectToAction(nameof(Index), new { isActive });
-        }
+        }*/
         private bool RoomExists(int id)
         {
             return (_context.Rooms?.Any(e => e.RoomId == id)).GetValueOrDefault();
