@@ -22,9 +22,11 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li>
+                        @*-1 là hiện toàn bộ*@
                         <a asp-area="Admin" asp-controller="Rooms" asp-action="Index" asp-route-isActive="-1">Danh sách Bài Đăng</a>
                     </li>
                     <li>
+                        @*sau này muốn thêm trang hiển thị trạng thái nào - cứ copy cái đó ra, đổi số là được*@
                         <a asp-area="Admin" asp-controller="Rooms" asp-action="Index" asp-route-isActive="4">Danh sách Phê duyệt</a>
                     </li>
                     
