@@ -14,13 +14,14 @@
 						<select class="border-0" id="idRoom" name="idRoom" title="Chọn loại phòng trọ" style="max-width:20px" asp-items="ViewBag.lsLoaiPhong">
 						</select>
 					}
+				
 
 				</th>
 				<th>
 					Trạng thái
 					@if (ViewBag.RoomsParams == -1)
 					{
-						<select class="border-0" id="idActive" name="idActive" title="Chọn Trạng thái" style="max-width:20px" asp-items="ViewBag.lsTrangThai">
+						<select class="border-0" id="idActive" name="idActive" title="Chọn Trạng thái" style="max-width:20px" asp-items="ViewBag.lsTrangThai">	
 						</select>
 					}
 				</th>
@@ -76,29 +77,50 @@
 						@*<td>@item.Phone</td>
 				<td><img class="avatar" src="" alt="Avatar" /></td>
 				<td>@(item.Room != null ? item.Rooms.RoleName : "")</td>*@
+						
 						<td>
-							@if (item.IsActive == 1)
+							@if (item.IsActive == 0)
+							{
+								<div class="d-flex align-items-center">
+									<div class="badge badge-danger badge-dot m-r-10"></div>
+									<div >Lỗi thanh toán</div>
+								</div>
+							}
+							else if (item.IsActive == 1)
 							{
 								<div class="d-flex align-items-center">
 									<div class="badge badge-success badge-dot m-r-10"></div>
-									<div>Đã duyệt</div>
+									<div >Đã duyệt</div>
 								</div>
 							}
 							else if (item.IsActive == 2)
 							{
 								<div class="d-flex align-items-center">
-									<div class="badge badge-danger badge-dot m-r-10"></div>
-									<div>Không được duyệt</div>
+									<div class="badge badge-warning badge-dot m-r-10"></div>
+									<div >Hết hạn</div>
 								</div>
 							}
-							else @*if (item.IsActive == 0)*@
+							else if (item.IsActive == 3)
 							{
 								<div class="d-flex align-items-center">
-									<div class="badge badge-warning  badge-dot m-r-10"></div>
-									<div>Bài đăng đang chờ xử lý</div>
+									<div class="badge badge-dark badge-dot m-r-10"></div>
+									<div >Đang ẩn</div>
 								</div>
 							}
-
+							else if (item.IsActive == 4)
+							{
+								<div class="d-flex align-items-center">
+									<div class="badge badge-warning badge-dot m-r-10"></div>
+									<div >Chưa duyệt</div>
+								</div>
+							}
+							else if (item.IsActive == 5)
+							{
+								<div class="d-flex align-items-center">
+									<div class="badge badge-danger badge-dot m-r-10"></div>
+									<div>Lỗi duyệt</div>
+								</div>
+							}
 						</td>
 						<td>
 							@if (ViewBag.RoomsParams == -1)
@@ -112,7 +134,7 @@
 							
 							}
 							else
-							@if (ViewBag.RoomsParams == 0)
+							@if (ViewBag.RoomsParams == 4)
 							{
 								
 								<li class="list-inline-item">
