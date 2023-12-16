@@ -26,7 +26,7 @@ namespace mojoin.Areas.Admin.Controllers
         // GET: Admin/TransactionHistory
         public IActionResult Index()
         {
-            var history = _context.TransactionHistories.ToList();
+            var history = _context.TransactionHistories.Include(th => th.User).ToList();
             List<SelectListItem> lstrangthai = new List<SelectListItem>();
             lstrangthai.Add(new SelectListItem() { Text = "  Thành công ", Value = "0" });
             lstrangthai.Add(new SelectListItem() { Text = "Thất bại", Value = "1" });

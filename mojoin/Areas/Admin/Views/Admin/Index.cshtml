@@ -35,7 +35,7 @@
                     <table id="myTable" class="table table-hover e-commerce-table">
                         <thead>
                             <tr>
-                                <th scope="col">UserId</th>
+                                <th scope="col">Họ tên</th>
                                 <th scope="col">Loại giao dịch</th>
                                 <th scope="col">Số tiền </th>
                                 <th scope="col">Ngày giao dịch</th>
@@ -61,13 +61,13 @@
                                 <tr>
 
 
-                                    @* @if (item.User != null)
-                                    {
-                                        @Html.DisplayFor(u => item.User.LastName) @Html.DisplayFor(u => item.User.FirstName)
-                                       } *@
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.UserId)
+                                        @if (item.User != null)
+                                        {
+                                            @($"{item.User.LastName} {item.User.FirstName}")
+                                        }
                                     </td>
+
                                     <td>
                                         @Html.DisplayFor(modelItem => item.TransactionType)
                                     </td>
