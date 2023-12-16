@@ -193,7 +193,11 @@ namespace mojoin.Areas.Admin.Controllers
             return View(room);
         }
         // GET: Admin/Rooms/Delete/5
+<<<<<<< HEAD
        
+=======
+        
+>>>>>>> ngaann
 
         [HttpPost]
         public async Task<IActionResult> Delete(int? id)
