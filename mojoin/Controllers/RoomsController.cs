@@ -42,8 +42,10 @@ namespace mojoin.Controllers
                 .Include(r => r.RoomFavorites)
                 .Include(r => r.RoomImages)
                 .Include(r => r.RoomType)
-                .Where(r => r.IsActive == 1)
-                .OrderByDescending(r => r.CreateDate)
+                 .Where(r => r.IsActive == 1 || r.IsActive == 4)
+                .OrderBy(r => r.IsActive == 1 ? 0 : 1)
+                .ThenBy(r => r.DisplayType)
+                .ThenByDescending(r => r.CreateDate)
                 .ToPagedList(pageNumber, pageSize);
 
             return View(dbmojoinContext);
@@ -60,7 +62,7 @@ namespace mojoin.Controllers
                 .Include(r => r.RoomFavorites)
                 .Include(r => r.RoomImages)
                 .Include(r => r.RoomType)
-                .Where(r => r.IsActive == 1 || r.IsActive == 2)  
+                .Where(r => r.IsActive == 1 || r.IsActive == 4)  
                 .OrderBy(r => r.IsActive == 1 ? 0 : 1)  
                 .ThenBy(r => r.DisplayType)  
                 .ThenByDescending(r => r.CreateDate)  
@@ -147,8 +149,10 @@ namespace mojoin.Controllers
         public IActionResult ListRoomNew()
         {
             var latestRooms = db.Rooms
-                .Where(r => r.IsActive == 1)
-                .OrderByDescending(r => r.CreateDate)
+                .Where(r => r.IsActive == 1 || r.IsActive == 4)
+                .OrderBy(r => r.IsActive == 1 ? 0 : 1)
+                .ThenBy(r => r.DisplayType == 5)
+                .ThenByDescending(r => r.CreateDate)
                 .Take(10)
                 .ToList();
 

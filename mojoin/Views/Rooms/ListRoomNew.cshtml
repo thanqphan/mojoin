@@ -13,7 +13,7 @@
             <span class="section-title">Tin mới đăng</span>
         </div>
         <ul class="post-listing aside clearfix">
-            @foreach (var item in Model.ToList().Where(r => r.IsActive == 1 ).OrderByDescending(r => r.CreateDate).Take(10))
+            @foreach (var item in Model@* .ToList().Where(r => r.IsActive == 1 && r.DisplayType == 4).OrderByDescending(r => r.CreateDate).Take(10) *@)
             {
                 
                     <li class="post-item clearfix normal" post-id="">
