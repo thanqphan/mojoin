@@ -206,6 +206,9 @@ namespace mojoin.Areas.Admin.Controllers
                 .Include(r => r.RoomType)
                 .Include(r => r.RoomImages)
                 .Include(r => r.UserPackages)
+                .Include(r => r.RoomFavorites)
+                .Include(r => r.RoomReports)
+                .Include(r => r.RoomRatings)
                 .FirstOrDefaultAsync(m => m.RoomId == id);
             if (room == null)
             {
@@ -225,16 +228,38 @@ namespace mojoin.Areas.Admin.Controllers
                 var findRoom = await _context.Rooms
                     .Include(r => r.RoomImages)
                     .Include(r => r.UserPackages)
+                    .Include(r => r.RoomFavorites)
+					.Include(r => r.RoomReports)
+					.Include(r => r.RoomRatings)
                     .FirstOrDefaultAsync(x => x.RoomId == id);
 
                 if (findRoom != null)
                 {
+                    // Xóa các bản ghi liên quan trong RoomFavorites
+                    if (findRoom.RoomFavorites != null && findRoom.RoomFavorites.Any())
+                    {
+                        _context.RoomFavorites.RemoveRange(findRoom.RoomFavorites);
+                    }
+                    // Xóa các bản ghi liên quan trong RoomReports
+                    if (findRoom.RoomReports != null && findRoom.RoomReports.Any())
+                    {
+                        _context.RoomReports.RemoveRange(findRoom.RoomReports);
+                    }
+                    // Xóa các bản ghi liên quan trong RoomRatings
+                    if (findRoom.RoomRatings != null && findRoom.RoomRatings.Any())
+                    {
+                        _context.RoomRatings.RemoveRange(findRoom.RoomRatings);
+                    }
+                    // Xóa các bản ghi liên quan trong UserPackages
                     if (findRoom.UserPackages != null && findRoom.UserPackages.Any())
                     {
                         _context.UserPackages.RemoveRange(findRoom.UserPackages);
                     }
-
-                    _context.RoomImages.RemoveRange(findRoom.RoomImages);
+                    // Xóa các bản ghi liên quan trong RoomImages
+                    if (findRoom.RoomImages != null && findRoom.RoomImages.Any())
+                    {
+                        _context.RoomImages.RemoveRange(findRoom.RoomImages);
+                    }
                     _context.Rooms.Remove(findRoom);
                     await _context.SaveChangesAsync();
 
