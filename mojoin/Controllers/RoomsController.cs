@@ -42,7 +42,7 @@ namespace mojoin.Controllers
                 .Include(r => r.RoomFavorites)
                 .Include(r => r.RoomImages)
                 .Include(r => r.RoomType)
-                 .Where(r => r.IsActive == 1 || r.IsActive == 4)
+                 .Where(r => r.IsActive == 1)
                 .OrderBy(r => r.IsActive == 1 ? 0 : 1)
                 .ThenBy(r => r.DisplayType)
                 .ThenByDescending(r => r.CreateDate)
@@ -62,7 +62,7 @@ namespace mojoin.Controllers
                 .Include(r => r.RoomFavorites)
                 .Include(r => r.RoomImages)
                 .Include(r => r.RoomType)
-                .Where(r => r.IsActive == 1 || r.IsActive == 4)  
+                .Where(r => r.IsActive == 1 )  
                 .OrderBy(r => r.IsActive == 1 ? 0 : 1)  
                 .ThenBy(r => r.DisplayType)  
                 .ThenByDescending(r => r.CreateDate)  
@@ -149,7 +149,7 @@ namespace mojoin.Controllers
         public IActionResult ListRoomNew()
         {
             var latestRooms = db.Rooms
-                .Where(r => r.IsActive == 1 || r.IsActive == 4)
+                .Where(r => r.IsActive == 1 )
                 .OrderBy(r => r.IsActive == 1 ? 0 : 1)
                 .ThenBy(r => r.DisplayType == 5)
                 .ThenByDescending(r => r.CreateDate)
@@ -192,7 +192,7 @@ namespace mojoin.Controllers
             // Duyệt qua từng phòng và áp dụng điều kiện tìm kiếm
             foreach (var room in allRooms)
             {
-                if (room.IsActive != 1 && room.IsActive != 4)
+                if (room.IsActive != 1)
                 {
                     continue; // Bỏ qua phòng không khớp điều kiện
                 }
