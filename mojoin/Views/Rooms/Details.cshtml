@@ -11,7 +11,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.js"></script>
-    //<script src="~/js/site.js" defer></script>
+    <script src="~/js/site.js" ></script>
 
 }
 
@@ -223,9 +223,10 @@
 				<div class="DatMua" style="display: inline-block; justify-content: flex-end">
 					@if (ViewBag.IsYeuThich)
 					{
+
 						<div class="SaveAd_saveAdWrapper___sBMh AdItem_saveAd__3prt2 ">
 							<a href="@Url.Action("XoaYeuThich", "YeuThich", new { id = Model.RoomId })" id="btn_save_ad" onclick="" type="button" class="SaveAd_btnSavedAd__jwoYd ">
-								<img id="img_save_ad" height="20" width="20" src="https://static.chotot.com/storage/icons/saveAd/save-ad-active.svg" alt="like" loading="lazy" data-saved="false">
+                                <img id="img_save_ad" height="20" width="20" src="/images/un-save.png" alt="like" loading="lazy" data-saved="false">
 							</a>
 						</div>
 						@*                <a title="Xóa khỏi yêu thích" class="btn-add-cat btn btn-outline-secondary fa fa-heart text-danger" href="@Url.Action("XoaYeuThich", "YeuThich", new { id = Model.RoomId })"></a>*@
@@ -234,7 +235,7 @@
 					{
 						<div class="SaveAd_saveAdWrapper___sBMh AdItem_saveAd__3prt2 ">
 							<a href="@Url.Action("LuuYeuThich", "YeuThich", new { id = Model.RoomId })" id="btn_save_ad" onclick="" type="button" class="SaveAd_btnSavedAd__jwoYd ">
-								<img id="img_save_ad" height="20" width="20" src="https://static.chotot.com/storage/icons/saveAd/save-ad.svg" alt="like" loading="lazy" data-saved="false">
+                                <img id="img_save_ad" height="20" width="20" src="/images/save.png" alt="like" loading="lazy" data-saved="false">
 							</a>
 						</div>
 					}
