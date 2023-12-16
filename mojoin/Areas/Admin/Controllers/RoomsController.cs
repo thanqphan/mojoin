@@ -212,7 +212,6 @@ namespace mojoin.Areas.Admin.Controllers
                 .Include(r => r.RoomFavorites)
                 .Include(r => r.RoomReports)
                 .Include(r => r.RoomRatings)
-
                 .FirstOrDefaultAsync(m => m.RoomId == id);
             if (room == null)
             {
@@ -233,8 +232,8 @@ namespace mojoin.Areas.Admin.Controllers
                     .Include(r => r.RoomImages)
                     .Include(r => r.UserPackages)
                     .Include(r => r.RoomFavorites)
-                    .Include(r => r.RoomReports)
-                    .Include(r => r.RoomRatings)
+					.Include(r => r.RoomReports)
+					.Include(r => r.RoomRatings)
                     .FirstOrDefaultAsync(x => x.RoomId == id);
 
                 if (findRoom != null)
@@ -244,12 +243,35 @@ namespace mojoin.Areas.Admin.Controllers
                     {
                         _context.RoomFavorites.RemoveRange(findRoom.RoomFavorites);
                     }
-
                     // Xóa các bản ghi liên quan trong RoomReports
                     if (findRoom.RoomReports != null && findRoom.RoomReports.Any())
                     {
                         _context.RoomReports.RemoveRange(findRoom.RoomReports);
                     }
+                    // Xóa các bản ghi liên quan trong RoomRatings
+                    if (findRoom.RoomRatings != null && findRoom.RoomRatings.Any())
+                    {
+                        _context.RoomRatings.RemoveRange(findRoom.RoomRatings);
+                    }
+                    // Xóa các bản ghi liên quan trong UserPackages
+                    if (findRoom.UserPackages != null && findRoom.UserPackages.Any())
+                    {
+                        _context.RoomFavorites.RemoveRange(findRoom.RoomFavorites);
+                    }
+                    // Xóa các bản ghi liên quan trong RoomImages
+                    if (findRoom.RoomImages != null && findRoom.RoomImages.Any())
+                    {
+                        _context.RoomImages.RemoveRange(findRoom.RoomImages);
+                    }
+                    _context.Rooms.Remove(findRoom);
+                    await _context.SaveChangesAsync();
+
+                    _notyfService.Success("Xóa thành công!");
+                }
+                else
+                {
+                    _notyfService.Error("Xóa thất bại!");
+                }
 
                     // Xóa các bản ghi liên quan trong RoomRatings
                     if (findRoom.RoomRatings != null && findRoom.RoomRatings.Any())
