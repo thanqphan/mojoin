@@ -145,7 +145,7 @@ namespace mojoin.Controllers
             _notyfService.Success("Đã yêu thích!");
             return RedirectToAction("Details", "Rooms", new { id = id });
         }
-        public ActionResult XoaYeuThich(int id)
+        public IActionResult XoaYeuThich(int id)
         {
             var taikhoanID = HttpContext.User.FindFirstValue("UserId");
             if (taikhoanID == null || taikhoanID.ToString() == "")

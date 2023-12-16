@@ -14,6 +14,7 @@ using XAct.Users;
 using X.PagedList;
 using mojoin.Extension;
 using System.Drawing.Printing;
+using System.Security.Claims;
 
 namespace mojoin.Controllers
 {
@@ -107,7 +108,7 @@ namespace mojoin.Controllers
             }
 
             // Lấy giá trị của taikhoanID từ session
-            var taikhoanID = HttpContext.Session.GetString("UserId");
+            var taikhoanID = HttpContext.User.FindFirstValue("UserId");
 
             // Kiểm tra xem phòng đã được thêm vào danh sách yêu thích của người dùng hay chưa
             bool isYeuThich = false;
