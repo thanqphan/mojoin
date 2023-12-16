@@ -111,7 +111,8 @@ namespace mojoin.Controllers
                         //*+ salt.Trim()).ToMD5()*//*,
                         IsActive = true,
                         //*Salt = salt,
-                        CreateDate = DateTime.Now
+                        CreateDate = DateTime.Now,
+                        Balance=0
                     };
                     try
                     {
