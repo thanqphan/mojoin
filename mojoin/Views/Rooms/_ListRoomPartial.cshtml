@@ -29,7 +29,37 @@
                         }*@
                             </div>
                             <div class="AdBody_caption__0FF4E">
-                                <div class="commonStyle_adTitleGrid__ZQnBY" role="button" tabindex="0">@item.Title</div>
+                                <div class="commonStyle_adTitleGrid__ZQnBY" role="button" tabindex="0">
+                                    @if (item.DisplayType == 1)
+                                    {
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            <i class="fas fa-star text-warning"></i>
+                                        }
+                                        <br />
+                                    }
+                                    else if (item.DisplayType == 2)
+                                    {
+                                        @for (int i = 1; i <= 4; i++)
+                                        {
+                                            <i class="fas fa-star text-warning"></i>
+                                        }
+                                    }
+                                    else if (item.DisplayType == 3)
+                                    {
+                                        @for (int i = 1; i <= 3; i++)
+                                        {
+                                            <i class="fas fa-star text-warning"></i>
+                                        }
+                                    }
+                                    else if (item.DisplayType == 4)
+                                    {
+                                        @for (int i = 1; i <= 2; i++)
+                                        {
+                                            <i class="fas fa-star text-warning"></i>
+                                        }
+                                    }@item.Title
+                                </div>
                                 <span class="AdBody_condition__FwozD"> @item.Area m² </span>
                                 <div>
                                     <p class="AdBody_price__kHpmy">@String.Format("{0:#,##0}", item.Price) VNĐ/tháng</p>
