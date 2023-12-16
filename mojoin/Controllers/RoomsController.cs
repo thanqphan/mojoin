@@ -84,7 +84,7 @@ namespace mojoin.Controllers
             }
 
             // Return the image as a file result
-            return File(roomImage, "image/jpeg");
+            return File(roomImage, "image/jpeg", "image/png");
         }
         public ActionResult GetRoomImages(int id)
         {
@@ -283,7 +283,7 @@ namespace mojoin.Controllers
         [HttpPost]
         public IActionResult SendReport(string roomId, string userId, List<string> errorContents)
         {
-            var taikhoanID = HttpContext.Session.GetString("UserId");
+            var taikhoanID = HttpContext.User.FindFirstValue("UserId");
             if (taikhoanID == null || taikhoanID.ToString() == "")
             {
                 return RedirectToAction("Login", "Account");
