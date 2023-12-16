@@ -1,0 +1,264 @@
+﻿@using System.Security.Claims;
+@model mojoin.ViewModel.UserPackageTransactionViewModel;
+@{
+    ViewData["Title"] = "PaymentPostLater";
+    Layout = "~/Views/Shared/_LayoutDangtin.cshtml";
+}
+@{
+    var identity = (ClaimsIdentity)User.Identity;
+
+    // Lấy giá trị của các đối tượng Claim
+    string firstName = identity.FindFirst("FirstName")?.Value;
+    string lastName = identity.FindFirst("LastName")?.Value;
+    string userId = identity.FindFirst("UserId")?.Value;
+}
+<link href="~/css/createpost.css" rel="stylesheet" />
+
+<div class="create-post">
+    <div class="title-div">
+        <h2 class="title-element">Thanh toán tin</h2>
+    </div>
+    <div class="alert-div">
+        <h2 class="title-element">Nếu bạn đã từng đăng tin trên mojoin, hãy sử dụng chức năng ĐẨY TIN / GIA HẠN / NÂNG CẤP VIP trong mục QUẢN LÝ TIN ĐĂNG để làm mới, đẩy tin lên cao thay vì đăng tin mới.<br> Tin đăng trùng nhau sẽ không được duyệt.</h2>
+    </div>
+
+    <form id="paymentPostForm" asp-action="PaymentPost" asp-controller="UserPackage" class="form-horizontal">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <h1>@ViewBag.RoomTitle</h1>
+        <input asp-for="RoomID" type="hidden" name="RoomId" value="@ViewBag.RoomId" />
+        <div class="dangtin-row">
+            <div class="dangtin-col-md-8">
+                <div class="dangtin-row dangtin-mt-3" style="flex-wrap: nowrap;">
+                    <div class="dangtin-col-md-4" style="margin-top: -2rem;">
+                        <div class="dangtin-form-group">
+                            <label class="dangtin-col-form-label">Gói thời gian</label><br />
+                            <select name="TypePackage" class="form-control" id="typeTimePost" style="width: 100%;">
+                                <option value="0" disabled selected>Gói thời gian</option>
+                                <option value="1">Ngày</option>
+                                <option value="2">Tuần</option>
+                                <option value="3">Tháng</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="dangtin-col-md-4" style="margin-top: -2rem;">
+                        <div class="dangtin-form-group">
+                            <label class="dangtin-col-form-label">Chọn loại tin</label><br />
+                            <select asp-for="PackageID" name="PackageId" class="form-control" id="typePackagePost" style="width: 100%;">
+                                <option value="0" disabled selected>Chọn loại tin</option>
+                                @foreach (var packageType in ViewBag.PackageTypes)
+                                {
+                                    <option value="@packageType.PackageId" data-price-package="@packageType.Price" class="package-type-@packageType.PackageTypeId">@packageType.PackageName</option>
+                                }
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="dangtin-col-md-4" style="margin-top: -2rem;">
+                        <div class="dangtin-form-group">
+                            <label class="dangtin-col-form-label" id="numPackage">Số gói</label><br />
+                            <select asp-for="Duration" name="Duration" class="form-control" id="durationPackage">
+                                <option value="0" disabled selected>Chọn</option>
+                                @for (int i = 5; i <= 90; i++)
+                                {
+                                    <option value="@i" data-type="day">@i ngày </option>
+                                }
+                                @for (int i = 1; i <= 10; i++)
+                                {
+                                    <option value="@i" data-type="week">@i tuần</option>
+                                }
+                                @for (int i = 1; i <= 12; i++)
+                                {
+                                    <option value="@i" data-type="month">@i tháng</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dangtin-col-form-label">
+                    Chọn phương thức thanh toán
+                </div>
+                <div class="form-group">
+                    <div class="form-check">
+                        <input asp-for="TransactionType" type="radio" name="payment_method" id="payment_from_account" value="account" class="form-check-input" style="margin-top:0.7rem;">
+                        <label for="payment_from_account" class="form-check-label">
+                            Trừ tiền trong tài khoản (Bạn đang có: TK Chính <span id="formattedUserBalance"></span> )<br />
+                            <p style="color: red; display:none;" id="js-note-outofmoney">Số tiền trong tài khoản của bạn không đủ để thực hiện thanh toán, vui lòng <a href="/PaymentMomo/NaptienLayout">nạp thêm</a> hoặc chọn phương thức khác bên dưới</p>
+                        </label>
+                    </div>
+                </div>
+                <input id="amountPackage" asp-for="Amount" type="hidden" name="Amount" value="" />
+                <input asp-for="EndDate" id="endDate" type="hidden" name="EndDate" />
+                <div class=" dangtin-mt-3" bis_skin_checked="1">
+                    <a href="/quan-li-tin.html" type="button" class=" dangtin-btn-gray dangtin-col-md-4" style="margin-right:2rem; margin-left:.6rem;">Quay lại</a>
+                    <button type="submit" class=" dangtin-btn-primary dangtin-col-md-6 " id="btnThanhToan" style="pointer-events:none">
+                        Thanh toán:
+                        <span style="margin-left: 5px;" class="js-package-grand-total" id="packageTotal">0 VNĐ</span>
+                    </button>
+                </div>
+            </div>
+            <div class="dangtin-col-md-4">
+                <div class="dangtin-card">
+                    <div class="dangtin-card-body">
+                        <h4 class="dangtin-card-title">
+                            Lưu ý khi đăng tin
+                        </h4>
+                        <ul>
+                            <li style="list-style-type: square; margin-left: 15px;     padding-left: 1rem;">Nội dung phải viết bằng tiếng Việt có dấu</li>
+                            <li style="list-style-type: square; margin-left: 15px;    padding-left: 1rem;">Tiêu đề tin không dài quá 100 kí tự</li>
+                            <li style="list-style-type: square; margin-left: 15px;    padding-left: 1rem;">Các bạn nên điền đầy đủ thông tin vào các mục để tin đăng có hiệu quả hơn.</li>
+                            <li style="list-style-type: square; margin-left: 15px;    padding-left: 1rem;">Để tăng độ tin cậy và tin rao được nhiều người quan tâm hơn, hãy sửa vị trí tin rao của bạn trên bản đồ bằng cách kéo icon tới đúng vị trí của tin rao.</li>
+                            <li style="list-style-type: square; margin-left: 15px;    padding-left: 1rem;">Tin đăng có hình ảnh rõ ràng sẽ được xem và gọi gấp nhiều lần so với tin rao không có ảnh. Hãy đăng ảnh để được giao dịch nhanh chóng!</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<script>
+    // Lấy giá trị UserBalance từ ViewBag và chuyển đổi thành số thực
+    var userBalance = parseFloat('@ViewBag.UserBalance');
+
+    // Định dạng số tiền hiện có theo kiểu tiền tệ VNĐ
+    var formattedUserBalance = new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND',
+    }).format(userBalance);
+
+    // Hiển thị giá trị đã định dạng trong span
+    document.getElementById('formattedUserBalance').innerText = formattedUserBalance;
+
+    // Bắt sự kiện khi radio button được chọn
+    $('#payment_from_account').change(function () {
+        // Lấy giá trị TotalPrice từ thẻ #packageTotal và chuyển đổi thành số thực
+        var totalPrice = parseFloat($('#packageTotal').text().replace(' VNĐ', '').replace(/\./g, '').replace(',', '.'));
+
+        // So sánh số tiền hiện có với tổng tiền gói
+        if (isNaN(totalPrice) || isNaN(userBalance) || userBalance < totalPrice) {
+            $('#js-note-outofmoney').show();
+            $('#btnThanhToan').css('pointer-events', 'none')
+        } else {
+            $('#js-note-outofmoney').hide();
+            $('#btnThanhToan').css('pointer-events', 'auto')
+        }
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#typeTimePost').change(function () {
+            var selectedTime = $(this).val();
+
+            // Ẩn tất cả options trong typePackagePost và durationPackage
+            $('#typePackagePost option').hide();
+            $('#durationPackage option').hide();
+
+            // Hiển thị options tương ứng với gói thời gian đã chọn
+            if (selectedTime == '1') {
+                showOptionsByPackageTypeAndDuration('package-type-1', 'day');
+                $('#numPackage').text('Số ngày');
+            } else if (selectedTime == '2') {
+                showOptionsByPackageTypeAndDuration('package-type-2', 'week');
+                $('#numPackage').text('Số tuần');
+            } else if (selectedTime == '3') {
+                showOptionsByPackageTypeAndDuration('package-type-3', 'month');
+                $('#numPackage').text('Số tháng');
+            }
+
+            // Thực hiện tính toán và hiển thị giá trị trong #packageTotal
+            updatePackageTotal();
+
+            // Chuyển giá trị của 2 select còn lại về '0'
+            $('#typePackagePost').val('0');
+            $('#durationPackage').val('0');
+            $('#packageTotal').text('0 VNĐ');
+
+            // Tính toán và cập nhật giá trị EndDate
+            updateEndDate();
+        });
+
+        $('#typePackagePost, #durationPackage').change(function () {
+            // Thực hiện tính toán và hiển thị giá trị trong #packageTotal khi có sự thay đổi
+            updatePackageTotal();
+
+            // Tính toán và cập nhật giá trị EndDate
+            updateEndDate();
+        });
+
+        function showOptionsByPackageTypeAndDuration(packageType, durationType) {
+            // Hiển thị options tương ứng trong typePackagePost
+            $('#typePackagePost .' + packageType).show();
+
+            // Hiển thị options tương ứng trong durationPackage
+            $('#durationPackage [data-type="' + durationType + '"]').show();
+        }
+
+        function updatePackageTotal() {
+            var selectedPackagePrice = parseFloat($('#typePackagePost option:selected').data('price-package'));
+            var selectedDuration = parseFloat($('#durationPackage').val());
+
+            // Thực hiện tính toán giá trị và hiển thị trong #packageTotal
+            var totalPrice = selectedPackagePrice * selectedDuration;
+            $('#packageTotal').text(totalPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }));
+            $('#amountPackage').val(totalPrice);
+        }
+
+        function updateEndDate() {
+            var selectedTime = $('#typeTimePost').val();
+            var selectedDuration = parseFloat($('#durationPackage').val());
+
+            if (!isNaN(selectedDuration)) {
+                var endDate;
+
+                if (selectedTime === '1') {
+                    endDate = new Date();
+                    endDate.setDate(endDate.getDate() + selectedDuration);
+                } else if (selectedTime === '2') {
+                    endDate = new Date();
+                    endDate.setDate(endDate.getDate() + selectedDuration * 7);
+                } else if (selectedTime === '3') {
+                    endDate = new Date();
+                    endDate.setMonth(endDate.getMonth() + selectedDuration);
+                }
+
+                // Kiểm tra nếu endDate là một ngày hợp lệ
+                if (!isNaN(endDate.getTime())) {
+                    // Chuyển đổi và đặt giá trị cho #endDate
+                    $('#endDate').val(endDate.toISOString());
+                } else {
+                    console.error('Ngày hết hạn không hợp lệ.');
+                }
+            }
+        }
+        $('#paymentPostForm').on('submit', function (e) {
+            e.preventDefault();
+            // Tạo một đối tượng FormData
+            var formData = new FormData(this);
+            var roomId = @ViewBag.RoomId;
+            $.ajax({
+                type: 'POST',
+                url: '/UserPackage/PaymentPostLater',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if (data.success) {
+                        alert('Đã mua gói cho bài đăng thành công!');
+                        window.location.href = '/quan-li-tin.html';
+                    } else {
+                        alert('Có vấn đề khi thanh toán!');
+                    }
+                },
+                error: function () {
+                    alert('Đã xảy ra lỗi khi thanh toán!?')
+                }
+            });
+        });
+    });
+</script>
+
+
+

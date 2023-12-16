@@ -22,7 +22,7 @@ namespace mojoin.Areas.Admin.Controllers
         {
 
             _context = context;
-            _notyfService = notyfService;
+            _notyfService = notyfService;  
         }
 
         // GET: Admin/Staff
