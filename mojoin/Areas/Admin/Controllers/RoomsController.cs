@@ -44,14 +44,22 @@ namespace mojoin.Areas.Admin.Controllers
 		{
 			HttpContext.Session.SetInt32("RoomsParams", isActive);
 			ViewBag.RoomsParams = isActive;
+
 			var dbmojoinContext = GetListRoomByActive(isActive);
 			ViewData["QuyenAcc"] = new SelectList(_context.Roles, "RoleName", "RoleName");
 			List<SelectListItem> lsTrangThai = new List<SelectListItem>();
 			List<SelectListItem> lsLoaiPhong = new List<SelectListItem>();
-            lsTrangThai.Add(new SelectListItem() { Text = "Đã duyệt", Value = "1" });
-			lsTrangThai.Add(new SelectListItem() { Text = "Không được duyệt", Value = "2" });
-            lsTrangThai.Add(new SelectListItem() { Text = "Bài đăng đang chờ xử lý", Value = "0" });
-			
+
+			lsTrangThai.Add(new SelectListItem() { Text = "Tất cả", Value = "" });
+			lsTrangThai.Add(new SelectListItem() { Text = "Lỗi thanh toán", Value = "0" });
+			lsTrangThai.Add(new SelectListItem() { Text = "Đã duyệt", Value = "1" });
+			lsTrangThai.Add(new SelectListItem() { Text = "Hết hạn", Value = "2" });
+			lsTrangThai.Add(new SelectListItem() { Text = "Đang ẩn", Value = "3" });
+			lsTrangThai.Add(new SelectListItem() { Text = "Chưa duyệt", Value = "4" });
+			lsTrangThai.Add(new SelectListItem() { Text = "Lỗi duyệt", Value = "5" });
+
+
+			lsLoaiPhong.Add(new SelectListItem() { Text = "Tất cả", Value = "" });
 			lsLoaiPhong.Add(new SelectListItem() { Text = "Nhà trọ", Value = "1" });
 			lsLoaiPhong.Add(new SelectListItem() { Text = "Căn hộ", Value = "2" });
 			lsLoaiPhong.Add(new SelectListItem() { Text = "Ở chung chủ", Value = "3" });
@@ -287,7 +295,7 @@ namespace mojoin.Areas.Admin.Controllers
 				var findRoom = _context.Rooms.Where(x => x.RoomId == roomId).FirstOrDefault();
 				if (findRoom != null)
 				{
-					findRoom.IsActive = 2;
+					findRoom.IsActive = 4;
 					_context.SaveChanges();
 
 					_notyfService.Success("Từ chối duyệt thành công!");
@@ -351,7 +359,7 @@ namespace mojoin.Areas.Admin.Controllers
 						emailTittle = "[NoReply] Bài đăng của bạn đã được phê duyệt";
 						tempaltePatch = @"Content\templates\ActiceEmailTemplate.html";
 						break;
-					case 2: // chua duyet
+					case 5: // chua duyet
 						emailTittle = "[NoReply] Bài đăng của bạn đã bị từ chối";
 						tempaltePatch = @"Content\templates\ResetEmailTemplate.html";
 						break;
