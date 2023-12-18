@@ -176,12 +176,8 @@ namespace mojoin.Controllers
             string userId = userIdClaim.Value;
             var packageTypes = _context.Packages.ToList();
             ViewBag.PackageTypes = packageTypes;
-            /*string roomTitle = TempData["RoomTitle"] as string;
-            ViewBag.RoomTitle = roomTitle;*/
             var user = _context.Users.FirstOrDefault(u => u.UserId == userId.ToInt32());
             ViewBag.UserBalance = user.Balance;
-            /*int roomId = Convert.ToInt32(TempData["RoomId"]);
-            ViewBag.RoomId = roomId;*/
             try
             {
                 if (!ModelState.IsValid)
