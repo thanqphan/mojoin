@@ -5,6 +5,7 @@
 	Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 	<link href="~/admin_assets/css/table.css" rel="stylesheet" />
 
+
 }
 <style>
 	form {
@@ -40,15 +41,6 @@
 		<h3>DANH SÁCH <b>PHÊ DUYỆT</b></h3>
 	}
 
-</div>
-<div class="card-header">
-	<div class="row">
-		<div class="col-md-8 ">
-		</div>
-		<div class="col-md-4 text-right">
-			<a class="btn btn-success btn-tone m-r-5" asp-action="Create">Thêm</a>
-		</div>
-	</div>
 </div>
 
 <div class="card-body" id="list-room">
@@ -106,16 +98,19 @@
 
 		});
 
-		function UpdateActiveStatus(id) {
-			$.ajax({
-				url: '@Url.Action("UpdateRoomActive", "Rooms")',
-				type: 'GET',
-				cache: false,
-				data: { roomId: id }
-			}).done(function (result) {
-				$('#list-room').html(result);
-			});
-		}
+			function UpdateActiveStatus(id) {
+				$.ajax({
+					url: '@Url.Action("UpdateRoomActive", "Rooms")',
+					type: 'GET',
+					cache: false,
+					data: { roomId: id }
+				}).done(function (result) {
+					$('#list-room').html(result);
+					toastr.success('Tin được duyệt thành công!');
+				}).fail(function () {
+					toastr.error('Tin được duyệt thất bại!');
+				});
+			}
 
 		function DeleteRoom(id) {
 			$.ajax({
@@ -125,7 +120,11 @@
 				data: { roomId: id }
 			}).done(function (result) {
 				$('#list-room').html(result);
+				toastr.success('Từ chối duyệt thành công!');
+			}).fail(function () {
+				toastr.error('Từ chối duyệt thất bại!');
 			});
+
 		}
 
 	</script>

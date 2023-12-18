@@ -13,14 +13,14 @@
             <span class="section-title">Tin mới đăng</span>
         </div>
         <ul class="post-listing aside clearfix">
-            @foreach (var item in Model.ToList().Where(r => r.IsActive == 1 ).OrderByDescending(r => r.CreateDate).Take(10))
+            @foreach (var item in Model@* .ToList().Where(r => r.IsActive == 1 && r.DisplayType == 4).OrderByDescending(r => r.CreateDate).Take(10) *@)
             {
                 
                     <li class="post-item clearfix normal" post-id="">
                         <a href="/Rooms/Details/@item.RoomId">
                             <figure><img class="lazy_done" src="/Rooms/ShowImage/@item.RoomId" data-src="https://pt123.cdn.static123.com/images/thumbs/450x300/fit/2023/12/11/img-8987_1702285312.jpg" alt="Căn hộ ban công gần nhà thờ Tân Định giảm 1tr cho khách ở lâu dài" height="100" width="100" layout="responsive" data-loaded="true"></figure>
                             <div class="post-meta">
-                                <span class="post-title" style="color: #055699;">@item.Title</span>
+                            <span class="post-title" tabindex="0" style="color: #055699;">@item.Title</span>
                                 <span class="post-price">@String.Format("{0:#,##0}", item.Price) VNĐ/tháng</span>
                                 <time class="post-time" title="">@String.Format("{0:dd/MM/yyyy}", item.CreateDate)</time>
                             </div>

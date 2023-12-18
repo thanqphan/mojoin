@@ -14,6 +14,7 @@ using XAct.Users;
 using X.PagedList;
 using mojoin.Extension;
 using System.Drawing.Printing;
+using System.Security.Claims;
 
 namespace mojoin.Controllers
 {
@@ -41,8 +42,10 @@ namespace mojoin.Controllers
                 .Include(r => r.RoomFavorites)
                 .Include(r => r.RoomImages)
                 .Include(r => r.RoomType)
-                .Where(r => r.IsActive == 1)
-                .OrderByDescending(r => r.CreateDate)
+                 .Where(r => r.IsActive == 1)
+                .OrderBy(r => r.IsActive == 1 ? 0 : 1)
+                .ThenBy(r => r.DisplayType)
+                .ThenByDescending(r => r.CreateDate)
                 .ToPagedList(pageNumber, pageSize);
 
             return View(dbmojoinContext);
@@ -59,7 +62,7 @@ namespace mojoin.Controllers
                 .Include(r => r.RoomFavorites)
                 .Include(r => r.RoomImages)
                 .Include(r => r.RoomType)
-                .Where(r => r.IsActive == 1 || r.IsActive == 2)  
+                .Where(r => r.IsActive == 1 )  
                 .OrderBy(r => r.IsActive == 1 ? 0 : 1)  
                 .ThenBy(r => r.DisplayType)  
                 .ThenByDescending(r => r.CreateDate)  
@@ -81,7 +84,7 @@ namespace mojoin.Controllers
             }
 
             // Return the image as a file result
-            return File(roomImage, "image/jpeg");
+            return File(roomImage, "image/jpeg", "image/png");
         }
         public ActionResult GetRoomImages(int id)
         {
@@ -107,7 +110,7 @@ namespace mojoin.Controllers
             }
 
             // Lấy giá trị của taikhoanID từ session
-            var taikhoanID = HttpContext.Session.GetString("UserId");
+            var taikhoanID = HttpContext.User.FindFirstValue("UserId");
 
             // Kiểm tra xem phòng đã được thêm vào danh sách yêu thích của người dùng hay chưa
             bool isYeuThich = false;
@@ -146,8 +149,10 @@ namespace mojoin.Controllers
         public IActionResult ListRoomNew()
         {
             var latestRooms = db.Rooms
-                .Where(r => r.IsActive == 1)
-                .OrderByDescending(r => r.CreateDate)
+                .Where(r => r.IsActive == 1 )
+                .OrderBy(r => r.IsActive == 1 ? 0 : 1)
+                .ThenBy(r => r.DisplayType == 5)
+                .ThenByDescending(r => r.CreateDate)
                 .Take(10)
                 .ToList();
 
@@ -187,7 +192,7 @@ namespace mojoin.Controllers
             // Duyệt qua từng phòng và áp dụng điều kiện tìm kiếm
             foreach (var room in allRooms)
             {
-                if (room.IsActive != 1 && room.IsActive != 4)
+                if (room.IsActive != 1)
                 {
                     continue; // Bỏ qua phòng không khớp điều kiện
                 }
@@ -278,7 +283,7 @@ namespace mojoin.Controllers
         [HttpPost]
         public IActionResult SendReport(string roomId, string userId, List<string> errorContents)
         {
-            var taikhoanID = HttpContext.Session.GetString("UserId");
+            var taikhoanID = HttpContext.User.FindFirstValue("UserId");
             if (taikhoanID == null || taikhoanID.ToString() == "")
             {
                 return RedirectToAction("Login", "Account");

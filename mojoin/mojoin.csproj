@@ -93,4 +93,13 @@
     <None Include="wwwroot\images\phoneicon.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Content\templates\ActiceEmailTemplate.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Content\templates\ResetEmailTemplate.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

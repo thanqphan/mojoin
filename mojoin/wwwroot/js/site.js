@@ -37,18 +37,18 @@ function createYeuthichHandler(roomId) {
 
         const isSaved = savedAds[roomId] === true;
         if (isSaved) {
-            img.setAttribute("src", "https://static.chotot.com/storage/icons/saveAd/save-ad-active.svg");
+            img.setAttribute("src", "/images/un-save.png");
         }
 
         btn.addEventListener('click', () => {
-            if (img.getAttribute("src") === "https://static.chotot.com/storage/icons/saveAd/save-ad.svg") {
-                img.setAttribute("src", "https://static.chotot.com/storage/icons/saveAd/save-ad-active.svg");
+            if (img.getAttribute("src") === "/images/save.png") {
+                img.setAttribute("src", "/images/un-save.png");
                 //alert("Đã thêm vào mục yêu thích!");
 
                 savedAds[roomId] = true;
             } else {
                 //alert("Đã bỏ yêu thích !");
-                img.setAttribute("src", "https://static.chotot.com/storage/icons/saveAd/save-ad.svg");
+                img.setAttribute("src", "/images/save.png");
 
                 delete savedAds[roomId];
             }

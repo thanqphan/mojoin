@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using mojoin.Models;
 using CodeMegaVNPay.Models;
 using XAct.Library.Settings;
+using System.Security.Claims;
 
 namespace mojoin.Controllers
 {
@@ -25,7 +26,7 @@ namespace mojoin.Controllers
 
         public IActionResult Index()
         {
-            var taikhoanID = _httpContextAccessor.HttpContext.Session.GetString("UserId");
+            var taikhoanID = HttpContext.User.FindFirstValue("UserId");
             if (taikhoanID == null || taikhoanID.ToString() == "")
             {
                 return RedirectToAction("Login", "Account");
@@ -44,12 +45,12 @@ namespace mojoin.Controllers
         {
             var response = _vnPayService.PaymentExecute(Request.Query);
             
-            var taikhoanID = _httpContextAccessor.HttpContext.Session.GetString("UserId");
+            var taikhoanID = HttpContext.User.FindFirstValue("UserId");
             //lấy thông tin trả về của momo
             // Kiểm tra trạng thái thanh toán
             if (response.VnPayResponseCode == "00")
             {
-                using (var context = new DbmojoinContext())
+                using (var context = db)
                 {
                     var user = await context.Users.FindAsync(int.Parse(taikhoanID));
                     var order = new TransactionHistory
@@ -75,7 +76,7 @@ namespace mojoin.Controllers
                     if (userValue != null)
                     {
                         // Tính toán số tiền mới
-                        userValue.Balance = userValue.Balance + model.Amount;
+                        userValue.Balance = userValue.Balance + Convert.ToDouble(response.Amount) / 100;
 
                         // Cập nhật lại User trong cơ sở dữ liệu
                         context.Users.Update(userValue);

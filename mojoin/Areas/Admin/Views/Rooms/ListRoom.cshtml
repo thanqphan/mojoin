@@ -2,6 +2,7 @@
 
 <div class="table-responsive">
 	<table id="myTable" class="table table-hover e-commerce-table">
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 		<thead>
 			<tr>
 				<th>ID</th>
@@ -13,13 +14,14 @@
 						<select class="border-0" id="idRoom" name="idRoom" title="Chọn loại phòng trọ" style="max-width:20px" asp-items="ViewBag.lsLoaiPhong">
 						</select>
 					}
+				
 
 				</th>
 				<th>
 					Trạng thái
 					@if (ViewBag.RoomsParams == -1)
 					{
-						<select class="border-0" id="idActive" name="idActive" title="Chọn Trạng thái" style="max-width:20px" asp-items="ViewBag.lsTrangThai">
+						<select class="border-0" id="idActive" name="idActive" title="Chọn Trạng thái" style="max-width:20px" asp-items="ViewBag.lsTrangThai">	
 						</select>
 					}
 				</th>
@@ -27,6 +29,7 @@
 			</tr>
 		</thead>
 		<tbody>
+			<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 			@if (Model != null)
 			{
 				foreach (var item in Model)
@@ -74,59 +77,70 @@
 						@*<td>@item.Phone</td>
 				<td><img class="avatar" src="" alt="Avatar" /></td>
 				<td>@(item.Room != null ? item.Rooms.RoleName : "")</td>*@
+						
 						<td>
-							@if (item.IsActive == 1)
+							@if (item.IsActive == 0)
+							{
+								<div class="d-flex align-items-center">
+									<div class="badge badge-danger badge-dot m-r-10"></div>
+									<div >Lỗi thanh toán</div>
+								</div>
+							}
+							else if (item.IsActive == 1)
 							{
 								<div class="d-flex align-items-center">
 									<div class="badge badge-success badge-dot m-r-10"></div>
-									<div>Đã duyệt</div>
+									<div >Đã duyệt</div>
 								</div>
 							}
 							else if (item.IsActive == 2)
 							{
 								<div class="d-flex align-items-center">
-									<div class="badge badge-danger badge-dot m-r-10"></div>
-									<div>Không được duyệt</div>
+									<div class="badge badge-warning badge-dot m-r-10"></div>
+									<div >Hết hạn</div>
 								</div>
 							}
-							else @*if (item.IsActive == 0)*@
+							else if (item.IsActive == 3)
 							{
 								<div class="d-flex align-items-center">
-									<div class="badge badge-warning  badge-dot m-r-10"></div>
-									<div>Bài đăng đang chờ xử lý</div>
+									<div class="badge badge-dark badge-dot m-r-10"></div>
+									<div >Đang ẩn</div>
 								</div>
 							}
-
+							else if (item.IsActive == 4)
+							{
+								<div class="d-flex align-items-center">
+									<div class="badge badge-warning badge-dot m-r-10"></div>
+									<div >Chưa duyệt</div>
+								</div>
+							}
+							else if (item.IsActive == 5)
+							{
+								<div class="d-flex align-items-center">
+									<div class="badge badge-danger badge-dot m-r-10"></div>
+									<div>Lỗi duyệt</div>
+								</div>
+							}
 						</td>
 						<td>
 							@if (ViewBag.RoomsParams == -1)
 							{
 								<li class="list-inline-item">
-									@*<a class="text-dark" title="Details" asp-action="Details" asp-route-id="@item.RoomId">
-										<i class="btn-tone m-r-5 fa fa-eye"></i>
-									</a>*@
-									<a class="btn btn-tone m-r-5 fa fa-eye" title="Details" asp-action="Details" asp-route-id="@item.RoomId"></a>
-									<a class="btn btn-tone m-r-5 fa fa-edit" title="Edit" asp-action="Edit" asp-route-id="@item.RoomId"></a>
-									<a class="btn btn-tone m-r-5 fa fa-trash" title="Delete" asp-action="Delete" asp-route-id="@item.RoomId"></a>
-								</li>
-								@*<li class="list-inline-item">
-									<a class="text-dark" title="Edit" asp-action="Edit" asp-route-id="@item.RoomId">
-										<i class="btn-tone m-r-5 fa fa-edit"></i>
-									</a>
 
+									<a class="btn btn-tone m-r-5 fa fa-eye" title="Details" asp-action="Details" asp-route-id="@item.RoomId"></a>
+									<a class="btn btn-tone m-r-5 fa fa-trash" title="Delete" asp-action="Delete" asp-route-id="@item.RoomId"></a>
+	
 								</li>
-								<li class="list-inline-item">
-									<a class="text-dark" title="Delete" style="display: inline-block; border: 1px solid black; padding: 5px;" asp-action="Delete" asp-route-id="@item.RoomId">
-										<i class="btn-tone m-r-5 fa fa-trash"></i>
-									</a>
-								</li>*@
+							
 							}
 							else
-							@if (ViewBag.RoomsParams == 0)
+							@if (ViewBag.RoomsParams == 4)
 							{
+								
 								<li class="list-inline-item">
 									<a class="btn btn-success  m-r-5" style="display: inline-block; border: 1px solid white; padding: 5px;" onclick="UpdateActiveStatus(@item.RoomId)">Duyệt bài</a>
 									<a class="btn btn-default  m-r-5" style="display: inline-block; border: 1px solid gray; padding: 5px;" asp-action="Details" asp-route-id="@item.RoomId">Xem chi tiết</a>
+
 									<a class="btn btn-danger m-r-5" style="display: inline-block; border: 1px solid white; padding: 5px;" onclick="DeleteRoom(@item.RoomId)">Từ chối</a>
 								</li>
 							}
@@ -138,3 +152,5 @@
 		</tbody>
 	</table>
 </div>
+
+@await Component.InvokeAsync("Notyf")
