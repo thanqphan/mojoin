@@ -15,6 +15,8 @@ using X.PagedList;
 using mojoin.Extension;
 using System.Drawing.Printing;
 using System.Security.Claims;
+using Humanizer;
+using mojoin.Helper;
 
 namespace mojoin.Controllers
 {
@@ -122,6 +124,11 @@ namespace mojoin.Controllers
                     isYeuThich = true;
                 }
             }
+
+            string linkFacebook = room.User.InfoFacebook;
+
+            string idFacebook = Utilities.ExtractUsernameFromFacebookLink(linkFacebook);
+
             ViewBag.Avt = room.User.Avatar;
             ViewBag.IsYeuThich = isYeuThich;
             ViewBag.SDT = room.User.Phone;
@@ -129,6 +136,7 @@ namespace mojoin.Controllers
             ViewBag.Ho = room.User.LastName;
             ViewBag.Ten = room.User.FirstName;
             ViewBag.Mail = room.User.Email;
+            ViewBag.idFb = idFacebook;
             return View(room);
         }
         public ActionResult GetNameUser(int id)

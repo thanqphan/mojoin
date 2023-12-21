@@ -5,7 +5,28 @@ namespace mojoin.Helper
 {
 	public class Utilities
 	{
-		public static string StripHTML(string input)
+        public static string ExtractUsernameFromFacebookLink(string link)
+        {
+            Uri uri = new Uri(link);
+
+            string path = uri.AbsolutePath;
+
+            if (path.StartsWith("/profile.php"))
+            {
+                // Trường hợp link có dạng "https://www.facebook.com/profile.php?id=100031459874811"
+                string id = uri.Query.TrimStart('?').Split('=')[1];
+                return id;
+            }
+            else if (path.StartsWith("/"))
+            {
+                // Trường hợp link có dạng "https://www.facebook.com/qgirene"
+                return path.TrimStart('/');
+            }
+
+            // Trường hợp không khớp với cả hai dạng link
+            return null;
+        }
+        public static string StripHTML(string input)
 		{
 			try
 			{

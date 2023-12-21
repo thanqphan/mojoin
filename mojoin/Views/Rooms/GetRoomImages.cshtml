@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "GetRoomImages";
     <link href="~/css/detail.css" rel="stylesheet" />
-    int count = 0;
+    int count = 1;
     int index = 0;
 }
 <div class="slider">
@@ -14,7 +14,7 @@
             {
                 count++;
                 <div class="slider-item">
-                    @if (count == 1 && !string.IsNullOrEmpty(item.Room.Video))
+                    @if (count == 2 && !string.IsNullOrEmpty(item.Room.Video))
                     {
                         <!-- Đây là phần hiển thị video, có thể sử dụng thẻ iframe cho YouTube -->
                         <iframe style="width: 100% ;height:50% "   src=@Model.FirstOrDefault()?.Room.Video frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
