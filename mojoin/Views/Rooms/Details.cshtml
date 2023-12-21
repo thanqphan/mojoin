@@ -21,7 +21,6 @@
     // Lấy giá trị của các đối tượng Claim
     string userId = identity.FindFirst("UserId")?.Value;
     string userAvt = identity.FindFirst("UserAvatar")?.Value;
-    string userPhone = identity.FindFirst("UserPhone")?.Value;
     int count = 0;
     int index = 0;
 }
@@ -265,7 +264,7 @@
 				</div>
                 <div class="link-user-zalo" style="display: inline-block; justify-content: flex-end; float:right; margin-right:1rem;">
                     <div class="SaveAd_saveAdWrapper___sBMh AdItem_saveAd__3prt2 ">
-                        <a href="zalo://conversation?phone=@userPhone" onclick="" type="button" title="Nhắn tin Zalo" class="SaveAd_btnSavedAd__jwoYd ">
+                        <a href="zalo://conversation?phone=@ViewBag.SDT" onclick="" type="button" title="Nhắn tin Zalo" class="SaveAd_btnSavedAd__jwoYd ">
                             <img  height="30" width="30" src="~/images/Icon_of_Zalo.svg.png" alt="like" loading="lazy" data-saved="false">
                         </a>
                     </div>
