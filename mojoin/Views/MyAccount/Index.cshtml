@@ -97,7 +97,17 @@
                             <a href="/Rooms/Details/@item.RoomId" class="detail-post">@item.Title</a><br>
                             <span style="font-size: 0.8rem; font-weight: bold;">Địa chỉ: </span>
                             <span>@item.StreetNumber @item.Street, Phường @item.Ward, @item.District, @item.City</span><br>
-                            <a class="btn btn-detail-post fa fa-edit " href="/sua-bai.html/@item.RoomId"> Sửa tin</a><br>
+                            <a class="btn btn-detail-post fa fa-edit " href="/sua-bai.html/@item.RoomId"> Sửa tin</a>
+                            @{
+                                if (item.IsActive == 0)
+                                {
+                                    <a class="btn btn-purchase-post fa fa-shopping-cart " href="/UserPackage/PaymentPostLater/@item.RoomId"> Thanh toán</a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-purchase-post fa fa-upload " href="/sua-bai.html/@item.RoomId"> Đẩy tin</a> }
+                            }
+                            <a class="btn btn-hide-post fa fa-archive " href="/sua-bai.html/@item.RoomId"> Ẩn</a><br>
                             <span>Lượt hiển thị: @item.ViewCount</span><br>
                             @if (item != null)
                             {

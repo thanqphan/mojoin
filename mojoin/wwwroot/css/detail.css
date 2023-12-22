@@ -298,6 +298,10 @@ svg:not(:root) {
         margin-bottom: 16px;
     }
 }
+.btn_save_ad {
+    border: 1px solid #d0d6e0;
+    border-radius: 8px;
+}
 .command-favorite {
     padding: 8px 12px;
     background: #fff;

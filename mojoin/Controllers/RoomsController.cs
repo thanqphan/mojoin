@@ -15,6 +15,8 @@ using X.PagedList;
 using mojoin.Extension;
 using System.Drawing.Printing;
 using System.Security.Claims;
+using Humanizer;
+using mojoin.Helper;
 
 namespace mojoin.Controllers
 {
@@ -42,7 +44,7 @@ namespace mojoin.Controllers
                 .Include(r => r.RoomFavorites)
                 .Include(r => r.RoomImages)
                 .Include(r => r.RoomType)
-                 .Where(r => r.IsActive == 1 || r.IsActive == 4)
+                 .Where(r => r.IsActive == 1)
                 .OrderBy(r => r.IsActive == 1 ? 0 : 1)
                 .ThenBy(r => r.DisplayType)
                 .ThenByDescending(r => r.CreateDate)
@@ -62,7 +64,7 @@ namespace mojoin.Controllers
                 .Include(r => r.RoomFavorites)
                 .Include(r => r.RoomImages)
                 .Include(r => r.RoomType)
-                .Where(r => r.IsActive == 1 || r.IsActive == 4)  
+                .Where(r => r.IsActive == 1 )  
                 .OrderBy(r => r.IsActive == 1 ? 0 : 1)  
                 .ThenBy(r => r.DisplayType)  
                 .ThenByDescending(r => r.CreateDate)  
@@ -84,7 +86,7 @@ namespace mojoin.Controllers
             }
 
             // Return the image as a file result
-            return File(roomImage, "image/jpeg");
+            return File(roomImage, "image/jpeg", "image/png");
         }
         public ActionResult GetRoomImages(int id)
         {
@@ -126,6 +128,11 @@ namespace mojoin.Controllers
                     isYeuThich = true;
                 }
             }
+
+            string linkFacebook = room.User.InfoFacebook;
+
+            string idFacebook = Utilities.ExtractUsernameFromFacebookLink(linkFacebook);
+
             ViewBag.Avt = room.User.Avatar;
             ViewBag.IsYeuThich = isYeuThich;
             ViewBag.SDT = room.User.Phone;
@@ -133,6 +140,7 @@ namespace mojoin.Controllers
             ViewBag.Ho = room.User.LastName;
             ViewBag.Ten = room.User.FirstName;
             ViewBag.Mail = room.User.Email;
+            ViewBag.idFb = idFacebook;
             return View(room);
         }
         public ActionResult GetNameUser(int id)
@@ -153,7 +161,7 @@ namespace mojoin.Controllers
         public IActionResult ListRoomNew()
         {
             var latestRooms = db.Rooms
-                .Where(r => r.IsActive == 1 || r.IsActive == 4)
+                .Where(r => r.IsActive == 1 )
                 .OrderBy(r => r.IsActive == 1 ? 0 : 1)
                 .ThenBy(r => r.DisplayType == 5)
                 .ThenByDescending(r => r.CreateDate)
@@ -196,7 +204,7 @@ namespace mojoin.Controllers
             // Duyệt qua từng phòng và áp dụng điều kiện tìm kiếm
             foreach (var room in allRooms)
             {
-                if (room.IsActive != 1 && room.IsActive != 4)
+                if (room.IsActive != 1)
                 {
                     continue; // Bỏ qua phòng không khớp điều kiện
                 }
@@ -287,7 +295,7 @@ namespace mojoin.Controllers
         [HttpPost]
         public IActionResult SendReport(string roomId, string userId, List<string> errorContents)
         {
-            var taikhoanID = HttpContext.Session.GetString("UserId");
+            var taikhoanID = HttpContext.User.FindFirstValue("UserId");
             if (taikhoanID == null || taikhoanID.ToString() == "")
             {
                 return RedirectToAction("Login", "Account");

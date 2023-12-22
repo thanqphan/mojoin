@@ -148,15 +148,17 @@ namespace mojoin.Controllers
             }
         }
         [HttpGet]
-        [Route("thanh-toan-dang-bai-sau.html", Name = "ThanhToanTinMuon")]
-        public IActionResult PaymentPostLater(int ?roomId, string ?roomTitle)
+        [Route("/UserPackage/PaymentPostLater/{roomId}")]
+
+        public IActionResult PaymentPostLater(int ?roomId)
         {
             var userIdClaim = HttpContext.User.FindFirst("UserId");
             string userId = userIdClaim.Value;
             var packageTypes = _context.Packages.ToList();
             ViewBag.PackageTypes = packageTypes;
-            /*string roomTitle = TempData["RoomTitle"] as string;
-            ViewBag.RoomTitle = roomTitle;*/
+            var rooms = _context.Rooms.FirstOrDefault(u => u.RoomId == roomId);
+            string roomTitle = rooms.Title;
+            ViewBag.RoomTitle = roomTitle;
             var user = _context.Users.FirstOrDefault(u => u.UserId == userId.ToInt32());
             ViewBag.UserBalance = user.Balance;
             /*int roomId = Convert.ToInt32(TempData["RoomId"]);
@@ -168,19 +170,14 @@ namespace mojoin.Controllers
 
 
         [HttpPost]
-        [Route("thanh-toan-dang-bai-sau.html", Name = "ThanhToanTinMuon")]
         public async Task<IActionResult> PaymentPostLater(UserPackageTransactionViewModel userPackageTrans)
         {
             var userIdClaim = HttpContext.User.FindFirst("UserId");
             string userId = userIdClaim.Value;
             var packageTypes = _context.Packages.ToList();
             ViewBag.PackageTypes = packageTypes;
-            /*string roomTitle = TempData["RoomTitle"] as string;
-            ViewBag.RoomTitle = roomTitle;*/
             var user = _context.Users.FirstOrDefault(u => u.UserId == userId.ToInt32());
             ViewBag.UserBalance = user.Balance;
-            /*int roomId = Convert.ToInt32(TempData["RoomId"]);
-            ViewBag.RoomId = roomId;*/
             try
             {
                 if (!ModelState.IsValid)

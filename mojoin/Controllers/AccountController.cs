@@ -128,7 +128,7 @@ namespace mojoin.Controllers
                             new Claim("FirstName", user.FirstName),
                             new Claim("LastName",user.LastName),
                             new Claim("UserId", user.UserId.ToString()),
-                            new Claim("Number",user.Phone.ToString()),
+                            new Claim("UserPhone",user.Phone.ToString()),
                         };
                         ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "login");
                         ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
