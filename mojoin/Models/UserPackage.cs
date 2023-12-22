@@ -21,7 +21,7 @@ public partial class UserPackage
 
     public int? Duration { get; set; }
 
-    public int? IsUrgent { get; set; }
+    public bool IsUrgent { get; set; }
 
     public virtual Package? Package { get; set; }
 

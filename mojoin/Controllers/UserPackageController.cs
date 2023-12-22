@@ -109,6 +109,7 @@ namespace mojoin.Controllers
                             StartDate = DateTime.Now,
                             EndDate = userPackageTrans.EndDate,
                             Duration = userPackageTrans.Duration,
+                            IsUrgent= userPackageTrans.IsUrgent,
                         };
 
                         _context.Add(userPackage);
@@ -229,6 +230,7 @@ namespace mojoin.Controllers
                             StartDate = DateTime.Now,
                             EndDate = userPackageTrans.EndDate,
                             Duration = userPackageTrans.Duration,
+                            IsUrgent = userPackageTrans.IsUrgent,
                         };
 
                         _context.Add(userPackage);

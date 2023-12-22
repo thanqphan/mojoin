@@ -118,7 +118,16 @@
     </form>
 
 </div>
+<script>
+    $('#packageTotal').bind('DOMSubtreeModified', function () {
+        // Bỏ chọn radio button #payment_from_account
+        $('#payment_from_account').prop('checked', false);
 
+        // Ẩn thông báo #js-note-outofmoney
+        $('#js-note-outofmoney').hide();
+    });
+
+</script>
 <script>
     // Lấy giá trị UserBalance từ ViewBag và chuyển đổi thành số thực
     var userBalance = parseFloat('@ViewBag.UserBalance');
@@ -140,7 +149,7 @@
         // So sánh số tiền hiện có với tổng tiền gói
         if (isNaN(totalPrice) || isNaN(userBalance) || userBalance < totalPrice) {
             $('#js-note-outofmoney').show();
-            $('#btnThanhToan').css('pointer-events','none')
+            $('#btnThanhToan').css('pointer-events', 'none')
         } else {
             $('#js-note-outofmoney').hide();
             $('#btnThanhToan').css('pointer-events', 'auto')
@@ -149,9 +158,12 @@
 </script>
 <script>
     $(document).ready(function () {
+        $('#durationPackage').prop('disabled', true);
+        $('#typePackagePost').prop('disabled', true);
         $('#typeTimePost').change(function () {
             var selectedTime = $(this).val();
-
+            $('#durationPackage').prop('disabled', false);
+            $('#typePackagePost').prop('disabled', false);
             // Ẩn tất cả options trong typePackagePost và durationPackage
             $('#typePackagePost option').hide();
             $('#durationPackage option').hide();
@@ -233,7 +245,7 @@
                 }
             }
         }
-        $('#paymentPostForm').on('submit', function(e){
+        $('#paymentPostForm').on('submit', function (e) {
             e.preventDefault();
             // Tạo một đối tượng FormData
             var formData = new FormData(this);
@@ -243,7 +255,7 @@
                 data: formData,
                 contentType: false,
                 processData: false,
-                success: function (data){
+                success: function (data) {
                     if (data.success) {
                         alert('Đã mua gói cho bài đăng thành công!');
                         window.location.href = '/quan-li-tin.html';
@@ -251,7 +263,7 @@
                         alert('Có vấn đề khi thanh toán!');
                     }
                 },
-                error: function(){
+                error: function () {
                     alert('Đã xảy ra lỗi khi thanh toán!?')
                 }
             });
