@@ -103,11 +103,15 @@ namespace mojoin.Controllers
                  .Where(ri => ri.RoomId == id)
                  .ToList()
                  .FirstOrDefault(r => r.RoomId == id);
-
             if (room == null)
             {
                 return NotFound();
             }
+            // Tăng giá trị ViewCount
+            room.ViewCount++;
+
+            // Lưu thay đổi vào cơ sở dữ liệu
+            db.SaveChanges();
 
             // Lấy giá trị của taikhoanID từ session
             var taikhoanID = HttpContext.User.FindFirstValue("UserId");
@@ -327,7 +331,16 @@ namespace mojoin.Controllers
             // Trả về kết quả thành công (hoặc thông báo thành công) cho người dùng
             return Ok("Dữ liệu đã được gửi thành công");
         }
-
+        public IActionResult Thongkeview(int id)
+        {
+            var taikhoanID = HttpContext.User.FindFirstValue("UserId");
+            var room = db.Rooms
+                  .Include(r => r.User)
+                  .Include(r => r.RoomImages)
+                  .Where(ri => ri.UserId == int.Parse(taikhoanID) && ri.RoomId == id)
+                  .ToList();                  
+            return View(room);
+        }
 
 
 
