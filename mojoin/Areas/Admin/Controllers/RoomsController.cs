@@ -193,6 +193,9 @@ namespace mojoin.Areas.Admin.Controllers
             return View(room);
         }
         // GET: Admin/Rooms/Delete/5
+        
+
+        [HttpPost]
         public async Task<IActionResult> Delete(int? id)
         {
             ViewBag.RoomsParams = (int)HttpContext.Session.GetInt32("RoomsParams");
@@ -253,7 +256,7 @@ namespace mojoin.Areas.Admin.Controllers
                     // Xóa các bản ghi liên quan trong UserPackages
                     if (findRoom.UserPackages != null && findRoom.UserPackages.Any())
                     {
-                        _context.UserPackages.RemoveRange(findRoom.UserPackages);
+                        _context.RoomFavorites.RemoveRange(findRoom.RoomFavorites);
                     }
                     // Xóa các bản ghi liên quan trong RoomImages
                     if (findRoom.RoomImages != null && findRoom.RoomImages.Any())
@@ -270,32 +273,27 @@ namespace mojoin.Areas.Admin.Controllers
                     _notyfService.Error("Xóa thất bại!");
                 }
 
-                var dbmojoinContext = GetListRoomByActive(isActive);
+                    // Xóa các bản ghi liên quan trong RoomRatings
+                    if (findRoom.RoomRatings != null && findRoom.RoomRatings.Any())
+                    {
+                        _context.RoomRatings.RemoveRange(findRoom.RoomRatings);
+                    }
 
-                return RedirectToAction(nameof(Index), new { isActive });
-            }
-            catch
-            {
-                _notyfService.Error("Xóa thất bại!");
-            }
+                    // Xóa các bản ghi liên quan trong UserPackages
+                    if (findRoom.UserPackages != null && findRoom.UserPackages.Any())
+                    {
+                        _context.UserPackages.RemoveRange(findRoom.UserPackages);
+                    }
 
-            return RedirectToAction(nameof(Index), new { isActive });
-        }
-        /*public async Task<IActionResult> Delete(int? id, IFormCollection collection)
-        {
-            int isActive = (int)HttpContext.Session.GetInt32("RoomsParams");
+                    // Xóa các bản ghi liên quan trong RoomImages
+                    if (findRoom.RoomImages != null && findRoom.RoomImages.Any())
+                    {
+                        _context.RoomImages.RemoveRange(findRoom.RoomImages);
+                    }
 
-            try
-            {
-                var findRoom = _context.Rooms
-                    .Include(r => r.RoomImages)
-                    .Include(r => r.UserPackages)
-                    .FirstOrDefault(x => x.RoomId == id);
-                if (findRoom != null)
-                {
-                    _context.RoomImages.RemoveRange(findRoom.RoomImages);
+                    // Xóa phòng
                     _context.Rooms.Remove(findRoom);
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
 
                     _notyfService.Success("Xóa thành công!");
                 }
@@ -308,12 +306,14 @@ namespace mojoin.Areas.Admin.Controllers
 
                 return RedirectToAction(nameof(Index), new { isActive });
             }
-            catch
+            catch (Exception ex)
             {
                 _notyfService.Error("Xóa thất bại!");
+
             }
+
             return RedirectToAction(nameof(Index), new { isActive });
-        }*/
+        }
         private bool RoomExists(int id)
         {
             return (_context.Rooms?.Any(e => e.RoomId == id)).GetValueOrDefault();
