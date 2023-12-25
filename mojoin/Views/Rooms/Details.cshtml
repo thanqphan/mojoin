@@ -71,6 +71,7 @@
                     </h1>
                 </div>
                 <div class="address"> @Model.Street, @Model.Ward, @Model.District, @Model.City</div>
+                <div style="display:flex; line-height:30px;" class="address"><img src="~/images/visibility.png" />Lượt xem: @Model.ViewCount</div>
                 <div class="price">@String.Format("{0:#,##0}", Model.Price) VNĐ</div>
                 <!--Social and favorite-->
                 <!--Thong tin chinh-->
@@ -220,24 +221,7 @@
 						<svg width="24" height="24"><use xlink:href="/content/mogi.svg#envelop-icon"></use></svg>
 						<span class="hidden-xs">Gửi tin nhắn</span>
 					</a>
-					
-
-					@*<div id="messageForm" class="hiddenPopup">
-					<form asp-action="SendMessage" id="messageForm">
-					<input type="hidden" name="usermail" value="@ViewBag.Mail" />
-					<!-- Trường họ tên -->
-					<input type="text" name="fullName" placeholder="Họ tên">
-
-                    <!-- Trường địa chỉ email -->
-                    <input type="email" name="email" placeholder="Địa chỉ email">
-
-                    <!-- Trường số điện thoại -->
-                    <input type="tel" name="phoneNumber" placeholder="Số điện thoại">
-
-                    <!-- Nút Submit -->
-                    <button type="submit">Gửi</button>
-                    </form>
-                    </div>*@
+									
                 </div>
             </div>
 
@@ -251,7 +235,6 @@
                                 <img id="img_save_ad" height="20" width="20" src="/images/un-save.png" alt="like" loading="lazy" data-saved="false">
 							</a>
 						</div>
-						@*                <a title="Xóa khỏi yêu thích" class="btn-add-cat btn btn-outline-secondary fa fa-heart text-danger" href="@Url.Action("XoaYeuThich", "YeuThich", new { id = Model.RoomId })"></a>*@
 					}
 					else
 					{

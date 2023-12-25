@@ -1,0 +1,125 @@
+﻿@using System.Security.Claims;
+@model IEnumerable<mojoin.Models.TransactionHistory>
+
+@{
+    ViewData["Title"] = "Thongkeview";
+    Layout = "~/Views/Shared/_LayoutDangtin.cshtml";
+    <script src="~/js/thongke.js" defer></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <link href="~/css/yeuthich.css" rel="stylesheet" />
+    <link href="~/css/thonge.css" rel="stylesheet" />
+}
+@{
+    var identity = (ClaimsIdentity)User.Identity;
+
+    // Lấy giá trị của các đối tượng Claim
+    string firstName = identity.FindFirst("FirstName")?.Value;
+    string lastName = identity.FindFirst("LastName")?.Value;
+    string userId = identity.FindFirst("UserId")?.Value;
+    string userPhone = identity.FindFirst("UserPhone")?.Value;
+    string userAvt = identity.FindFirst("UserAvatar")?.Value;
+}
+@* <figure class="highcharts-figure">
+    <div id="container"></div>
+    <table id="datatable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.TransactionDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Amount)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model) {
+        <tr>                       
+            <td>
+                @Html.DisplayFor(modelItem => item.TransactionDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>            
+        </tr>
+}
+        </tbody>
+    </table>
+</figure> *@
+<div id="profile" class="mg-container ng-scope">
+    <div id="sidebar" class="clearfix" style="">
+        <div class="col-md-3">
+            <div class="profile-sidebar">
+                <!-- SIDEBAR USERPIC -->
+                <div class="profile-userinfo clearfix line">
+                    <!-- ... (các phần khác của sidebar) ... -->
+                </div>
+                <div class="profile-usermenu clearfix">
+                    <ul class="nav navbar-nav">
+                        <form action="/Rooms/ThongKeTheoThang" method="get">
+                            <label for="formonth">Theo tháng</label>
+                            <input required type="month" id="formonth" name="formonth">
+                            <input type="submit" value="Thống kê">
+                        </form>
+                        <form action="/Rooms/ThongKeTheoTuan" method="get" style="margin-top: 10px;">
+                            <label for="forweek">Theo tuần</label>
+                            <input required style="margin: 0 10px;" type="week" id="forweek" name="forweek">
+                            <input type="submit" value="Thống kê">
+                        </form>
+                    </ul>
+                </div>
+                <!-- END MENU -->
+            </div>
+        </div>
+    </div>
+    <div id="main" class="clearfix" style="">
+        <div id="property" class="clearfix">
+            <div id="property-items" class="tab-content">
+                <div id="rent-list" class="" style="">
+                    <figure class="highcharts-figure">
+                        <div id="container"></div>
+                        <table id="datatable">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Thời gian
+                                    </th>
+                                    <th>
+                                        Tổng số tiền
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @if (ViewBag.SelectedMonth != null)
+                                        {
+                                            @ViewBag.SelectedMonth
+                                        }
+                                        else if (ViewBag.SelectedWeek != null)
+                                        {
+                                            @ViewBag.SelectedWeek
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (ViewBag.AmountsByMonth != null)
+                                        {
+                                            @ViewBag.AmountsByMonth
+                                        }
+                                        else if (ViewBag.AmountsByWeek != null)
+                                        {
+                                            @ViewBag.AmountsByWeek
+                                        }
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
