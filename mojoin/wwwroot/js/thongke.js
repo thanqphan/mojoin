@@ -6,7 +6,7 @@
         type: 'column'
     },
     title: {
-        text: 'Live births in Norway'
+        text: 'Thống kê số tiền đã nạp'
     },
     subtitle: {
         text:

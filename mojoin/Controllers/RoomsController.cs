@@ -17,6 +17,7 @@ using System.Drawing.Printing;
 using System.Security.Claims;
 using Humanizer;
 using mojoin.Helper;
+using System.Globalization;
 
 namespace mojoin.Controllers
 {
@@ -339,17 +340,88 @@ namespace mojoin.Controllers
             // Trả về kết quả thành công (hoặc thông báo thành công) cho người dùng
             return Ok("Dữ liệu đã được gửi thành công");
         }
-        public IActionResult Thongkeview(int id)
+        //public IActionResult Thongkeview(int id)
+        //{
+        //    var taikhoanID = HttpContext.User.FindFirstValue("UserId");
+        //    var room = db.Rooms
+        //          .Include(r => r.User)
+        //          .Include(r => r.RoomImages)
+        //          .Where(ri => ri.UserId == int.Parse(taikhoanID) && ri.RoomId == id)
+        //          .ToList();
+        //    return View(room);
+        //}
+        public IActionResult ThongKeTheoThang(DateTime? formonth)
         {
-            var taikhoanID = HttpContext.User.FindFirstValue("UserId");
-            var room = db.Rooms
-                  .Include(r => r.User)
-                  .Include(r => r.RoomImages)
-                  .Where(ri => ri.UserId == int.Parse(taikhoanID) && ri.RoomId == id)
-                  .ToList();                  
-            return View(room);
+            var userId = HttpContext.User.FindFirstValue("UserId");
+
+            if (formonth.HasValue)
+            {
+                // Lấy thông tin tháng và năm từ datetime-local
+                int selectedMonth = formonth.Value.Month;
+                int selectedYear = formonth.Value.Year;
+
+                // Thực hiện truy vấn
+                var transactionsByMonth = db.TransactionHistories
+                    .Where(t => t.UserId == int.Parse(userId) && t.TransactionDate.Month == selectedMonth && t.TransactionDate.Year == selectedYear && t.Status == 1 && t.TransactionType == "Nạp tiền")
+                    .ToList();
+
+                // Chuyển dữ liệu thành danh sách các giá trị Amount (double?)
+                var amountsByMonth = transactionsByMonth.Sum(t => t.Amount);
+
+                // Gán vào ViewBag
+                ViewBag.TransactionsByMonth = transactionsByMonth;
+                ViewBag.SelectedMonth = selectedMonth;
+                ViewBag.SelectedYear = selectedYear;
+                ViewBag.AmountsByMonth = amountsByMonth;
+
+                return View("Thongkeview", transactionsByMonth);
+            }
+            else
+            {
+                // Nếu không chọn tháng, hiển thị thông tin theo năm
+                return Thongkeview();
+            }
+        }
+       
+        public IActionResult ThongKeTheoTuan(DateTime? forweek)
+        {
+            var userId = HttpContext.User.FindFirstValue("UserId");
+
+            if (forweek.HasValue)
+            {
+                // Lấy thông tin tuần và năm từ datetime-local
+                var cal = CultureInfo.CurrentCulture.Calendar;
+                int selectedWeek = cal.GetWeekOfYear(forweek.Value, CalendarWeekRule.FirstDay, DayOfWeek.Sunday);
+                int selectedYear = forweek.Value.Year;
+
+                // Thực hiện truy vấn
+                var transactionsByWeek = db.TransactionHistories
+                    .Where(t => t.UserId == int.Parse(userId) && cal.GetWeekOfYear(t.TransactionDate, CalendarWeekRule.FirstDay, DayOfWeek.Sunday) == selectedWeek && t.TransactionDate.Year == selectedYear && t.Status == 1 && t.TransactionType == "Nạp tiền")
+                    .ToList();
+
+                // Chuyển dữ liệu thành danh sách các giá trị Amount (double?)
+                var amountsByWeek = transactionsByWeek.Sum(t => t.Amount);
+
+                // Gán vào ViewBag
+                ViewBag.TransactionsByWeek = transactionsByWeek;
+                ViewBag.SelectedWeek = selectedWeek;
+                ViewBag.SelectedYear = selectedYear;
+                ViewBag.AmountsByWeek = amountsByWeek;
+
+                return View("Thongkeview", transactionsByWeek);
+            }
+            else
+            {
+                // Nếu không chọn tuần, hiển thị thông tin theo năm
+                return Thongkeview();
+            }
         }
 
+
+        public IActionResult Thongkeview()
+        {
+            return View();
+        }
 
 
     }
