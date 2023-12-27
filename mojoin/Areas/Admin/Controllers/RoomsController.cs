@@ -193,30 +193,7 @@ namespace mojoin.Areas.Admin.Controllers
             return View(room);
         }
         // GET: Admin/Rooms/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            ViewBag.RoomsParams = (int)HttpContext.Session.GetInt32("RoomsParams");
-
-            if (id == null || _context.Rooms == null)
-            {
-                return NotFound();
-            }
-
-            var room = await _context.Rooms
-                .Include(r => r.RoomType)
-                .Include(r => r.RoomImages)
-                .Include(r => r.UserPackages)
-                .Include(r => r.RoomFavorites)
-                .Include(r => r.RoomReports)
-                .Include(r => r.RoomRatings)
-                .FirstOrDefaultAsync(m => m.RoomId == id);
-            if (room == null)
-            {
-                return NotFound();
-            }
-
-            return View(room);
-        }
+        
 
         [HttpPost]
         public async Task<IActionResult> Delete(int? id, IFormCollection collection)
