@@ -109,6 +109,7 @@ namespace mojoin.Controllers
                             StartDate = DateTime.Now,
                             EndDate = userPackageTrans.EndDate,
                             Duration = userPackageTrans.Duration,
+                            IsUrgent= userPackageTrans.IsUrgent,
                         };
 
                         _context.Add(userPackage);
@@ -120,6 +121,7 @@ namespace mojoin.Controllers
                         {
                             roomPost.IsActive = 4;
                             roomPost.DisplayType = vipType;
+                            roomPost.LastUpdate= DateTime.Now;
                             _context.Update(roomPost);
                             _context.SaveChanges();
                         }
@@ -229,6 +231,7 @@ namespace mojoin.Controllers
                             StartDate = DateTime.Now,
                             EndDate = userPackageTrans.EndDate,
                             Duration = userPackageTrans.Duration,
+                            IsUrgent = userPackageTrans.IsUrgent,
                         };
 
                         _context.Add(userPackage);
@@ -240,6 +243,7 @@ namespace mojoin.Controllers
                         {
                             roomPost.IsActive = 4;
                             roomPost.DisplayType = vipType;
+                            roomPost.LastUpdate= DateTime.Now;
                             _context.Update(roomPost);
                             _context.SaveChanges();
                         }

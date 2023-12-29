@@ -16,14 +16,14 @@
             {
                 @foreach (var item in Model)
                 {
+
                     <li class="display-room-@item.DisplayType">
                         <div class="prop-img">
                             <img src="/Rooms/ShowImage/@item.RoomId">
                         </div>
                         <div class="prop-info">
-
                             <a href="/Rooms/Details/@item.RoomId" class="link-overlay" style="display: block;overflow: hidden;">
-
+                                
                                 @if (item.DisplayType == 1)
                                 {
                                     @for (int i = 1; i <= 5; i++)
@@ -67,9 +67,23 @@
                         <div class="prop-extra">
                             <div class="prop-created">Ngày đăng: @String.Format("{0:dd/MM/yyyy}", @item.CreateDate)</div>
                         </div>
+                        @foreach (var room in item.UserPackages)
+                        {
+                            if (item.RoomId == room.RoomId)
+                            {
+                                if (room.IsUrgent)
+                                {
+                                    <span class="thuenhanh-label "></span>
+
+                                }
+                            }
+                            <span>lmao</span>
+                            
+                        }
                     </li>
                    
                 }
+
             }
             else
             {

@@ -29,7 +29,5 @@ public partial class TransactionHistory
 
     public virtual User? User { get; set; }
 
-   
-
     public virtual ICollection<UserPackage> UserPackages { get; set; } = new List<UserPackage>();
 }

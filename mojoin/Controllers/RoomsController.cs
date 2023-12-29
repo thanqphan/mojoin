@@ -44,13 +44,18 @@ namespace mojoin.Controllers
                 .Include(r => r.RoomReports)
                 .Include(r => r.RoomFavorites)
                 .Include(r => r.RoomImages)
+                .Include(r => r.UserPackages)
                 .Include(r => r.RoomType)
                  .Where(r => r.IsActive == 1)
                 .OrderBy(r => r.IsActive == 1 ? 0 : 1)
                 .ThenBy(r => r.DisplayType)
                 .ThenByDescending(r => r.CreateDate)
                 .ToPagedList(pageNumber, pageSize);
+            // Tạo một danh sách mới chỉ chứa các phòng có IsUrgent == true
+            var urgentUserPackages = db.UserPackages.Where(up => up.IsUrgent == true).ToList();
 
+            // Gán danh sách này vào ViewBag.UrgentRooms
+            ViewBag.UrgentRooms = urgentUserPackages;
             return View(dbmojoinContext);
         }
         [Route("danh-sach-tin.html", Name = "DanhSachTin")]
@@ -63,6 +68,7 @@ namespace mojoin.Controllers
                 .Include(r => r.RoomRatings)
                 .Include(r => r.RoomReports)
                 .Include(r => r.RoomFavorites)
+                .Include(r => r.UserPackages)
                 .Include(r => r.RoomImages)
                 .Include(r => r.RoomType)
                 .Where(r => r.IsActive == 1 )  
@@ -70,7 +76,11 @@ namespace mojoin.Controllers
                 .ThenBy(r => r.DisplayType)  
                 .ThenByDescending(r => r.CreateDate)  
                 .ToPagedList(pageNumber, pageSize);
+            // Tạo một danh sách mới chỉ chứa các phòng có IsUrgent == true
+            var urgentUserPackages = db.UserPackages.Where(up => up.IsUrgent == true).ToList();
 
+            // Gán danh sách này vào ViewBag.UrgentRooms
+            ViewBag.UrgentRooms = urgentUserPackages;
 
             return View(dbmojoinContext);
         }

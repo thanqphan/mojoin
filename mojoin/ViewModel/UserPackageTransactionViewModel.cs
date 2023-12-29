@@ -20,5 +20,6 @@
         public DateTime ?StartDate { get; set; }
         public DateTime ?EndDate { get; set; }
         public int ?Duration { get; set; }
+        public bool IsUrgent { get; set; }
     }
 }
