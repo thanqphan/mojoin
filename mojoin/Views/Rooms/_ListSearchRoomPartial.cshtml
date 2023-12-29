@@ -18,12 +18,29 @@
                 {
 
                     <li class="display-room-@item.DisplayType">
+
+                        @if (item.UserPackages.Any(room => room.RoomId == item.RoomId && room.IsUrgent))
+                        {
+                            <span class="thuenhanh-label"></span>
+                        }
+                        else
+                        {
+                            <span class="thuenhanh-label"></span>
+                        }
                         <div class="prop-img">
                             <img src="/Rooms/ShowImage/@item.RoomId">
+                            @if (item.Video.ToString() != "")
+                            {
+                                <span class="@(item.DisplayType == 1 ? "has-video-with-stars" : "has-video")"></span>
+                            }
                         </div>
+                        
+
+
+
                         <div class="prop-info">
                             <a href="/Rooms/Details/@item.RoomId" class="link-overlay" style="display: block;overflow: hidden;">
-                                
+
                                 @if (item.DisplayType == 1)
                                 {
                                     @for (int i = 1; i <= 5; i++)
@@ -53,7 +70,7 @@
                                         <i class="fas fa-star text-warning"></i>
                                     }
                                 }
-                                
+
                                 @item.Title
                             </a>
                             <div class="prop-addr">@item.StreetNumber Đường @item.Street, Quận @item.District, @item.City</div>
@@ -67,21 +84,10 @@
                         <div class="prop-extra">
                             <div class="prop-created">Ngày đăng: @String.Format("{0:dd/MM/yyyy}", @item.CreateDate)</div>
                         </div>
-                        @foreach (var room in item.UserPackages)
-                        {
-                            if (item.RoomId == room.RoomId)
-                            {
-                                if (room.IsUrgent)
-                                {
-                                    <span class="thuenhanh-label "></span>
 
-                                }
-                            }
-                            <span>lmao</span>
-                            
-                        }
+
                     </li>
-                   
+
                 }
 
             }
