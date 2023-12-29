@@ -80,9 +80,9 @@
                 </div>
                 <div class="form-group">
                     <div class="form-check">
-                        <input asp-for="IsUrgent" type="checkbox" name="quick-stick" id="quickStick"  class="form-check-input" style="margin-top:0.7rem;">
+                        <input asp-for="IsUrgent" type="checkbox"  id="quickStick"  class="form-check-input" style="margin-top:0.7rem;">
                         <label for="payment_from_account" class="form-check-label">
-                            Cho thuê nhanh (2000 đ/Ngày)<br />
+                            Cho thuê nhanh (2.000đ/Ngày)<br />
                         </label>
                     </div>
                 </div>
@@ -209,18 +209,22 @@
 
             // Tính toán và cập nhật giá trị EndDate
             updateEndDate();
-            
         });
         $('#quickStick').change(function () {
             // Kiểm tra xem radio button có được chọn không
             if ($(this).is(':checked')) {
                 // Nếu được chọn, thực hiện các hành động bạn muốn ở đây
+                $('#quickStick').val('true');
+
                 updateAdditionalAmount();
             } else {
                 // Nếu không được chọn, thực hiện các hành động khi bỏ chọn ở đây
+                $('#quickStick').val('false');
+
                 decreaseTotalAmount();
             }
         });
+
 
         function decreaseTotalAmount() {
             // Giả sử mỗi ngày có giá là 2000 VNĐ

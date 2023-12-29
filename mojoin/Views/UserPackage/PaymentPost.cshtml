@@ -74,7 +74,17 @@
                         </div>
                     </div>
                 </div>
-
+                <div class="dangtin-col-form-label">
+                    Gắn nhãn
+                </div>
+                <div class="form-group">
+                    <div class="form-check">
+                        <input asp-for="IsUrgent" type="checkbox" id="quickStick" class="form-check-input" style="margin-top:0.7rem;">
+                        <label for="payment_from_account" class="form-check-label">
+                            Cho thuê nhanh (2.000đ/Ngày)<br />
+                        </label>
+                    </div>
+                </div>
                 <div class="dangtin-col-form-label">
                     Chọn phương thức thanh toán
                 </div>
@@ -187,7 +197,7 @@
             $('#typePackagePost').val('0');
             $('#durationPackage').val('0');
             $('#packageTotal').text('0 VNĐ');
-
+            $('#quickStick').prop('checked', false);
             // Tính toán và cập nhật giá trị EndDate
             updateEndDate();
         });
@@ -199,13 +209,88 @@
             // Tính toán và cập nhật giá trị EndDate
             updateEndDate();
         });
+        $('#quickStick').change(function () {
+            // Kiểm tra xem radio button có được chọn không
+            if ($(this).is(':checked')) {
+                // Nếu được chọn, thực hiện các hành động bạn muốn ở đây
+                $('#quickStick').val('true');
 
+                updateAdditionalAmount();
+            } else {
+                // Nếu không được chọn, thực hiện các hành động khi bỏ chọn ở đây
+                $('#quickStick').val('false');
+
+                decreaseTotalAmount();
+            }
+        });
+
+
+        function decreaseTotalAmount() {
+            // Giả sử mỗi ngày có giá là 2000 VNĐ
+            var costPerDay = 2000;
+
+            var endDateStr = $('#endDate').val();
+            var endDate = new Date(endDateStr);
+
+            if (isNaN(endDate.getTime())) {
+                console.error('Ngày hết hạn không hợp lệ.');
+                return;
+            }
+
+            var today = new Date();
+            var daysDifference = Math.floor((endDate - today) / (1000 * 60 * 60 * 24));
+
+            if (daysDifference < 0) {
+                daysDifference = 0; // Đảm bảo số ngày không âm
+            }
+
+            var additionalAmount = (daysDifference + 1) * costPerDay;
+
+            // Lấy giá trị hiện tại của #packageTotal
+            var currentTotal = parseFloat($('#packageTotal').text().replace(' VNĐ', '').replace(/\./g, '').replace(',', '.'));
+
+            // Giảm giá trị hiện tại đi additionalAmount và hiển thị
+            var newTotal = currentTotal - additionalAmount;
+            $('#packageTotal').text(newTotal.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }));
+            $('#amountPackage').val(newTotal);
+        }
+        function updateAdditionalAmount() {
+
+            // Giả sử mỗi ngày có giá là 2000 VNĐ
+            var costPerDay = 2000;
+
+            var endDateStr = $('#endDate').val();
+            var endDate = new Date(endDateStr);
+
+            if (isNaN(endDate.getTime())) {
+                console.error('Ngày hết hạn không hợp lệ.');
+                return;
+            }
+
+            var today = new Date();
+            var daysDifference = Math.floor((endDate - today) / (1000 * 60 * 60 * 24));
+
+            if (daysDifference < 0) {
+                daysDifference = 0; // Đảm bảo số ngày không âm
+            }
+
+            var additionalAmount = (daysDifference + 1) * costPerDay;
+
+            // Thêm số tiền vào tổng tiền và hiển thị
+            var currentTotal = parseFloat($('#packageTotal').text().replace(' VNĐ', '').replace(/\./g, '').replace(',', '.'));
+            var newTotal = currentTotal + additionalAmount;
+
+            // Hiển thị giá trị mới trong #packageTotal
+            $('#packageTotal').text(newTotal.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }));
+            $('#amountPackage').val(newTotal);
+        }
         function showOptionsByPackageTypeAndDuration(packageType, durationType) {
             // Hiển thị options tương ứng trong typePackagePost
             $('#typePackagePost .' + packageType).show();
 
             // Hiển thị options tương ứng trong durationPackage
             $('#durationPackage [data-type="' + durationType + '"]').show();
+
         }
 
         function updatePackageTotal() {
@@ -249,6 +334,7 @@
             e.preventDefault();
             // Tạo một đối tượng FormData
             var formData = new FormData(this);
+            var roomId = @ViewBag.RoomId;
             $.ajax({
                 type: 'POST',
                 url: '/thanh-toan-dang-bai.html',

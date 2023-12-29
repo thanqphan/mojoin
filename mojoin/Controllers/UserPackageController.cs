@@ -121,6 +121,7 @@ namespace mojoin.Controllers
                         {
                             roomPost.IsActive = 4;
                             roomPost.DisplayType = vipType;
+                            roomPost.LastUpdate= DateTime.Now;
                             _context.Update(roomPost);
                             _context.SaveChanges();
                         }
@@ -242,6 +243,7 @@ namespace mojoin.Controllers
                         {
                             roomPost.IsActive = 4;
                             roomPost.DisplayType = vipType;
+                            roomPost.LastUpdate= DateTime.Now;
                             _context.Update(roomPost);
                             _context.SaveChanges();
                         }
