@@ -105,9 +105,24 @@
                                 }
                                 else
                                 {
+
                                     <a class="btn btn-purchase-post fa fa-upload " href="/sua-bai.html/@item.RoomId"> Đẩy tin</a> }
                             }
-                            <a class="btn btn-hide-post fa fa-archive " href="/sua-bai.html/@item.RoomId"> Ẩn</a><br>
+@*                            <a class="btn btn-purchase-post fa fa-upload" href="@Url.Action("PushPost", "Room", new { roomId = item.RoomId })"> Đẩy tin</a>
+*@  
+                            @{
+                                if (item.IsActive == 3)
+                                {
+                                    <a class="btn btn-show-post fa fa-eye " href="@Url.Action("ShowPost", "MyAccount", new { roomId = item.RoomId })"> Hiển thị</a>
+                                }
+                                else if(item.IsActive==1)
+                                {
+
+                                    <a class="btn btn-hide-post fa fa-archive " href="@Url.Action("HidePost", "MyAccount", new { roomId = item.RoomId })"> Ẩn</a>
+
+                                }
+                            }
+                            <br />
                             <span>Lượt hiển thị: @item.ViewCount</span><br>
                             @if (item != null)
                             {
@@ -239,7 +254,7 @@
                         }
                         else if (item.IsActive.Equals(4))
                         {
-                            <td align="left" style="vertical-align: middle;">Đang hiển thị - Chưa Duyệt</td>
+                            <td align="left" style="vertical-align: middle;">Đã thanh toán - Chưa Duyệt</td>
 
                         }
                         else if (item.IsActive.Equals(5))

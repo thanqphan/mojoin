@@ -324,6 +324,57 @@ namespace mojoin.Controllers
             // Trả về view chỉnh sửa với dữ liệu của bài đăng
             return View("EditPost", roomViewModel);
         }
+        [HttpGet]
+        public ActionResult ShowPost(int roomId)
+        {
+            // Kiểm tra xem có bài đăng với roomId đã cho hay không
+            var existingRoom = _context.Rooms.Find(roomId);
+
+            if (existingRoom == null)
+            {
+                // Trả về một trang lỗi hoặc thông báo nếu không tìm thấy bài đăng
+                return HttpNotFound();
+            }
+
+            // Chuyển đổi trạng thái của bài đăng
+            existingRoom.LastUpdate = DateTime.Now;
+
+
+            existingRoom.IsActive = 1; // Nếu đang active, chuyển sang trạng thái ẩn
+
+            _context.SaveChanges();
+            _notyfService.Success("Đã hiển thị bài thành công!");
+            // Chuyển hướng người dùng về trang chính hoặc trang chi tiết bài đăng
+            return RedirectToAction("Index"); // Hoặc "Detail", tùy thuộc vào trang bạn muốn hiển thị sau khi đẩy tin
+        }
+        [HttpGet]
+        public ActionResult HidePost(int roomId)
+        {
+            // Kiểm tra xem có bài đăng với roomId đã cho hay không
+            var existingRoom = _context.Rooms.Find(roomId);
+
+            if (existingRoom == null)
+            {
+                // Trả về một trang lỗi hoặc thông báo nếu không tìm thấy bài đăng
+                return HttpNotFound();
+            }
+
+            // Chuyển đổi trạng thái của bài đăng
+            existingRoom.LastUpdate = DateTime.Now;
+
+
+                existingRoom.IsActive = 3; // Nếu đang active, chuyển sang trạng thái ẩn
+
+            _context.SaveChanges();
+            _notyfService.Success("Đã ẩn bài thành công!");
+            // Chuyển hướng người dùng về trang chính hoặc trang chi tiết bài đăng
+            return RedirectToAction("Index"); // Hoặc "Detail", tùy thuộc vào trang bạn muốn hiển thị sau khi đẩy tin
+        }
+
+        private ActionResult HttpNotFound()
+        {
+            throw new NotImplementedException();
+        }
 
         [HttpPost]
         [Route("sua-bai.html/{roomId}", Name = "SuaBai")]

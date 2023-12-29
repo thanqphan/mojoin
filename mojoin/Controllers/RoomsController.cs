@@ -25,12 +25,15 @@ namespace mojoin.Controllers
     {
         private readonly DbmojoinContext db;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IEmailService _emailService;
         public INotyfService _notyfService { get; }
-        public RoomsController(DbmojoinContext context, INotyfService notyfService, IHttpContextAccessor httpContextAccessor)
+        public RoomsController(DbmojoinContext context, INotyfService notyfService, IHttpContextAccessor httpContextAccessor, IEmailService emailService)
         {
             db = context;
             _notyfService = notyfService;
             _httpContextAccessor = httpContextAccessor;
+                        _emailService = emailService;
+
         }
 
         // GET: Rooms
@@ -44,13 +47,18 @@ namespace mojoin.Controllers
                 .Include(r => r.RoomReports)
                 .Include(r => r.RoomFavorites)
                 .Include(r => r.RoomImages)
+                .Include(r => r.UserPackages)
                 .Include(r => r.RoomType)
                  .Where(r => r.IsActive == 1)
                 .OrderBy(r => r.IsActive == 1 ? 0 : 1)
                 .ThenBy(r => r.DisplayType)
                 .ThenByDescending(r => r.CreateDate)
                 .ToPagedList(pageNumber, pageSize);
+            // Tạo một danh sách mới chỉ chứa các phòng có IsUrgent == true
+            var urgentUserPackages = db.UserPackages.Where(up => up.IsUrgent == true).ToList();
 
+            // Gán danh sách này vào ViewBag.UrgentRooms
+            ViewBag.UrgentRooms = urgentUserPackages;
             return View(dbmojoinContext);
         }
         [Route("danh-sach-tin.html", Name = "DanhSachTin")]
@@ -63,21 +71,29 @@ namespace mojoin.Controllers
                 .Include(r => r.RoomRatings)
                 .Include(r => r.RoomReports)
                 .Include(r => r.RoomFavorites)
+                .Include(r => r.UserPackages)
                 .Include(r => r.RoomImages)
                 .Include(r => r.RoomType)
-                .Where(r => r.IsActive == 1 )  
-                .OrderBy(r => r.IsActive == 1 ? 0 : 1)  
-                .ThenBy(r => r.DisplayType)  
-                .ThenByDescending(r => r.CreateDate)  
+                .Where(r => r.IsActive == 1 && // Phòng đang hoạt động
+                    r.Title != null && // Tên phòng không phải là null
+                    r.Description != null && // Mô tả phòng không phải là null
+                    r.Video != null) // URL video không phải là null
+                .OrderBy(r => r.IsActive == 1 ? 0 : 1)
+                .ThenBy(r => r.DisplayType)
+                .ThenByDescending(r => r.CreateDate)
                 .ToPagedList(pageNumber, pageSize);
+            // Tạo một danh sách mới chỉ chứa các phòng có IsUrgent == true
+            var urgentUserPackages = db.UserPackages.Where(up => up.IsUrgent == true).ToList();
 
+            // Gán danh sách này vào ViewBag.UrgentRooms
+            ViewBag.UrgentRooms = urgentUserPackages;
 
             return View(dbmojoinContext);
         }
 
         public ActionResult ShowImage(int id)
         {
-            var roomImage =db.RoomImages
+            var roomImage = db.RoomImages
                 .Where(r => r.RoomId == id)
                 .Select(r => r.Image)
                 .FirstOrDefault();
@@ -156,13 +172,14 @@ namespace mojoin.Controllers
                 return NotFound();
             }
 
-/*            ViewBag.UserFullName = room.UserFullName;
-*/            return View(room);
+            /*            ViewBag.UserFullName = room.UserFullName;
+            */
+            return View(room);
         }
         public IActionResult ListRoomNew()
         {
             var latestRooms = db.Rooms
-                .Where(r => r.IsActive == 1 )
+                .Where(r => r.IsActive == 1)
                 .OrderBy(r => r.IsActive == 1 ? 0 : 1)
                 .ThenBy(r => r.DisplayType == 5)
                 .ThenByDescending(r => r.CreateDate)
@@ -193,7 +210,7 @@ namespace mojoin.Controllers
         }
 
         // Hàm để thực hiện tìm kiếm
-        protected IPagedList<Room> PerformSearch(int? page,string categoryId, string cityId, string districtId, string streetId, string priceId, string areaId)
+        protected IPagedList<Room> PerformSearch(int? page, string categoryId, string cityId, string districtId, string streetId, string priceId, string areaId)
         {
             int pageSize = 20; // Số lượng phần tử trên mỗi trang
             int pageNumber = (page ?? 1); // Số trang hiện tại (nếu không có, mặc định là 1)
@@ -263,13 +280,13 @@ namespace mojoin.Controllers
             return searchResults.ToPagedList(pageNumber, pageSize);
         }
 
-        public ActionResult SendMessage()
+       /* public ActionResult SendMessage()
         {
             return View();
-        }
+        }*/
 
         // Action để xử lý việc gửi tin nhắn
-        [HttpPost]
+        [HttpGet]
         public ActionResult SendMessage(FormCollection form)
         {
             // Lấy giá trị từ các trường form
@@ -277,21 +294,21 @@ namespace mojoin.Controllers
             string fullName = form["fullName"];
             string email = form["email"];
             string phoneNumber = form["phoneNumber"];
-            if (string.IsNullOrEmpty(fullName) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(phoneNumber) )
+            if (string.IsNullOrEmpty(fullName) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(phoneNumber))
             {
                 // Hiển thị thông báo lỗi hoặc xử lý lỗi khác tùy theo yêu cầu của bạn
                 ModelState.AddModelError("", "Vui lòng điền đầy đủ thông tin.");
                 return View();
             }
             string emailBody = $"Chào bạn, " +
-                $"/n Tôi là: {fullName}, có nhu cầu liên hệ với bạn về bài đăng cho thuê phòng/căn hộ của bạn trên 'mojoin'.  "+
-                $"/n Đây là thông tin liên hệ của mình email: {email} hoặc liên hệ: {phoneNumber}."+
+                $"/n Tôi là: {fullName}, có nhu cầu liên hệ với bạn về bài đăng cho thuê phòng/căn hộ của bạn trên 'mojoin'.  " +
+                $"/n Đây là thông tin liên hệ của mình email: {email} hoặc liên hệ: {phoneNumber}." +
                 $"/n Mong nhận được phản hồi sớm từ bạn, /n {fullName}.";
 
-/*            _emailService.SendEmail(userMail, "Đặt lại mật khẩu", emailBody);
-*/            // Sau khi gửi thành công, bạn có thể chuyển hướng hoặc hiển thị thông báo thành công cho người dùng
+                       _emailService.SendEmail(userMail, "Liên hệ mô giới", emailBody);
+                      // Sau khi gửi thành công, bạn có thể chuyển hướng hoặc hiển thị thông báo thành công cho người dùng
             _notyfService.Success("Gửi thành công! Người dùng sẽ liên hệ đến bạn sau!");
-            return RedirectToAction("SendMessage");
+            return View();
         }
         [HttpPost]
         public IActionResult SendReport(string roomId, string userId, List<string> errorContents)
