@@ -41,8 +41,9 @@ public partial class DbmojoinContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=LAPTOP-P4D3L99G; Database=dbmojoin;Trusted_Connection=SSPI;Encrypt=false;TrustServerCertificate=true");
- /*   => optionsBuilder.UseSqlServer("Data Source=SQL8006.site4now.net,1433;Initial Catalog=db_aa314e_moojoin;User Id=db_aa314e_moojoin_admin;Password=29102002Tt.;\r\n\r\n");*/
+   /*        => optionsBuilder.UseSqlServer("Server=MRTHAWNG; Database=mojoin;Trusted_Connection=SSPI;Encrypt=false;TrustServerCertificate=true");
+   */
+   => optionsBuilder.UseSqlServer("Data Source=SQL8006.site4now.net,1433;Initial Catalog=db_aa314e_moojoin;User Id=db_aa314e_moojoin_admin;Password=29102002Tt.;\r\n\r\n");
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Package>(entity =>

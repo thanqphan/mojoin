@@ -25,12 +25,15 @@ namespace mojoin.Controllers
     {
         private readonly DbmojoinContext db;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IEmailService _emailService;
         public INotyfService _notyfService { get; }
-        public RoomsController(DbmojoinContext context, INotyfService notyfService, IHttpContextAccessor httpContextAccessor)
+        public RoomsController(DbmojoinContext context, INotyfService notyfService, IHttpContextAccessor httpContextAccessor, IEmailService emailService)
         {
             db = context;
             _notyfService = notyfService;
             _httpContextAccessor = httpContextAccessor;
+                        _emailService = emailService;
+
         }
 
         // GET: Rooms
@@ -302,8 +305,8 @@ namespace mojoin.Controllers
                 $"/n Đây là thông tin liên hệ của mình email: {email} hoặc liên hệ: {phoneNumber}." +
                 $"/n Mong nhận được phản hồi sớm từ bạn, /n {fullName}.";
 
-            /*            _emailService.SendEmail(userMail, "Đặt lại mật khẩu", emailBody);
-            */            // Sau khi gửi thành công, bạn có thể chuyển hướng hoặc hiển thị thông báo thành công cho người dùng
+                       _emailService.SendEmail(userMail, "Liên hệ mô giới", emailBody);
+                      // Sau khi gửi thành công, bạn có thể chuyển hướng hoặc hiển thị thông báo thành công cho người dùng
             _notyfService.Success("Gửi thành công! Người dùng sẽ liên hệ đến bạn sau!");
             return RedirectToAction("SendMessage");
         }
