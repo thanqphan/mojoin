@@ -13,7 +13,7 @@ public partial class TransactionHistory
 
     public double? Amount { get; set; }
 
-    public DateTime? TransactionDate { get; set; }
+    public DateTime TransactionDate { get; set; }
 
     public string? PaymentMethod { get; set; }
 
