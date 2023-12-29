@@ -280,13 +280,13 @@ namespace mojoin.Controllers
             return searchResults.ToPagedList(pageNumber, pageSize);
         }
 
-        public ActionResult SendMessage()
+       /* public ActionResult SendMessage()
         {
             return View();
-        }
+        }*/
 
         // Action để xử lý việc gửi tin nhắn
-        [HttpPost]
+        [HttpGet]
         public ActionResult SendMessage(FormCollection form)
         {
             // Lấy giá trị từ các trường form
@@ -308,7 +308,7 @@ namespace mojoin.Controllers
                        _emailService.SendEmail(userMail, "Liên hệ mô giới", emailBody);
                       // Sau khi gửi thành công, bạn có thể chuyển hướng hoặc hiển thị thông báo thành công cho người dùng
             _notyfService.Success("Gửi thành công! Người dùng sẽ liên hệ đến bạn sau!");
-            return RedirectToAction("SendMessage");
+            return View();
         }
         [HttpPost]
         public IActionResult SendReport(string roomId, string userId, List<string> errorContents)
