@@ -12,16 +12,6 @@
     <link href="~/css/yeuthich.css" rel="stylesheet" />
     <link href="~/css/thonge.css" rel="stylesheet" />
 }
-@{
-    var identity = (ClaimsIdentity)User.Identity;
-
-    // Lấy giá trị của các đối tượng Claim
-    string firstName = identity.FindFirst("FirstName")?.Value;
-    string lastName = identity.FindFirst("LastName")?.Value;
-    string userId = identity.FindFirst("UserId")?.Value;
-    string userPhone = identity.FindFirst("UserPhone")?.Value;
-    string userAvt = identity.FindFirst("UserAvatar")?.Value;
-}
 @* <figure class="highcharts-figure">
     <div id="container"></div>
     <table id="datatable">
@@ -64,7 +54,7 @@
                             <input required type="month" id="formonth" name="formonth">
                             <input type="submit" value="Thống kê">
                         </form>
-                        <form action="/Rooms/ThongKeTheoTuan" method="get" style="margin-top: 10px;">
+                        <form  action="/Rooms/ThongKeTheoTuan" method="get" style="margin-top: 10px;">
                             <label for="forweek">Theo tuần</label>
                             <input required style="margin: 0 10px;" type="week" id="forweek" name="forweek">
                             <input type="submit" value="Thống kê">
@@ -97,7 +87,8 @@
                                     <td>
                                         @if (ViewBag.SelectedMonth != null)
                                         {
-                                            @ViewBag.SelectedMonth
+                                            @(ViewBag.SelectedMonth + "/" + ViewBag.SelectedYear)
+
                                         }
                                         else if (ViewBag.SelectedWeek != null)
                                         {

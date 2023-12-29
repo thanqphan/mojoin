@@ -340,16 +340,6 @@ namespace mojoin.Controllers
             // Trả về kết quả thành công (hoặc thông báo thành công) cho người dùng
             return Ok("Dữ liệu đã được gửi thành công");
         }
-        //public IActionResult Thongkeview(int id)
-        //{
-        //    var taikhoanID = HttpContext.User.FindFirstValue("UserId");
-        //    var room = db.Rooms
-        //          .Include(r => r.User)
-        //          .Include(r => r.RoomImages)
-        //          .Where(ri => ri.UserId == int.Parse(taikhoanID) && ri.RoomId == id)
-        //          .ToList();
-        //    return View(room);
-        //}
         public IActionResult ThongKeTheoThang(DateTime? formonth)
         {
             var userId = HttpContext.User.FindFirstValue("UserId");
@@ -382,7 +372,7 @@ namespace mojoin.Controllers
                 return Thongkeview();
             }
         }
-       
+
         public IActionResult ThongKeTheoTuan(DateTime? forweek)
         {
             var userId = HttpContext.User.FindFirstValue("UserId");

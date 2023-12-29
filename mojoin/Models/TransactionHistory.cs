@@ -13,7 +13,7 @@ public partial class TransactionHistory
 
     public double? Amount { get; set; }
 
-    public DateTime TransactionDate { get; set; }
+    public DateTime? TransactionDate { get; set; }
 
     public string? PaymentMethod { get; set; }
 
@@ -28,8 +28,6 @@ public partial class TransactionHistory
     public int? Status { get; set; }
 
     public virtual User? User { get; set; }
-
-   
 
     public virtual ICollection<UserPackage> UserPackages { get; set; } = new List<UserPackage>();
 }
