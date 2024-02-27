@@ -27,6 +27,8 @@ public partial class DbmojoinContext : DbContext
 
     public virtual DbSet<RoomImage> RoomImages { get; set; }
 
+    public virtual DbSet<RoomImagesVr> RoomImagesVrs { get; set; }
+
     public virtual DbSet<RoomRating> RoomRatings { get; set; }
 
     public virtual DbSet<RoomReport> RoomReports { get; set; }
@@ -41,9 +43,8 @@ public partial class DbmojoinContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-   /*        => optionsBuilder.UseSqlServer("Server=MRTHAWNG; Database=mojoin;Trusted_Connection=SSPI;Encrypt=false;TrustServerCertificate=true");
-   */
-   => optionsBuilder.UseSqlServer("Data Source=SQL8006.site4now.net,1433;Initial Catalog=db_aa314e_moojoin;User Id=db_aa314e_moojoin_admin;Password=29102002Tt.;\r\n\r\n");
+        => optionsBuilder.UseSqlServer("Server=MRTHAWNG; Database=dbmojoin;Trusted_Connection=SSPI;Encrypt=false;TrustServerCertificate=true");
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Package>(entity =>
@@ -143,6 +144,21 @@ public partial class DbmojoinContext : DbContext
                 .HasForeignKey(d => d.RoomId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Roomimages_Rooms");
+        });
+
+        modelBuilder.Entity<RoomImagesVr>(entity =>
+        {
+            entity.ToTable("RoomImagesVR");
+
+            entity.Property(e => e.RoomImagesVrId)
+                .ValueGeneratedNever()
+                .HasColumnName("RoomImagesVrID");
+            entity.Property(e => e.Image).IsUnicode(false);
+            entity.Property(e => e.RoomId).HasColumnName("RoomID");
+
+            entity.HasOne(d => d.Room).WithMany(p => p.RoomImagesVrs)
+                .HasForeignKey(d => d.RoomId)
+                .HasConstraintName("FK_RoomImagesVR_Rooms");
         });
 
         modelBuilder.Entity<RoomRating>(entity =>

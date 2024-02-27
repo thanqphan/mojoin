@@ -59,6 +59,8 @@ public partial class Room
 
     public virtual ICollection<RoomImage> RoomImages { get; set; } = new List<RoomImage>();
 
+    public virtual ICollection<RoomImagesVr> RoomImagesVrs { get; set; } = new List<RoomImagesVr>();
+
     public virtual ICollection<RoomRating> RoomRatings { get; set; } = new List<RoomRating>();
 
     public virtual ICollection<RoomReport> RoomReports { get; set; } = new List<RoomReport>();
