@@ -477,43 +477,100 @@ namespace mojoin.Controllers
             // Trả về null nếu không có hình ảnh được tải lên
             return null;
         }
-
-
-
-
         [HttpPost]
-        public async Task<IActionResult> UploadImages(List<IFormFile> images)
+        public async Task<IActionResult> UploadImages(List<IFormFile> images, List<string> type)
         {
             int roomId = Convert.ToInt32(TempData["RoomId"]); // Lấy ra ID của phòng từ TempData
             string roomTitle = TempData["RoomTitle"] as string;
             try
             {
-                foreach (var image in images)
+                for (int i = 0; i < images.Count; i++)
                 {
-                    // Tạo một tên mới cho ảnh bằng cách thêm mã phòng vào trước tên ảnh
-                    var imageName = roomId + "_" + image.FileName;
+                    var image = images[i];
+                    var imageType = type[i];
 
-                    // Xử lý tệp ảnh, ví dụ: lưu trữ ảnh trong thư mục "wwwroot/Images" của dự án
-                    if (image.Length > 0)
+                    if (imageType == "normal") // Chỉ xử lý ảnh thông thường
                     {
-                        var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", imageName);
-                        using (var fileStream = new FileStream(imagePath, FileMode.Create))
+                        // Tạo một tên mới cho ảnh bằng cách thêm mã phòng vào trước tên ảnh
+                        var imageName = roomId + "_" + image.FileName;
+
+                        // Xử lý tệp ảnh, ví dụ: lưu trữ ảnh trong thư mục "wwwroot/Images" của dự án
+                        if (image.Length > 0)
                         {
-                            await image.CopyToAsync(fileStream);
+                            var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", imageName);
+                            using (var fileStream = new FileStream(imagePath, FileMode.Create))
+                            {
+                                await image.CopyToAsync(fileStream);
+                            }
+
+                            // Lưu thông tin ảnh vào cơ sở dữ liệu
+                            var imageModel = new RoomImage
+                            {
+                                RoomId = roomId,
+                                Image = Url.Content("~/images/" + imageName)
+                            };
+
+                            // Sử dụng đối tượng DbContext để thêm bản ghi mới vào bảng ảnh
+                            _context.RoomImages.Add(imageModel);
+                            await _context.SaveChangesAsync();
                         }
-
-                        // Lưu thông tin ảnh vào cơ sở dữ liệu
-                        var imageModel = new RoomImage
-                        {
-                            RoomId = roomId,
-                            Image = Url.Content("~/images/" + imageName)
-                        };
-
-                        // Sử dụng đối tượng DbContext để thêm bản ghi mới vào bảng ảnh
-                        _context.RoomImages.Add(imageModel);
-                        await _context.SaveChangesAsync();
                     }
                 }
+
+                _notyfService.Success("Gửi bài thành công!");
+                TempData["SuccessMessage"] = "Đã gửi bài thành công";
+                TempData["RoomTitle"] = roomTitle;
+                TempData["RoomId"] = roomId;
+                // Hoàn thành quá trình tải lên và chuyển hướng hoặc trả về thông báo thành công
+                return Json(new { success = true, roomId, roomTitle });
+            }
+            catch
+            {
+                _notyfService.Error("Upload không thành công!");
+                return Json(new { success = false, message = "Đã xảy ra lỗi khi tạo bài đăng!" });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadVRImages(List<IFormFile> images, List<string> type)
+        {
+            int roomId = Convert.ToInt32(TempData["RoomId"]); // Lấy ra ID của phòng từ TempData
+            string roomTitle = TempData["RoomTitle"] as string;
+            try
+            {
+                for (int i = 0; i < images.Count; i++)
+                {
+                    var image = images[i];
+                    var imageType = type[i];
+
+                    if (imageType == "360") // Chỉ xử lý ảnh thông thường
+                    {
+                        // Tạo một tên mới cho ảnh bằng cách thêm mã phòng vào trước tên ảnh
+                        var imageName = roomId + "vr" + "_" + image.FileName;
+
+                        // Xử lý tệp ảnh, ví dụ: lưu trữ ảnh trong thư mục "wwwroot/Images" của dự án
+                        if (image.Length > 0)
+                        {
+                            var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "VRimages", imageName);
+                            using (var fileStream = new FileStream(imagePath, FileMode.Create))
+                            {
+                                await image.CopyToAsync(fileStream);
+                            }
+
+                            // Lưu thông tin ảnh vào cơ sở dữ liệu
+                            var imageModel = new RoomImagesVr
+                            {
+                                RoomId = roomId,
+                                Image = Url.Content("~/VRimages/" + imageName)
+                            };
+
+                            // Sử dụng đối tượng DbContext để thêm bản ghi mới vào bảng ảnh
+                            _context.RoomImagesVrs.Add(imageModel);
+                            await _context.SaveChangesAsync();
+                        }
+                    }
+                }
+
                 _notyfService.Success("Gửi bài thành công!");
                 TempData["SuccessMessage"] = "Đã gửi bài thành công";
                 TempData["RoomTitle"] = roomTitle;

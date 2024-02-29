@@ -245,6 +245,17 @@
 						</div>
 					}
 				</div>
+
+                @*icon to show all Panoromic pics of the selected room*@
+                <div class="panoramic-pics" >
+                    <div class="SaveAd_saveAdWrapper___sBMh AdItem_saveAd__3prt2 ">
+                        <a href="@Url.Action("XoaYeuThich", "YeuThich", new { id = Model.RoomId })" id="btn_save_ad" title="Bỏ lưu tin" onclick="" type="button" class="SaveAd_btnSavedAd__jwoYd ">
+                            <img id="img_save_ad" height="20" width="20" src="/images/360-degree.png" alt="like" loading="lazy" data-saved="false">
+                        </a>
+                    </div>
+                </div>
+
+
                 <div class="link-user-zalo" style="display: inline-block; justify-content: flex-end; float:right; margin-right:1rem;">
                     <div class="SaveAd_saveAdWrapper___sBMh AdItem_saveAd__3prt2 ">
                         <a href="zalo://conversation?phone=@ViewBag.SDT" onclick="" type="button" title="Nhắn tin Zalo" class="SaveAd_btnSavedAd__jwoYd ">

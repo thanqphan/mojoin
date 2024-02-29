@@ -252,7 +252,26 @@
                         </div>
                     </div>
                 </div>
-
+                <div class=" dangtin-row ">
+                    <div class="dangtin-col-md-12">
+                        <h2>Hình ảnh 360°</h2>
+                    </div>
+                </div>
+                <div class="dangtin-row dangtin-form-group">
+                    <div class="dangtin-col-md-11">
+                        <p>Cập nhật hình ảnh 360° hỗ trợ người thuê dễ hình dung thực tế hơn</p>
+                        <div class="dangtin-form-group" id="uploadSection">
+                            <div class="form-group" id="uploadimg-div">
+                                <div id="image-vr-container" class="image-container">
+                                </div>
+                                <div class="upload-buttons">
+                                    <label class="file-button">Chọn ảnh</label>
+                                    <input id="file-vr-upload" name="images" type="file" accept="image/*" multiple style="width: 40%">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="dangtin-row dangtin-form-group">
                     <label class=" dangtin-col-form-label dangtin-col-md-12">
                         Video
@@ -298,13 +317,20 @@
 
             // Lấy tất cả các files từ input có id="file-upload"
             var files = $('#file-upload')[0].files;
+            // import all files form id="file-vr-upload"
+            var vrFiles= $('#file-vr-upload')[0].files;
 
             // Tạo một đối tượng FormData
             var formData = new FormData(this);
-
-            // Thêm files vào FormData
+            //another FormData
             for (var i = 0; i < files.length; i++) {
                 formData.append('images[]', files[i]);
+                formData.append('type[]', 'normal'); // Đánh dấu hình ảnh thông thường
+            }
+
+            for (var i = 0; i < vrFiles.length; i++) {
+                formData.append('images[]', vrFiles[i]);
+                formData.append('type[]', '360'); // Đánh dấu hình ảnh 360 độ
             }
 
             // Gửi dữ liệu đến action CreatePosts bằng AJAX
@@ -328,6 +354,27 @@
                                 // Xử lý kết quả từ action UploadImages
                                 if (uploadData.success) {
                                     alert('Đã tạo bài đăng và tải ảnh thành công!');
+                                    if (vrFiles.length>0){
+                                        $.ajax({
+                                            type: 'POST',
+                                            url: '/MyAccount/UploadVRImages',
+                                            data: formData,
+                                            contentType: false,
+                                            processData: false,
+                                            success: function (uploadData) {
+                                                // Xử lý kết quả từ action UploadImages
+                                                if (uploadData.success) {
+                                                    alert('Đã tạo bài đăng và tải ảnh 360 thành công!');
+                                                    window.location.href = '/thanh-toan-dang-bai.html';
+                                                } else {
+                                                    alert('Tạo bài đăng thành công, nhưng tải ảnh 360 không thành công!');
+                                                }
+                                            },
+                                            error: function () {
+                                                alert('Đã xảy ra lỗi khi tải ảnh 360!');
+                                            }
+                                        });
+                                    }
                                     window.location.href = '/thanh-toan-dang-bai.html';
                                 } else {
                                     alert('Tạo bài đăng thành công, nhưng tải ảnh không thành công!');
@@ -337,6 +384,7 @@
                                 alert('Đã xảy ra lỗi khi tải ảnh!');
                             }
                         });
+                        
                     } else {
                         alert('Đã xảy ra lỗi khi tạo bài đăng!');
                     }
@@ -377,7 +425,30 @@
             reader.readAsDataURL(file);
         }
     }
+    document.getElementById('file-vr-upload').addEventListener('change', handleFileVrSelect, false);
 
+    // Hàm xử lý khi có hình ảnh được chọn
+    function handleFileVrSelect(event) {
+        var files = event.target.files; // Danh sách các file được chọn
+        var imageContainer = document.getElementById('image-vr-container');
+
+        // Duyệt qua từng file và tạo các image preview
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            var reader = new FileReader();
+
+            // Đọc file ảnh và tạo image preview
+            reader.onload = (function (file) {
+                return function (event) {
+                    var imagePreview = createImagePreview(event.target.result);
+                    imageContainer.appendChild(imagePreview);
+                };
+            })(file);
+
+            // Đọc file ảnh dưới dạng dữ liệu URL
+            reader.readAsDataURL(file);
+        }
+    }
     // Hàm tạo image preview
     function createImagePreview(imageUrl) {
         var imagePreview = document.createElement('div');

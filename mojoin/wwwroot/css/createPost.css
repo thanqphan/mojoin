@@ -1703,7 +1703,13 @@
   padding: 0.5rem;
   float: left;
 }
-
+#file-vr-upload {
+    background-color: #3bacb6;
+    border-radius: 10px;
+    color: white;
+    padding: 0.5rem;
+    float: left;
+}
 .upload-button {
   background-color: #007bff;
   color: #fff;

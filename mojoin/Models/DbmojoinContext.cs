@@ -150,9 +150,7 @@ public partial class DbmojoinContext : DbContext
         {
             entity.ToTable("RoomImagesVR");
 
-            entity.Property(e => e.RoomImagesVrId)
-                .ValueGeneratedNever()
-                .HasColumnName("RoomImagesVrID");
+            entity.Property(e => e.RoomImagesVrId).HasColumnName("RoomImagesVrID");
             entity.Property(e => e.Image).IsUnicode(false);
             entity.Property(e => e.RoomId).HasColumnName("RoomID");
 

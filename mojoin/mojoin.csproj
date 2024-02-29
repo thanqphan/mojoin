@@ -82,6 +82,7 @@
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="wwwroot\images\carousel\" />
+    <Folder Include="wwwroot\VRimages\" />
     <Folder Include="wwwroot\NewFolder\" />
   </ItemGroup>
 
