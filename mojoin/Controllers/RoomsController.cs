@@ -439,7 +439,28 @@ namespace mojoin.Controllers
         {
             return View();
         }
+        public IActionResult _360ImageView(int id)
+        {
+            var roomImages = db.RoomImagesVrs
+                .Where(ri => ri.RoomId == id)
+                .ToList();
 
+            return View(roomImages);
+        }
+        public ActionResult ShowVRImage(int id)
+        {
+            var roomImage = db.RoomImagesVrs
+                .Where(r => r.RoomId == id)
+                .Select(r => r.Image)
+                .FirstOrDefault();
+            if (roomImage == null)
+            {
+                return NotFound();
+            }
+
+            // Return the image as a file result
+            return File(roomImage, "image/jpeg", "image/png");
+        }
 
     }
 }

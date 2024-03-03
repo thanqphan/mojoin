@@ -156,6 +156,7 @@ public partial class DbmojoinContext : DbContext
 
             entity.HasOne(d => d.Room).WithMany(p => p.RoomImagesVrs)
                 .HasForeignKey(d => d.RoomId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_RoomImagesVR_Rooms");
         });
 

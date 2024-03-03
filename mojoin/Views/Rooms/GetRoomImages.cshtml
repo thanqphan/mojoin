@@ -1,12 +1,11 @@
 ﻿@model IEnumerable<mojoin.Models.RoomImage>
 
 @{
-    ViewData["Title"] = "GetRoomImages";
     <link href="~/css/detail.css" rel="stylesheet" />
     int count = 1;
     int index = 0;
 }
-<div class="slider">
+<div class="slider " style="z-index: 0;">
     <i class="fa fa-angle-left slider-prev" style="display: flex;"></i>
     <div class="slider-wrapper" style="position: relative;">
         <div class="slider-main">
