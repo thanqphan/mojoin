@@ -1,0 +1,33 @@
+﻿@model IEnumerable<mojoin.Models.RoomImagesVr>
+
+@{
+    ViewData["Title"] = "_360ImageView";
+    <link href="~/css/modal.css" rel="stylesheet" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/105/three.min.js"></script>
+    <script src="~/js/panolens/panolers.min.js"></script>
+}
+
+<div id="360ImageViewModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="panorama" style="width: 500px;height: 500px; margin: 0 auto;"></div> <!-- Thêm một div để chứa ảnh 360 độ -->
+    </div>
+</div>
+
+<script>
+    // Kiểm tra xem có ảnh hay không
+    var imageUrl = "@Model.FirstOrDefault()?.Image";
+    if (imageUrl) {
+        const panoramaImage = new PANOLENS.ImagePanorama(imageUrl);
+        const imageContainer = document.querySelector(".panorama");
+        const viewer = new PANOLENS.Viewer({
+            container: imageContainer,
+        });
+        viewer.add(panoramaImage);
+    } else {
+        // Hiển thị thông báo nếu không có ảnh
+        alert("Không có ảnh để hiển thị");
+    }
+</script>
+

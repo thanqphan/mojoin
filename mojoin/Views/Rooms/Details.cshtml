@@ -246,15 +246,9 @@
 					}
 				</div>
                 @*icon to show all Panoromic pics of the selected room*@
-                @*<div class="panoramic-pics" id="360ImageView">
-                    <a href="@Url.Action("_360ImageView", "RoomsController")">
-                        <img onclick="openModal()" src="/images/360-degree.png" alt="Xem ảnh 360 độ" />
-                    </a>
-                </div>*@
-
                 <!-- Trong trang detail.cshtml -->
                 @{
-                    Html.RenderPartialAsync("~/Views/Rooms/_360ImageViewModal.cshtml", Model.RoomImagesVrs);
+                    Html.RenderPartialAsync("~/Views/Rooms/_360ImageView.cshtml", Model.RoomImagesVrs);
                 }
                 <div class="overlay" id="overlay"></div>
                 <button onclick="openModal()">Xem ảnh 360 độ</button>
@@ -427,9 +421,19 @@
     function openModal() {
         $('#360ImageViewModal').show();
         $('#overlay').show(); // Hiển thị lớp mờ
-        $('#360ImageViewModal').on('mousewheel DOMMouseScroll', function (e) {
-            e.preventDefault();
-        });
+        //var roomId = 1183; // Assuming you have an input for roomId
+        //$.ajax({
+        //    type: 'GET',
+        //    url: '/RoomsController/_360ImageView',
+        //    data: { roomId: roomId },
+        //    success: function (data) {
+        //        $('#360ImageViewModal .modal-content').html(data);
+                
+        //    },
+        //    error: function () {
+        //        alert('Error retrieving 360 images.');
+        //    }
+        //});
     }
 
     // Hàm ẩn modal và loại bỏ lớp mờ trang chính

@@ -119,6 +119,7 @@ namespace mojoin.Controllers
             var room = db.Rooms
                  .Include(r => r.User)
                  .Include(r => r.RoomImages)
+                 .Include(r => r.RoomImagesVrs)
                  .Where(ri => ri.RoomId == id)
                  .ToList()
                  .FirstOrDefault(r => r.RoomId == id);
@@ -149,7 +150,7 @@ namespace mojoin.Controllers
             string linkFacebook = room.User.InfoFacebook;
 
             string idFacebook = Utilities.ExtractUsernameFromFacebookLink(linkFacebook);
-
+            ViewBag.RoomId= room.RoomId;
             ViewBag.Avt = room.User.Avatar;
             ViewBag.IsYeuThich = isYeuThich;
             ViewBag.SDT = room.User.Phone;
@@ -357,16 +358,6 @@ namespace mojoin.Controllers
             // Trả về kết quả thành công (hoặc thông báo thành công) cho người dùng
             return Ok("Dữ liệu đã được gửi thành công");
         }
-        //public IActionResult Thongkeview(int id)
-        //{
-        //    var taikhoanID = HttpContext.User.FindFirstValue("UserId");
-        //    var room = db.Rooms
-        //          .Include(r => r.User)
-        //          .Include(r => r.RoomImages)
-        //          .Where(ri => ri.UserId == int.Parse(taikhoanID) && ri.RoomId == id)
-        //          .ToList();
-        //    return View(room);
-        //}
         public IActionResult ThongKeTheoThang(DateTime? formonth)
         {
             var userId = HttpContext.User.FindFirstValue("UserId");
@@ -439,27 +430,14 @@ namespace mojoin.Controllers
         {
             return View();
         }
-        public IActionResult _360ImageView(int id)
+        [HttpGet]
+        public IActionResult _360ImageView(int roomId)
         {
             var roomImages = db.RoomImagesVrs
-                .Where(ri => ri.RoomId == id)
+                .Where(ri => ri.RoomId == roomId)
                 .ToList();
 
-            return View(roomImages);
-        }
-        public ActionResult ShowVRImage(int id)
-        {
-            var roomImage = db.RoomImagesVrs
-                .Where(r => r.RoomId == id)
-                .Select(r => r.Image)
-                .FirstOrDefault();
-            if (roomImage == null)
-            {
-                return NotFound();
-            }
-
-            // Return the image as a file result
-            return File(roomImage, "image/jpeg", "image/png");
+            return View( roomImages);
         }
 
     }
