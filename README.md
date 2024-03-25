@@ -189,14 +189,68 @@
 <p align="center">
     <img src="https://github.com/thanqphan/mojoin/assets/118738430/53e9ff9d-1e61-40ba-bd1e-d4a007b1d726" width="600" alt="Themer logo" />
 </p>
+
 ## 2.7 Kiến trúc hệ thống
 - Mô hình vật lý	
+<p align="center">
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/02485f4d-95ee-4f06-9986-d55c54abdb83" width="800" alt="Themer logo" />
+</p>
 
 - Mô hình chi tiết các bảng	
-
+  - [Link Database diagram 😸](https://drive.google.com/file/d/1M9GR5G9SB0xof_ExQmAppfioPwxlc0Ts/view?usp=sharing)
 # 3. Kết quả thực nghiệm
 ## 3.1 Giao diện người dùng
+- Giao diện trang chủ
+  <p align="center">
+    <img src="" width="800" alt="Themer logo" />
+</p>
+- Lọc bài theo yêu cầu
+  <p align="center">
+    <img src="" width="800" alt="Themer logo" />
+</p>
+- Xem chi tiết tin
+  <p align="center">
+    <img src="" width="800" alt="Themer logo" />
+</p>
+- Lưu tin
+  <p align="center">
+    <img src="" width="800" alt="Themer logo" />
+</p>
+- Gửi mail yêu cầu liên lạc người đăng
+  <p align="center">
+    <img src="" width="800" alt="Themer logo" />
+</p>
+- Report bài đăng
+  <p align="center">
+    <img src="" width="800" alt="Themer logo" />
+</p>
+- Quản lí thông tin cá nhân
+  <p align="center">
+    <img src="" width="800" alt="Themer logo" />
+</p>
+- Danh sách bài đăng đã lưu
+  <p align="center">
+    <img src="" width="800" alt="Themer logo" />
+</p>
+- Quản lí bài đăng
+  <p align="center">
+    <img src="" width="800" alt="Themer logo" />
+</p>
+- Đăng bài
+  <p align="center">
+    <img src="" width="800" alt="Themer logo" />
+</p>
+- Thanh toán e-wallet
+  <p align="center">
+    <img src="" width="800" alt="Themer logo" />
+</p>
+- Mua gói hiển thị
+  <p align="center">
+    <img src="" width="800" alt="Themer logo" />
+</p>
 ## 3.2 Giao diện quản trị
+- Quản lý bài đăng hệ thống
+- Quản lý tài khoản hệ thống
 # 4. Kết luận - kiến nghị
 ## 4.1 Kết luận 
 ## 4.2 Kiến nghị
