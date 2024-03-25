@@ -1,3 +1,9 @@
+## init db
+```sh
+  Scaffold-DbContext "Server=[]; Database=[];Trusted_Connection=SSPI;Encrypt=false;TrustServerCertificate=true"
+  Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Context "DbmojoinContext" -Force
+```
+-> 'ConnectionStrings'  `Program.cs` 
 ## Tổng quan 
 - Đồ án Chuyên ngành Công nghệ phần mềm
   - Tên đề tài: Website Hỗ trợ tìm thuê phòng trọ
