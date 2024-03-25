@@ -4,9 +4,15 @@
   Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Context "DbmojoinContext" -Force
 ```
 -> 'ConnectionStrings'  `Program.cs` 
+  <p align="center">
+    <img src="https://github.com/thanqphan/3TN_SHOP/assets/118738430/119142b1-dc87-411b-bd6d-d1eb184ecf31" width="200" alt="Themer logo" />
+</p>
+
 ## Tổng quan 
 - Đồ án Chuyên ngành Công nghệ phần mềm
-  - Tên đề tài: Website Hỗ trợ tìm thuê phòng trọ
+  - Tên đề tài: Website Hỗ trợ tìm thuê phòng trọ - mojoin
+
+  
   - Mô tả:
       - Client-side: đăng tin, quản lý thông tin bài đăng và thông tin cá nhân, thanh toán gói tin hiển thị, etc.
       - Server-side: quản lý thông tin toàn hệ thống, xét duyệt bài đăng, etc.
