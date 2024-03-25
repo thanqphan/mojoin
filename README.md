@@ -52,3 +52,41 @@
 <p align="center">
     <img src="https://static-xf1.vietnix.vn/wp-content/uploads/2022/03/cac-thanh-phan-cua-mvc.webp" width="384" alt="Themer logo" />
 </p>
+
+# 2. Phân tích thiết kế hệ thống
+## 2.1 Phân tích hệ thống
+- Chức năng của hệ thống
+  -	Hệ thống quản trị:
+    - Quản lý tài khoản – nhân viên.
+    - Quản lý tài khoản – người dùng.
+    - 	Quản lý thông báo.
+    - 	Quản lý Tin tức – Danh mục tin tức, bài viết.
+    - 	Quản lý danh sách phòng trọ.
+    - 	Quản lý thông tin người dùng -  người thuê và cho thuê.
+    - 	Quản lý gói tin – nạp tiền
+    -  Thống kê – báo cáo.
+  -	Hệ thống hiển thị phía người dùng:
+    -  	Hiển thị danh mục phòng trọ - theo tùy chọn (giá – quận – loại phòng) .
+    -  	Hiển thị thông tin phòng trọ: thông tin người cho thuê – thông tin loại phòng thuê.
+    -  	Hiển thị bài biết, tin tức.
+    -  	Hiển thị thông tin về công ty: cách thức liên lạc, mạng xã hội, địa chỉ thực, email, …
+    -  	Cho phép người dùng đăng ký, đăng nhập, thay đổi thông tin tài khoản.
+    -  	Cho phép người dùng thuê hoạt cho thuê phòng trọ, thay đổi thông tin bài đăng, cách thức liên lạc,… 
+    - Cho phép người dùng mua gói khi đăng bài, nạp tiền qua hình thức chuyển khoản qua ví điện tử.
+- Tác nhân của hệ thống
+  -	Admin - thực hiện chức năng quản trị hệ thống (nhân viên hỗ trợ): tài khoản, người dùng, phân quyền, giao diện, nạp gói – số dư.
+  -	Nhân viên hỗ trợ: kiểm duyệt bài đăng, tương tác với người dùng, hỗ trợ khi người dùng đặt câu hỏi.
+  -	Người dùng: đăng ký – đăng nhập tài khoản, tìm kiếm phòng trọ, cho thuê phòng trọ, nap gói – đăng tin,…
+
+## 2.2 Usecase diagram
+## 2.3 Đặc tả Usecase diagram
+## 2.4 ERD diagram
+## 2.5 Activity diagram
+## 2.6 Sequence diagram
+## 2.7 Kiến trúc hệ thống
+# 3. Kết quả thực nghiệm
+## 3.1 Giao diện người dùng
+## 3.2 Giao diện quản trị
+# 4. Kết luận - kiến nghị
+## 4.1 Kết luận 
+## 4.2 Kiến nghị
