@@ -79,10 +79,115 @@
   -	Người dùng: đăng ký – đăng nhập tài khoản, tìm kiếm phòng trọ, cho thuê phòng trọ, nap gói – đăng tin,…
 
 ## 2.2 Usecase diagram
+<p align="center">
+    <img src="" width="600" alt="Themer logo" />
+</p>
 ## 2.3 Đặc tả Usecase diagram
+- Use case Truy cập vào website
+<p align="center">
+    <img src="" width="600" alt="Themer logo" />
+</p>
+- Use case Tìm kiếm	
+<p align="center">
+    <img src="" width="600" alt="Themer logo" />
+</p>
+- Use case Đăng ký tài khoản	
+<p align="center">
+    <img src="" width="600" alt="Themer logo" />
+</p>
+- Use case Đăng nhập	
+<p align="center">
+    <img src="" width="600" alt="Themer logo" />
+</p>
+- Use case Đăng bài
+<p align="center">
+    <img src="" width="600" alt="Themer logo" />
+</p>
+- Use case Quản lý nạp tiền	
+<p align="center">
+    <img src="" width="600" alt="Themer logo" />
+</p>
+- Use case Quản lý bài đăng – Cá nhân	
+<p align="center">
+    <img src="" width="600" alt="Themer logo" />
+</p>
+- Use case Quản lý tài khoản – Cá nhân	
+<p align="center">
+    <img src="" width="600" alt="Themer logo" />
+</p>
+- Use case Quản lý tài khoản – Admin	
+<p align="center">
+    <img src="" width="600" alt="Themer logo" />
+</p>
+- Use case Quản lý bài đăng – Admin	
+<p align="center">
+    <img src="" width="600" alt="Themer logo" />
+</p>
 ## 2.4 ERD diagram
+<p align="center">
+    <img src="" width="600" alt="Themer logo" />
+    <img src="" width="600" alt="Themer logo" />
+</p>
+- [Link ERD diagram 😸](https://drive.google.com/file/d/19FWti0rIkf_gSi38tWQG6XQbeQXby7oy/view?usp=drive_link)
 ## 2.5 Activity diagram
+- Activity diagram đăng kí	
+<p align="center">
+    <img src="" width="600" alt="Themer logo" />
+</p>
+- Activity diagram đăng nhập	
+<p align="center">
+    <img src="" width="600" alt="Themer logo" />
+</p>
+- Activity diagram lưu tin vào danh sách yêu thích	
+<p align="center">
+    <img src="" width="600" alt="Themer logo" />
+</p>
+- Activity diagram bỏ lưu tin 
+<p align="center">
+    <img src="" width="600" alt="Themer logo" />
+</p>
+- Activity diagram duyệt bài
+<p align="center">
+    <img src="" width="600" alt="Themer logo" />
+</p>
+- Activity diagram đăng tin	
+<p align="center">
+    <img src="" width="600" alt="Themer logo" />
+</p>
+- Activity diagram nạp tiền	
+<p align="center">
+    <img src="" width="600" alt="Themer logo" />
+</p>
+- Activity diagram mua gói	
+<p align="center">
+    <img src="" width="600" alt="Themer logo" />
+</p>
+
 ## 2.6 Sequence diagram
+- Squence Diagram Đăng kí
+- <p align="center">
+    <img src="" width="600" alt="Themer logo" />
+</p>
+- Squence Diagram Đăng nhập
+<p align="center">
+    <img src="" width="600" alt="Themer logo" />
+</p>
+- Squence Diagram Đăng bài	
+<p align="center">
+    <img src="" width="600" alt="Themer logo" />
+</p>
+- Squence Diagram Duyệt bài đăng	
+<p align="center">
+    <img src="" width="600" alt="Themer logo" />
+</p>
+- Squence Diagram Tìm kiếm	
+<p align="center">
+    <img src="" width="600" alt="Themer logo" />
+</p>
+- Squence Diagram Yêu thích	
+<p align="center">
+    <img src="" width="600" alt="Themer logo" />
+</p>
 ## 2.7 Kiến trúc hệ thống
 # 3. Kết quả thực nghiệm
 ## 3.1 Giao diện người dùng
