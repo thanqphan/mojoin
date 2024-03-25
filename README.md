@@ -202,39 +202,36 @@
 ## 3.1 Giao diện người dùng
 - Giao diện trang chủ
   <p align="center">
-    <img src="" width="800" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/09e8d85f-d3c8-4026-9aaf-23ab4c873c17" width="800" alt="Themer logo" />
 </p>
 - Lọc bài theo yêu cầu
   <p align="center">
-    <img src="" width="800" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/30410ef6-7b20-493e-ab6f-2d4c55d178ae" width="800" alt="Themer logo" />
 </p>
 - Xem chi tiết tin
   <p align="center">
-    <img src="" width="800" alt="Themer logo" />
-</p>
-- Lưu tin
-  <p align="center">
-    <img src="" width="800" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/975cb49d-ceae-4249-b49d-213b2043584a" width="800" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/ef9e860f-2a5e-4df7-9c33-1908b0a508bb" width="800" alt="Themer logo" />
 </p>
 - Gửi mail yêu cầu liên lạc người đăng
   <p align="center">
-    <img src="" width="800" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/7e4bbf32-4c56-441f-b76c-ec5d09352267" width="800" alt="Themer logo" />
 </p>
 - Report bài đăng
   <p align="center">
-    <img src="" width="800" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/8cfb4df0-aea4-4e03-8411-4608004eea8c" width="800" alt="Themer logo" />
 </p>
 - Quản lí thông tin cá nhân
   <p align="center">
-    <img src="" width="800" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/056e3b6b-9e3a-4643-9aa8-a673e3a0cee1" width="800" alt="Themer logo" />
 </p>
 - Danh sách bài đăng đã lưu
   <p align="center">
-    <img src="" width="800" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/e4726fe0-3bef-4525-834d-944035a38d32" width="800" alt="Themer logo" />
 </p>
 - Quản lí bài đăng
   <p align="center">
-    <img src="" width="800" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/b874ce50-4b78-4526-afcb-d7ae6f5d0527" width="800" alt="Themer logo" />
 </p>
 - Đăng bài
   <p align="center">
