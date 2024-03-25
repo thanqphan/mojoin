@@ -281,4 +281,11 @@
 
 # 4. Kết luận - kiến nghị
 ## 4.1 Kết luận 
+-	Vận dụng kiến thức đã học về ASP .NET Core MVC để hoàn thành đồ án.
+-	Sử dụng mô hình MVC (Model-View-Controller) dễ dàng bảo trì, quản lý khi có thay đổi về mặt chức năng theo yêu cầu.
+-	Thành công xây dựng website với những chức năng cơ bản như đăng kí tài khoản, đăng nhập, tìm kiếm phòng trọ, xem chi tiết phòng, đăng bài cho thuê, quản lý thông tin cá nhân và bài đăng cá nhân ở phía clients; chức năng CRUD cho quản lý tài khoản và quản lý bài đăng, duyệt những bài đăng theo trạng thái cho phía admin của website.
+-	Giao diện được thiết kế thân thiện, dễ sử dụng với người dùng.
+-	Hệ thống cơ sở dữ liệu được thiết kế và triển khai một cách hiệu quả, đảm bảo tính nhất quán và bảo mật người dùng.
 ## 4.2 Kiến nghị
+-	Tiếp tục nâng cao hiệu suất và tối ưu trang web, trong việc tải trang và xử lý đồng thời.
+-	Mở rộng tính năng của trang web để cũng cấ thêm các dịch vụ hữu ích như thanh toán trực tuyến, đánh giá và nhận xét từ người dùng.
