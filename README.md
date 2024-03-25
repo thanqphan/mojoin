@@ -251,7 +251,34 @@
 </p>
 ## 3.2 Giao diện quản trị
 - Quản lý bài đăng hệ thống
+<p align="center">
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/0c4d7710-9295-4a7e-adf2-6a6c43ae25a1" width="800" alt="Themer logo" />
+</p>
+<p align="center">
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/472483cd-172c-4f87-a0cb-b5002e303f6a" width="800" alt="Themer logo" />
+</p>
+<p align="center">
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/72426b8a-4bdc-4fad-936e-5a1351f48df6" width="800" alt="Themer logo" />
+</p>
+<p align="center">
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/42ab6e6f-11b2-48b8-b17c-1183dfbce07e" width="800" alt="Themer logo" />
+</p>
+
 - Quản lý tài khoản hệ thống
+<p align="center">
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/5277d98f-e03a-487b-8091-9704bc94539c" width="800" alt="Themer logo" />
+</p>
+<p align="center">
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/98f9be6c-b904-4995-b804-81f702659ebf" width="800" alt="Themer logo" />
+</p>
+
+<p align="center">
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/7a2cfade-0b35-4833-a9dd-e1a906bd1ff2" width="800" alt="Themer logo" />
+</p>
+<p align="center">
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/4b48dae9-0698-4e5a-b8f3-0c9c919b6363" width="800" alt="Themer logo" />
+</p>
+
 # 4. Kết luận - kiến nghị
 ## 4.1 Kết luận 
 ## 4.2 Kiến nghị
