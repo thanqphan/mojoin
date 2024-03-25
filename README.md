@@ -235,15 +235,19 @@
 </p>
 - Đăng bài
   <p align="center">
-    <img src="" width="800" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/1a26cb2f-2c12-460b-81de-02b030c7feeb" width="800" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/f9ba3402-5696-4600-b180-67d73dc0dd38" width="800" alt="Themer logo" />
 </p>
-- Thanh toán e-wallet
+- Thanh toán - nạp tiền e-wallet
   <p align="center">
-    <img src="" width="800" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/bf1d9ba0-aa05-4a76-a969-40299769da36" width="800" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/64439698-e8ff-4a46-a5b2-7d03633d9b3d" width="800" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/384b88fe-2fb2-4f0d-a9cc-ec2e50221515" width="800" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/5f00cc2c-388d-4399-ba6b-6f5561e88d53" width="800" alt="Themer logo" />
 </p>
 - Mua gói hiển thị
   <p align="center">
-    <img src="" width="800" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/60262027-d1eb-4eb7-aa47-56445093593c" width="800" alt="Themer logo" />
 </p>
 ## 3.2 Giao diện quản trị
 - Quản lý bài đăng hệ thống
