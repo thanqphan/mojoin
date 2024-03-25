@@ -80,87 +80,87 @@
 
 ## 2.2 Usecase diagram
 <p align="center">
-    <img src="" width="600" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/ecf1ee11-6fde-4932-a7f9-91371dd75e27" width="600" alt="Themer logo" />
 </p>
 ## 2.3 Đặc tả Usecase diagram
 - Use case Truy cập vào website
 <p align="center">
-    <img src="" width="600" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/faf99a08-7969-4e38-b83f-d8147061d793" width="600" alt="Themer logo" />
 </p>
 - Use case Tìm kiếm	
 <p align="center">
-    <img src="" width="600" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/69f395fd-69f8-4ee1-9080-b3da30962359" width="600" alt="Themer logo" />
 </p>
 - Use case Đăng ký tài khoản	
 <p align="center">
-    <img src="" width="600" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/3634c183-b71e-4de7-8fb9-6f464594ea99" width="600" alt="Themer logo" />
 </p>
 - Use case Đăng nhập	
 <p align="center">
-    <img src="" width="600" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/06ee20a6-cc9a-4bf9-a090-95c2417c408f" width="600" alt="Themer logo" />
 </p>
 - Use case Đăng bài
 <p align="center">
-    <img src="" width="600" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/d9aac24e-1428-4dc4-ad4d-c9b67f950d41" width="600" alt="Themer logo" />
 </p>
 - Use case Quản lý nạp tiền	
 <p align="center">
-    <img src="" width="600" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/1ff15a14-ec6b-4196-baf3-eeaa859c0911" width="600" alt="Themer logo" />
 </p>
 - Use case Quản lý bài đăng – Cá nhân	
 <p align="center">
-    <img src="" width="600" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/9898ab8c-676b-4f2b-9d8b-000a61719c75" width="600" alt="Themer logo" />
 </p>
 - Use case Quản lý tài khoản – Cá nhân	
 <p align="center">
-    <img src="" width="600" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/e15216de-76f6-48e5-9365-f25a04f9e806" width="600" alt="Themer logo" />
 </p>
 - Use case Quản lý tài khoản – Admin	
 <p align="center">
-    <img src="" width="600" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/29aa88a7-8753-41a2-9446-086ec2c49bec" width="600" alt="Themer logo" />
 </p>
 - Use case Quản lý bài đăng – Admin	
 <p align="center">
-    <img src="" width="600" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/79fe8372-3e0f-4dbb-8bc3-75fec0e679f6" width="600" alt="Themer logo" />
 </p>
 ## 2.4 ERD diagram
 <p align="center">
-    <img src="" width="600" alt="Themer logo" />
-    <img src="" width="600" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/d6a99380-1651-40cc-a253-ca45f59a209f" width="600" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/5f4d546d-b99d-4ec7-b5aa-b8cc590f60e6" width="600" alt="Themer logo" />
 </p>
 - [Link ERD diagram 😸](https://drive.google.com/file/d/19FWti0rIkf_gSi38tWQG6XQbeQXby7oy/view?usp=drive_link)
 ## 2.5 Activity diagram
 - Activity diagram đăng kí	
 <p align="center">
-    <img src="" width="600" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/a503168f-3bb0-4497-abb6-a89e9744cdd7" width="600" alt="Themer logo" />
 </p>
 - Activity diagram đăng nhập	
 <p align="center">
-    <img src="" width="600" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/cfabf02c-4fa5-4c38-a177-f824265eed50" width="600" alt="Themer logo" />
 </p>
 - Activity diagram lưu tin vào danh sách yêu thích	
 <p align="center">
-    <img src="" width="600" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/94a37633-754c-4e65-b80e-7c448e9364dc" width="600" alt="Themer logo" />
 </p>
 - Activity diagram bỏ lưu tin 
 <p align="center">
-    <img src="" width="600" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/4bd2a530-6c1f-47f9-91a0-04d3bed9f91f" width="600" alt="Themer logo" />
 </p>
 - Activity diagram duyệt bài
 <p align="center">
-    <img src="" width="600" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/57ac99c9-b8db-43db-a04e-3d2ffa10fe39" width="600" alt="Themer logo" />
 </p>
 - Activity diagram đăng tin	
 <p align="center">
-    <img src="" width="600" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/f24c256b-a6d9-44ee-a149-e2ac97c4b1eb" width="600" alt="Themer logo" />
 </p>
 - Activity diagram nạp tiền	
 <p align="center">
-    <img src="" width="600" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/35141278-9daf-434d-8c73-d9d0e95cd53d" width="600" alt="Themer logo" />
 </p>
 - Activity diagram mua gói	
 <p align="center">
-    <img src="" width="600" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/cfa08601-0667-4bed-bab3-6d4b91286070" width="600" alt="Themer logo" />
 </p>
 
 ## 2.6 Sequence diagram
@@ -189,6 +189,10 @@
     <img src="" width="600" alt="Themer logo" />
 </p>
 ## 2.7 Kiến trúc hệ thống
+- Mô hình vật lý	
+
+- Mô hình chi tiết các bảng	
+
 # 3. Kết quả thực nghiệm
 ## 3.1 Giao diện người dùng
 ## 3.2 Giao diện quản trị
