@@ -128,6 +128,7 @@
     <img src="https://github.com/thanqphan/mojoin/assets/118738430/d6a99380-1651-40cc-a253-ca45f59a209f" width="600" alt="Themer logo" />
     <img src="https://github.com/thanqphan/mojoin/assets/118738430/5f4d546d-b99d-4ec7-b5aa-b8cc590f60e6" width="600" alt="Themer logo" />
 </p>
+
 - [Link ERD diagram 😸](https://drive.google.com/file/d/19FWti0rIkf_gSi38tWQG6XQbeQXby7oy/view?usp=drive_link)
 ## 2.5 Activity diagram
 - Activity diagram đăng kí	
@@ -166,27 +167,27 @@
 ## 2.6 Sequence diagram
 - Squence Diagram Đăng kí
 - <p align="center">
-    <img src="" width="600" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/bb6bbca1-b4a0-4304-a44b-18b3bd0dd6cb" width="600" alt="Themer logo" />
 </p>
 - Squence Diagram Đăng nhập
 <p align="center">
-    <img src="" width="600" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/7c7f8218-c88a-45af-85c7-ee6d7f9fd5c3" width="600" alt="Themer logo" />
 </p>
 - Squence Diagram Đăng bài	
 <p align="center">
-    <img src="" width="600" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/57d8c1aa-4bd8-4c03-83d8-459371d8935f" width="600" alt="Themer logo" />
 </p>
 - Squence Diagram Duyệt bài đăng	
 <p align="center">
-    <img src="" width="600" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/9c394486-c536-475f-b57f-b18451562c23" width="600" alt="Themer logo" />
 </p>
 - Squence Diagram Tìm kiếm	
 <p align="center">
-    <img src="" width="600" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/b8504fe9-42d1-4695-a624-40b3b23a4419" width="600" alt="Themer logo" />
 </p>
 - Squence Diagram Yêu thích	
 <p align="center">
-    <img src="" width="600" alt="Themer logo" />
+    <img src="https://github.com/thanqphan/mojoin/assets/118738430/53e9ff9d-1e61-40ba-bd1e-d4a007b1d726" width="600" alt="Themer logo" />
 </p>
 ## 2.7 Kiến trúc hệ thống
 - Mô hình vật lý	
